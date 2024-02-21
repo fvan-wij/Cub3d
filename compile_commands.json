@@ -1,0 +1,46 @@
+[
+ {
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-o",
+   "obj/main.o",
+   "-c",
+   "src/main.c"
+  ],
+  "file": "src/main.c"
+ },
+ {
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-o",
+   "obj/parser/parser.o",
+   "-c",
+   "src/parser/parser.c"
+  ],
+  "file": "src/parser/parser.c"
+ }
+]
