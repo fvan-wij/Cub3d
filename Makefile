@@ -7,6 +7,7 @@ HEADERS	:= -I ./inc -I $(LIBMLX)/include/MLX42 -I $(LIBFT)
 LIBS	:= $(LIBMLX)/build/libmlx42.a $(LIBFT)/libft.a -ldl -lglfw -pthread -lm 
 SRCS	:= \
 		   main.c \
+		   error/error.c \
 		   parser/parser.c \
 
 SRCDIR	:= ./src
@@ -15,6 +16,8 @@ OBJS	:= $(addprefix $(OBJDIR)/,$(SRCS:.c=.o))
 SRCS	:= $(addprefix $(SRCDIR)/,$(SRCS))
 
 all: libft libmlx $(NAME)
+
+run: all
 
 libmlx:
 	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -s -C $(LIBMLX)/build -j4

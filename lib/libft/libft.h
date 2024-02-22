@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 14:46:37 by fvan-wij          #+#    #+#             */
-/*   Updated: 2024/02/21 16:14:38 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2024/02/22 13:42:11 by fvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char			**ft_split(char const *s, char c);
 void			ft_putnbr_fd(int n, int fd);
 void			ft_putendl_fd(char *s, int fd);
 void			ft_putstr_fd(char *s, int fd);
-void			ft_putstr_fd_nl(char *s, int fd);
+void			ft_putstr_fd_nl(const char *s, int fd);
 void			ft_putstr_fd_2d(char *s[], int fd);
 void			ft_putchar_fd(char c, int fd);
 void			ft_striteri(char *s, void (*f)(unsigned int, char *));
