@@ -10,6 +10,7 @@ typedef enum e_err {
 	INVALID_ARGC,
 	INVALID_EXTENSION,
 	ERR_OPEN,
+	ERR_ALLOC,
 	ERR_SIZE,
 } e_err;
 

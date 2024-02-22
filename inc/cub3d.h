@@ -12,10 +12,10 @@ typedef union s_rgba
 	int32_t	color;
 	struct
 	{
-		int8_t	a;
-		int8_t	b;
-		int8_t	g;
-		int8_t	r;
+		uint8_t	a;
+		uint8_t	b;
+		uint8_t	g;
+		uint8_t	r;
 	};
 }	t_rgba;
 
@@ -24,11 +24,12 @@ typedef enum e_tex {
 	SO,
 	WE,
 	EA,
+	TEX_SIZE,
 } e_tex;
 
 typedef struct s_map {
-	char **cbd_map;
-	char **cbd_tex;
+	char 	**cbd_map;
+	char 	**cbd_tex;
 	t_rgba	floor;
 	t_rgba	ceiling;
 } 	t_map;

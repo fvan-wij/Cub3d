@@ -7,6 +7,7 @@ static const char* g_error[ERR_SIZE + 1] =
 	[INVALID_ARGC] = "Cub3d Error: invalid amount of arguments",
 	[INVALID_EXTENSION] = "Cub3d Error: invalid file extension. Program only accepts .cub files",
 	[ERR_OPEN] = "Cub3d Error: could not open file",
+	[ERR_ALLOC] = "Cub3d Error: error allocating memory",
 	[ERR_SIZE] = "n/a",
 };
 
