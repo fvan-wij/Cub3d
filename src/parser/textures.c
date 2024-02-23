@@ -6,23 +6,20 @@
 
 
 
-void	parse_texture(char *temp, e_tex DIR, t_app *cub3d)
+char	*parse_texture(char *temp)
 {
 	char *path;
 	char *dup;
 
 	path = ft_strchr(temp, '.');
 	if (!path)
-	{
-		cub3d->mapdata->cbd_tex[DIR] = NULL;
-		return ;
-	}
+		return (NULL);
 	else
 	{
 		dup = ft_strdup(path);
 		if (!dup)
-			cbd_error(ERR_ALLOC); 
-		cub3d->mapdata->cbd_tex[DIR] = dup;
+			return (cbd_error(ERR_ALLOC), NULL); 
+		return (dup);
 	}
 }
 

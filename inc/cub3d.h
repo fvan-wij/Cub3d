@@ -35,6 +35,7 @@ typedef enum e_dir {
 } e_dir;
 
 typedef struct s_map {
+	char	**raw_data;
 	char 	**cbd_map;
 	char 	**cbd_tex;
 	t_rgba	floor;
@@ -56,11 +57,14 @@ typedef struct s_player {
 }	t_player;
 
 typedef struct s_app {
-	char		**raw_mapdata;
 	t_map		*mapdata;
 	t_player 	*playerdata;
 	t_vec		start_pos;
 	e_dir		start_dir;
 }	t_app;
+
+
+void	print_2d(char **str);
+void	print_debug_info(t_app *cub3d);
 
 #endif

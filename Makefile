@@ -11,6 +11,8 @@ SRCS	:= \
 		   parser/parser.c 		\
 		   parser/init.c 		\
 		   parser/textures.c 	\
+		   parser/read_map.c	\
+		   utility/printing.c   \
 
 SRCDIR	:= ./src
 OBJDIR	:= ./obj

@@ -3,11 +3,13 @@
 #include <cub3d.h>
 #include <stdlib.h>
 
-bool	init_map(t_app *cub3d)
+t_map	*init_map(void)
 {
-	cub3d->mapdata = malloc(sizeof(t_map *));
-	cub3d->mapdata->cbd_tex = malloc(sizeof(char *) * TEX_SIZE);
-	if (!cub3d->mapdata || !cub3d->mapdata->cbd_tex)
-		return (cbd_error(ERR_ALLOC), false);
-	return (true);
+	t_map	*mapdata;
+
+	mapdata = malloc(sizeof(t_map ));
+	mapdata->cbd_tex = ft_calloc(sizeof(char *), TEX_SIZE);
+	if (!mapdata || !mapdata->cbd_tex)
+		return (cbd_error(ERR_ALLOC), NULL);
+	return (mapdata);
 }
