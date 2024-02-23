@@ -27,6 +27,13 @@ typedef enum e_tex {
 	TEX_SIZE,
 } e_tex;
 
+typedef enum e_dir {
+	N,
+	S,
+	W,
+	E,
+} e_dir;
+
 typedef struct s_map {
 	char 	**cbd_map;
 	char 	**cbd_tex;
@@ -34,13 +41,28 @@ typedef struct s_map {
 	t_rgba	ceiling;
 } 	t_map;
 
-typedef struct s_player {
+//				Vectors
+typedef struct 	s_vec {
+	int	x;
+	int y;
+}	t_vec;
 
+//				Vectors
+typedef struct 	s_vec_f {
+	float	x;
+	float	y;
+}	t_vec_f;
+
+typedef struct s_player {
+	t_vec_f pos;
 }	t_player;
 
 typedef struct s_app {
+	char		**raw_mapdata;
 	t_map		*mapdata;
 	t_player 	*playerdata;
+	t_vec		start_pos;
+	e_dir		start_dir;
 }	t_app;
 
 #endif

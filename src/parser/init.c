@@ -3,7 +3,7 @@
 #include <cub3d.h>
 #include <stdlib.h>
 
-bool init_map(t_app *cub3d)
+bool	init_map(t_app *cub3d)
 {
 	cub3d->mapdata = malloc(sizeof(t_map *));
 	cub3d->mapdata->cbd_tex = malloc(sizeof(char *) * TEX_SIZE);

@@ -6,7 +6,7 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/25 18:44:48 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2024/02/21 16:16:10 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2024/02/23 12:45:03 by fvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-char	**ft_append_to_double_array(char **src, char *str)
+static char	**init_array(char *str)
+{
+	char **new;
+
+	new = ft_calloc(sizeof(char *), 2);
+	if (!new)
+		return (NULL);
+	new[0] = ft_strdup(str);
+	return (new);
+}
+
+static char **append_to_array(char **src, char *str)
 {
 	char	**new;
 	int		n_of_arr;
@@ -40,4 +51,12 @@ char	**ft_append_to_double_array(char **src, char *str)
 		ft_rev_free_2d(new, i);
 	ft_del_2d(src);
 	return (new);
+}
+
+char	**ft_append_to_double_array(char **src, char *str)
+{
+	if (!src)
+		return (init_array(str));
+	else 
+		return (append_to_array(src, str));
 }

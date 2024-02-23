@@ -8,10 +8,16 @@
 
 bool 	init_map(t_app *cub3d);
 bool	cbd_parse_map(const char *file, t_app *cub3d);
-bool	cbd_read_map(const char *file, t_app *cub3d);
+char	**cbd_read_map(const char *file, t_app *cub3d);
 
 //		Textures
 void	parse_texture(char *temp, e_tex DIR, t_app *cub3d);
+
+//		Colors
 t_rgba	parse_color(char *temp);
+
+//		Mapdata
+// void	parse_mapdata(char **);
+
 
 #endif

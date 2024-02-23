@@ -17,6 +17,11 @@ OBJDIR	:= ./obj
 OBJS	:= $(addprefix $(OBJDIR)/,$(SRCS:.c=.o))
 SRCS	:= $(addprefix $(SRCDIR)/,$(SRCS))
 
+ifdef DEBUG
+	CC += -g -fsanitize=address
+	LIBFT_DEBUG += DEBUG=1
+endif
+
 all: libft libmlx $(NAME)
 
 run: all
@@ -25,7 +30,7 @@ libmlx:
 	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -s -C $(LIBMLX)/build -j4
 
 libft:
-	@make -s -C $(LIBFT)
+	@make -s $(LIBFT_DEBUG) -C $(LIBFT)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(@D)
