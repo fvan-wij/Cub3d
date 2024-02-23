@@ -14,14 +14,14 @@ Further goals of this project:
 
 *Parsing*
 
-[] - consider skipping non-valid lines while reading the .cub file, check for duplicate elements and decide on appropriate behaviour;
-[] - check if the colors are in a valid format
-[] - write a function where I pass an array of characters and check if they are present in a string;
-[] - write a floodfill algorithm to validate the map, decide on a method to check which index has already been checked;
-[] - initialize mlx_textures in the parsing phase;
-[] - free and terminate the application in a clean way while parsing textures and colors
-[] - avoid passing the main struct to every function and seperate variables instead;
-[] - create seperate vector header?
+- [] consider skipping non-valid lines while reading the .cub file, check for duplicate elements and decide on appropriate behaviour;
+- [] check if the colors are in a valid format
+- [] write a function where I pass an array of characters and check if they are present in a string;
+- [] write a floodfill algorithm to validate the map, decide on a method to check which index has already been checked;
+- [] initialize mlx_textures in the parsing phase;
+- [] free and terminate the application in a clean way while parsing textures and colors
+- [] avoid passing the main struct to every function and seperate variables instead;
+- [] create seperate vector header?
 
 *Raycaster*
 
