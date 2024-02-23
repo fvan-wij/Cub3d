@@ -43,7 +43,7 @@ char **cbd_read_map(const char *file, t_app *cub3d)
 		return (NULL);
 	line = get_next_line(fd);
 
-	while (line	)
+	while (line	) 
 	{
 		if (ft_containschar(line, '1') && !ft_containschar(line, 'F') && !ft_containschar(line, 'C'))
 			raw_mapdata = ft_append_to_double_array(raw_mapdata, line);
@@ -80,7 +80,6 @@ char **cbd_read_map(const char *file, t_app *cub3d)
 	return (raw_mapdata);
 }
 
-
 // bool	raw_mapdata_is_valid(char **raw_mapdata)
 // {
 //
@@ -107,6 +106,7 @@ bool	cbd_parse_map(const char *file, t_app *cub3d)
 	raw_mapdata = cbd_read_map(file, cub3d);
 	if (!raw_mapdata)
 		return (false);
+
 	// if (!parse_mapdata(raw_mapdata, cub3d))
 	// 	return (false);
 	return (true);

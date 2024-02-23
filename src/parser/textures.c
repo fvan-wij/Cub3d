@@ -4,6 +4,8 @@
 #include <cbd_error.h>
 #include <stdlib.h>
 
+
+
 void	parse_texture(char *temp, e_tex DIR, t_app *cub3d)
 {
 	char *path;
@@ -19,7 +21,7 @@ void	parse_texture(char *temp, e_tex DIR, t_app *cub3d)
 	{
 		dup = ft_strdup(path);
 		if (!dup)
-			cbd_error(ERR_ALLOC); //To do: free and terminate the application
+			cbd_error(ERR_ALLOC); 
 		cub3d->mapdata->cbd_tex[DIR] = dup;
 	}
 }
@@ -32,7 +34,7 @@ t_rgba	parse_color(char *temp)
 	char **colors = ft_split(temp, ',');
 	if (!colors)
 	{
-		cbd_error(ERR_ALLOC); //To do: free and terminate the application
+		cbd_error(ERR_ALLOC);
 		return color;
 	}
 	if (ft_arrlen(colors) == 3) 

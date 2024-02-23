@@ -41,13 +41,11 @@ typedef struct s_map {
 	t_rgba	ceiling;
 } 	t_map;
 
-//				Vectors
 typedef struct 	s_vec {
 	int	x;
 	int y;
 }	t_vec;
 
-//				Vectors
 typedef struct 	s_vec_f {
 	float	x;
 	float	y;
