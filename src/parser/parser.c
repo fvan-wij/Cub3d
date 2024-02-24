@@ -16,11 +16,12 @@ static int	open_map(const char *file)
 	return (fd);
 }
 
-t_map	*cbd_parse_map(const char *file) 
+t_map	*cbd_parse_map(const char *file, t_app *cub3d) 
 {
 	int 	fd;
 	t_map	*mapdata;
 	t_valid	is;
+	(void) cub3d;
 
 	ft_memset(&is, false, sizeof(t_valid));
 	mapdata = alloc_map();
@@ -32,8 +33,7 @@ t_map	*cbd_parse_map(const char *file)
 	mapdata = get_map_data(fd, mapdata, &is);
 	if (!mapdata)
 		return (NULL);
-	//Validate map
-
+	validate_map_data(mapdata, &is);
 
 	return (mapdata);
 }

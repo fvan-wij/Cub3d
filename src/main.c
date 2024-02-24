@@ -11,7 +11,7 @@ int32_t	main(int argc, char *argv[])
 	ft_memset(&cub3d, 0, sizeof(t_app));
 	if (!arg_is_valid(argc, argv))
 		return (FAILURE);
-	cub3d.mapdata = cbd_parse_map(argv[1]);
+	cub3d.mapdata = cbd_parse_map(argv[1], &cub3d);
 	if (!cub3d.mapdata)
 		return (FAILURE);
 

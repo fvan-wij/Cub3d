@@ -7,6 +7,16 @@
 # define SUCCESS 0
 # define FAILURE 1
 
+typedef struct 	s_vec {
+	int	x;
+	int y;
+}	t_vec;
+
+typedef struct 	s_vec_f {
+	float	x;
+	float	y;
+}	t_vec_f;
+
 typedef union s_rgba
 {
 	int32_t	color;
@@ -32,6 +42,7 @@ typedef enum e_dir {
 	S,
 	W,
 	E,
+	DIR_SIZE,
 } e_dir;
 
 typedef struct s_map {
@@ -40,17 +51,11 @@ typedef struct s_map {
 	char 	**cbd_tex;
 	t_rgba	floor;
 	t_rgba	ceiling;
+	t_vec	start_pos;
+	e_dir	start_dir;
+	int		width;
+	int		height;
 } 	t_map;
-
-typedef struct 	s_vec {
-	int	x;
-	int y;
-}	t_vec;
-
-typedef struct 	s_vec_f {
-	float	x;
-	float	y;
-}	t_vec_f;
 
 typedef struct s_player {
 	t_vec_f pos;
@@ -59,8 +64,6 @@ typedef struct s_player {
 typedef struct s_app {
 	t_map		*mapdata;
 	t_player 	*playerdata;
-	t_vec		start_pos;
-	e_dir		start_dir;
 }	t_app;
 
 
