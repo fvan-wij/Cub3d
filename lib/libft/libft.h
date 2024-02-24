@@ -104,7 +104,7 @@ int				ft_strisalpha(char *str);
 bool			ft_containschar(char *content, char c);
 
 char			**ft_copy_double_array(char **array);
-char			**ft_append_to_double_array(char **src, char *str);
+char			**ft_add_2d(char **src, char *str);
 char			**ft_replace_str_in_array(char **src, char *str, int index);
 char			**ft_remove_str_from_array(char **src, int index);
 char			**ft_inject_str_in_array(char **src, char *str, int index);

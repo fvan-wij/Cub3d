@@ -3,7 +3,7 @@
 #include <cub3d.h>
 #include <stdlib.h>
 
-t_map	*init_map(void)
+t_map	*alloc_map(void)
 {
 	t_map	*mapdata;
 

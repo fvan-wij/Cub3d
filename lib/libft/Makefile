@@ -73,7 +73,7 @@ SRC			:=	ft_arrlen.c \
 			ft_del_2d.c \
 			ft_strisalpha.c \
 			ft_copy_double_array.c \
-			ft_append_to_double_array.c \
+			ft_add_2d.c \
 			ft_replace_str_in_array.c \
 			ft_remove_str_from_array.c \
 			ft_inject_str_in_array.c \

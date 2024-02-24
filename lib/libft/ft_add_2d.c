@@ -53,7 +53,7 @@ static char **append_to_array(char **src, char *str)
 	return (new);
 }
 
-char	**ft_append_to_double_array(char **src, char *str)
+char	**ft_add_2d(char **src, char *str)
 {
 	if (!src)
 		return (init_array(str));

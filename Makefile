@@ -10,8 +10,8 @@ SRCS	:= \
 		   error/error.c 		\
 		   parser/parser.c 		\
 		   parser/init.c 		\
-		   parser/textures.c 	\
-		   parser/read_map.c	\
+		   parser/get_data.c 	\
+		   parser/bools.c		\
 		   utility/printing.c   \
 
 SRCDIR	:= ./src
