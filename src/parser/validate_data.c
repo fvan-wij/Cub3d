@@ -28,7 +28,7 @@ bool	is_duplicate(t_valid *is, t_map *mapdata)
 			count++;
 		i++;
 	}
-	if (count > 1 && (mapdata->start_pos.x != -1 || mapdata->start_pos.y != -1))
+	if (count >= 1 && (mapdata->start_pos.x != -1 || mapdata->start_pos.y != -1))
 		return (true);
 	return (false);
 }
@@ -52,7 +52,7 @@ bool	validate_map_data(t_map *mapdata, t_valid *is)
 				mapdata->start_pos.x = j;
 				mapdata->start_pos.y = i;
 			}
-			else
+			else if (is_player(mapdata->raw_data[i][j], is) && is_duplicate(is, mapdata))
 				return (cbd_error(ERR_INVALID_MAP), false);
 			if (j > mapdata->width)
 				mapdata->width = j;
