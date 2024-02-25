@@ -5,6 +5,7 @@
 # include <cub3d.h>
 # define SUCCESS 0
 # define FAILURE 1
+# define FILL 'X'
 
 typedef struct s_valid {
 	bool	start[DIR_SIZE];

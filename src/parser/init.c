@@ -9,6 +9,11 @@ t_map	*alloc_map(void)
 
 	mapdata = malloc(sizeof(t_map ));
 	mapdata->cbd_tex = ft_calloc(sizeof(char *), TEX_SIZE);
+	mapdata->cbd_map = NULL;
+	mapdata->raw_data = NULL;
+	mapdata->start_pos.x = -1;
+	mapdata->start_pos.y = -1;
+	mapdata->valid = false;
 	if (!mapdata || !mapdata->cbd_tex)
 		return (cbd_error(ERR_ALLOC), NULL);
 	return (mapdata);

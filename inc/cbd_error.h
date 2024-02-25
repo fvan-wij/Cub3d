@@ -12,6 +12,7 @@ typedef enum e_err {
 	ERR_OPEN,
 	ERR_ALLOC,
 	ERR_INVALID_MAP,
+	ERR_INVALID_START,
 	ERR_SIZE,
 } e_err;
 

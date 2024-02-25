@@ -1,17 +1,31 @@
 #include <cbd_parser.h>
 #include <cbd_error.h>
+#include <libft.h>
 #include <cub3d.h>
+#include <stdlib.h>
 
-bool	is_player(char c, t_valid *is)
+bool	is_player(char c, t_map *mapdata, t_valid *is)
 {
 	if (c == 'N')
+	{
+		mapdata->start_dir = N;
 		return (is->start[N] = true);
+	}
 	else if (c == 'E')
+	{
+		mapdata->start_dir = E;
 		return (is->start[E] = true);
+	}
 	else if (c == 'S')
+	{
+		mapdata->start_dir = S;
 		return (is->start[S] = true);
+	}
 	else if (c == 'W')
+	{
+		mapdata->start_dir = W;
 		return (is->start[W] = true);
+	}
 	return (false);
 }
 
@@ -33,26 +47,63 @@ bool	is_duplicate(t_valid *is, t_map *mapdata)
 	return (false);
 }
 
-bool	validate_map_data(t_map *mapdata, t_valid *is)
+bool	wall_is_valid(t_map *mapdata, int i, int j)
+{
+	bool		err;
+	const int 	lenW = ft_strlen(mapdata->raw_data[i]);
+	const int 	lenH = ft_arrlen(mapdata->raw_data);
+
+	err = true;
+	if ((i < 0 || j < 0 || i >= lenH - 1 || j >= lenW - 1))
+		return (false);
+	if ((i == 0 || j == 0 || i == (lenH - 1) || j == (lenW - 1)) && mapdata->raw_data[i][j] != '1')
+		return (false);
+	mapdata->raw_data[i][j] = FILL;
+	if (err && (i + 1) <= (lenH - 1) && mapdata->raw_data[i + 1][j] != '1' && mapdata->raw_data[i + 1][j] != FILL)
+		err = wall_is_valid(mapdata, i + 1, j);
+	if (err && (j + 1) <= (lenW - 1) && mapdata->raw_data[i][j + 1] != '1' && mapdata->raw_data[i][j + 1] != FILL)
+		err = wall_is_valid(mapdata, i, j + 1);
+	if (err && (i - 1) >= 0 && mapdata->raw_data[i - 1][j] != '1' && mapdata->raw_data[i - 1][j] != FILL)
+		err = wall_is_valid(mapdata, i - 1, j);
+	if (err && (j - 1) >= 0 && mapdata->raw_data[i][j - 1] != '1' && mapdata->raw_data[i][j - 1] != FILL)
+		err = wall_is_valid(mapdata, i, j - 1);
+	return (err);
+}
+
+char	**get_map(t_map *mapdata)
+{
+	size_t	i;
+	char	**cbd_map;
+
+	i = 0;
+	cbd_map = ft_calloc(sizeof(char *), (mapdata->height + 1));
+	while (i < (size_t) mapdata->height)
+	{
+		cbd_map[i] = ft_calloc(sizeof(char), mapdata->width + 1);
+		ft_strcpy(cbd_map[i], mapdata->raw_data[i]);
+		i++;
+	}
+	return (cbd_map);
+}
+
+bool	start_is_valid(t_map *mapdata, t_valid *is)
 {
 	int i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	mapdata->start_pos.x = -1;
-	mapdata->start_pos.y = -1;
 	while (mapdata->raw_data[i])
 	{
 		j = 0;
 		while (mapdata->raw_data[i][j])
 		{
-			if (is_player(mapdata->raw_data[i][j], is) && !is_duplicate(is, mapdata))
+			if (is_player(mapdata->raw_data[i][j], mapdata, is) && !is_duplicate(is, mapdata))
 			{
 				mapdata->start_pos.x = j;
 				mapdata->start_pos.y = i;
 			}
-			else if (is_player(mapdata->raw_data[i][j], is) && is_duplicate(is, mapdata))
+			else if (is_player(mapdata->raw_data[i][j], mapdata, is) && is_duplicate(is, mapdata))
 				return (cbd_error(ERR_INVALID_MAP), false);
 			if (j > mapdata->width)
 				mapdata->width = j;
@@ -63,3 +114,16 @@ bool	validate_map_data(t_map *mapdata, t_valid *is)
 	mapdata->height = i;
 	return (true);
 }
+
+bool	validate_map_data(t_map *mapdata, t_valid *is)
+{
+	if (!start_is_valid(mapdata, is))
+		return (cbd_error(ERR_INVALID_START), false);
+	mapdata->cbd_map = get_map(mapdata);
+	if (!mapdata->cbd_map)
+		return (cbd_error(ERR_ALLOC), false);
+	if (!wall_is_valid(mapdata, mapdata->start_pos.y, mapdata->start_pos.x))
+		return (cbd_error(ERR_INVALID_MAP), false);
+	return (true);
+}
+

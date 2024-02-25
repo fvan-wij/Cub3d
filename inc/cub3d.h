@@ -55,6 +55,7 @@ typedef struct s_map {
 	e_dir	start_dir;
 	int		width;
 	int		height;
+	bool	valid;
 } 	t_map;
 
 typedef struct s_player {

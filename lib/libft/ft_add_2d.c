@@ -23,6 +23,7 @@ static char	**init_array(char *str)
 	if (!new)
 		return (NULL);
 	new[0] = ft_strdup(str);
+	new[1] = NULL;
 	return (new);
 }
 

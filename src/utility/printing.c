@@ -14,8 +14,25 @@ void	print_2d(char **str)
 
 void	print_debug_info(t_app *cub3d)
 {
-	ft_printf("cbd_tex[NO]: %scbd_tex[SO]: %scbd_tex[WE]: %scbd_tex[EA]: %s\n", cub3d->mapdata->cbd_tex[NO],cub3d-> mapdata->cbd_tex[SO],cub3d->mapdata->cbd_tex[WE], cub3d->mapdata->cbd_tex[EA]);
-	ft_printf("Floor color:  (%d, %d, %d)\nCeiling color: (%d, %d, %d)\n\n",cub3d->mapdata->floor.r, cub3d->mapdata->floor.g, cub3d->mapdata->floor.b, cub3d->mapdata->ceiling.r, cub3d->mapdata->ceiling.g, cub3d->mapdata->ceiling.b);
-	print_2d(cub3d->mapdata->raw_data);
-	ft_printf("start_pos.x: %d, start_pos.y: %d, dir: %d, width: %d, height: %d\n", cub3d->mapdata->start_pos.x, cub3d->mapdata->start_pos.y, cub3d->mapdata->start_dir, cub3d->mapdata->width, cub3d->mapdata->height);
+	char c;
+
+	ft_printf("[TEXTURES]\ncbd_tex[NO]: %scbd_tex[SO]: %scbd_tex[WE]: %scbd_tex[EA]: %s\n", cub3d->mapdata->cbd_tex[NO],cub3d-> mapdata->cbd_tex[SO],cub3d->mapdata->cbd_tex[WE], cub3d->mapdata->cbd_tex[EA]);
+	ft_printf("[COLORS]\nFloor color:  (%d, %d, %d)\nCeiling color: (%d, %d, %d)\n\n",cub3d->mapdata->floor.r, cub3d->mapdata->floor.g, cub3d->mapdata->floor.b, cub3d->mapdata->ceiling.r, cub3d->mapdata->ceiling.g, cub3d->mapdata->ceiling.b);
+	ft_printf("[MAP_CONTENT]\n");
+	// print_2d(cub3d->mapdata->raw_data);
+	print_2d(cub3d->mapdata->cbd_map);
+	if (cub3d->mapdata->start_dir == N)
+		c = 'N';
+	if (cub3d->mapdata->start_dir == S)
+		c = 'S';
+	if (cub3d->mapdata->start_dir == W)
+		c = 'W';
+	if (cub3d->mapdata->start_dir == E)
+		c = 'E';
+	ft_printf("\n[MAP_DATA]\nStart_pos: (%d, %d, %c)\nMap-dimensions: (%d, %d)\n", cub3d->mapdata->start_pos.x, cub3d->mapdata->start_pos.y, c, cub3d->mapdata->width, cub3d->mapdata->height);
+
+	if (cub3d->mapdata->valid)
+		ft_printf("\n[VALID]\nYes\n");
+	else
+		ft_printf("\n[VALID]\nNo\n");
 }

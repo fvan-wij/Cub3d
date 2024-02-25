@@ -14,7 +14,6 @@ int32_t	main(int argc, char *argv[])
 	cub3d.mapdata = cbd_parse_map(argv[1], &cub3d);
 	if (!cub3d.mapdata)
 		return (FAILURE);
-
 	print_debug_info(&cub3d);
 	return (SUCCESS);
 }

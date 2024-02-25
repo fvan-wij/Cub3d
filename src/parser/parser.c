@@ -33,7 +33,7 @@ t_map	*cbd_parse_map(const char *file, t_app *cub3d)
 	mapdata = get_map_data(fd, mapdata, &is);
 	if (!mapdata)
 		return (NULL);
-	validate_map_data(mapdata, &is);
+	mapdata->valid = validate_map_data(mapdata, &is);
 
 	return (mapdata);
 }
