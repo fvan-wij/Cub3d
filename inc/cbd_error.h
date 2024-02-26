@@ -13,6 +13,8 @@ typedef enum e_err {
 	ERR_ALLOC,
 	ERR_INVALID_MAP,
 	ERR_INVALID_START,
+	ERR_FILE_INEXISTS,
+	ERR_TEX_SIZE,
 	ERR_SIZE,
 } e_err;
 

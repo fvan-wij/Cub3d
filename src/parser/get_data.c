@@ -2,6 +2,7 @@
 #include <cbd_error.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 static char	*get_tex(char *temp)
 {
@@ -52,13 +53,13 @@ static void	retrieve_element(char *line, t_map *mapdata)
 	while (temp[i])
 	{
 		if (ft_strncmp(temp[i], "NO", 2) == 0 && temp[i + 1])
-			mapdata->cbd_tex[NO] = get_tex(temp[i + 1]);
+			mapdata->tex_path[NO] = get_tex(temp[i + 1]);
 		if (ft_strncmp(temp[i], "SO", 2) == 0 && temp[i + 1])
-			mapdata->cbd_tex[SO] = get_tex(temp[i + 1]);
+			mapdata->tex_path[SO] = get_tex(temp[i + 1]);
 		if (ft_strncmp(temp[i], "WE", 2) == 0 && temp[i + 1])
-			mapdata->cbd_tex[WE] = get_tex(temp[i + 1]);
+			mapdata->tex_path[WE] = get_tex(temp[i + 1]);
 		if (ft_strncmp(temp[i], "EA", 2) == 0 && temp[i + 1])
-			mapdata->cbd_tex[EA] = get_tex(temp[i + 1]);
+			mapdata->tex_path[EA] = get_tex(temp[i + 1]);
 		if (ft_strncmp(temp[i], "F", ft_strlen(temp[i])) == 0 && temp[i + 1])
 			mapdata->floor = get_col(temp[i + 1]);
 		if (ft_strncmp(temp[i], "C", ft_strlen(temp[i])) == 0 && temp[i + 1])
@@ -66,6 +67,39 @@ static void	retrieve_element(char *line, t_map *mapdata)
 		i++;
 	}
 	ft_del_2d(temp);
+}
+
+bool	tex_exists(char *path)
+{
+	int	fd;
+	int len;
+
+	len = ft_strlen(path);
+	path[len - 1] = '\0';
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		return (false);
+	return (close(fd), true);
+}
+
+mlx_texture_t	**get_mlx_tex(char **tex_path)
+{	
+	int				i;
+	mlx_texture_t 	**textures;
+
+	i = 0;
+	textures = malloc(sizeof(mlx_texture_t *) * TEX_SIZE);
+	while (i < TEX_SIZE)
+	{
+		if (tex_exists(tex_path[i]))
+			textures[i] = mlx_load_png(tex_path[i]);
+		else
+			return (cbd_error(ERR_FILE_INEXISTS), NULL);
+		if (!textures)
+			return (cbd_error(ERR_ALLOC), NULL);
+		i++;
+	}
+	return (textures);
 }
 
 t_map	*get_map_data(int fd, t_map *mapdata, t_valid *is)
@@ -77,9 +111,7 @@ t_map	*get_map_data(int fd, t_map *mapdata, t_valid *is)
 	{
 		if (is_last_element(is) && line[0] == '\n')
 			return (cbd_error(ERR_INVALID_MAP), NULL);
-		else if (is_tex(line, is))
-			retrieve_element(line, mapdata);
-		else if (is_col(line, is))
+		else if (is_tex(line, is) || is_col(line, is))
 			retrieve_element(line, mapdata);
 		else if (is_content(line) && is_last_element(is))
 			mapdata->raw_data = ft_add_2d(mapdata->raw_data, line);
@@ -88,5 +120,8 @@ t_map	*get_map_data(int fd, t_map *mapdata, t_valid *is)
 	}
 	if (!mapdata->raw_data)
 		return (cbd_error(ERR_INVALID_MAP), NULL);
+	mapdata->cbd_tex = get_mlx_tex(mapdata->tex_path);
+	if (!mapdata->cbd_tex)
+		return (NULL);
 	return (mapdata);
 }

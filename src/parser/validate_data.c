@@ -2,6 +2,7 @@
 #include <cbd_error.h>
 #include <libft.h>
 #include <cub3d.h>
+#include <stdbool.h>
 #include <stdlib.h>
 
 bool	is_player(char c, t_map *mapdata, t_valid *is)
@@ -104,7 +105,7 @@ bool	start_is_valid(t_map *mapdata, t_valid *is)
 				mapdata->start_pos.y = i;
 			}
 			else if (is_player(mapdata->raw_data[i][j], mapdata, is) && is_duplicate(is, mapdata))
-				return (cbd_error(ERR_INVALID_MAP), false);
+				return (false);
 			if (j > mapdata->width)
 				mapdata->width = j;
 			j++;
@@ -115,15 +116,31 @@ bool	start_is_valid(t_map *mapdata, t_valid *is)
 	return (true);
 }
 
+bool	tex_size_is_valid(t_map *mapdata)
+{
+	int	i;
+
+	i = 0;
+	while (i < TEX_SIZE)
+	{
+		if (mapdata->cbd_tex[i]->width != 64 && mapdata->cbd_tex[i]->height != 64)
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
 bool	validate_map_data(t_map *mapdata, t_valid *is)
 {
 	if (!start_is_valid(mapdata, is))
 		return (cbd_error(ERR_INVALID_START), false);
 	mapdata->cbd_map = get_map(mapdata);
 	if (!mapdata->cbd_map)
-		return (cbd_error(ERR_ALLOC), false);
+		return (cbd_error(ERR_ALLOC), ft_del_2d(mapdata->raw_data), false);
 	if (!wall_is_valid(mapdata, mapdata->start_pos.y, mapdata->start_pos.x))
-		return (cbd_error(ERR_INVALID_MAP), false);
+		return (cbd_error(ERR_INVALID_MAP), ft_del_2d(mapdata->raw_data), false);
+	if (!tex_size_is_valid(mapdata))
+		return (cbd_error(ERR_TEX_SIZE), ft_del_2d(mapdata->raw_data), false);
 	return (true);
 }
 

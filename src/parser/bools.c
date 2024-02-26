@@ -24,14 +24,23 @@ bool	is_content(char *str)
 
 bool	is_tex(char *line, t_valid *is)
 {
-	if (ft_strncmp(line, "NO ", 3) == 0)
-		return (is->tex[NO] = true);
-	if (ft_strncmp(line, "SO ", 3) == 0)
-		return (is->tex[SO] = true);
-	if (ft_strncmp(line, "WE ", 3) == 0)
-		return (is->tex[WE] = true);
-	if (ft_strncmp(line, "EA ", 3) == 0)
-		return (is->tex[EA] = true);
+	size_t	len;
+
+	len = 0;
+	if (!line)
+		return (false);
+	len = ft_strlen(line);
+	if (len > 5 && ft_strncmp(&line[len - 5], ".png", 4) == 0)
+	{
+		if (ft_strncmp(line, "NO ", 3) == 0)
+			return (is->tex[NO] = true);
+		if (ft_strncmp(line, "SO ", 3) == 0)
+			return (is->tex[SO] = true);
+		if (ft_strncmp(line, "WE ", 3) == 0)
+			return (is->tex[WE] = true);
+		if (ft_strncmp(line, "EA ", 3) == 0)
+			return (is->tex[EA] = true);
+	}
 	return (false);
 }
 

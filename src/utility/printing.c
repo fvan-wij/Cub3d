@@ -16,11 +16,13 @@ void	print_debug_info(t_app *cub3d)
 {
 	char c;
 
-	ft_printf("[TEXTURES]\ncbd_tex[NO]: %scbd_tex[SO]: %scbd_tex[WE]: %scbd_tex[EA]: %s\n", cub3d->mapdata->cbd_tex[NO],cub3d-> mapdata->cbd_tex[SO],cub3d->mapdata->cbd_tex[WE], cub3d->mapdata->cbd_tex[EA]);
-	ft_printf("[COLORS]\nFloor color:  (%d, %d, %d)\nCeiling color: (%d, %d, %d)\n\n",cub3d->mapdata->floor.r, cub3d->mapdata->floor.g, cub3d->mapdata->floor.b, cub3d->mapdata->ceiling.r, cub3d->mapdata->ceiling.g, cub3d->mapdata->ceiling.b);
-	ft_printf("[MAP_CONTENT]\n");
-	// print_2d(cub3d->mapdata->raw_data);
-	print_2d(cub3d->mapdata->cbd_map);
+	ft_printf("[TEXTURES]\ntex_path[NO]: %s\ntex_path[SO]: %s\ntex_path[WE]: %s\ntex_path[EA]: %s\n", cub3d->mapdata->tex_path[NO],cub3d-> mapdata->tex_path[SO],cub3d->mapdata->tex_path[WE], cub3d->mapdata->tex_path[EA]);
+	ft_printf("\n[COLORS]\nFloor color:  (%d, %d, %d)\nCeiling color: (%d, %d, %d)\n",cub3d->mapdata->floor.r, cub3d->mapdata->floor.g, cub3d->mapdata->floor.b, cub3d->mapdata->ceiling.r, cub3d->mapdata->ceiling.g, cub3d->mapdata->ceiling.b);
+	if (cub3d->mapdata->cbd_map)
+	{
+		ft_printf("\n[MAP_CONTENT]\n");
+		print_2d(cub3d->mapdata->cbd_map);
+	}
 	if (cub3d->mapdata->start_dir == N)
 		c = 'N';
 	if (cub3d->mapdata->start_dir == S)

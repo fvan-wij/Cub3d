@@ -46,16 +46,17 @@ typedef enum e_dir {
 } e_dir;
 
 typedef struct s_map {
-	char	**raw_data;
-	char 	**cbd_map;
-	char 	**cbd_tex;
-	t_rgba	floor;
-	t_rgba	ceiling;
-	t_vec	start_pos;
-	e_dir	start_dir;
-	int		width;
-	int		height;
-	bool	valid;
+	char			**raw_data;
+	char 			**tex_path;
+	char 			**cbd_map;
+	mlx_texture_t	**cbd_tex;
+	t_rgba			floor;
+	t_rgba			ceiling;
+	t_vec			start_pos;
+	e_dir			start_dir;
+	int				width;
+	int				height;
+	bool			valid;
 } 	t_map;
 
 typedef struct s_player {
