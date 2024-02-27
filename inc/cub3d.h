@@ -21,6 +21,27 @@ typedef struct 	s_vec_f {
 	float	y;
 }	t_vec_f;
 
+typedef struct s_bresenham
+{
+	int			error[2];
+	int			dx;
+	int			dy;
+	int			sx;
+	int			sy;
+	int			cx;
+	int			cy;
+	int			y;
+	int			x;
+}	t_bresenham;
+
+typedef struct s_line
+{
+	int			x1;
+	int			y1;
+	int			x2;
+	int			y2;
+}	t_line;
+
 typedef union s_rgba
 {
 	int32_t	color;
@@ -89,6 +110,7 @@ typedef struct s_app {
 	t_player 	*playerdata;
 	t_menu		*menudata;
 	t_map		*mapdata;
+	mlx_image_t	*game;
 	t_state		state;
 	mlx_t		*mlx;
 }	t_app;
@@ -97,9 +119,11 @@ typedef struct s_app {
 void	print_2d(char **str);
 void	print_debug_info(t_app *cub3d);
 
-
 //		Menu.c
 void	navigate_menu(mlx_key_data_t keydata, void *param);
 t_menu 	*cbd_init_menu(mlx_t *mlx);
+
+//		Raycaster
+void	draw_line(mlx_image_t *image, uint32_t color, t_vec p1, t_vec p2);
 
 #endif

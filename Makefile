@@ -14,6 +14,7 @@ SRCS	:= \
 		   parser/bools.c		\
 		   parser/validate_data.c \
 		   menu/menu.c			\
+		   raycaster/line.c		\
 		   utility/printing.c   \
 
 SRCDIR	:= ./src
