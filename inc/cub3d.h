@@ -63,9 +63,30 @@ typedef struct s_player {
 	t_vec_f pos;
 }	t_player;
 
+typedef enum e_m_select {
+	M_MAIN,
+	M_MAP_SEL,
+	M_SELECTOR,
+	M_SIZE,
+} t_m_select;
+
+typedef enum e_state {
+	CBD_MAIN,
+	CBD_MAP_SEL,
+	CBD_GAME,
+} t_state;
+
+typedef struct s_menu {
+	mlx_texture_t	*menu_tex[M_SIZE];
+	mlx_image_t 	*menu_img[M_SIZE];
+} t_menu;
+
 typedef struct s_app {
 	t_map		*mapdata;
 	t_player 	*playerdata;
+	t_menu		*menudata;
+	mlx_t		*mlx;
+	t_state		state;
 }	t_app;
 
 
