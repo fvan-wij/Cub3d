@@ -13,6 +13,7 @@ SRCS	:= \
 		   parser/get_data.c 	\
 		   parser/bools.c		\
 		   parser/validate_data.c \
+		   menu/menu.c			\
 		   utility/printing.c   \
 
 SRCDIR	:= ./src

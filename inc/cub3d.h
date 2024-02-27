@@ -7,6 +7,10 @@
 # define SUCCESS 0
 # define FAILURE 1
 
+# define WIDTH 1280
+# define HEIGHT 720
+
+
 typedef struct 	s_vec {
 	int	x;
 	int y;
@@ -63,17 +67,17 @@ typedef struct s_player {
 	t_vec_f pos;
 }	t_player;
 
-typedef enum e_m_select {
+typedef enum e_menu_elements {
 	M_MAIN,
-	M_MAP_SEL,
-	M_SELECTOR,
+	M_MAP,
+	M_CURSOR,
 	M_SIZE,
-} t_m_select;
+} t_menu_elements;
 
 typedef enum e_state {
-	CBD_MAIN,
-	CBD_MAP_SEL,
-	CBD_GAME,
+	STATE_MAIN,
+	STATE_MAP_SEL,
+	STATE_GAME,
 } t_state;
 
 typedef struct s_menu {
@@ -82,15 +86,20 @@ typedef struct s_menu {
 } t_menu;
 
 typedef struct s_app {
-	t_map		*mapdata;
 	t_player 	*playerdata;
 	t_menu		*menudata;
-	mlx_t		*mlx;
+	t_map		*mapdata;
 	t_state		state;
+	mlx_t		*mlx;
 }	t_app;
 
 
 void	print_2d(char **str);
 void	print_debug_info(t_app *cub3d);
+
+
+//		Menu.c
+void	navigate_menu(mlx_key_data_t keydata, void *param);
+t_menu 	*cbd_init_menu(mlx_t *mlx);
 
 #endif
