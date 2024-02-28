@@ -1,6 +1,6 @@
 [
  {
-  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "directory": "/home/flip/Cub3d",
   "arguments": [
    "cc",
    "-Wextra",
@@ -22,7 +22,29 @@
   "file": "src/main.c"
  },
  {
-  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "directory": "/home/flip/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-o",
+   "obj/error/error.o",
+   "-c",
+   "src/error/error.c"
+  ],
+  "file": "src/error/error.c"
+ },
+ {
+  "directory": "/home/flip/Cub3d",
   "arguments": [
    "cc",
    "-Wextra",
@@ -42,5 +64,159 @@
    "src/parser/parser.c"
   ],
   "file": "src/parser/parser.c"
+ },
+ {
+  "directory": "/home/flip/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-o",
+   "obj/parser/init.o",
+   "-c",
+   "src/parser/init.c"
+  ],
+  "file": "src/parser/init.c"
+ },
+ {
+  "directory": "/home/flip/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-o",
+   "obj/parser/get_data.o",
+   "-c",
+   "src/parser/get_data.c"
+  ],
+  "file": "src/parser/get_data.c"
+ },
+ {
+  "directory": "/home/flip/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-o",
+   "obj/parser/bools.o",
+   "-c",
+   "src/parser/bools.c"
+  ],
+  "file": "src/parser/bools.c"
+ },
+ {
+  "directory": "/home/flip/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-o",
+   "obj/parser/validate_data.o",
+   "-c",
+   "src/parser/validate_data.c"
+  ],
+  "file": "src/parser/validate_data.c"
+ },
+ {
+  "directory": "/home/flip/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-o",
+   "obj/menu/menu.o",
+   "-c",
+   "src/menu/menu.c"
+  ],
+  "file": "src/menu/menu.c"
+ },
+ {
+  "directory": "/home/flip/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-o",
+   "obj/raycaster/line.o",
+   "-c",
+   "src/raycaster/line.c"
+  ],
+  "file": "src/raycaster/line.c"
+ },
+ {
+  "directory": "/home/flip/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-o",
+   "obj/utility/printing.o",
+   "-c",
+   "src/utility/printing.c"
+  ],
+  "file": "src/utility/printing.c"
  }
 ]

@@ -1,0 +1,17 @@
+NO ./data/textures/north_tex.png
+SO ./data/textures/south_tex.png
+WE ./data/textures/west_tex.png
+EA ./data/textures/east_tex.png
+F 220,100,0
+C 225,30,0
+1111111111
+1000000001
+1011000001
+1001000001
+1111011111
+1000000001
+1111011111
+1111011111
+1100N00011
+1000000001
+1111111111

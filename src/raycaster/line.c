@@ -44,17 +44,41 @@ static void	draw_bresenham_line(mlx_image_t *image,
 	}
 }
 
+static bool	is_vertical(t_vec p1, t_vec p2)
+{
+	return (p1.x == p2.x);
+}
+
+static void	draw_vert_line(mlx_image_t *image, uint32_t color, t_vec p1, t_vec p2)
+{
+	int dir;
+	int y;
+
+	if (p1.y < p2.y)
+		dir = 1;
+	else
+		dir = -1;
+	y = p1.y;
+	while (y != p2.y)
+	{
+		mlx_put_pixel(image, p1.x, y, color);
+		y+=dir;
+	}
+}
+
 void	draw_line(mlx_image_t *image,
 	uint32_t color, t_vec p1, t_vec p2)
 {
 	t_bresenham 	bh;
 	t_line 			l;
 
+	if (is_vertical(p1, p2))
+		return (draw_vert_line(image, color, p1, p2));
 	l.x1 = p1.x;
 	l.y1 = p1.y;
 	l.x2 = p2.x;
-	l.y2 = p1.y;
-	ft_bzero(&bh, sizeof(t_line));
+	l.y2 = p2.y;
+	ft_bzero(&bh, sizeof(t_bresenham));
 	bh.sx = sign_x(p1.x, p2.x);
 	bh.sy = sign_y(p1.y, p2.y);
 	bh.dx = abs(p2.x - p1.x);

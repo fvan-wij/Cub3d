@@ -71,14 +71,21 @@ void	navigate_menu(mlx_key_data_t keydata, void *param)
 		cbd->state = STATE_MAIN;
 	}
 	if (cbd->state == STATE_MAIN)
+	{
+		cbd->game->instances->enabled = false;
 		i = move_cursor_main_menu(cbd, i);
+	}
 	if (cbd->state == STATE_MAP_SEL)
+	{
+		cbd->game->instances->enabled = false;
 		i = move_cursor_map_select(cbd, i);
+	}
 	if (cbd->state == STATE_GAME)
 	{
 		cbd->menudata->menu_img[M_MAIN]->instances->enabled = false;
 		cbd->menudata->menu_img[M_MAP]->instances->enabled = false;
 		cbd->menudata->menu_img[M_CURSOR]->instances->enabled = false;
+		cbd->game->instances->enabled = true;
 	}
 }
 

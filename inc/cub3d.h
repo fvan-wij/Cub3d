@@ -107,7 +107,7 @@ typedef struct s_menu {
 } t_menu;
 
 typedef struct s_app {
-	t_player 	*playerdata;
+	t_player 	playerdata;
 	t_menu		*menudata;
 	t_map		*mapdata;
 	mlx_image_t	*game;
