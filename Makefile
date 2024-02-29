@@ -16,6 +16,7 @@ SRCS	:= \
 		   menu/menu.c			\
 		   raycaster/line.c		\
 		   raycaster/square.c	\
+		   raycaster/game.c		\
 		   utility/printing.c   \
 
 SRCDIR	:= ./src

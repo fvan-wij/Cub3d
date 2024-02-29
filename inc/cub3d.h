@@ -86,7 +86,7 @@ typedef struct s_map {
 
 typedef struct s_player {
 	t_vec_f pos;
-	t_vec_f	pd;
+	t_vec_f	dir;
 	float	angle;
 }	t_player;
 
@@ -126,7 +126,12 @@ void	navigate_menu(mlx_key_data_t keydata, void *param);
 t_menu 	*cbd_init_menu(mlx_t *mlx);
 
 //		Raycaster
+
+//		Shapes
 void	draw_line(mlx_image_t *image, uint32_t color, t_vec p1, t_vec p2);
 void	draw_square(mlx_image_t *image, uint32_t color, t_vec_f pos, t_vec dimension);
+
+//		Game
+bool	cbd_game_loop(t_app *cbd);
 
 #endif
