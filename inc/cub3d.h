@@ -86,6 +86,8 @@ typedef struct s_map {
 
 typedef struct s_player {
 	t_vec_f pos;
+	t_vec_f	pd;
+	float	angle;
 }	t_player;
 
 typedef enum e_menu_elements {
@@ -125,5 +127,6 @@ t_menu 	*cbd_init_menu(mlx_t *mlx);
 
 //		Raycaster
 void	draw_line(mlx_image_t *image, uint32_t color, t_vec p1, t_vec p2);
+void	draw_square(mlx_image_t *image, uint32_t color, t_vec_f pos, t_vec dimension);
 
 #endif

@@ -5,66 +5,50 @@
 #include <stdio.h>
 #include <MLX42.h>
 #include <stdlib.h>
+#include <math.h>
+#define PI 3.1415926535
 
 #define WHITE 		0xFFFFFFFF
+#define	OFF_WHITE	0xF0F0F0FF	
 #define RED 		0xFF0000FF
 #define GREEN 		0x00FF00FF
+#define BLUE 		0x0000FFFF
 
-#define TILES 		50
-#define TILESIZE 	(WIDTH + HEIGHT) / TILES
+#define TILES 		(16 + 16)
+#define TILESIZE 	WIDTH / TILES
 
 void	draw_player_pos(mlx_image_t *img, t_vec_f pos)
 {
+	t_vec dimension = {TILESIZE >> 2, TILESIZE >> 2};
 	if (pos.x <= WIDTH && pos.x >= 0 && pos.y <= HEIGHT && pos.y >= 0)
-	{
-		mlx_put_pixel(img, pos.x, pos.y, GREEN);
-		mlx_put_pixel(img, pos.x, pos.y + 1, GREEN);
-		mlx_put_pixel(img, pos.x - 1, pos.y, GREEN);
-		mlx_put_pixel(img, pos.x + 1, pos.y, GREEN);
-		mlx_put_pixel(img, pos.x, pos.y - 1, GREEN);
-	}
+		draw_square(img, BLUE, pos, dimension);
 }
 
 void	draw_grid(t_app *cbd, int width, int height)
 {
 	t_vec p;	
-	t_vec offset;
+	t_vec_f init = {0, 0};
+	t_vec screen = {WIDTH, HEIGHT};
 	int	i;
 	int	j;
 
-	ft_memset(cbd->game->pixels, WHITE, sizeof(uint8_t) * cbd->game->width * cbd->game->height * 4);
-	offset.x = (WIDTH - ((width + 1) * TILESIZE)) / 2;
-	offset.y = (HEIGHT - ((height + 1) * TILESIZE)) / 2;
+	draw_square(cbd->game, OFF_WHITE, init, screen);
 	i = 0;
-	while (i <= height)
+	while (i < height)
 	{
 		j = 0;
-		t_vec h1;
-		t_vec h2;
-		h1.x = offset.x;
-		h1.y = (i * TILESIZE) + offset.y;
-		h2.x = WIDTH - offset.x - TILESIZE;
-		h2.y = (i * TILESIZE) + offset.y;
-		draw_line(cbd->game, WHITE, h1, h2); 
-		while (j <= width)
+		while (j < width)
 		{
-			p.x = (j * TILESIZE) + offset.x;
-			p.y = (i * TILESIZE) + offset.y;
+			p.x = (j * TILESIZE);
+			p.y = (i * TILESIZE);
 			if (p.x <= WIDTH && p.x >= 0 && p.y <= HEIGHT && p.y >= 0)
 			{
-				if (i == 0)
-				{
-					t_vec v;
-					v.x = p.x;
-					v.y = HEIGHT - offset.y - TILESIZE;
-					v.y = HEIGHT - offset.y - TILESIZE;
-					draw_line(cbd->game, WHITE, p, v); 
-				}
-				mlx_put_pixel(cbd->game, p.x, p.y, RED);
-				mlx_put_pixel(cbd->game, p.x, p.y + 1, RED);
-				mlx_put_pixel(cbd->game, p.x - 1, p.y, RED);
-				mlx_put_pixel(cbd->game, p.x + 1, p.y, RED);
-				mlx_put_pixel(cbd->game, p.x, p.y - 1, RED);
+				t_vec dimension = {TILESIZE - 1, TILESIZE - 1};
+				t_vec_f pf = {p.x, p.y};
+				if (cbd->mapdata->cbd_map[i][j] == '1')
+					draw_square(cbd->game, RED, pf, dimension);
+				else
+					draw_square(cbd->game, OFF_WHITE, pf, dimension);
 			}
 			j++;
 		}
@@ -78,18 +62,16 @@ void	move_player(void *param)
 	t_app *cbd;
 
 	cbd = param;
-	float move_speed = cbd->mlx->delta_time * 100;
+	float move_speed = cbd->mlx->delta_time * 200;
+	t_vec edge = {cbd->mapdata->width * TILESIZE, cbd->mapdata->height * TILESIZE};
 
-	t_vec offset;
-	offset.x = (WIDTH - (cbd->mapdata->width * TILESIZE)) / 2;
-	offset.y = (HEIGHT - (cbd->mapdata->height * TILESIZE)) / 2;
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_UP) && cbd->playerdata.pos.y >= 0 + offset.y)
+	if (mlx_is_key_down(cbd->mlx, MLX_KEY_UP) && cbd->playerdata.pos.y >= 0) 
 		cbd->playerdata.pos.y -= move_speed;
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_DOWN) && cbd->playerdata.pos.y <= HEIGHT - offset.y)
+	if (mlx_is_key_down(cbd->mlx, MLX_KEY_DOWN) && cbd->playerdata.pos.y <= edge.y)
 		cbd->playerdata.pos.y += move_speed;
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_RIGHT) && cbd->playerdata.pos.x <= WIDTH - offset.x)
+	if (mlx_is_key_down(cbd->mlx, MLX_KEY_RIGHT) && cbd->playerdata.pos.x <= edge.x)
 		cbd->playerdata.pos.x += move_speed;
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_LEFT) && cbd->playerdata.pos.x >= 0 + offset.x)
+	if (mlx_is_key_down(cbd->mlx, MLX_KEY_LEFT) && cbd->playerdata.pos.x >= 0)
 		cbd->playerdata.pos.x -= move_speed;
 	draw_grid(cbd, cbd->mapdata->width, cbd->mapdata->height);
 }
@@ -108,11 +90,9 @@ int32_t	main(int argc, char *argv[])
 	print_debug_info(&cbd);
 
 	//Init player data;
-	t_vec offset;
-	offset.x = (WIDTH - (cbd.mapdata->width * TILESIZE)) / 2;
-	offset.y = (HEIGHT - (cbd.mapdata->height * TILESIZE)) / 2;
-	cbd.playerdata.pos.x = ((cbd.mapdata->start_pos.x * (float) TILESIZE)) + offset.x;
-	cbd.playerdata.pos.y = ((cbd.mapdata->start_pos.y * (float) TILESIZE)) + offset.y;
+	cbd.playerdata.pos.x = ((cbd.mapdata->start_pos.x * (float) TILESIZE));
+	cbd.playerdata.pos.y = ((cbd.mapdata->start_pos.y * (float) TILESIZE));
+
 
 	//Init MLX
 	cbd.mlx = mlx_init(WIDTH, HEIGHT, "Telestein 3D", true);

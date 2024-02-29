@@ -15,6 +15,7 @@ SRCS	:= \
 		   parser/validate_data.c \
 		   menu/menu.c			\
 		   raycaster/line.c		\
+		   raycaster/square.c	\
 		   utility/printing.c   \
 
 SRCDIR	:= ./src
