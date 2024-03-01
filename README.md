@@ -10,6 +10,9 @@ Further goals of this project:
 
 ### Resources
 
+Ray-casting tutorial
+https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
+
 ### To dos
 
 *Parsing*
