@@ -1,10 +1,8 @@
 #include <MLX42.h>
 #include <cub3d.h>
 #include <math.h>
-#include <stdlib.h>
-#include <stdio.h>
 
-void	draw_square(mlx_image_t *image, uint32_t color, t_vec_f pos, t_vec dimension)
+void	draw_square(mlx_image_t *image, uint32_t color, t_vec pos, t_vec dimension)
 {
 	int reset;
 
@@ -21,5 +19,27 @@ void	draw_square(mlx_image_t *image, uint32_t color, t_vec_f pos, t_vec dimensio
 			pos.x++;
 		}
 		pos.y++;
+	}
+}
+
+void	draw_circle(mlx_image_t *image, uint32_t color, t_vec pos, t_vec size)
+{
+	const int	vec_len = vec_length(vec_to_float(size));
+	int 		angle;
+	int 		inner;
+	t_vec 		loc;
+
+	angle = 0;
+	while (angle < 360)
+	{
+		inner = 0;
+		while (inner < vec_len)
+		{
+			loc.x = inner * cos(angle) + pos.x;
+			loc.y = inner * sin(angle) + pos.y;
+			mlx_put_pixel(image, loc.x, loc.y, color);
+			inner++;
+		}
+		angle++;
 	}
 }

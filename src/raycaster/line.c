@@ -1,6 +1,5 @@
 #include <MLX42.h>
 #include <cub3d.h>
-#include <math.h>
 #include <stdlib.h>
 
 

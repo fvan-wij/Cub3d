@@ -70,6 +70,30 @@ typedef enum e_dir {
 	DIR_SIZE,
 } e_dir;
 
+typedef enum e_menu_elements {
+	M_MAIN,
+	M_MAP,
+	M_CURSOR,
+	M_SIZE,
+} t_menu_elements;
+
+typedef enum e_state {
+	STATE_MAIN,
+	STATE_MAP_SEL,
+	STATE_GAME,
+} t_state;
+
+typedef struct s_ray {
+	t_vec_f	camera;
+	t_vec_f	ray_dir;
+} t_ray;
+
+typedef struct s_player {
+	t_vec_f pos;
+	t_vec_f	dir;
+	float	angle;
+}	t_player;
+
 typedef struct s_map {
 	char			**raw_data;
 	char 			**tex_path;
@@ -83,25 +107,6 @@ typedef struct s_map {
 	int				height;
 	bool			valid;
 } 	t_map;
-
-typedef struct s_player {
-	t_vec_f pos;
-	t_vec_f	dir;
-	float	angle;
-}	t_player;
-
-typedef enum e_menu_elements {
-	M_MAIN,
-	M_MAP,
-	M_CURSOR,
-	M_SIZE,
-} t_menu_elements;
-
-typedef enum e_state {
-	STATE_MAIN,
-	STATE_MAP_SEL,
-	STATE_GAME,
-} t_state;
 
 typedef struct s_menu {
 	mlx_texture_t	*menu_tex[M_SIZE];
@@ -129,9 +134,20 @@ t_menu 	*cbd_init_menu(mlx_t *mlx);
 
 //		Shapes
 void	draw_line(mlx_image_t *image, uint32_t color, t_vec p1, t_vec p2);
-void	draw_square(mlx_image_t *image, uint32_t color, t_vec_f pos, t_vec dimension);
+void	draw_square(mlx_image_t *image, uint32_t color, t_vec pos, t_vec dimension);
+void	draw_circle(mlx_image_t *image, uint32_t color, t_vec pos, t_vec size);
 
 //		Game
 bool	cbd_game_loop(t_app *cbd);
+
+//		Vectors
+void	vec_normalize(t_vec_f *vec);
+t_vec_f	vec_assign(float x, float y);
+void	vec_rotate(t_vec_f *direction, float angle);
+t_vec	vec_to_int(t_vec_f vec);
+t_vec_f	vec_to_float(t_vec vec);
+float	vec_length(t_vec_f vec);
+t_vec_f	vec_divide(t_vec_f vec, float denominator);
+t_vec 	vec_divide_int(t_vec vec, float denominator);
 
 #endif

@@ -1,9 +1,7 @@
 #include <cub3d.h>
 #include <cbd_error.h>
 #include <libft.h>
-#include <stdio.h>
 #include <MLX42.h>
-#include <math.h>
 
 #define WHITE 		0xFFFFFFFF
 #define	OFF_WHITE	0xF0F0F0FF	
@@ -14,32 +12,41 @@
 #define TILES 		(16 + 16)
 #define TILESIZE 	WIDTH / TILES
 
-void	normalize_vec(t_vec_f *vec)
+// t_vec_f	cast_ray(char **map, t_vec_f pos, t_vec_f dir)
+// {
+// 	t_vec_f side_dist;
+// 	t_vec_f delta_dist;
+//
+// }
+
+void	draw_player(char **map, mlx_image_t *img, t_vec_f pos, t_vec_f dir)
 {
-	//Length is square root of sqr(a) + sqr(b)
+	t_vec	size;
+	t_vec	p;
+	t_vec	d;
+	(void) map;
 
-	float length = sqrt((vec->x * vec->x) + (vec->y * vec->y));
-
-	vec->x = vec->x / length;
-	vec->y = vec->y / length;
-}
-
-void	draw_player_pos(mlx_image_t *img, t_vec_f pos)
-{
-	t_vec dimension = {TILESIZE>>2, TILESIZE>>2};
-
+	size.x = TILESIZE>>3;
+	size.y = TILESIZE>>3;
+	p.x = pos.x * TILESIZE;
+	p.y = pos.y * TILESIZE;
+	d.x = (pos.x + dir.x) * TILESIZE;
+	d.y = (pos.y + dir.y) * TILESIZE;
 	if (pos.x <= WIDTH && pos.x >= 0 && pos.y <= HEIGHT && pos.y >= 0)
 	{
 		pos.x = pos.x * TILESIZE;
 		pos.y = pos.y * TILESIZE;
-		draw_square(img, BLUE, pos, dimension);
+		draw_circle(img, BLUE, p, size);
 	}
+	// cast_ray(map, p, d);
+	draw_line(img, BLUE, p, d);
+
 }
 
 void	draw_grid(t_app *cbd, int width, int height)
 {
 	t_vec p;	
-	t_vec_f init = {0, 0};
+	t_vec init = {0, 0};
 	t_vec screen = {WIDTH, HEIGHT};
 	int	i;
 	int	j;
@@ -55,34 +62,17 @@ void	draw_grid(t_app *cbd, int width, int height)
 			p.y = (i * TILESIZE);
 			if (p.x <= WIDTH && p.x >= 0 && p.y <= HEIGHT && p.y >= 0)
 			{
-				t_vec dimension = {TILESIZE - 1, TILESIZE - 1};
-				t_vec_f pf = {p.x, p.y};
+				t_vec size = {TILESIZE - 1, TILESIZE - 1};
 				if (cbd->mapdata->cbd_map[i][j] == '1')
-					draw_square(cbd->game, RED, pf, dimension);
+					draw_square(cbd->game, RED, p, size);
 				else
-					draw_square(cbd->game, OFF_WHITE, pf, dimension);
+					draw_square(cbd->game, OFF_WHITE, p, size);
 			}
 			j++;
 		}
 		i++;
 	}
-
-	draw_player_pos(cbd->game, cbd->playerdata.pos);
-	t_vec pos = {cbd->playerdata.pos.x * TILESIZE, cbd->playerdata.pos.y * TILESIZE};
-	t_vec dir = {(cbd->playerdata.pos.x + cbd->playerdata.dir.x) * TILESIZE, (cbd->playerdata.pos.y + cbd->playerdata.dir.y) * TILESIZE};
-	draw_line(cbd->game, BLUE, pos, dir);
-}
-
-void	rotate_player(t_vec_f *direction, t_vec_f origin, float angle)
-{
-	t_vec_f new;
-	(void) origin;
-
-	new.x = (direction->x * cos(angle)) - (direction->y * sin(angle));
-	new.y = (direction->x * sin(angle)) + (direction->y * cos(angle));
-
-	direction->x = new.x;
-	direction->y = new.y;
+	draw_player(cbd->mapdata->cbd_map, cbd->game, cbd->playerdata.pos, cbd->playerdata.dir);
 }
 
 void	move_player(void *param)
@@ -90,30 +80,45 @@ void	move_player(void *param)
 	t_app *cbd;
 
 	cbd = param;
-	float move_speed = cbd->mlx->delta_time * 5;
-	t_vec edge = {cbd->mapdata->width * TILESIZE, cbd->mapdata->height * TILESIZE};
+	float move_speed = cbd->mlx->delta_time * 2;
 
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_UP) && cbd->playerdata.pos.y >= 0) 
-		cbd->playerdata.pos.y -= move_speed;
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_DOWN) && cbd->playerdata.pos.y <= edge.y)
-		cbd->playerdata.pos.y += move_speed;
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_RIGHT) && cbd->playerdata.pos.x <= edge.x)
+	t_vec_f pos;
+	t_vec_f dir;
+
+	pos = vec_assign(cbd->playerdata.pos.x, cbd->playerdata.pos.y);
+	dir = vec_assign(cbd->playerdata.dir.x, cbd->playerdata.dir.y);
+
+	if (mlx_is_key_down(cbd->mlx, MLX_KEY_UP)) 
 	{
-		cbd->playerdata.angle = cbd->mlx->delta_time;
-		rotate_player(&cbd->playerdata.dir, cbd->playerdata.pos, cbd->playerdata.angle);
+		int x = (pos.x + dir.x * move_speed);
+		int y = (pos.y + dir.y * move_speed);
+		if (cbd->mapdata->cbd_map[(int)pos.y][x] == '0')
+			cbd->playerdata.pos.x += cbd->playerdata.dir.x * move_speed;
+		if (cbd->mapdata->cbd_map[y][(int)pos.x] == '0')
+			cbd->playerdata.pos.y += cbd->playerdata.dir.y * move_speed;
 	}
+	if (mlx_is_key_down(cbd->mlx, MLX_KEY_DOWN))
+	{
+		int x = (pos.x - dir.x * move_speed);
+		int y = (pos.y - dir.y * move_speed);
+		if (cbd->mapdata->cbd_map[(int)pos.y][x] == '0')
+			cbd->playerdata.pos.x -= cbd->playerdata.dir.x * move_speed;
+		if (cbd->mapdata->cbd_map[y][(int)pos.x] == '0')
+			cbd->playerdata.pos.y -= cbd->playerdata.dir.y * move_speed;
+	}
+	if (mlx_is_key_down(cbd->mlx, MLX_KEY_RIGHT) && cbd->playerdata.pos.x <= cbd->mapdata->width)
+		vec_rotate(&cbd->playerdata.dir, cbd->mlx->delta_time * 3);
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_LEFT) && cbd->playerdata.pos.x >= 0)
-	{
-		cbd->playerdata.angle = -cbd->mlx->delta_time;
-		rotate_player(&cbd->playerdata.dir, cbd->playerdata.pos, cbd->playerdata.angle);
-	}
-	printf("pos(%f, %f), dir(%f, %f), angle: %f\n", cbd->playerdata.pos.x, cbd->playerdata.pos.y,  cbd->playerdata.dir.x, cbd->playerdata.dir.y, cbd->playerdata.angle);
+		vec_rotate(&cbd->playerdata.dir, -cbd->mlx->delta_time * 3);
+
+
 	draw_grid(cbd, cbd->mapdata->width, cbd->mapdata->height);
 }
 
 bool	cbd_game_loop(t_app *cbd)
 {
 	//Init player data;
+	cbd->mapdata->cbd_map[cbd->mapdata->start_pos.y][cbd->mapdata->start_pos.x] = '0';
 	cbd->playerdata.pos.x = cbd->mapdata->start_pos.x;
 	cbd->playerdata.pos.y = cbd->mapdata->start_pos.y;
 

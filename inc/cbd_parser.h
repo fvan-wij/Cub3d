@@ -12,10 +12,11 @@ typedef struct s_valid {
 	bool	tex[TEX_SIZE];
 	bool	col_fl;
 	bool	col_cl;
+	bool	map;
 } t_valid;
 
 t_map 	*alloc_map(void);
-t_map	*cbd_parse_map(const char *file, t_app *cub3d);
+t_map	*cbd_parse_map(const char *file);
 t_map	*get_map_data(int fd, t_map *mapdata, t_valid *is);
 bool	validate_map_data(t_map *mapdata, t_valid *is);
 

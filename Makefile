@@ -17,6 +17,7 @@ SRCS	:= \
 		   raycaster/line.c		\
 		   raycaster/square.c	\
 		   raycaster/game.c		\
+		   raycaster/vec.c		\
 		   utility/printing.c   \
 
 SRCDIR	:= ./src
