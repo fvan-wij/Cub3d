@@ -92,6 +92,7 @@ typedef struct s_player {
 	t_vec_f pos;
 	t_vec_f	dir;
 	float	angle;
+	float	scalar;
 }	t_player;
 
 typedef struct s_map {

@@ -2,6 +2,8 @@
 #include <cbd_error.h>
 #include <libft.h>
 #include <MLX42.h>
+#include <stdio.h>
+#include <math.h>
 
 #define WHITE 		0xFFFFFFFF
 #define	OFF_WHITE	0xF0F0F0FF	
@@ -12,34 +14,126 @@
 #define TILES 		(16 + 16)
 #define TILESIZE 	WIDTH / TILES
 
-// t_vec_f	cast_ray(char **map, t_vec_f pos, t_vec_f dir)
-// {
-// 	t_vec_f side_dist;
-// 	t_vec_f delta_dist;
-//
-// }
+t_vec	cast_ray(char **map, t_vec pos, t_vec_f dir)
+{
+	t_vec wall;
+	t_vec_f side_dist;
+	t_vec_f delta_dist;
+	t_vec_f step_size;
+	t_vec	map_check;
+	t_vec	step;
+	t_vec_f ray_len;
 
-void	draw_player(char **map, mlx_image_t *img, t_vec_f pos, t_vec_f dir)
+	(void) map;
+	(void) side_dist;
+	(void) delta_dist;
+	(void) dir;
+
+	step_size.x = sqrt(1 + (dir.y / dir.x) * (dir.y / dir.x));
+	step_size.y = sqrt(1 + (dir.x / dir.y) * (dir.x / dir.y));
+	map_check = pos;
+	if (dir.x < 0)
+	{
+		step.x = -1;
+		ray_len.x = (pos.x - (float)map_check.x) * step_size.x;
+	}
+	else
+	{
+		step.x = 1;
+		ray_len.x = (((float)map_check.x + 1) - pos.x) * step_size.x;
+	}
+	if (dir.y < 0)
+	{
+		step.y = -1;
+		ray_len.y = (pos.y - (float)map_check.y) * step_size.y;
+	}
+	else
+	{
+		step.y = 1;
+		ray_len.y = (((float)map_check.y + 1) - pos.y) * step_size.x;
+	}
+
+
+	bool wall_is_found = false;
+	float max_dist = 100.0f;
+	float dist = 0;
+	while (!wall_is_found && dist < max_dist)
+	{
+		if (ray_len.x < ray_len.y)
+		{
+			map_check.x += step.x;
+			dist = ray_len.x;
+			ray_len.x += step_size.x;
+		}
+		else
+		{
+			map_check.y += step.y;
+			dist = ray_len.y;
+			ray_len.y += step_size.y;
+		}
+		
+		if (map_check.y >= 0 && map_check.y < 16 && map_check.x >= 0 && map_check.x < 16)
+		{
+			if (map[map_check.y][map_check.x] == '1')
+				wall_is_found = true;
+		}
+	}
+
+	if (wall_is_found)
+	{
+		wall.x = pos.x + dir.x * dist;
+		wall.y = pos.y + dir.y * dist;
+		return (wall);
+	}
+
+
+	// while (map[pos.y][pos.x])
+	// {
+	// 	printf("pos(%d, %d)\n", pos.x, pos.y);
+	// 	if (map[pos.y][pos.x] == '1')
+	// 	{
+	// 		wall.x = pos.x;
+	// 		wall.y = pos.y;
+	// 		printf("wall(%d, %d)\n", wall.x, wall.y);
+	// 		return (wall);
+	// 	}
+	// 	pos.y--;
+	// }
+	return (pos);
+}
+
+void	draw_player(char **map, mlx_image_t *img, t_vec_f pos, t_vec_f dir, float scalar)
 {
 	t_vec	size;
 	t_vec	p;
 	t_vec	d;
-	(void) map;
 
 	size.x = TILESIZE>>3;
 	size.y = TILESIZE>>3;
+	(void) map;
+	(void) scalar;
+
+	t_vec intersect = cast_ray(map, vec_to_int(pos), dir);
+	intersect.x = intersect.x * TILESIZE;
+	intersect.y = intersect.y * TILESIZE;
+	// draw_line(img, BLUE, p, d);
 	p.x = pos.x * TILESIZE;
 	p.y = pos.y * TILESIZE;
-	d.x = (pos.x + dir.x) * TILESIZE;
-	d.y = (pos.y + dir.y) * TILESIZE;
+	draw_line(img, RED, p, intersect);
+	d.x = (pos.x + (scalar * dir.x)) * TILESIZE;
+	d.y = (pos.y + (scalar * dir.y)) * TILESIZE;
 	if (pos.x <= WIDTH && pos.x >= 0 && pos.y <= HEIGHT && pos.y >= 0)
 	{
 		pos.x = pos.x * TILESIZE;
 		pos.y = pos.y * TILESIZE;
-		draw_circle(img, BLUE, p, size);
+		draw_circle(img, BLUE, vec_to_int(pos), size);
 	}
-	// cast_ray(map, p, d);
-	draw_line(img, BLUE, p, d);
+	(void) d;
+	// t_vec intersect = cast_ray(map, vec_to_int(pos), dir);
+	// intersect.x = intersect.x * TILESIZE;
+	// intersect.y = intersect.y * TILESIZE;
+	// draw_line(img, BLUE, p, d);
+	draw_line(img, RED, p, intersect);
 
 }
 
@@ -72,7 +166,8 @@ void	draw_grid(t_app *cbd, int width, int height)
 		}
 		i++;
 	}
-	draw_player(cbd->mapdata->cbd_map, cbd->game, cbd->playerdata.pos, cbd->playerdata.dir);
+	draw_player(cbd->mapdata->cbd_map, cbd->game, cbd->playerdata.pos, cbd->playerdata.dir, cbd->playerdata.scalar);
+	printf("pos(%f, %f), dir(%f, %f)\n", cbd->playerdata.pos.x,cbd->playerdata.pos.y, cbd->playerdata.dir.x,cbd->playerdata.dir.y);
 }
 
 void	move_player(void *param)
@@ -111,7 +206,6 @@ void	move_player(void *param)
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_LEFT) && cbd->playerdata.pos.x >= 0)
 		vec_rotate(&cbd->playerdata.dir, -cbd->mlx->delta_time * 3);
 
-
 	draw_grid(cbd, cbd->mapdata->width, cbd->mapdata->height);
 }
 
@@ -125,7 +219,7 @@ bool	cbd_game_loop(t_app *cbd)
 	cbd->playerdata.dir.x = 0;
 	cbd->playerdata.dir.y = -1;
 	cbd->playerdata.angle = 0;
-	// normalize_vec(&cbd->playerdata.dir);
+	cbd->playerdata.scalar = 0;
 
 	//Init MLX
 	cbd->mlx = mlx_init(WIDTH, HEIGHT, "Telestein 3D", true);

@@ -87,6 +87,11 @@ void	navigate_menu(mlx_key_data_t keydata, void *param)
 		cbd->menudata->menu_img[M_CURSOR]->instances->enabled = false;
 		cbd->game->instances->enabled = true;
 	}
+
+	if (mlx_is_key_down(cbd->mlx, MLX_KEY_0))
+		cbd->playerdata.scalar--;
+	if (mlx_is_key_down(cbd->mlx, MLX_KEY_9))
+		cbd->playerdata.scalar++;
 }
 
 t_menu *cbd_init_menu(mlx_t *mlx)
