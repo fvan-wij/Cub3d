@@ -4,6 +4,8 @@
 #include <libft.h>
 #include <MLX42.h>
 
+#include <stdio.h>
+
 int32_t	main(int argc, char *argv[])
 {
 	t_app cbd;
@@ -15,8 +17,8 @@ int32_t	main(int argc, char *argv[])
 	if (!cbd.mapdata)
 		return (FAILURE);
 	print_debug_info(&cbd);
-	if (!cbd_game_loop(&cbd))
+	printf("Map data parsed\n");
+	if (cbd_main(&cbd))
 		return (FAILURE);
-
 	return (SUCCESS);
 }

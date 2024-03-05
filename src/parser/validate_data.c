@@ -9,22 +9,22 @@ bool	is_player(char c, t_map *mapdata, t_valid *is)
 {
 	if (c == 'N')
 	{
-		mapdata->start_dir = N;
+		mapdata->start_dir = vec_assign(0, -1);
 		return (is->start[N] = true);
 	}
 	else if (c == 'E')
 	{
-		mapdata->start_dir = E;
+		mapdata->start_dir = vec_assign(1, 0);
 		return (is->start[E] = true);
 	}
 	else if (c == 'S')
 	{
-		mapdata->start_dir = S;
+		mapdata->start_dir = vec_assign(0, 1);
 		return (is->start[S] = true);
 	}
 	else if (c == 'W')
 	{
-		mapdata->start_dir = W;
+		mapdata->start_dir = vec_assign(-1, 0);
 		return (is->start[W] = true);
 	}
 	return (false);
@@ -143,4 +143,3 @@ bool	validate_map_data(t_map *mapdata, t_valid *is)
 		return (cbd_error(ERR_TEX_SIZE), ft_del_2d(mapdata->raw_data), false);
 	return (true);
 }
-

@@ -102,8 +102,8 @@ typedef struct s_map {
 	mlx_texture_t	**cbd_tex;
 	t_rgba			floor;
 	t_rgba			ceiling;
-	t_vec			start_pos;
-	e_dir			start_dir;
+	t_vec_f			start_pos;
+	t_vec_f			start_dir;
 	int				width;
 	int				height;
 	bool			valid;
@@ -123,15 +123,20 @@ typedef struct s_app {
 	mlx_t		*mlx;
 }	t_app;
 
-
+//		Utility
 void	print_2d(char **str);
 void	print_debug_info(t_app *cub3d);
+void	cleanup(t_app *app);
 
 //		Menu.c
 void	navigate_menu(mlx_key_data_t keydata, void *param);
 t_menu 	*cbd_init_menu(mlx_t *mlx);
 
+// 		Rendering
+void	draw_grid(t_app *cbd, int width, int height);
+
 //		Raycaster
+t_vec	cast_ray(char **map, t_vec pos, t_vec_f dir);
 
 //		Shapes
 void	draw_line(mlx_image_t *image, uint32_t color, t_vec p1, t_vec p2);
@@ -139,7 +144,9 @@ void	draw_square(mlx_image_t *image, uint32_t color, t_vec pos, t_vec dimension)
 void	draw_circle(mlx_image_t *image, uint32_t color, t_vec pos, t_vec size);
 
 //		Game
-bool	cbd_game_loop(t_app *cbd);
+bool	cbd_main(t_app *cbd);
+bool	cbd_init(t_app *cbd);
+void	move_player(void *param);
 
 //		Vectors
 void	vec_normalize(t_vec_f *vec);
@@ -151,4 +158,4 @@ float	vec_length(t_vec_f vec);
 t_vec_f	vec_divide(t_vec_f vec, float denominator);
 t_vec 	vec_divide_int(t_vec vec, float denominator);
 
-#endif
+#endif //CUB3D_H

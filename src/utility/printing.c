@@ -2,7 +2,7 @@
 
 void	print_2d(char **str)
 {
-	int i; 
+	int i;
 
 	i = 0;
 	while (str[i])
@@ -23,14 +23,8 @@ void	print_debug_info(t_app *cub3d)
 		ft_printf("\n[MAP_CONTENT]\n");
 		print_2d(cub3d->mapdata->cbd_map);
 	}
-	if (cub3d->mapdata->start_dir == N)
-		c = 'N';
-	if (cub3d->mapdata->start_dir == S)
-		c = 'S';
-	if (cub3d->mapdata->start_dir == W)
-		c = 'W';
-	if (cub3d->mapdata->start_dir == E)
-		c = 'E';
+	// c = cub3d->mapdata->cbd_map[(int)cub3d->mapdata->start_dir.y][(int)cub3d->mapdata->start_dir.x];
+	c = 'N';
 	ft_printf("\n[MAP_DATA]\nStart_pos: (%d, %d, %c)\nMap-dimensions: (%d, %d)\n", cub3d->mapdata->start_pos.x, cub3d->mapdata->start_pos.y, c, cub3d->mapdata->width, cub3d->mapdata->height);
 
 	if (cub3d->mapdata->valid)

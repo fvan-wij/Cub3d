@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.js": "javascript",
+        "cub3d.h": "c"
+    }
+}
