@@ -4,9 +4,11 @@ LIBMLX	:= ./lib/MLX42
 LIBFT	:= ./lib/libft
 
 HEADERS	:= -I ./inc -I $(LIBMLX)/include/MLX42 -I $(LIBFT)
-LIBS	:= $(LIBMLX)/build/libmlx42.a $(LIBFT)/libft.a -ldl -lglfw -pthread -lm 
+LIBS	:= $(LIBMLX)/build/libmlx42.a $(LIBFT)/libft.a -ldl -lglfw -pthread -lm
 SRCS	:= \
 		   main.c 				\
+		   game.c				\
+		   cbd_init.c			\
 		   error/error.c 		\
 		   parser/parser.c 		\
 		   parser/init.c 		\
@@ -14,11 +16,13 @@ SRCS	:= \
 		   parser/bools.c		\
 		   parser/validate_data.c \
 		   menu/menu.c			\
-		   raycaster/line.c		\
-		   raycaster/square.c	\
-		   raycaster/game.c		\
+		   raycaster/raycaster.c\
 		   raycaster/vec.c		\
-		   utility/printing.c   \
+		   render/draw.c		\
+		   render/line.c		\
+		   render/shape.c		\
+		   utility/printing.c	\
+		   utility/cleanup.c	\
 
 SRCDIR	:= ./src
 OBJDIR	:= ./obj
@@ -42,7 +46,7 @@ libft:
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(@D)
-	@$(CC) $(CFLAGS) $(HEADERS) -o $@ -c $<  && printf "[Cub3d]\033[0;32m\033[1m Building: $(notdir $<) \033[0m\n" 
+	@$(CC) $(CFLAGS) $(HEADERS) -o $@ -c $<  && printf "[Cub3d]\033[0;32m\033[1m Building: $(notdir $<) \033[0m\n"
 
 $(NAME): $(OBJS)
 	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
@@ -76,4 +80,3 @@ White		= "\033[0;37m"		# White
 Text_Off	= "\033[0m"			# Text Style Off
 Bold		= "\033[1m"			# Text Style Bold
 ######################################################
-
