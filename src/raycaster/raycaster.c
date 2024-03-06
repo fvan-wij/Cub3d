@@ -2,95 +2,92 @@
 #include <cbd_error.h>
 #include <libft.h>
 #include <MLX42.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <math.h>
 #include <cbd_render.h>
 
-
-t_vec	cast_ray(char **map, t_vec pos, t_vec_f dir)
+long	absolute(long value)
 {
-	t_vec wall;
+	if (value < 0)
+		return (-value);
+	return (value);
+}
+
+t_vec_f	cast_ray(char **map, t_player p)
+{
+	// const double camera_x = -1;
+	const double camera_x = 0;
+	t_vec	vec_map;
 	t_vec_f side_dist;
-	t_vec_f delta_dist;
-	t_vec_f step_size;
-	t_vec	map_check;
+	t_vec_f	delta_dist;
+	double	perp_wall_dist;
 	t_vec	step;
-	t_vec_f ray_len;
+	bool	hit = false;
+	int		side;
 
-	(void) map;
-	(void) side_dist;
-	(void) delta_dist;
-	(void) dir;
+	vec_map.x = (int)p.pos.x;
+	vec_map.y = (int)p.pos.y;
 
-	step_size.x = sqrt(1 + (dir.y / dir.x) * (dir.y / dir.x));
-	step_size.y = sqrt(1 + (dir.x / dir.y) * (dir.x / dir.y));
-	map_check = pos;
-	if (dir.x < 0)
+
+	p.rays[0].ray_dir.x = p.dir.x + p.plane.x * camera_x;
+	p.rays[0].ray_dir.y = p.dir.y + p.plane.y * camera_x;
+
+	delta_dist.x = (p.rays[0].ray_dir.x == 0) ? 1e30 : fabs(1 / p.rays[0].ray_dir.x);
+	delta_dist.y = (p.rays[0].ray_dir.y == 0) ? 1e30 : fabs(1 / p.rays[0].ray_dir.y);
+
+	// delta_dist.x = fabs(1 / p.rays[0].ray_dir.x);
+	// delta_dist.y = fabs(1 / p.rays[0].ray_dir.y);
+
+	if (p.rays[0].ray_dir.x < 0)
 	{
 		step.x = -1;
-		ray_len.x = (pos.x - (float)map_check.x) * step_size.x;
+		side_dist.x = (p.pos.x - vec_map.x) * delta_dist.x;
 	}
-	else
+	else 
 	{
 		step.x = 1;
-		ray_len.x = (((float)map_check.x + 1) - pos.x) * step_size.x;
+		side_dist.x = (vec_map.x + 1.0 - p.pos.x) * delta_dist.x;
 	}
-	if (dir.y < 0)
+	if (p.rays[0].ray_dir.y < 0)
 	{
 		step.y = -1;
-		ray_len.y = (pos.y - (float)map_check.y) * step_size.y;
+		side_dist.y = (p.pos.y - vec_map.y) * delta_dist.y;
 	}
-	else
+	else 
 	{
-		step.y = 1;
-		ray_len.y = (((float)map_check.y + 1) - pos.y) * step_size.x;
+		step.y = 1;	
+		side_dist.y = (vec_map.y + 1.0 - p.pos.y) * delta_dist.y;
 	}
 
-
-	bool wall_is_found = false;
-	float max_dist = 100.0f;
-	float dist = 0;
-	while (!wall_is_found && dist < max_dist)
+	while(!hit)
 	{
-		if (ray_len.x < ray_len.y)
+		if (side_dist.x < side_dist.y)
 		{
-			map_check.x += step.x;
-			dist = ray_len.x;
-			ray_len.x += step_size.x;
+			side_dist.x += delta_dist.x;
+			vec_map.x += step.x;
+			side = 0;
 		}
-		else
+		else 
 		{
-			map_check.y += step.y;
-			dist = ray_len.y;
-			ray_len.y += step_size.y;
+			side_dist.y += delta_dist.y;
+			vec_map.y += step.y;
+			side = 1;
 		}
 
-		if (map_check.y >= 0 && map_check.y < 16 && map_check.x >= 0 && map_check.x < 16)
-		{
-			if (map[map_check.y][map_check.x] == '1')
-				wall_is_found = true;
-		}
+		if (vec_map.x >= 0 && vec_map.x < 16 && vec_map.y >= 0 && vec_map.y < 16 && map[vec_map.y][vec_map.x] == '1')
+			hit = true;
 	}
+	if (side == 0)
+		perp_wall_dist = (side_dist.x - delta_dist.x);
+	else 
+		perp_wall_dist = (side_dist.y - delta_dist.y);
 
-	if (wall_is_found)
-	{
-		wall.x = pos.x + dir.x * dist;
-		wall.y = pos.y + dir.y * dist;
-		return (wall);
-	}
+	t_vec_f	intersection;
 
 
-	// while (map[pos.y][pos.x])
-	// {
-	// 	printf("pos(%d, %d)\n", pos.x, pos.y);
-	// 	if (map[pos.y][pos.x] == '1')
-	// 	{
-	// 		wall.x = pos.x;
-	// 		wall.y = pos.y;
-	// 		printf("wall(%d, %d)\n", wall.x, wall.y);
-	// 		return (wall);
-	// 	}
-	// 	pos.y--;
-	// }
-	return (pos);
+	intersection.x = (p.pos.x + (p.dir.x * perp_wall_dist)) * TILESIZE; 
+	intersection.y = (p.pos.y + (p.dir.y * perp_wall_dist)) * TILESIZE;
+
+	return (intersection);
 }

@@ -15,8 +15,8 @@ bool cbd_init(t_app *cbd)
 	cbd->playerdata.pos = cbd->mapdata->start_pos;
 
 	cbd->playerdata.dir = cbd->mapdata->start_dir;
-	cbd->playerdata.angle = 0;
-	cbd->playerdata.scalar = 0;
+	cbd->playerdata.scalar = 1;
+	cbd->playerdata.plane = vec_assign(0.0f, 0.66f);
 
 	//Init MLX
 	cbd->mlx = mlx_init(WIDTH, HEIGHT, "Telestein 3D", true);

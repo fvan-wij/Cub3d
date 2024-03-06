@@ -10,15 +10,14 @@
 # define WIDTH 1280
 # define HEIGHT 720
 
-
 typedef struct 	s_vec {
 	int	x;
 	int y;
 }	t_vec;
 
 typedef struct 	s_vec_f {
-	float	x;
-	float	y;
+	double	x;
+	double	y;
 }	t_vec_f;
 
 typedef struct s_bresenham
@@ -84,15 +83,15 @@ typedef enum e_state {
 } t_state;
 
 typedef struct s_ray {
-	t_vec_f	camera;
 	t_vec_f	ray_dir;
 } t_ray;
 
 typedef struct s_player {
 	t_vec_f pos;
 	t_vec_f	dir;
-	float	angle;
+	t_vec_f	plane;
 	float	scalar;
+	t_ray	rays[30];
 }	t_player;
 
 typedef struct s_map {
@@ -136,7 +135,7 @@ t_menu 	*cbd_init_menu(mlx_t *mlx);
 void	draw_grid(t_app *cbd, int width, int height);
 
 //		Raycaster
-t_vec	cast_ray(char **map, t_vec pos, t_vec_f dir);
+t_vec_f	cast_ray(char **map, t_player p);
 
 //		Shapes
 void	draw_line(mlx_image_t *image, uint32_t color, t_vec p1, t_vec p2);
@@ -150,12 +149,12 @@ void	move_player(void *param);
 
 //		Vectors
 void	vec_normalize(t_vec_f *vec);
-t_vec_f	vec_assign(float x, float y);
-void	vec_rotate(t_vec_f *direction, float angle);
+t_vec_f	vec_assign(double x, double y);
+void	vec_rotate(t_vec_f *direction, double angle);
 t_vec	vec_to_int(t_vec_f vec);
 t_vec_f	vec_to_float(t_vec vec);
-float	vec_length(t_vec_f vec);
-t_vec_f	vec_divide(t_vec_f vec, float denominator);
-t_vec 	vec_divide_int(t_vec vec, float denominator);
+double	vec_length(t_vec_f vec);
+t_vec_f	vec_divide(t_vec_f vec, double denominator);
+t_vec 	vec_divide_int(t_vec vec, double denominator);
 
 #endif //CUB3D_H

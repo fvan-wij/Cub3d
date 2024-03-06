@@ -9,7 +9,7 @@ void	vec_normalize(t_vec_f *vec)
 	vec->y = vec->y / length;
 }
 
-t_vec_f	vec_assign(float x, float y)
+t_vec_f	vec_assign(double x, double y)
 {
 	t_vec_f new;
 
@@ -18,7 +18,7 @@ t_vec_f	vec_assign(float x, float y)
 	return (new);
 }
 
-void	vec_rotate(t_vec_f *direction, float angle)
+void	vec_rotate(t_vec_f *direction, double angle)
 {
 	t_vec_f new;
 
@@ -29,7 +29,7 @@ void	vec_rotate(t_vec_f *direction, float angle)
 	direction->y = new.y;
 }
 
-float	vec_length(t_vec_f vec)
+double	vec_length(t_vec_f vec)
 {
 	return (sqrt((vec.x * vec.x) + (vec.y * vec.y)));
 }
@@ -52,14 +52,14 @@ t_vec_f vec_to_float(t_vec vec)
 	return (float_vec);
 }
 
-t_vec_f	vec_divide(t_vec_f vec, float denominator)
+t_vec_f	vec_divide(t_vec_f vec, double denominator)
 {
 	vec.x = vec.x / denominator;
 	vec.y = vec.y / denominator;
 	return (vec);
 }
 
-t_vec vec_divide_int(t_vec vec, float denominator)
+t_vec vec_divide_int(t_vec vec, double denominator)
 {
 	if (denominator == 2)
 	{

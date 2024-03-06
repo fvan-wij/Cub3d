@@ -6,38 +6,27 @@
 #include <math.h>
 #include <cbd_render.h>
 
-void	draw_player(char **map, mlx_image_t *img, t_vec_f pos, t_vec_f dir, float scalar)
+void	draw_player(char **map, mlx_image_t *img, t_player p)
 {
 	t_vec	size;
-	t_vec	p;
-	t_vec	d;
 
 	size.x = TILESIZE>>3;
 	size.y = TILESIZE>>3;
 	(void) map;
-	(void) scalar;
 
-	t_vec intersect = cast_ray(map, vec_to_int(pos), dir);
-	intersect.x = intersect.x * TILESIZE;
-	intersect.y = intersect.y * TILESIZE;
-	// draw_line(img, BLUE, p, d);
-	p.x = pos.x * TILESIZE;
-	p.y = pos.y * TILESIZE;
-	draw_line(img, RED, p, intersect);
-	d.x = (pos.x + (scalar * dir.x)) * TILESIZE;
-	d.y = (pos.y + (scalar * dir.y)) * TILESIZE;
-	if (pos.x <= WIDTH && pos.x >= 0 && pos.y <= HEIGHT && pos.y >= 0)
+	t_vec_f inter = cast_ray(map, p);
+	p.dir.x = (p.pos.x + p.dir.x) * TILESIZE;
+	p.dir.y = (p.pos.y + p.dir.y) * TILESIZE;
+	if (p.pos.x <= WIDTH && p.pos.x >= 0 && p.pos.y <= HEIGHT && p.pos.y >= 0)
 	{
-		pos.x = pos.x * TILESIZE;
-		pos.y = pos.y * TILESIZE;
-		draw_circle(img, BLUE, vec_to_int(pos), size);
+		p.pos.x = p.pos.x * TILESIZE;
+		p.pos.y = p.pos.y * TILESIZE;
+		draw_circle(img, BLUE, vec_to_int(p.pos), size);
+		// draw_line(img, BLUE, vec_to_int(p.pos), vec_to_int(p.dir));
+
+		if (inter.x <= WIDTH && inter.x >= 0 && inter.y <= HEIGHT && inter.y >= 0)
+			draw_line(img, BLUE, vec_to_int(p.pos), vec_to_int(inter));
 	}
-	(void) d;
-	// t_vec intersect = cast_ray(map, vec_to_int(pos), dir);
-	// intersect.x = intersect.x * TILESIZE;
-	// intersect.y = intersect.y * TILESIZE;
-	// draw_line(img, BLUE, p, d);
-	draw_line(img, RED, p, intersect);
 }
 
 void	draw_grid(t_app *cbd, int width, int height)
@@ -69,6 +58,6 @@ void	draw_grid(t_app *cbd, int width, int height)
 		}
 		i++;
 	}
-	draw_player(cbd->mapdata->cbd_map, cbd->game, cbd->playerdata.pos, cbd->playerdata.dir, cbd->playerdata.scalar);
+	draw_player(cbd->mapdata->cbd_map, cbd->game, cbd->playerdata);
 	printf("pos(%f, %f), dir(%f, %f)\n", cbd->playerdata.pos.x,cbd->playerdata.pos.y, cbd->playerdata.dir.x,cbd->playerdata.dir.y);
 }
