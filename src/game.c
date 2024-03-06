@@ -6,6 +6,7 @@
 #include <math.h>
 #include <cbd_render.h>
 
+
 void	move_player(void *param)
 {
 	t_app *cbd;

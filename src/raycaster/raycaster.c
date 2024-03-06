@@ -18,7 +18,7 @@ long	absolute(long value)
 t_ray	cast_ray(char **map, t_player p, int x)
 {
 	t_ray	ray;
-	double camera_x = 2 * x / (double) 30 - 1;
+	double camera_x = 2 * x / (double) FOV - 1;
 	// printf("Camera_x: %f\n", camera_x);
 	t_vec	vec_map;
 	t_vec_f side_dist;
@@ -84,6 +84,7 @@ t_ray	cast_ray(char **map, t_player p, int x)
 
 	// t_vec_f	intersection;
 
+	ray.side = side;
 	ray.wall_dist = perp_wall_dist;
 	ray.intersection.x = (p.pos.x + (ray.dir.x * perp_wall_dist)) * TILESIZE; 
 	ray.intersection.y = (p.pos.y + (ray.dir.y * perp_wall_dist)) * TILESIZE;

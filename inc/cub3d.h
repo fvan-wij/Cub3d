@@ -3,7 +3,6 @@
 
 # include <MLX42.h>
 # include <libft.h>
-# include <stddef.h>
 
 # define SUCCESS 0
 # define FAILURE 1
@@ -11,7 +10,7 @@
 # define WIDTH 1280
 # define HEIGHT 720
 
-# define FOV 60
+# define FOV 120
 
 typedef struct 	s_vec {
 	int	x;
@@ -88,6 +87,7 @@ typedef struct s_ray {
 	t_vec_f	dir;
 	t_vec_f intersection;
 	double	wall_dist;
+	uint8_t	side;
 } t_ray;
 
 typedef struct s_player {
