@@ -14,10 +14,10 @@ long	absolute(long value)
 	return (value);
 }
 
-t_vec_f	cast_ray(char **map, t_player p)
+t_vec_f	cast_ray(char **map, t_player p, int x)
 {
-	// const double camera_x = -1;
-	const double camera_x = 0;
+	double camera_x = 2 * x / (double) 30 - 1;
+	printf("Camera_x: %f\n", camera_x);
 	t_vec	vec_map;
 	t_vec_f side_dist;
 	t_vec_f	delta_dist;
@@ -32,12 +32,10 @@ t_vec_f	cast_ray(char **map, t_player p)
 
 	p.rays[0].ray_dir.x = p.dir.x + p.plane.x * camera_x;
 	p.rays[0].ray_dir.y = p.dir.y + p.plane.y * camera_x;
+	printf("ray_dir(%f, %f)\n", p.rays[0].ray_dir.x, p.rays[0].ray_dir.y);
 
 	delta_dist.x = (p.rays[0].ray_dir.x == 0) ? 1e30 : fabs(1 / p.rays[0].ray_dir.x);
 	delta_dist.y = (p.rays[0].ray_dir.y == 0) ? 1e30 : fabs(1 / p.rays[0].ray_dir.y);
-
-	// delta_dist.x = fabs(1 / p.rays[0].ray_dir.x);
-	// delta_dist.y = fabs(1 / p.rays[0].ray_dir.y);
 
 	if (p.rays[0].ray_dir.x < 0)
 	{
@@ -85,9 +83,9 @@ t_vec_f	cast_ray(char **map, t_player p)
 
 	t_vec_f	intersection;
 
-
-	intersection.x = (p.pos.x + (p.dir.x * perp_wall_dist)) * TILESIZE; 
-	intersection.y = (p.pos.y + (p.dir.y * perp_wall_dist)) * TILESIZE;
+	intersection.x = (p.pos.x + (p.rays[0].ray_dir.x * perp_wall_dist)) * TILESIZE; 
+	intersection.y = (p.pos.y + (p.rays[0].ray_dir.y * perp_wall_dist)) * TILESIZE;
+	printf("intersection(%f, %f)\n", intersection.x, intersection.y);
 
 	return (intersection);
 }

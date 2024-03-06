@@ -50,8 +50,7 @@ typedef union s_rgba
 		uint8_t	b;
 		uint8_t	g;
 		uint8_t	r;
-	};
-}	t_rgba;
+	}; }	t_rgba;
 
 typedef enum e_tex {
 	NO,
@@ -84,6 +83,7 @@ typedef enum e_state {
 
 typedef struct s_ray {
 	t_vec_f	ray_dir;
+	double	wall_dist;
 } t_ray;
 
 typedef struct s_player {
@@ -91,7 +91,7 @@ typedef struct s_player {
 	t_vec_f	dir;
 	t_vec_f	plane;
 	float	scalar;
-	t_ray	rays[30];
+	t_ray	rays[0];
 }	t_player;
 
 typedef struct s_map {
@@ -135,7 +135,7 @@ t_menu 	*cbd_init_menu(mlx_t *mlx);
 void	draw_grid(t_app *cbd, int width, int height);
 
 //		Raycaster
-t_vec_f	cast_ray(char **map, t_player p);
+t_vec_f	cast_ray(char **map, t_player p, int x);
 
 //		Shapes
 void	draw_line(mlx_image_t *image, uint32_t color, t_vec p1, t_vec p2);

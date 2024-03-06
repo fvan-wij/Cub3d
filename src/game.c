@@ -38,9 +38,15 @@ void	move_player(void *param)
 			cbd->playerdata.pos.y -= cbd->playerdata.dir.y * move_speed;
 	}
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_RIGHT) && cbd->playerdata.pos.x <= cbd->mapdata->width)
+	{
 		vec_rotate(&cbd->playerdata.dir, cbd->mlx->delta_time * 3);
+		vec_rotate(&cbd->playerdata.plane, cbd->mlx->delta_time * 3);
+	}
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_LEFT) && cbd->playerdata.pos.x >= 0)
+	{
 		vec_rotate(&cbd->playerdata.dir, -cbd->mlx->delta_time * 3);
+		vec_rotate(&cbd->playerdata.plane, -cbd->mlx->delta_time * 3);
+	}
 	draw_grid(cbd, cbd->mapdata->width, cbd->mapdata->height);
 }
 
