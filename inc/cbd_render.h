@@ -9,6 +9,6 @@
 
 #define TILES 		(16 + 16)
 #define TILESIZE 	WIDTH / TILES
-#define FOV			30
+#define FOV			60
 
 #endif //CBD_RENDER_H
