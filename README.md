@@ -29,5 +29,7 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 *Raycaster*
 
 - [ ] consider writing the raycaster in a dynamic structure so that it can be used for multiple purposes
-- [ ] draw a 2d representation of the map
-- [ ] cast vertical and horizontal ray and determine distance between player and wall
+- [x] draw a 2d representation of the map
+- [x] cast vertical and horizontal ray and determine distance between player and wall
+- [x] implement circle-wall collision detection
+- [ ] fix bug where circle-wall collision doesn't work for 45 degree angle at corner

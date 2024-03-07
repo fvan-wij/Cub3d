@@ -136,21 +136,27 @@ void	navigate_menu(mlx_key_data_t keydata, void *param);
 t_menu 	*cbd_init_menu(mlx_t *mlx);
 
 // 		Rendering
-void	draw_grid(t_app *cbd, int width, int height);
+void	draw_map(t_app *cbd, int width, int height);
+void	draw_walls(mlx_image_t *img, t_ray rays[FOV]);
+void	draw_player(char **map, mlx_image_t *img, t_player p);
+void	cbd_render(t_app *cbd);
 
 //		Raycaster
 t_ray	cast_ray(char **map, t_player p, int x);
-// t_vec_f	cast_ray(char **map, t_player p, int x);
-// t_ray	cast_ray(char **map, t_player p, t_ray ray);
+void	cast_rays(char **map, t_player *p);
 
 //		Shapes
+void	draw_background(mlx_image_t *img, int32_t color);
 void	draw_line(mlx_image_t *image, uint32_t color, t_vec p1, t_vec p2);
 void	draw_square(mlx_image_t *image, uint32_t color, t_vec pos, t_vec dimension);
-void	draw_circle(mlx_image_t *image, uint32_t color, t_vec pos, t_vec size);
+// void	draw_circle(mlx_image_t *image, uint32_t color, t_vec pos, t_vec size);
+void	draw_circle(mlx_image_t *image, uint32_t color, t_vec pos, float r);
 
 //		Game
 bool	cbd_main(t_app *cbd);
 bool	cbd_init(t_app *cbd);
+
+//		Interaction
 void	move_player(void *param);
 
 //		Vectors
@@ -162,5 +168,10 @@ t_vec_f	vec_to_float(t_vec vec);
 double	vec_length(t_vec_f vec);
 t_vec_f	vec_divide(t_vec_f vec, double denominator);
 t_vec 	vec_divide_int(t_vec vec, double denominator);
+t_vec_f vec_min(t_vec_f a, t_vec_f b);
+t_vec_f vec_max(t_vec_f a, t_vec_f b);
+t_vec_f vec_sub(t_vec_f a, t_vec_f b);
+t_vec_f vec_add(t_vec_f a, t_vec_f b);
+t_vec_f vec_mult(t_vec_f a, float scalar);
 
 #endif //CUB3D_H

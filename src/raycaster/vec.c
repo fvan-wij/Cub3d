@@ -71,3 +71,44 @@ t_vec vec_divide_int(t_vec vec, double denominator)
 	vec.y = vec.y / denominator;
 	return (vec);
 }
+
+t_vec_f vec_min(t_vec_f a, t_vec_f b) 
+{
+    t_vec_f result;
+    result.x = (a.x < b.x) ? a.x : b.x;
+    result.y = (a.y < b.y) ? a.y : b.y;
+    return result;
+}
+
+t_vec_f vec_max(t_vec_f a, t_vec_f b) 
+{
+    t_vec_f result;
+    result.x = (a.x > b.x) ? a.x : b.x;
+    result.y = (a.y > b.y) ? a.y : b.y;
+    return result;
+}
+
+t_vec_f vec_sub(t_vec_f a, t_vec_f b) 
+{
+    t_vec_f result;
+    result.x = a.x - b.x;
+    result.y = a.y - b.y;
+    return result;
+}
+
+t_vec_f vec_add(t_vec_f a, t_vec_f b) 
+{
+    t_vec_f result;
+    result.x = a.x + b.x;
+    result.y = a.y + b.y;
+    return result;
+}
+
+t_vec_f vec_mult(t_vec_f a, float scalar)
+{
+	t_vec_f result;
+
+	result.x = a.x * scalar;
+	result.y = a.y * scalar;
+	return (result);
+}

@@ -2,13 +2,6 @@
 #include <cub3d.h>
 #include <stdlib.h>
 
-
-void	draw_pixel(mlx_image_t *image, int x, int y, uint32_t color)
-{
-	if ((x >= 0 && x < WIDTH) && (y >= 0 && y < HEIGHT))
-		mlx_put_pixel(image, x, y, color);
-}
-
 static int	sign_x(int x1, int x2)
 {
 	if (x1 < x2)
@@ -28,7 +21,8 @@ static void	draw_bresenham_line(mlx_image_t *image,
 {
 	while (bh.cx != l.x2 || bh.cy != l.y2)
 	{
-		draw_pixel(image, bh.cx, bh.cy, color);
+		if ((bh.cx >= 0 && bh.cx < WIDTH) && (bh.cy >= 0 && bh.cy < HEIGHT))
+			mlx_put_pixel(image, bh.cx, bh.cy, color);
 		bh.error[1] = bh.error[0] * 2;
 		if (bh.error[1] > (-bh.dy))
 		{

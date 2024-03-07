@@ -22,9 +22,8 @@ void	draw_square(mlx_image_t *image, uint32_t color, t_vec pos, t_vec dimension)
 	}
 }
 
-void	draw_circle(mlx_image_t *image, uint32_t color, t_vec pos, t_vec size)
+void	draw_circle(mlx_image_t *image, uint32_t color, t_vec pos, float r)
 {
-	const int	vec_len = vec_length(vec_to_float(size));
 	int 		angle;
 	int 		inner;
 	t_vec 		loc;
@@ -33,7 +32,7 @@ void	draw_circle(mlx_image_t *image, uint32_t color, t_vec pos, t_vec size)
 	while (angle < 360)
 	{
 		inner = 0;
-		while (inner < vec_len)
+		while (inner < r)
 		{
 			loc.x = inner * cos(angle) + pos.x;
 			loc.y = inner * sin(angle) + pos.y;
