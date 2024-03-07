@@ -7,14 +7,6 @@
 #include <math.h>
 #include <cbd_render.h>
 
-long	absolute(long value)
-{
-	if (value < 0)
-		return (-value);
-	return (value);
-}
-
-
 t_ray	cast_ray(char **map, t_player p, int x)
 {
 	t_ray	ray;
@@ -91,3 +83,16 @@ t_ray	cast_ray(char **map, t_player p, int x)
 
 	return (ray);
 }
+
+void	cast_rays(char **map, t_player *p)
+{
+	int		i;
+
+	i = 0;
+	while (i < FOV)
+	{
+		p->rays[i] = cast_ray(map, *p, i);
+		i++;
+	}
+}
+

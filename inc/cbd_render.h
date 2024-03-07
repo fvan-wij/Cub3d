@@ -7,7 +7,8 @@
 #define GREEN 		0x00FF00FF
 #define BLUE 		0x0000FFFF
 
-#define TILES 		(16 + 16)
+#define TILES 		(64 + 64)
 #define TILESIZE 	WIDTH / TILES
+#define	MAPSIZE		WIDTH - (TILESIZE * 16)
 
 #endif //CBD_RENDER_H

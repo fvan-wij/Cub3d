@@ -7,8 +7,9 @@ HEADERS	:= -I ./inc -I $(LIBMLX)/include/MLX42 -I $(LIBFT)
 LIBS	:= $(LIBMLX)/build/libmlx42.a $(LIBFT)/libft.a -ldl -lglfw -pthread -lm
 SRCS	:= \
 		   main.c 				\
-		   game.c				\
-		   cbd_init.c			\
+		   cbd_main.c			\
+		   cbd_render.c			\
+		   interaction.c		\
 		   error/error.c 		\
 		   parser/parser.c 		\
 		   parser/init.c 		\

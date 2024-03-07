@@ -1,12 +1,9 @@
 #include <cub3d.h>
-#include <cbd_parser.h>
 #include <cbd_error.h>
 #include <libft.h>
 #include <MLX42.h>
-
 #include <stdio.h>
-
-// void set_player
+#include <cbd_render.h>
 
 bool cbd_init(t_app *cbd)
 {
@@ -38,5 +35,17 @@ bool cbd_init(t_app *cbd)
 	mlx_key_hook(cbd->mlx, navigate_menu, cbd);
 	mlx_loop_hook(cbd->mlx, move_player, cbd);
 	printf("test\n");
+	return (SUCCESS);
+}
+
+bool	cbd_main(t_app *cbd)
+{
+	printf("Init\n");
+	if (cbd_init(cbd))
+		return (FAILURE);
+	printf("Init success\n");
+	mlx_loop(cbd->mlx);
+	mlx_terminate(cbd->mlx);
+	cleanup(cbd);
 	return (SUCCESS);
 }
