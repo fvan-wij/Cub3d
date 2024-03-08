@@ -21,7 +21,7 @@ void	draw_player(char **map, mlx_image_t *img, t_player p)
 	i = 0;
 	t_vec_f world_dir = vec_assign((p.pos.x + p.dir.x) * TILESIZE, (p.pos.y + p.dir.y) * TILESIZE);
 	t_vec_f world_pos = vec_assign(p.pos.x * TILESIZE + MAPSIZE, p.pos.y * TILESIZE);
-	while (i < FOV)
+	while (i < WIDTH)
 	{
 		p.rays[i] = cast_ray(map, p, i);
 		if (p.rays[i].intersection.x <= WIDTH && p.rays[i].intersection.x >= 0 && p.rays[i].intersection.y <= HEIGHT && p.rays[i].intersection.y >= 0)
@@ -38,38 +38,47 @@ void	draw_player(char **map, mlx_image_t *img, t_player p)
 	}
 }
 
-void	draw_walls(mlx_image_t *img, t_ray rays[FOV])
+void	draw_wall_strip(t_app *cbd,
+	uint32_t color, int height, int x)
+{
+	int y;
+	int draw_start;
+	int draw_end;
+
+	draw_start = (-height / 2) + (HEIGHT / 2);
+	draw_end = (height / 2) + (HEIGHT / 2);
+	if (draw_start < 0)
+		draw_start = 0;
+	if (draw_end >= HEIGHT)
+		draw_end = HEIGHT - 1;
+	y = draw_start;
+	while (y < height + draw_start)
+	{
+		if (y >= draw_start && y <= draw_end)
+			mlx_put_pixel(cbd->game, x, y + (cbd->playerdata.headbob * 10), color);
+		y++;
+	}
+}
+
+void	draw_walls(t_app *cbd, t_ray *rays)
 {
 	int x;
-(void) img;	
 	x = 0;
-	int step = WIDTH / FOV;
-	while (x < FOV)
+	while (x < WIDTH)
 	{
 		int line_height = (int)(HEIGHT / rays[x].wall_dist);
-		int draw_start = (-line_height / 2) + (HEIGHT / 2);
-		int draw_end = (line_height / 2) + (HEIGHT / 2);
-		if (draw_start < 0)
-			draw_start = 0;
-		if (draw_end >= HEIGHT)
-			draw_end = HEIGHT - 1;
-		t_vec strip_start;
-		strip_start.x = x * step;
-		strip_start.y = draw_start;
-		t_vec strip_end;
-		strip_end.x = strip_start.x;
-		strip_end.y = draw_end;
 		// if (x == 0)
 		// 	printf("strip_start(%d, %d), strip_end(%d, %d)", strip_start.x, strip_start.y, strip_end.x, strip_end.y);
 		t_rgba c;
 		c.color = 0;
 		if (rays[x].side == 0)
-			c.color = BLUE + 25;
+			c.color = 0xffffffff;
 		else if (rays[x].side == 1)
-			c.color = BLUE;
-		if (strip_start.x >= 0 && strip_start.x <= WIDTH && strip_end.x >= 0 && strip_end.x <= WIDTH && strip_start.y >= 0 && strip_end.y <= HEIGHT)
-			draw_line(img, c.color, strip_start, strip_end);
-		x++;
+			c.color = 0xaaaaaaff;
+		draw_wall_strip(cbd, c.color, line_height, x);
+		x += 6;
+		// if (x % 2 == 0)
+		// 	x += 2;
 	}
 }
 
@@ -101,4 +110,3 @@ void	draw_map(t_app *cbd, int width, int height)
 	}
 	// printf("pos(%f, %f), dir(%f, %f), plane(%f, %f)\n", cbd->playerdata.pos.x,cbd->playerdata.pos.y, cbd->playerdata.dir.x,cbd->playerdata.dir.y, cbd->playerdata.plane.x ,cbd->playerdata.plane.y);
 }
-

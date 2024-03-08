@@ -18,15 +18,16 @@ t_vec_f	vec_assign(double x, double y)
 	return (new);
 }
 
-void	vec_rotate(t_vec_f *direction, double angle)
+t_vec_f	vec_rotate(t_vec_f direction, double angle)
 {
 	t_vec_f new;
 
-	new.x = (direction->x * cos(angle)) - (direction->y * sin(angle));
-	new.y = (direction->x * sin(angle)) + (direction->y * cos(angle));
+	new.x = (direction.x * cos(angle)) - (direction.y * sin(angle));
+	new.y = (direction.x * sin(angle)) + (direction.y * cos(angle));
 
-	direction->x = new.x;
-	direction->y = new.y;
+	direction.x = new.x;
+	direction.y = new.y;
+	return new;
 }
 
 double	vec_length(t_vec_f vec)
@@ -72,7 +73,7 @@ t_vec vec_divide_int(t_vec vec, double denominator)
 	return (vec);
 }
 
-t_vec_f vec_min(t_vec_f a, t_vec_f b) 
+t_vec_f vec_min(t_vec_f a, t_vec_f b)
 {
     t_vec_f result;
     result.x = (a.x < b.x) ? a.x : b.x;
@@ -80,7 +81,7 @@ t_vec_f vec_min(t_vec_f a, t_vec_f b)
     return result;
 }
 
-t_vec_f vec_max(t_vec_f a, t_vec_f b) 
+t_vec_f vec_max(t_vec_f a, t_vec_f b)
 {
     t_vec_f result;
     result.x = (a.x > b.x) ? a.x : b.x;
@@ -88,7 +89,7 @@ t_vec_f vec_max(t_vec_f a, t_vec_f b)
     return result;
 }
 
-t_vec_f vec_sub(t_vec_f a, t_vec_f b) 
+t_vec_f vec_sub(t_vec_f a, t_vec_f b)
 {
     t_vec_f result;
     result.x = a.x - b.x;
@@ -96,7 +97,7 @@ t_vec_f vec_sub(t_vec_f a, t_vec_f b)
     return result;
 }
 
-t_vec_f vec_add(t_vec_f a, t_vec_f b) 
+t_vec_f vec_add(t_vec_f a, t_vec_f b)
 {
     t_vec_f result;
     result.x = a.x + b.x;

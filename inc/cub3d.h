@@ -10,7 +10,7 @@
 # define WIDTH 1280
 # define HEIGHT 720
 
-# define FOV 120
+# define FOV 90
 
 typedef struct 	s_vec {
 	int	x;
@@ -95,7 +95,8 @@ typedef struct s_player {
 	t_vec_f	dir;
 	t_vec_f	plane;
 	float	scalar;
-	t_ray	rays[FOV];
+	float	headbob;
+	t_ray	rays[WIDTH];
 }	t_player;
 
 typedef struct s_map {
@@ -137,7 +138,7 @@ t_menu 	*cbd_init_menu(mlx_t *mlx);
 
 // 		Rendering
 void	draw_map(t_app *cbd, int width, int height);
-void	draw_walls(mlx_image_t *img, t_ray rays[FOV]);
+void	draw_walls(t_app *cbd, t_ray *rays);
 void	draw_player(char **map, mlx_image_t *img, t_player p);
 void	cbd_render(t_app *cbd);
 
@@ -162,7 +163,7 @@ void	move_player(void *param);
 //		Vectors
 void	vec_normalize(t_vec_f *vec);
 t_vec_f	vec_assign(double x, double y);
-void	vec_rotate(t_vec_f *direction, double angle);
+t_vec_f	vec_rotate(t_vec_f direction, double angle);
 t_vec	vec_to_int(t_vec_f vec);
 t_vec_f	vec_to_float(t_vec vec);
 double	vec_length(t_vec_f vec);

@@ -24,10 +24,10 @@ void	move_player(void *param)
 
 	t_vec_f potential_pos = pos;
 	t_vec_f local_pos = {pos.x - (int) pos.x, pos.y - (int) pos.y};
-	char U = cbd->mapdata->cbd_map[(int)pos.y - 1][(int)pos.x]; 
-	char R = cbd->mapdata->cbd_map[(int)pos.y][(int)pos.x + 1]; 
-	char D = cbd->mapdata->cbd_map[(int)pos.y + 1][(int)pos.x]; 
-	char L = cbd->mapdata->cbd_map[(int)pos.y][(int)pos.x - 1]; 
+	char U = cbd->mapdata->cbd_map[(int)pos.y - 1][(int)pos.x];
+	char R = cbd->mapdata->cbd_map[(int)pos.y][(int)pos.x + 1];
+	char D = cbd->mapdata->cbd_map[(int)pos.y + 1][(int)pos.x];
+	char L = cbd->mapdata->cbd_map[(int)pos.y][(int)pos.x - 1];
 
 	//Wipe screen
 
@@ -36,6 +36,7 @@ void	move_player(void *param)
 		float r = vec_length(dir) / 8; //Radius of circle
 		potential_pos.x = pos.x + dir.x * move_speed;
 		potential_pos.y = pos.y + dir.y * move_speed;
+		cbd->playerdata.headbob += cbd->mlx->delta_time;
 		if (local_pos.x <= 0.5 && L == '1')
 		{
 			float dl = local_pos.x;
@@ -77,10 +78,13 @@ void	move_player(void *param)
 			}
 		}
 	}
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_DOWN))
+	else if (mlx_is_key_down(cbd->mlx, MLX_KEY_DOWN))
 	{
 		potential_pos.x = pos.x - dir.x * move_speed;
 		potential_pos.y = pos.y - dir.y * move_speed;
+		cbd->playerdata.headbob += cbd->mlx->delta_time;
+		if (cbd->playerdata.headbob > 0.5)
+			cbd->playerdata.headbob = 0;
 		float r = vec_length(dir) / 8; //Radius of circle
 		if (local_pos.x <= 0.5 && L == '1')
 		{
@@ -124,17 +128,22 @@ void	move_player(void *param)
 			}
 		}
 	}
+	else
+	{
+		cbd->playerdata.headbob -= cbd->mlx->delta_time;
+		if (cbd->playerdata.headbob < 0)
+			cbd->playerdata.headbob = 0;
+	}
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_RIGHT) && cbd->playerdata.pos.x <= cbd->mapdata->width)
 	{
-		vec_rotate(&cbd->playerdata.dir, -cbd->mlx->delta_time * 3);
-		vec_rotate(&cbd->playerdata.plane, -cbd->mlx->delta_time * 3);
+		cbd->playerdata.dir = vec_rotate(cbd->playerdata.dir, cbd->mlx->delta_time * 3);
+		cbd->playerdata.plane = vec_rotate(cbd->playerdata.plane, cbd->mlx->delta_time * 3);
 	}
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_LEFT) && cbd->playerdata.pos.x >= 0)
 	{
-		vec_rotate(&cbd->playerdata.dir, cbd->mlx->delta_time * 3);
-		vec_rotate(&cbd->playerdata.plane, cbd->mlx->delta_time * 3);
+		cbd->playerdata.dir = vec_rotate(cbd->playerdata.dir, -cbd->mlx->delta_time * 3);
+		cbd->playerdata.plane = vec_rotate(cbd->playerdata.plane, -cbd->mlx->delta_time * 3);
 	}
 	cbd->playerdata.pos = potential_pos;
 	cbd_render(cbd);
 }
-

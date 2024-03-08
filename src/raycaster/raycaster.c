@@ -10,8 +10,7 @@
 t_ray	cast_ray(char **map, t_player p, int x)
 {
 	t_ray	ray;
-	double camera_x = 2 * x / (double) FOV - 1;
-	// printf("Camera_x: %f\n", camera_x);
+	double camera_x = (double)(2.0 * x / WIDTH) - 1;
 	t_vec	vec_map;
 	t_vec_f side_dist;
 	t_vec_f	delta_dist;
@@ -23,8 +22,8 @@ t_ray	cast_ray(char **map, t_player p, int x)
 	vec_map.x = (int)p.pos.x;
 	vec_map.y = (int)p.pos.y;
 
-	ray.dir.x = p.dir.x + p.plane.x * camera_x;
-	ray.dir.y = p.dir.y + p.plane.y * camera_x;
+	ray.dir.x = p.dir.x + (p.plane.x * camera_x);
+	ray.dir.y = p.dir.y + (p.plane.y * camera_x);
 	// printf("ray_dir(%f, %f)\n", ray.dir.x, ray.dir.y);
 
 	delta_dist.x = (ray.dir.x == 0) ? 1e30 : fabs(1 / ray.dir.x);
@@ -35,7 +34,7 @@ t_ray	cast_ray(char **map, t_player p, int x)
 		step.x = -1;
 		side_dist.x = (p.pos.x - vec_map.x) * delta_dist.x;
 	}
-	else 
+	else
 	{
 		step.x = 1;
 		side_dist.x = (vec_map.x + 1.0 - p.pos.x) * delta_dist.x;
@@ -45,9 +44,9 @@ t_ray	cast_ray(char **map, t_player p, int x)
 		step.y = -1;
 		side_dist.y = (p.pos.y - vec_map.y) * delta_dist.y;
 	}
-	else 
+	else
 	{
-		step.y = 1;	
+		step.y = 1;
 		side_dist.y = (vec_map.y + 1.0 - p.pos.y) * delta_dist.y;
 	}
 
@@ -59,7 +58,7 @@ t_ray	cast_ray(char **map, t_player p, int x)
 			vec_map.x += step.x;
 			side = 0;
 		}
-		else 
+		else
 		{
 			side_dist.y += delta_dist.y;
 			vec_map.y += step.y;
@@ -71,14 +70,14 @@ t_ray	cast_ray(char **map, t_player p, int x)
 	}
 	if (side == 0)
 		perp_wall_dist = (side_dist.x - delta_dist.x);
-	else 
+	else
 		perp_wall_dist = (side_dist.y - delta_dist.y);
 
 	// t_vec_f	intersection;
 
 	ray.side = side;
 	ray.wall_dist = perp_wall_dist;
-	ray.intersection.x = (p.pos.x + (ray.dir.x * perp_wall_dist)) * TILESIZE; 
+	ray.intersection.x = (p.pos.x + (ray.dir.x * perp_wall_dist)) * TILESIZE;
 	ray.intersection.y = (p.pos.y + (ray.dir.y * perp_wall_dist)) * TILESIZE;
 
 	return (ray);
@@ -89,10 +88,9 @@ void	cast_rays(char **map, t_player *p)
 	int		i;
 
 	i = 0;
-	while (i < FOV)
+	while (i < WIDTH)
 	{
 		p->rays[i] = cast_ray(map, *p, i);
 		i++;
 	}
 }
-

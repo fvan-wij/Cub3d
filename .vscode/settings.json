@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "*.js": "javascript",
-        "cub3d.h": "c"
-    }
+        "cub3d.h": "c",
+        "cbd_render.h": "c"
+    },
+    "workbench.iconTheme": "vs-seti"
 }

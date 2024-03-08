@@ -4,6 +4,7 @@
 #include <MLX42.h>
 #include <stdio.h>
 #include <cbd_render.h>
+#include <math.h>
 
 bool cbd_init(t_app *cbd)
 {
@@ -13,7 +14,7 @@ bool cbd_init(t_app *cbd)
 
 	cbd->playerdata.dir = cbd->mapdata->start_dir;
 	cbd->playerdata.scalar = 1;
-	cbd->playerdata.plane = vec_assign(0.0f, 0.88f);
+	cbd->playerdata.plane = vec_rotate(cbd->playerdata.dir, M_PI / 2);
 
 	//Init MLX
 	cbd->mlx = mlx_init(WIDTH, HEIGHT, "Telestein 3D", true);

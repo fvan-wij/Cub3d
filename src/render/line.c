@@ -1,6 +1,7 @@
 #include <MLX42.h>
 #include <cub3d.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 static int	sign_x(int x1, int x2)
 {
@@ -54,8 +55,11 @@ static void	draw_vert_line(mlx_image_t *image, uint32_t color, t_vec p1, t_vec p
 	y = p1.y;
 	while (y != p2.y)
 	{
-		mlx_put_pixel(image, p1.x, y, color);
-		y+=dir;
+		if ((p1.x >= 0 && p1.x < WIDTH) && (y >= 0 && y < HEIGHT))
+		{
+			mlx_put_pixel(image, p1.x, y, color);
+		}
+		y += dir;
 	}
 }
 
