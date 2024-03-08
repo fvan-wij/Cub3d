@@ -125,7 +125,8 @@ typedef struct s_menu {
 typedef struct s_hud {
 	enum e_hud_id {
 		HUD_MAP,
-		HUD_HANDS,
+		WPN_MAP,
+		WPN_FIST,
 		HUD_SIZE,
 	} t_hud_id;
 	mlx_image_t	*img[HUD_SIZE];

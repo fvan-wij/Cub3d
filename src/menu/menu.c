@@ -97,8 +97,10 @@ void	navigate_menu(mlx_key_data_t keydata, void *param)
 
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_M))
 	{
-		cbd->hud->img[HUD_HANDS]->enabled = !cbd->hud->img[HUD_HANDS]->enabled;
+		cbd->hud->img[WPN_MAP]->enabled = !cbd->hud->img[WPN_MAP]->enabled;
 		cbd->hud->img[HUD_MAP]->enabled = !cbd->hud->img[HUD_MAP]->enabled;
+
+		cbd->hud->img[WPN_FIST]->enabled = !cbd->hud->img[WPN_FIST]->enabled;
 	}
 }
 

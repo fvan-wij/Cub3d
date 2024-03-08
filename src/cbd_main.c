@@ -24,15 +24,23 @@ bool cbd_init(t_app *cbd)
 		return (FAILURE);
 
 	//Init game images
-	cbd->game = mlx_new_image(cbd->mlx, WIDTH, HEIGHT);
 	cbd->hud = malloc(sizeof(t_hud));
+	cbd->game = mlx_new_image(cbd->mlx, WIDTH, HEIGHT);
 	cbd->hud->img[HUD_MAP] = mlx_new_image(cbd->mlx, RADARW, RADARH);
-	mlx_texture_t *tex_hands;
-	tex_hands = mlx_load_png("data/textures/player/radar2.png");
-	cbd->hud->img[HUD_HANDS] = mlx_texture_to_image(cbd->mlx, tex_hands);
+
+	mlx_texture_t *tex_radar;
+	mlx_texture_t *tex_fist;
+	tex_radar = mlx_load_png("data/textures/player/radar2.png");
+	tex_fist = mlx_load_png("data/textures/player/hands2.png");
+	cbd->hud->img[WPN_MAP] = mlx_texture_to_image(cbd->mlx, tex_radar);
+	cbd->hud->img[WPN_FIST] = mlx_texture_to_image(cbd->mlx, tex_fist);
+
 	mlx_image_to_window(cbd->mlx, cbd->game, 0, 0);
 	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_MAP], (WIDTH>>1) - 90, HEIGHT/2 + 40);
-	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_HANDS], (WIDTH/2) - (cbd->hud->img[HUD_HANDS]->width / 2), HEIGHT - cbd->hud->img[HUD_HANDS]->height);
+	mlx_image_to_window(cbd->mlx, cbd->hud->img[WPN_MAP], (WIDTH/2) - (cbd->hud->img[WPN_MAP]->width / 2), HEIGHT - cbd->hud->img[WPN_MAP]->height);
+	cbd->hud->img[WPN_MAP]->enabled = false;
+	cbd->hud->img[HUD_MAP]->enabled = false;
+	mlx_image_to_window(cbd->mlx, cbd->hud->img[WPN_FIST], (WIDTH/2) - (cbd->hud->img[WPN_FIST]->width / 2), HEIGHT - (cbd->hud->img[WPN_FIST]->height>>1));
 	if (!cbd->game)
 		return (cbd_error(ERR_ALLOC), FAILURE);
 
