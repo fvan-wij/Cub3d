@@ -48,17 +48,24 @@ bool cbd_init(t_app *cbd)
 
 	mlx_texture_t *tex_radar;
 	mlx_texture_t *tex_fist;
+	mlx_texture_t *tex_saw;
 	tex_radar = mlx_load_png("data/textures/player/radar2.png");
 	tex_fist = mlx_load_png("data/textures/player/hands2.png");
+	tex_saw = mlx_load_png("data/textures/player/chainsaw.png");
 	cbd->hud->img[WPN_MAP] = mlx_texture_to_image(cbd->mlx, tex_radar);
 	cbd->hud->img[WPN_FIST] = mlx_texture_to_image(cbd->mlx, tex_fist);
+	cbd->hud->img[WPN_CHAINSAW] = mlx_texture_to_image(cbd->mlx, tex_saw);
 
 	mlx_image_to_window(cbd->mlx, cbd->game, 0, 0);
 	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_MAP], (WIDTH>>1) - 90, HEIGHT/2 + 40);
 	mlx_image_to_window(cbd->mlx, cbd->hud->img[WPN_MAP], (WIDTH/2) - (cbd->hud->img[WPN_MAP]->width / 2), HEIGHT - cbd->hud->img[WPN_MAP]->height);
-	cbd->hud->img[WPN_MAP]->enabled = false;
-	cbd->hud->img[HUD_MAP]->enabled = false;
 	mlx_image_to_window(cbd->mlx, cbd->hud->img[WPN_FIST], (WIDTH/2) - (cbd->hud->img[WPN_FIST]->width / 2), HEIGHT - (cbd->hud->img[WPN_FIST]->height>>1));
+	mlx_image_to_window(cbd->mlx, cbd->hud->img[WPN_CHAINSAW], (WIDTH/2) - (cbd->hud->img[WPN_CHAINSAW]->width / 2), HEIGHT - (cbd->hud->img[WPN_CHAINSAW]->height * 0.8));
+	// cbd->hud->img[HUD_MAP]->enabled = false;
+	// cbd->hud->img[WPN_MAP]->enabled = false;
+	// cbd->hud->img[WPN_FIST]->enabled = false;
+	// cbd->hud->img[WPN_CHAINSAW]->enabled = false;
+	cbd->hud->equipped = WPN_FIST;
 	if (!cbd->game)
 		return (cbd_error(ERR_ALLOC), FAILURE);
 

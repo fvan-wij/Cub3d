@@ -90,18 +90,13 @@ void	navigate_menu(mlx_key_data_t keydata, void *param)
 		cbd->game->instances->enabled = true;
 	}
 
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_0))
-		cbd->playerdata.scalar--;
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_9))
-		cbd->playerdata.scalar++;
-
+	if (mlx_is_key_down(cbd->mlx, MLX_KEY_1))
+		cbd->hud->equipped = WPN_FIST;
+	if (mlx_is_key_down(cbd->mlx, MLX_KEY_2))
+		cbd->hud->equipped = WPN_CHAINSAW;
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_M))
-	{
-		cbd->hud->img[WPN_MAP]->enabled = !cbd->hud->img[WPN_MAP]->enabled;
-		cbd->hud->img[HUD_MAP]->enabled = !cbd->hud->img[HUD_MAP]->enabled;
+		cbd->hud->equipped = WPN_MAP;
 
-		cbd->hud->img[WPN_FIST]->enabled = !cbd->hud->img[WPN_FIST]->enabled;
-	}
 }
 
 t_menu *cbd_init_menu(mlx_t *mlx)

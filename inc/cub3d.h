@@ -119,9 +119,11 @@ typedef struct s_hud {
 		HUD_MAP,
 		WPN_MAP,
 		WPN_FIST,
+		WPN_CHAINSAW,
 		HUD_SIZE,
 	} t_hud_id;
 	mlx_image_t	*img[HUD_SIZE];
+	int8_t equipped;
 } t_hud;
 
 typedef struct s_app {
