@@ -8,8 +8,8 @@
 
 void	draw_background(mlx_image_t *img, int32_t color)
 {
-	const t_vec init = {0, 0};
-	const t_vec screen = {WIDTH, HEIGHT};
+	const t_vec2i init = {0, 0};
+	const t_vec2i screen = {WIDTH, HEIGHT};
 
 	draw_square(img, color, init, screen);
 }
@@ -20,8 +20,8 @@ void	draw_player(char **map, mlx_image_t *img, t_player p)
 	int		i;
 
 	i = 0;
-	t_vec_f world_dir = vec_assign((p.pos.x + p.dir.x) * TILESIZE, (p.pos.y + p.dir.y) * TILESIZE);
-	t_vec_f world_pos = vec_assign(p.pos.x * TILESIZE, p.pos.y * TILESIZE);
+	t_vec2d world_dir = vec_assign((p.pos.x + p.dir.x) * TILESIZE, (p.pos.y + p.dir.y) * TILESIZE);
+	t_vec2d world_pos = vec_assign(p.pos.x * TILESIZE, p.pos.y * TILESIZE);
 	while (i < WIDTH)
 	{
 		p.rays[i] = cast_ray(map, p, i);
@@ -40,7 +40,7 @@ void	draw_player(char **map, mlx_image_t *img, t_player p)
 
 void	draw_map(t_app *cbd, int width, int height)
 {
-	t_vec p;
+	t_vec2i p;
 	int	i;
 	int	j;
 
@@ -54,7 +54,7 @@ void	draw_map(t_app *cbd, int width, int height)
 			p.y = (i * TILESIZE);
 			if (p.x <= WIDTH && p.x >= 0 && p.y <= HEIGHT && p.y >= 0)
 			{
-				t_vec size = {TILESIZE, TILESIZE};
+				t_vec2i size = {TILESIZE, TILESIZE};
 				if (cbd->mapdata->cbd_map[i][j] == '1')
 					draw_square(cbd->hud->img[HUD_MAP], color(200, 200, 200), p, size);
 				else

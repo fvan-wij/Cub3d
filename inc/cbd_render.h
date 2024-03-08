@@ -14,6 +14,13 @@
 #define RADARW		626
 #define RADARH		448
 
+typedef	struct s_particle {
+	double x;
+	double y;
+
+
+} t_particle;
+
 int32_t	color(uint8_t r, uint8_t g, uint8_t b);
 
 #endif //CBD_RENDER_H

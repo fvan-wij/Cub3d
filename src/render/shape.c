@@ -2,7 +2,7 @@
 #include <cub3d.h>
 #include <math.h>
 
-void	draw_square(mlx_image_t *image, uint32_t color, t_vec pos, t_vec dimension)
+void	draw_square(mlx_image_t *image, uint32_t color, t_vec2i pos, t_vec2i dimension)
 {
 	int reset;
 
@@ -22,11 +22,11 @@ void	draw_square(mlx_image_t *image, uint32_t color, t_vec pos, t_vec dimension)
 	}
 }
 
-void	draw_circle(mlx_image_t *image, uint32_t color, t_vec pos, float r)
+void	draw_circle(mlx_image_t *image, uint32_t color, t_vec2i pos, float r)
 {
 	int 		angle;
 	int 		inner;
-	t_vec 		loc;
+	t_vec2i 		loc;
 
 	angle = 0;
 	while (angle < 360)

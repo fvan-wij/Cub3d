@@ -15,8 +15,8 @@ void	move_player(void *param)
 	float move_speed = cbd->mlx->delta_time * 2;
 	float headbob_speed = cbd->mlx->delta_time * 10;
 
-	t_vec_f pos;
-	t_vec_f dir;
+	t_vec2d pos;
+	t_vec2d dir;
 
 	pos = vec_assign(cbd->playerdata.pos.x, cbd->playerdata.pos.y);
 	dir = vec_assign(cbd->playerdata.dir.x, cbd->playerdata.dir.y);
@@ -33,8 +33,8 @@ void	move_player(void *param)
 		cbd->playerdata.map_peak += cos(cbd->mlx->delta_time) * 2;
 
 
-	t_vec_f potential_pos = pos;
-	t_vec_f local_pos = {pos.x - (int) pos.x, pos.y - (int) pos.y};
+	t_vec2d potential_pos = pos;
+	t_vec2d local_pos = {pos.x - (int) pos.x, pos.y - (int) pos.y};
 	char U = cbd->mapdata->cbd_map[(int)pos.y - 1][(int)pos.x];
 	char R = cbd->mapdata->cbd_map[(int)pos.y][(int)pos.x + 1];
 	char D = cbd->mapdata->cbd_map[(int)pos.y + 1][(int)pos.x];

@@ -3,6 +3,7 @@
 
 # include <MLX42.h>
 # include <libft.h>
+# include <cbd_vec.h>
 
 # define SUCCESS 0
 # define FAILURE 1
@@ -11,16 +12,6 @@
 # define HEIGHT 720
 
 # define FOV 90
-
-typedef struct 	s_vec {
-	int	x;
-	int y;
-}	t_vec;
-
-typedef struct 	s_vec_f {
-	double	x;
-	double	y;
-}	t_vec_f;
 
 typedef struct s_bresenham
 {
@@ -85,16 +76,16 @@ typedef enum e_state {
 } t_state;
 
 typedef struct s_ray {
-	t_vec_f	dir;
-	t_vec_f intersection;
+	t_vec2d	dir;
+	t_vec2d intersection;
 	double	wall_dist;
 	uint8_t	side;
 } t_ray;
 
 typedef struct s_player {
-	t_vec_f pos;
-	t_vec_f	dir;
-	t_vec_f	plane;
+	t_vec2d pos;
+	t_vec2d	dir;
+	t_vec2d	plane;
 	float	scalar;
 	float	headbob;
 	float	map_peak;
@@ -108,8 +99,8 @@ typedef struct s_map {
 	mlx_texture_t	**cbd_tex;
 	t_rgba			floor;
 	t_rgba			ceiling;
-	t_vec_f			start_pos;
-	t_vec_f			start_dir;
+	t_vec2d			start_pos;
+	t_vec2d			start_dir;
 	int				width;
 	int				height;
 	bool			valid;
@@ -163,10 +154,10 @@ void	cast_rays(char **map, t_player *p);
 
 //		Shapes
 void	draw_background(mlx_image_t *img, int32_t color);
-void	draw_line(mlx_image_t *image, uint32_t color, t_vec p1, t_vec p2);
-void	draw_square(mlx_image_t *image, uint32_t color, t_vec pos, t_vec dimension);
-// void	draw_circle(mlx_image_t *image, uint32_t color, t_vec pos, t_vec size);
-void	draw_circle(mlx_image_t *image, uint32_t color, t_vec pos, float r);
+void	draw_line(mlx_image_t *image, uint32_t color, t_vec2i p1, t_vec2i p2);
+void	draw_square(mlx_image_t *image, uint32_t color, t_vec2i pos, t_vec2i dimension);
+// void	draw_circle(mlx_image_t *image, uint32_t color, t_vec2i pos, t_vec2i size);
+void	draw_circle(mlx_image_t *image, uint32_t color, t_vec2i pos, float r);
 
 //		Game
 bool	cbd_main(t_app *cbd);
@@ -175,19 +166,5 @@ bool	cbd_init(t_app *cbd);
 //		Interaction
 void	move_player(void *param);
 
-//		Vectors
-void	vec_normalize(t_vec_f *vec);
-t_vec_f	vec_assign(double x, double y);
-t_vec_f	vec_rotate(t_vec_f direction, double angle);
-t_vec	vec_to_int(t_vec_f vec);
-t_vec_f	vec_to_float(t_vec vec);
-double	vec_length(t_vec_f vec);
-t_vec_f	vec_divide(t_vec_f vec, double denominator);
-t_vec 	vec_divide_int(t_vec vec, double denominator);
-t_vec_f vec_min(t_vec_f a, t_vec_f b);
-t_vec_f vec_max(t_vec_f a, t_vec_f b);
-t_vec_f vec_sub(t_vec_f a, t_vec_f b);
-t_vec_f vec_add(t_vec_f a, t_vec_f b);
-t_vec_f vec_mult(t_vec_f a, float scalar);
 
 #endif //CUB3D_H

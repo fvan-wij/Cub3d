@@ -38,12 +38,12 @@ static void	draw_bresenham_line(mlx_image_t *image,
 	}
 }
 
-static bool	is_vertical(t_vec p1, t_vec p2)
+static bool	is_vertical(t_vec2i p1, t_vec2i p2)
 {
 	return (p1.x == p2.x);
 }
 
-static void	draw_vert_line(mlx_image_t *image, uint32_t color, t_vec p1, t_vec p2)
+static void	draw_vert_line(mlx_image_t *image, uint32_t color, t_vec2i p1, t_vec2i p2)
 {
 	int dir;
 	int y;
@@ -64,7 +64,7 @@ static void	draw_vert_line(mlx_image_t *image, uint32_t color, t_vec p1, t_vec p
 }
 
 void	draw_line(mlx_image_t *image,
-	uint32_t color, t_vec p1, t_vec p2)
+	uint32_t color, t_vec2i p1, t_vec2i p2)
 {
 	t_bresenham 	bh;
 	t_line 			l;

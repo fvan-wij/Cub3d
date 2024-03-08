@@ -11,11 +11,11 @@ t_ray	cast_ray(char **map, t_player p, int x)
 {
 	t_ray	ray;
 	double camera_x = (double)(2.0 * x / WIDTH) - 1;
-	t_vec	vec_map;
-	t_vec_f side_dist;
-	t_vec_f	delta_dist;
+	t_vec2i	vec_map;
+	t_vec2d side_dist;
+	t_vec2d	delta_dist;
 	double	perp_wall_dist;
-	t_vec	step;
+	t_vec2i	step;
 	bool	hit = false;
 	int		side;
 
@@ -73,7 +73,7 @@ t_ray	cast_ray(char **map, t_player p, int x)
 	else
 		perp_wall_dist = (side_dist.y - delta_dist.y);
 
-	// t_vec_f	intersection;
+	// t_vec2d	intersection;
 
 	ray.side = side;
 	ray.wall_dist = perp_wall_dist;
