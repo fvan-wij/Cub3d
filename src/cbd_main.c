@@ -24,13 +24,13 @@ bool cbd_init(t_app *cbd)
 	{
 		cbd->particles[i].dir.y = 1.0;
 		cbd->particles[i].p.x = i * step;
-		cbd->particles[i].p.y = ((float) rand() / RAND_MAX) * HEIGHT;
+		cbd->particles[i].p.y = ((float) rand() / (float)RAND_MAX) * HEIGHT;
 		if (cbd->particles[i].p.x < (WIDTH>>1))
 			cbd->particles[i].dir.x = -1.0;
 		else
 			cbd->particles[i].dir.x = 1.0;
 
-		cbd->particles[i].size.x = (float) rand() / RAND_MAX * 3;
+		cbd->particles[i].size.x = (float) rand() / (float)RAND_MAX * 3;
 		cbd->particles[i].size.y = cbd->particles[i].size.x;
 		cbd->particles[i].reset = cbd->particles[i].size;
 		i++;

@@ -115,12 +115,12 @@ void	draw_walls(t_app *cbd, t_ray *rays)
 
 void	draw_particles(t_app *cbd)
 {
-	int i; 
+	int i;
 
 	i = 0;
 	while (i < N_PARTICLES)
 	{
-		float y = ((float) rand() / RAND_MAX / 4);
+		float y = ((float) rand() / (float)RAND_MAX / 4);
 
 		cbd->particles[i].dir.y = y;
 		cbd->particles[i].p.x = cbd->particles[i].p.x + cbd->particles[i].dir.x * 2;

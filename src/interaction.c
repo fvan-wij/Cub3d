@@ -59,7 +59,7 @@ void	move_player(void *param)
 			if (cbd->particles[i].size.x < 0 || cbd->particles[i].size.y < 0)
 			{
 				cbd->particles[i].size = cbd->particles[i].reset;
-				cbd->particles[i].p = vec_assign((float) rand() / RAND_MAX * WIDTH, (float) rand() / RAND_MAX * HEIGHT);
+				cbd->particles[i].p = vec_assign((float) rand() / (float)RAND_MAX * WIDTH, (float) rand() / (float)RAND_MAX * HEIGHT);
 			}
 			i++;
 		}
