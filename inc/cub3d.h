@@ -123,6 +123,7 @@ typedef struct s_app {
 	t_menu		*menudata;
 	t_map		*mapdata;
 	mlx_image_t	*game;
+	mlx_image_t	*hud;
 	t_state		state;
 	mlx_t		*mlx;
 }	t_app;

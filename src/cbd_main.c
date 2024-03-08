@@ -23,7 +23,11 @@ bool cbd_init(t_app *cbd)
 
 	//Init game image
 	cbd->game = mlx_new_image(cbd->mlx, WIDTH, HEIGHT);
+	mlx_texture_t *tex_hands;
+	tex_hands = mlx_load_png("data/textures/player/hands.png");
+	cbd->hud = mlx_texture_to_image(cbd->mlx, tex_hands);
 	mlx_image_to_window(cbd->mlx, cbd->game, 0, 0);
+	mlx_image_to_window(cbd->mlx, cbd->hud, (WIDTH/2) - (cbd->hud->width / 2), HEIGHT - cbd->hud->height);
 	if (!cbd->game)
 		return (cbd_error(ERR_ALLOC), FAILURE);
 

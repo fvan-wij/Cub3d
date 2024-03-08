@@ -4,6 +4,7 @@
 #include <MLX42.h>
 #include <stdio.h>
 #include <cbd_render.h>
+#include <math.h>
 
 void	move_player(void *param)
 {
@@ -36,7 +37,9 @@ void	move_player(void *param)
 		float r = vec_length(dir) / 8; //Radius of circle
 		potential_pos.x = pos.x + dir.x * move_speed;
 		potential_pos.y = pos.y + dir.y * move_speed;
-		cbd->playerdata.headbob += cbd->mlx->delta_time;
+		cbd->playerdata.headbob += cbd->mlx->delta_time * 10;
+		if (cbd->playerdata.headbob > 2 * M_PI)
+			cbd->playerdata.headbob = 0;
 		if (local_pos.x <= 0.5 && L == '1')
 		{
 			float dl = local_pos.x;
@@ -82,8 +85,8 @@ void	move_player(void *param)
 	{
 		potential_pos.x = pos.x - dir.x * move_speed;
 		potential_pos.y = pos.y - dir.y * move_speed;
-		cbd->playerdata.headbob += cbd->mlx->delta_time;
-		if (cbd->playerdata.headbob > 0.5)
+		cbd->playerdata.headbob += cbd->mlx->delta_time * 10;
+		if (cbd->playerdata.headbob > 2 * M_PI)
 			cbd->playerdata.headbob = 0;
 		float r = vec_length(dir) / 8; //Radius of circle
 		if (local_pos.x <= 0.5 && L == '1')

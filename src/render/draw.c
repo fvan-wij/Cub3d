@@ -4,6 +4,7 @@
 #include <MLX42.h>
 #include <stdio.h>
 #include <cbd_render.h>
+#include <math.h>
 
 void	draw_background(mlx_image_t *img, int32_t color)
 {
@@ -47,6 +48,8 @@ void	draw_wall_strip(t_app *cbd,
 
 	draw_start = (-height / 2) + (HEIGHT / 2);
 	draw_end = (height / 2) + (HEIGHT / 2);
+	draw_start += (sin(cbd->playerdata.headbob) * 10);
+	draw_end += (sin(cbd->playerdata.headbob) * 10);
 	if (draw_start < 0)
 		draw_start = 0;
 	if (draw_end >= HEIGHT)
@@ -55,7 +58,7 @@ void	draw_wall_strip(t_app *cbd,
 	while (y < height + draw_start)
 	{
 		if (y >= draw_start && y <= draw_end)
-			mlx_put_pixel(cbd->game, x, y + (cbd->playerdata.headbob * 10), color);
+			mlx_put_pixel(cbd->game, x, y, color);
 		y++;
 	}
 }
