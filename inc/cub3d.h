@@ -4,6 +4,7 @@
 # include <MLX42.h>
 # include <libft.h>
 # include <cbd_vec.h>
+# include <cbd_render.h>
 
 # define SUCCESS 0
 # define FAILURE 1
@@ -124,6 +125,7 @@ typedef struct s_hud {
 } t_hud;
 
 typedef struct s_app {
+	t_particle 	particles[N_PARTICLES];
 	t_player 	playerdata;
 	t_menu		*menudata;
 	t_map		*mapdata;
@@ -146,6 +148,7 @@ t_menu 	*cbd_init_menu(mlx_t *mlx);
 void	draw_map(t_app *cbd, int width, int height);
 void	draw_walls(t_app *cbd, t_ray *rays);
 void	draw_player(char **map, mlx_image_t *img, t_player p);
+void	draw_particles(t_app *cbd);
 void	cbd_render(t_app *cbd);
 
 //		Raycaster
@@ -156,7 +159,6 @@ void	cast_rays(char **map, t_player *p);
 void	draw_background(mlx_image_t *img, int32_t color);
 void	draw_line(mlx_image_t *image, uint32_t color, t_vec2i p1, t_vec2i p2);
 void	draw_square(mlx_image_t *image, uint32_t color, t_vec2i pos, t_vec2i dimension);
-// void	draw_circle(mlx_image_t *image, uint32_t color, t_vec2i pos, t_vec2i size);
 void	draw_circle(mlx_image_t *image, uint32_t color, t_vec2i pos, float r);
 
 //		Game

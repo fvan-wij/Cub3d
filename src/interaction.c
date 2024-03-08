@@ -3,7 +3,7 @@
 #include <libft.h>
 #include <MLX42.h>
 #include <stdio.h>
-#include <cbd_render.h>
+#include <stdlib.h>
 #include <math.h>
 
 void	move_player(void *param)
@@ -45,8 +45,24 @@ void	move_player(void *param)
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_UP))
 	{
 		float r = vec_length(dir) / 8; //Radius of circle
-
-
+		int i = 0;
+		while (i < N_PARTICLES)
+		{
+			if (cbd->particles[i].p.x < (WIDTH>>1))
+				cbd->particles[i].dir.x = -1.0;
+			else
+				cbd->particles[i].dir.x = 1.0;
+			cbd->particles[i].size.x -= 0.05;
+			cbd->particles[i].size.y -= 0.05;
+			cbd->particles[i].p.y -= 3;
+			cbd->particles[i].p.x += cbd->particles[i].dir.x * 5;
+			if (cbd->particles[i].size.x < 0 || cbd->particles[i].size.y < 0)
+			{
+				cbd->particles[i].size = cbd->particles[i].reset;
+				cbd->particles[i].p = vec_assign((float) rand() / RAND_MAX * WIDTH, (float) rand() / RAND_MAX * HEIGHT);
+			}
+			i++;
+		}
 		potential_pos.x = pos.x + dir.x * move_speed;
 		potential_pos.y = pos.y + dir.y * move_speed;
 		cbd->playerdata.headbob += headbob_speed;
@@ -101,6 +117,7 @@ void	move_player(void *param)
 		if (cbd->playerdata.headbob > 2 * M_PI)
 			cbd->playerdata.headbob = 0;
 		float r = vec_length(dir) / 8; //Radius of circle
+
 		if (local_pos.x <= 0.5 && L == '1')
 		{
 			float dl = local_pos.x;
@@ -151,11 +168,24 @@ void	move_player(void *param)
 	}
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_RIGHT) && cbd->playerdata.pos.x <= cbd->mapdata->width)
 	{
+		int i = 0;
+		while (i < N_PARTICLES)
+		{
+			cbd->particles[i].p.x -= pos.x;
+			i++;
+		}
 		cbd->playerdata.dir = vec_rotate(cbd->playerdata.dir, cbd->mlx->delta_time * 3);
 		cbd->playerdata.plane = vec_rotate(cbd->playerdata.plane, cbd->mlx->delta_time * 3);
 	}
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_LEFT) && cbd->playerdata.pos.x >= 0)
 	{
+		int i = 0;
+		while (i < N_PARTICLES)
+		{
+			cbd->particles[i].p.x += pos.x;
+			i++;
+		}
+
 		cbd->playerdata.dir = vec_rotate(cbd->playerdata.dir, -cbd->mlx->delta_time * 3);
 		cbd->playerdata.plane = vec_rotate(cbd->playerdata.plane, -cbd->mlx->delta_time * 3);
 	}

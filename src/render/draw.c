@@ -3,8 +3,8 @@
 #include <libft.h>
 #include <MLX42.h>
 #include <stdio.h>
-#include <cbd_render.h>
 #include <math.h>
+#include <stdlib.h>
 
 void	draw_background(mlx_image_t *img, int32_t color)
 {
@@ -110,5 +110,31 @@ void	draw_walls(t_app *cbd, t_ray *rays)
 		x += 6;
 		// if (x % 2 == 0)
 		// 	x += 2;
+	}
+}
+
+void	draw_particles(t_app *cbd)
+{
+	int i; 
+
+	i = 0;
+	while (i < N_PARTICLES)
+	{
+		float y = ((float) rand() / RAND_MAX / 4);
+
+		cbd->particles[i].dir.y = y;
+		cbd->particles[i].p.x = cbd->particles[i].p.x + cbd->particles[i].dir.x * 2;
+		cbd->particles[i].p.y = cbd->particles[i].p.y + cbd->particles[i].dir.y * 2;
+		if (cbd->particles[i].p.y > HEIGHT)
+			cbd->particles[i].p.y = 0;
+		if (cbd->particles[i].p.y < 0)
+			cbd->particles[i].p.y = HEIGHT;
+
+		if (cbd->particles[i].p.x > WIDTH)
+			cbd->particles[i].p.x = y;
+		if (cbd->particles[i].p.x < 0)
+			cbd->particles[i].p.x = y;
+		draw_square(cbd->game, color(175, 175, 175), vec_to_int(cbd->particles[i].p), vec_to_int(cbd->particles[i].size));
+		i++;
 	}
 }

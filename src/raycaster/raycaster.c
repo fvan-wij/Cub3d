@@ -5,7 +5,6 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <math.h>
-#include <cbd_render.h>
 
 t_ray	cast_ray(char **map, t_player p, int x)
 {

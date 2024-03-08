@@ -15,7 +15,8 @@ void	draw_square(mlx_image_t *image, uint32_t color, t_vec2i pos, t_vec2i dimens
 		pos.x = reset;
 		while (pos.x < dimension.x)
 		{
-			mlx_put_pixel(image, pos.x, pos.y, color);
+			if (pos.x >= 0 && pos.x < WIDTH && pos.y >= 0 && pos.y < HEIGHT)
+				mlx_put_pixel(image, pos.x, pos.y, color);
 			pos.x++;
 		}
 		pos.y++;

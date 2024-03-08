@@ -25,5 +25,4 @@ t_vec2d vec_sub(t_vec2d a, t_vec2d b);
 t_vec2d vec_add(t_vec2d a, t_vec2d b);
 t_vec2d vec_mult(t_vec2d a, float scalar);
 
-
 #endif //CBD_VEC_H

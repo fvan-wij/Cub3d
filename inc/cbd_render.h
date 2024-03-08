@@ -1,6 +1,7 @@
 #ifndef CBD_RENDER_H
 # define CBD_RENDER_H
 # include <stdint.h>
+# include <cbd_vec.h>
 
 #define WHITE 		0xFFFFFFFF
 #define	OFF_WHITE	0xF0F0F0FF
@@ -13,12 +14,13 @@
 #define	MAPSIZE		WIDTH - (TILESIZE * 16)
 #define RADARW		626
 #define RADARH		448
+#define N_PARTICLES	25
 
 typedef	struct s_particle {
-	double x;
-	double y;
-
-
+	t_vec2d	p;
+	t_vec2d dir;
+	t_vec2d size;
+	t_vec2d	reset;
 } t_particle;
 
 int32_t	color(uint8_t r, uint8_t g, uint8_t b);

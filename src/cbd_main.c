@@ -3,7 +3,6 @@
 #include <libft.h>
 #include <MLX42.h>
 #include <stdio.h>
-#include <cbd_render.h>
 #include <math.h>
 #include <stdlib.h>
 
@@ -17,6 +16,25 @@ bool cbd_init(t_app *cbd)
 	cbd->playerdata.scalar = 1;
 	cbd->playerdata.plane = vec_rotate(cbd->playerdata.dir, M_PI / 2);
 	cbd->playerdata.map_peak = 0;
+
+	ft_memset(cbd->particles, 0, sizeof(t_particle[N_PARTICLES]));
+	int i = 0;
+	int step = WIDTH / N_PARTICLES;
+	while (i < N_PARTICLES)
+	{
+		cbd->particles[i].dir.y = 1.0;
+		cbd->particles[i].p.x = i * step;
+		cbd->particles[i].p.y = ((float) rand() / RAND_MAX) * HEIGHT;
+		if (cbd->particles[i].p.x < (WIDTH>>1))
+			cbd->particles[i].dir.x = -1.0;
+		else
+			cbd->particles[i].dir.x = 1.0;
+
+		cbd->particles[i].size.x = (float) rand() / RAND_MAX * 3;
+		cbd->particles[i].size.y = cbd->particles[i].size.x;
+		cbd->particles[i].reset = cbd->particles[i].size;
+		i++;
+	}
 
 	//Init MLX
 	cbd->mlx = mlx_init(WIDTH, HEIGHT, "Telestein 3D", true);
