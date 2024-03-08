@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <cbd_render.h>
 #include <math.h>
+#include <stdlib.h>
 
 bool cbd_init(t_app *cbd)
 {
@@ -15,19 +16,23 @@ bool cbd_init(t_app *cbd)
 	cbd->playerdata.dir = cbd->mapdata->start_dir;
 	cbd->playerdata.scalar = 1;
 	cbd->playerdata.plane = vec_rotate(cbd->playerdata.dir, M_PI / 2);
+	cbd->playerdata.map_peak = 0;
 
 	//Init MLX
 	cbd->mlx = mlx_init(WIDTH, HEIGHT, "Telestein 3D", true);
 	if (!cbd->mlx)
 		return (FAILURE);
 
-	//Init game image
+	//Init game images
 	cbd->game = mlx_new_image(cbd->mlx, WIDTH, HEIGHT);
+	cbd->hud = malloc(sizeof(t_hud));
+	cbd->hud->img[HUD_MAP] = mlx_new_image(cbd->mlx, RADARW, RADARH);
 	mlx_texture_t *tex_hands;
-	tex_hands = mlx_load_png("data/textures/player/hands.png");
-	cbd->hud = mlx_texture_to_image(cbd->mlx, tex_hands);
+	tex_hands = mlx_load_png("data/textures/player/radar2.png");
+	cbd->hud->img[HUD_HANDS] = mlx_texture_to_image(cbd->mlx, tex_hands);
 	mlx_image_to_window(cbd->mlx, cbd->game, 0, 0);
-	mlx_image_to_window(cbd->mlx, cbd->hud, (WIDTH/2) - (cbd->hud->width / 2), HEIGHT - cbd->hud->height);
+	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_MAP], (WIDTH>>1) - 90, HEIGHT/2 + 40);
+	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_HANDS], (WIDTH/2) - (cbd->hud->img[HUD_HANDS]->width / 2), HEIGHT - cbd->hud->img[HUD_HANDS]->height);
 	if (!cbd->game)
 		return (cbd_error(ERR_ALLOC), FAILURE);
 

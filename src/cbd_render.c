@@ -19,5 +19,5 @@ void	cbd_render(t_app *cbd)
 	cast_rays(cbd->mapdata->cbd_map, &cbd->playerdata);
 	draw_walls(cbd, cbd->playerdata.rays);
 	draw_map(cbd, cbd->mapdata->width, cbd->mapdata->height);
-	draw_player(cbd->mapdata->cbd_map, cbd->game, cbd->playerdata);
+	draw_player(cbd->mapdata->cbd_map, cbd->hud->img[HUD_MAP], cbd->playerdata);
 }

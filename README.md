@@ -33,3 +33,10 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [x] cast vertical and horizontal ray and determine distance between player and wall
 - [x] implement circle-wall collision detection
 - [ ] fix bug where circle-wall collision doesn't work for 45 degree angle at corner
+
+
+*Features*
+- [x] Improve immersion by adding headbobbing on the Y-axis
+- [ ] Improve immersion by adding headbobbing to the hands on the X and Y-axis
+- [x] Pressing M opens the map
+- [ ] Add dust particles

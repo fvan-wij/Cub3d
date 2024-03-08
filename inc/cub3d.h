@@ -52,7 +52,8 @@ typedef union s_rgba
 		uint8_t	b;
 		uint8_t	g;
 		uint8_t	r;
-	}; }	t_rgba;
+	}; 
+}	t_rgba;
 
 typedef enum e_tex {
 	NO,
@@ -96,6 +97,7 @@ typedef struct s_player {
 	t_vec_f	plane;
 	float	scalar;
 	float	headbob;
+	float	map_peak;
 	t_ray	rays[WIDTH];
 }	t_player;
 
@@ -118,12 +120,23 @@ typedef struct s_menu {
 	mlx_image_t 	*menu_img[M_SIZE];
 } t_menu;
 
+
+
+typedef struct s_hud {
+	enum e_hud_id {
+		HUD_MAP,
+		HUD_HANDS,
+		HUD_SIZE,
+	} t_hud_id;
+	mlx_image_t	*img[HUD_SIZE];
+} t_hud;
+
 typedef struct s_app {
 	t_player 	playerdata;
 	t_menu		*menudata;
 	t_map		*mapdata;
+	t_hud		*hud;
 	mlx_image_t	*game;
-	mlx_image_t	*hud;
 	t_state		state;
 	mlx_t		*mlx;
 }	t_app;

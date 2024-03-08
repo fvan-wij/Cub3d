@@ -16,27 +16,55 @@ void	draw_background(mlx_image_t *img, int32_t color)
 
 void	draw_player(char **map, mlx_image_t *img, t_player p)
 {
-	const float r = TILESIZE>>2;
+	const float r = TILESIZE>>1;
 	int		i;
 
 	i = 0;
 	t_vec_f world_dir = vec_assign((p.pos.x + p.dir.x) * TILESIZE, (p.pos.y + p.dir.y) * TILESIZE);
-	t_vec_f world_pos = vec_assign(p.pos.x * TILESIZE + MAPSIZE, p.pos.y * TILESIZE);
+	t_vec_f world_pos = vec_assign(p.pos.x * TILESIZE, p.pos.y * TILESIZE);
 	while (i < WIDTH)
 	{
 		p.rays[i] = cast_ray(map, p, i);
 		if (p.rays[i].intersection.x <= WIDTH && p.rays[i].intersection.x >= 0 && p.rays[i].intersection.y <= HEIGHT && p.rays[i].intersection.y >= 0)
 		{
-			p.rays[i].intersection.x += MAPSIZE;
-			draw_line(img, BLUE, vec_to_int(world_pos), vec_to_int(p.rays[i].intersection));
+			draw_line(img, color(151, 0, 0), vec_to_int(world_pos), vec_to_int(p.rays[i].intersection));
 		}
 		i++;
 	}
 	if (world_dir.x <= WIDTH && world_dir.x >= 0 && world_dir.y <= HEIGHT && world_dir.y >= 0)
 	{
-		draw_circle(img, BLUE, vec_to_int(world_pos), r);
+		draw_circle(img, color(151, 0, 0), vec_to_int(world_pos), r);
 		// draw_line(img, BLUE, vec_to_int(world_pos), vec_to_int(world_dir)); // Draws player looking direction
 	}
+}
+
+void	draw_map(t_app *cbd, int width, int height)
+{
+	t_vec p;
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < height)
+	{
+		j = 0;
+		while (j < width)
+		{
+			p.x = (j * TILESIZE);
+			p.y = (i * TILESIZE);
+			if (p.x <= WIDTH && p.x >= 0 && p.y <= HEIGHT && p.y >= 0)
+			{
+				t_vec size = {TILESIZE, TILESIZE};
+				if (cbd->mapdata->cbd_map[i][j] == '1')
+					draw_square(cbd->hud->img[HUD_MAP], color(200, 200, 200), p, size);
+				else
+					draw_square(cbd->hud->img[HUD_MAP], OFF_WHITE, p, size);
+			}
+			j++;
+		}
+		i++;
+	}
+	// printf("pos(%f, %f), dir(%f, %f), plane(%f, %f)\n", cbd->playerdata.pos.x,cbd->playerdata.pos.y, cbd->playerdata.dir.x,cbd->playerdata.dir.y, cbd->playerdata.plane.x ,cbd->playerdata.plane.y);
 }
 
 void	draw_wall_strip(t_app *cbd,
@@ -48,8 +76,8 @@ void	draw_wall_strip(t_app *cbd,
 
 	draw_start = (-height / 2) + (HEIGHT / 2);
 	draw_end = (height / 2) + (HEIGHT / 2);
-	draw_start += (sin(cbd->playerdata.headbob) * 10);
-	draw_end += (sin(cbd->playerdata.headbob) * 10);
+	draw_start += (sin(cbd->playerdata.headbob) * 10) + cbd->playerdata.map_peak;
+	draw_end += (sin(cbd->playerdata.headbob) * 10) + cbd->playerdata.map_peak;
 	if (draw_start < 0)
 		draw_start = 0;
 	if (draw_end >= HEIGHT)
@@ -83,33 +111,4 @@ void	draw_walls(t_app *cbd, t_ray *rays)
 		// if (x % 2 == 0)
 		// 	x += 2;
 	}
-}
-
-void	draw_map(t_app *cbd, int width, int height)
-{
-	t_vec p;
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < height)
-	{
-		j = 0;
-		while (j < width)
-		{
-			p.x = (j * TILESIZE) + MAPSIZE;
-			p.y = (i * TILESIZE);
-			if (p.x <= WIDTH && p.x >= 0 && p.y <= HEIGHT && p.y >= 0)
-			{
-				t_vec size = {TILESIZE - 1, TILESIZE - 1};
-				if (cbd->mapdata->cbd_map[i][j] == '1')
-					draw_square(cbd->game, RED, p, size);
-				else
-					draw_square(cbd->game, OFF_WHITE, p, size);
-			}
-			j++;
-		}
-		i++;
-	}
-	// printf("pos(%f, %f), dir(%f, %f), plane(%f, %f)\n", cbd->playerdata.pos.x,cbd->playerdata.pos.y, cbd->playerdata.dir.x,cbd->playerdata.dir.y, cbd->playerdata.plane.x ,cbd->playerdata.plane.y);
 }

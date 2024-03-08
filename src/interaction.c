@@ -12,6 +12,7 @@ void	move_player(void *param)
 
 	cbd = param;
 	float move_speed = cbd->mlx->delta_time * 2;
+	float headbob_speed = cbd->mlx->delta_time * 10;
 
 	t_vec_f pos;
 	t_vec_f dir;
@@ -21,7 +22,14 @@ void	move_player(void *param)
 
 	//Shift multiplier
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_LEFT_SHIFT))
+	{
 		move_speed *= 2;
+		headbob_speed *= 2;
+	}
+	if (cbd->hud->img[HUD_HANDS]->enabled && cbd->playerdata.map_peak > -100)
+		cbd->playerdata.map_peak -= cos(cbd->mlx->delta_time) * 2;
+	else if (cbd->playerdata.map_peak < 0)
+		cbd->playerdata.map_peak += cos(cbd->mlx->delta_time) * 2;
 
 	t_vec_f potential_pos = pos;
 	t_vec_f local_pos = {pos.x - (int) pos.x, pos.y - (int) pos.y};
@@ -37,7 +45,7 @@ void	move_player(void *param)
 		float r = vec_length(dir) / 8; //Radius of circle
 		potential_pos.x = pos.x + dir.x * move_speed;
 		potential_pos.y = pos.y + dir.y * move_speed;
-		cbd->playerdata.headbob += cbd->mlx->delta_time * 10;
+		cbd->playerdata.headbob += headbob_speed;
 		if (cbd->playerdata.headbob > 2 * M_PI)
 			cbd->playerdata.headbob = 0;
 		if (local_pos.x <= 0.5 && L == '1')
@@ -85,7 +93,7 @@ void	move_player(void *param)
 	{
 		potential_pos.x = pos.x - dir.x * move_speed;
 		potential_pos.y = pos.y - dir.y * move_speed;
-		cbd->playerdata.headbob += cbd->mlx->delta_time * 10;
+		cbd->playerdata.headbob += headbob_speed;
 		if (cbd->playerdata.headbob > 2 * M_PI)
 			cbd->playerdata.headbob = 0;
 		float r = vec_length(dir) / 8; //Radius of circle

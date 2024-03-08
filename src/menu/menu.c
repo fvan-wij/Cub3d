@@ -2,6 +2,7 @@
 #include <MLX42.h>
 #include <stdlib.h>
 #include <cub3d.h>
+#include <math.h>
 
 static int	move_cursor_main_menu(t_app *cbd, int i)
 {
@@ -61,6 +62,7 @@ void	navigate_menu(mlx_key_data_t keydata, void *param)
 	t_app		*cbd;
 	static int	i;
 	(void)keydata;
+	// float offset = 100;
 
 	cbd = param;
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_ESCAPE))
@@ -92,6 +94,12 @@ void	navigate_menu(mlx_key_data_t keydata, void *param)
 		cbd->playerdata.scalar--;
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_9))
 		cbd->playerdata.scalar++;
+
+	if (mlx_is_key_down(cbd->mlx, MLX_KEY_M))
+	{
+		cbd->hud->img[HUD_HANDS]->enabled = !cbd->hud->img[HUD_HANDS]->enabled;
+		cbd->hud->img[HUD_MAP]->enabled = !cbd->hud->img[HUD_MAP]->enabled;
+	}
 }
 
 t_menu *cbd_init_menu(mlx_t *mlx)
