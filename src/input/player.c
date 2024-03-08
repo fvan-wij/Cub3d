@@ -6,12 +6,8 @@
 #include <stdlib.h>
 #include <math.h>
 
-void	move_player(void *param)
+void	move_player(t_app *cbd)
 {
-	t_app *cbd;
-
-	cbd = param;
-
 	float move_speed = cbd->mlx->delta_time * 2;
 	float headbob_speed = cbd->mlx->delta_time * 10;
 
@@ -189,6 +185,7 @@ void	move_player(void *param)
 		cbd->playerdata.dir = vec_rotate(cbd->playerdata.dir, -cbd->mlx->delta_time * 3);
 		cbd->playerdata.plane = vec_rotate(cbd->playerdata.plane, -cbd->mlx->delta_time * 3);
 	}
+	if (cbd->playerdata.input.w)
+		printf("W\n");
 	cbd->playerdata.pos = potential_pos;
-	cbd_render(cbd);
 }

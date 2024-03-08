@@ -24,6 +24,8 @@ SRCS	:= \
 		   render/shape.c		\
 		   utility/printing.c	\
 		   utility/cleanup.c	\
+		   input/input.c		\
+		   input/player.C		\
 
 SRCDIR	:= ./src
 OBJDIR	:= ./obj

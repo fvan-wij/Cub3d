@@ -75,8 +75,8 @@ bool cbd_init(t_app *cbd)
 		return (cbd_error(ERR_ALLOC), FAILURE);
 
 	//Setup mlx hooks
-	mlx_key_hook(cbd->mlx, navigate_menu, cbd);
-	mlx_loop_hook(cbd->mlx, move_player, cbd);
+	mlx_key_hook(cbd->mlx, cbd_input_handler, cbd);
+	mlx_loop_hook(cbd->mlx, cbd_loop, cbd);
 	printf("test\n");
 	return (SUCCESS);
 }

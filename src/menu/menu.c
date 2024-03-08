@@ -4,6 +4,8 @@
 #include <cub3d.h>
 #include <math.h>
 
+#include <stdio.h>
+
 static int	move_cursor_main_menu(t_app *cbd, int i)
 {
 	const int select[3] = {(HEIGHT >> 1), (HEIGHT >> 1) + 80, (HEIGHT >>1) + 160};
@@ -61,11 +63,22 @@ void	navigate_menu(mlx_key_data_t keydata, void *param)
 {
 	t_app		*cbd;
 	static int	i;
-	(void)keydata;
+	// (void)keydata;
 	// float offset = 100;
 
 	cbd = param;
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_ESCAPE))
+	if (keydata.key == MLX_KEY_W)
+	{
+		if (keydata.action == MLX_PRESS)
+		{
+			cbd->playerdata.input.w = true;
+		}
+		else if (keydata.action == MLX_RELEASE)
+		{
+			cbd->playerdata.input.w = false;
+		}
+	}
+	if (keydata.key == MLX_KEY_ESCAPE)
 	{
 		cbd->menudata->menu_img[M_MAIN]->instances->enabled = true;
 		cbd->menudata->menu_img[M_MAP]->instances->enabled = true;

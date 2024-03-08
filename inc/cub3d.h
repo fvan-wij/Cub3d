@@ -44,7 +44,7 @@ typedef union s_rgba
 		uint8_t	b;
 		uint8_t	g;
 		uint8_t	r;
-	}; 
+	};
 }	t_rgba;
 
 typedef enum e_tex {
@@ -83,14 +83,46 @@ typedef struct s_ray {
 	uint8_t	side;
 } t_ray;
 
+typedef struct s_input {
+	bool	w;
+	bool	a;
+	bool	s;
+	bool	d;
+	bool	left;
+	bool	right;
+	bool	up;
+	bool	down;
+	bool	escape;
+	bool	one;
+	bool	two;
+	bool	m;
+	bool	enter;
+	bool	shift;
+	bool	ctrl;
+	bool	space;
+	mlx_key_data_t	key[348];
+} t_input;
+
+typedef struct s_action {
+	bool	forward;
+	bool	backward;
+	// bool	s;
+	// bool	d;
+	bool	left;
+	bool	right;
+	bool	up;
+	bool	down;
+} t_action;
+
 typedef struct s_player {
-	t_vec2d pos;
-	t_vec2d	dir;
-	t_vec2d	plane;
-	float	scalar;
-	float	headbob;
-	float	map_peak;
-	t_ray	rays[WIDTH];
+	t_vec2d 	pos;
+	t_vec2d		dir;
+	t_vec2d		plane;
+	float		scalar;
+	float		headbob;
+	float		map_peak;
+	t_ray		rays[WIDTH];
+	t_action	action;
 }	t_player;
 
 typedef struct s_map {
@@ -111,8 +143,6 @@ typedef struct s_menu {
 	mlx_texture_t	*menu_tex[M_SIZE];
 	mlx_image_t 	*menu_img[M_SIZE];
 } t_menu;
-
-
 
 typedef struct s_hud {
 	enum e_hud_id {
@@ -135,6 +165,7 @@ typedef struct s_app {
 	mlx_image_t	*game;
 	t_state		state;
 	mlx_t		*mlx;
+	t_input		input;
 }	t_app;
 
 //		Utility
@@ -166,9 +197,10 @@ void	draw_circle(mlx_image_t *image, uint32_t color, t_vec2i pos, float r);
 //		Game
 bool	cbd_main(t_app *cbd);
 bool	cbd_init(t_app *cbd);
+void	cbd_loop(void *param);
 
 //		Interaction
-void	move_player(void *param);
+void	move_player(t_app *cbd);
 
 
 #endif //CUB3D_H
