@@ -9,7 +9,7 @@ SRCS	:= \
 		   main.c 				\
 		   cbd_main.c			\
 		   cbd_render.c			\
-		   interaction.c		\
+		   cbd_loop.c			\
 		   error/error.c 		\
 		   parser/parser.c 		\
 		   parser/init.c 		\
@@ -25,7 +25,7 @@ SRCS	:= \
 		   utility/printing.c	\
 		   utility/cleanup.c	\
 		   input/input.c		\
-		   input/player.C		\
+		   input/player.c		\
 
 SRCDIR	:= ./src
 OBJDIR	:= ./obj

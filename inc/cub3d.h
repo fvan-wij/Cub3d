@@ -83,35 +83,30 @@ typedef struct s_ray {
 	uint8_t	side;
 } t_ray;
 
+typedef void (*t_input_handler)(mlx_key_data_t, t_app *);
+
 typedef struct s_input {
-	bool	w;
-	bool	a;
-	bool	s;
-	bool	d;
-	bool	left;
-	bool	right;
-	bool	up;
-	bool	down;
-	bool	escape;
-	bool	one;
-	bool	two;
-	bool	m;
-	bool	enter;
-	bool	shift;
-	bool	ctrl;
-	bool	space;
-	mlx_key_data_t	key[348];
+	bool key[348];
+	t_input_handler handler[348];
 } t_input;
 
+typedef enum e_action {
+	FORWARD,
+	BACKWARD,
+	LEFT,
+	RIGHT,
+	ACTION_SIZE,
+} t_action;
 typedef struct s_action {
 	bool	forward;
 	bool	backward;
-	// bool	s;
-	// bool	d;
 	bool	left;
 	bool	right;
-	bool	up;
-	bool	down;
+	// bool	s;
+	// bool	d;
+	// bool	up;
+	// bool	down;
+	bool	action[ACTION_SIZE];
 } t_action;
 
 typedef struct s_player {
@@ -174,7 +169,9 @@ void	print_debug_info(t_app *cub3d);
 void	cleanup(t_app *app);
 
 //		Menu.c
-void	navigate_menu(mlx_key_data_t keydata, void *param);
+// void	navigate_menu(mlx_key_data_t keydata, void *param);
+int		move_cursor_main_menu(t_app *cbd, int i);
+int		move_cursor_map_select(t_app *cbd, int i);
 t_menu 	*cbd_init_menu(mlx_t *mlx);
 
 // 		Rendering
@@ -198,6 +195,7 @@ void	draw_circle(mlx_image_t *image, uint32_t color, t_vec2i pos, float r);
 bool	cbd_main(t_app *cbd);
 bool	cbd_init(t_app *cbd);
 void	cbd_loop(void *param);
+void	cbd_input(mlx_key_data_t keydata, void *param);
 
 //		Interaction
 void	move_player(t_app *cbd);

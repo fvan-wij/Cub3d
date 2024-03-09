@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 
-static int	move_cursor_main_menu(t_app *cbd, int i)
+int	move_cursor_main_menu(t_app *cbd, int i)
 {
 	const int select[3] = {(HEIGHT >> 1), (HEIGHT >> 1) + 80, (HEIGHT >>1) + 160};
 
@@ -35,7 +35,7 @@ static int	move_cursor_main_menu(t_app *cbd, int i)
 	return (i);
 }
 
-static int	move_cursor_map_select(t_app *cbd, int i)
+int	move_cursor_map_select(t_app *cbd, int i)
 {
 	const int select[6] = {((HEIGHT >> 1) - 8), ((HEIGHT >> 1) - 8) + 45, ((HEIGHT >> 1) - 8) + 90, ((HEIGHT >> 1) - 8) + 135, ((HEIGHT >> 1) - 8) + 180, ((HEIGHT >> 1) - 8) + 225};
 
@@ -71,11 +71,11 @@ void	navigate_menu(mlx_key_data_t keydata, void *param)
 	{
 		if (keydata.action == MLX_PRESS)
 		{
-			cbd->playerdata.input.w = true;
+			cbd->input.w = true;
 		}
 		else if (keydata.action == MLX_RELEASE)
 		{
-			cbd->playerdata.input.w = false;
+			cbd->input.w = false;
 		}
 	}
 	if (keydata.key == MLX_KEY_ESCAPE)

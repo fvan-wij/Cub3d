@@ -185,7 +185,5 @@ void	move_player(t_app *cbd)
 		cbd->playerdata.dir = vec_rotate(cbd->playerdata.dir, -cbd->mlx->delta_time * 3);
 		cbd->playerdata.plane = vec_rotate(cbd->playerdata.plane, -cbd->mlx->delta_time * 3);
 	}
-	if (cbd->playerdata.input.w)
-		printf("W\n");
 	cbd->playerdata.pos = potential_pos;
 }
