@@ -85,6 +85,7 @@ bool cbd_init(t_app *cbd)
 	cbd->hud = malloc(sizeof(t_hud));
 	cbd->game = mlx_new_image(cbd->mlx, WIDTH, HEIGHT);
 	cbd->hud->img[HUD_MAP] = mlx_new_image(cbd->mlx, RADARW, RADARH);
+	cbd->hud->img[HUD_OVERLAY] = mlx_new_image(cbd->mlx, WIDTH, HEIGHT);
 
 	mlx_texture_t *tex_radar;
 	mlx_texture_t *tex_fist;
@@ -97,6 +98,7 @@ bool cbd_init(t_app *cbd)
 	cbd->hud->img[WPN_CHAINSAW] = mlx_texture_to_image(cbd->mlx, tex_saw);
 
 	mlx_image_to_window(cbd->mlx, cbd->game, 0, 0);
+	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_OVERLAY], 0, 0);
 	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_MAP], (WIDTH>>1) - 90, HEIGHT/2 + 40);
 	mlx_image_to_window(cbd->mlx, cbd->hud->img[WPN_MAP], (WIDTH/2) - (cbd->hud->img[WPN_MAP]->width / 2), HEIGHT - cbd->hud->img[WPN_MAP]->height);
 	mlx_image_to_window(cbd->mlx, cbd->hud->img[WPN_FIST], (WIDTH/2) - (cbd->hud->img[WPN_FIST]->width / 2), HEIGHT - (cbd->hud->img[WPN_FIST]->height>>1));

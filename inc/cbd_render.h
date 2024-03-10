@@ -75,6 +75,7 @@ typedef struct s_hud {
 		WPN_MAP,
 		WPN_FIST,
 		WPN_CHAINSAW,
+		HUD_OVERLAY,
 		HUD_SIZE,
 	} t_hud_id;
 	mlx_image_t	*img[HUD_SIZE];
@@ -91,9 +92,12 @@ void	draw_player(char **map, mlx_image_t *img, t_vec2d pos, t_vec2d dir);
 void	draw_map(char **map, t_hud *hud, int width, int height);
 void	draw_wall_strip(mlx_image_t *game, uint32_t color, int height, int x, float headbob, float map_peak);
 void	draw_walls(mlx_image_t *game, t_ray *rays, float headbob, float map_peak);
-void	draw_particles(mlx_image_t *game, t_particle *particles);
 void	draw_line(mlx_image_t *image, uint32_t color, t_vec2i p1, t_vec2i p2);
 void	draw_square(mlx_image_t *image, uint32_t color, t_vec2i pos, t_vec2i dimension);
 void	draw_circle(mlx_image_t *image, uint32_t color, t_vec2i pos, float r);
+
+//Post processing
+void	draw_gradient_bg(t_hud *hud);
+void	draw_particles(mlx_image_t *game, t_particle *particles);
 
 #endif //CBD_RENDER_H
