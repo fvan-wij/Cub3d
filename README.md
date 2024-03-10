@@ -24,7 +24,7 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [x] initialize mlx_textures in the parsing phase;
 - [ ] free and terminate the application in a clean way while parsing textures and colors
 - [x] avoid passing the main struct to every function and seperate variables instead;
-- [ ] create seperate vector header?
+- [x] create seperate vector header?
 
 *Raycaster*
 
@@ -32,11 +32,15 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [x] draw a 2d representation of the map
 - [x] cast vertical and horizontal ray and determine distance between player and wall
 - [x] implement circle-wall collision detection
-- [ ] fix bug where circle-wall collision doesn't work for 45 degree angle at corner
-
+- [ ] fix bug where circle-wall collision doesn't work for 45 degree angle at corner and refactor collision
 
 *Features*
 - [x] Improve immersion by adding headbobbing on the Y-axis
-- [ ] Improve immersion by adding headbobbing to the hands on the X and Y-axis
+- [x] Improve immersion by adding headbobbing to the hands on the X and Y-axis
 - [x] Pressing M opens the map
-- [ ] Add dust particles
+- [x] Add dust particles
+- [x] Add Po player-centered minimap
+- [ ] Add ambient soundtrack
+- [ ] Add event triggered sound
+- [ ] Add shooting, reloading, saw, smash animations
+- [ ] Implement textures

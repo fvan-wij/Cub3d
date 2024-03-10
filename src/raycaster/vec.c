@@ -18,6 +18,16 @@ t_vec2d	vec_assign(double x, double y)
 	return (new);
 }
 
+t_vec2i	vec2i_assign(double x, double y)
+{
+	t_vec2i new;
+
+	new.x = x;
+	new.y = y;
+	return (new);
+
+}
+
 t_vec2d	vec_rotate(t_vec2d direction, double angle)
 {
 	t_vec2d new;
