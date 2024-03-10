@@ -55,6 +55,7 @@ typedef struct s_player {
 	float		headbob;
 	float		map_peak;
 	t_ray		rays[WIDTH];
+	t_inventory	*inv;
 	t_action	action;
 }	t_player;
 
@@ -119,6 +120,9 @@ void	cbd_input(mlx_key_data_t keydata, void *param);
 
 //		Interaction
 void	move_player(t_app *cbd);
+
+//		Init
+mlx_image_t *cbd_init_texture_img(mlx_t *mlx, char *path);
 
 //		Input_handlers
 // void	default_handler(mlx_key_data_t keydata, void *param);
