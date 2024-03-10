@@ -17,6 +17,8 @@ void	move_player(t_app *cbd)
 	pos = vec_assign(cbd->playerdata.pos.x, cbd->playerdata.pos.y);
 	dir = vec_assign(cbd->playerdata.dir.x, cbd->playerdata.dir.y);
 
+	cbd->hud->img[cbd->hud->equipped]->instances[0].x = (cos(cbd->playerdata.headbob) * 2) + (WIDTH>>1) - (cbd->hud->img[cbd->hud->equipped]->width>>1);
+
 	//Shift multiplier
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_LEFT_SHIFT))
 	{

@@ -10,44 +10,6 @@
 # define SUCCESS 0
 # define FAILURE 1
 
-# define WIDTH 1280
-# define HEIGHT 720
-
-# define FOV 90
-
-typedef struct s_bresenham
-{
-	int			error[2];
-	int			dx;
-	int			dy;
-	int			sx;
-	int			sy;
-	int			cx;
-	int			cy;
-	int			y;
-	int			x;
-}	t_bresenham;
-
-typedef struct s_line
-{
-	int			x1;
-	int			y1;
-	int			x2;
-	int			y2;
-}	t_line;
-
-typedef union s_rgba
-{
-	int32_t	color;
-	struct
-	{
-		uint8_t	a;
-		uint8_t	b;
-		uint8_t	g;
-		uint8_t	r;
-	};
-}	t_rgba;
-
 typedef enum e_tex {
 	NO,
 	SO,
@@ -68,13 +30,6 @@ typedef enum e_state {
 	STATE_MENU,
 	STATE_GAME,
 } t_state;
-
-typedef struct s_ray {
-	t_vec2d	dir;
-	t_vec2d intersection;
-	double	wall_dist;
-	uint8_t	side;
-} t_ray;
 
 enum e_action {
 	FORWARD,
@@ -117,18 +72,6 @@ typedef struct s_map {
 	bool			valid;
 } 	t_map;
 
-typedef struct s_hud {
-	enum e_hud_id {
-		HUD_MAP,
-		WPN_MAP,
-		WPN_FIST,
-		WPN_CHAINSAW,
-		HUD_SIZE,
-	} t_hud_id;
-	mlx_image_t	*img[HUD_SIZE];
-	int8_t equipped;
-} t_hud;
-
 typedef void (*t_input_handler)(mlx_key_data_t, void *);
 
 typedef struct s_input {
@@ -155,10 +98,6 @@ void	print_debug_info(t_app *cub3d);
 void	cleanup(t_app *app);
 
 // 		Rendering
-void	draw_map(t_app *cbd, int width, int height);
-void	draw_walls(t_app *cbd, t_ray *rays);
-void	draw_player(char **map, mlx_image_t *img, t_player p);
-void	draw_particles(t_app *cbd);
 void	cbd_render(t_app *cbd);
 
 //		Raycaster

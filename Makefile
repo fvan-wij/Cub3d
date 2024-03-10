@@ -24,6 +24,7 @@ SRCS	:= \
 		   render/draw.c		\
 		   render/line.c		\
 		   render/shape.c		\
+		   render/color.c		\
 		   utility/printing.c	\
 		   utility/cleanup.c	\
 		   input/input.c		\
