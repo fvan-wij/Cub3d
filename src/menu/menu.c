@@ -4,121 +4,159 @@
 #include <cub3d.h>
 #include <math.h>
 
-static int	move_cursor_main_menu(t_app *cbd, int i)
-{
-	const int select[3] = {(HEIGHT >> 1), (HEIGHT >> 1) + 80, (HEIGHT >>1) + 160};
+#include <stdio.h>
 
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_UP))
-		i--;
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_DOWN))
-		i++;
-	if (i > 2)
-		i = 0;
-	if (i < 0)
-		i = 2;
-	cbd->menudata->menu_img[M_CURSOR]->instances[0].x = WIDTH / 2 +  64;
-	cbd->menudata->menu_img[M_CURSOR]->instances[0].y = select[i];
-	if (i == 0 && mlx_is_key_down(cbd->mlx, MLX_KEY_ENTER))
-		cbd->state = STATE_GAME;
-	if (i == 1 && mlx_is_key_down(cbd->mlx, MLX_KEY_ENTER))
-	{
-		mlx_set_instance_depth(cbd->menudata->menu_img[M_MAIN]->instances, -1);
-		mlx_set_instance_depth(cbd->menudata->menu_img[M_MAP]->instances, 0);
-		mlx_set_instance_depth(cbd->menudata->menu_img[M_CURSOR]->instances, 1);
-		i = 0;
-		cbd->state = STATE_MAP_SEL;
-	}
-	if (i == 2 && mlx_is_key_down(cbd->mlx, MLX_KEY_ENTER))
-		mlx_close_window(cbd->mlx);
-	return (i);
+void	set_cursor(mlx_image_t *img, t_vec2i veci)
+{
+	img->instances->x = veci.x;
+	img->instances->y = veci.y;
 }
 
-static int	move_cursor_map_select(t_app *cbd, int i)
+size_t	move_cursor(mlx_image_t *cursor, int cur_item, int max, t_vec2i *positions, int dir)
 {
-	const int select[6] = {((HEIGHT >> 1) - 8), ((HEIGHT >> 1) - 8) + 45, ((HEIGHT >> 1) - 8) + 90, ((HEIGHT >> 1) - 8) + 135, ((HEIGHT >> 1) - 8) + 180, ((HEIGHT >> 1) - 8) + 225};
-
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_UP))
-		i--;
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_DOWN))
-		i++;
-	if (i > 5)
-		i = 0;
-	if (i < 0)
-		i = 5;
-	if (i == 5 && mlx_is_key_down(cbd->mlx, MLX_KEY_ENTER))
-	{
-		mlx_set_instance_depth(cbd->menudata->menu_img[M_MAP]->instances, -1);
-		mlx_set_instance_depth(cbd->menudata->menu_img[M_MAIN]->instances, 0);
-		mlx_set_instance_depth(cbd->menudata->menu_img[M_CURSOR]->instances, 1);
-		cbd->state = STATE_MAIN;
-	}
-	cbd->menudata->menu_img[M_CURSOR]->instances[0].y = select[i];
-	cbd->menudata->menu_img[M_CURSOR]->instances[0].x = WIDTH / 2 +  80;
-	return (i);
+	if (cur_item + dir < 0)
+		cur_item = max;
+	else if (cur_item + dir > max)
+		cur_item = 0;
+	else
+		cur_item += dir;
+	set_cursor(cursor, positions[cur_item]);
+	return (cur_item);
 }
 
-void	navigate_menu(mlx_key_data_t keydata, void *param)
+void	move_cursor_main_menu(t_menu *menu, int dir)
 {
-	t_app		*cbd;
-	static int	i;
-	(void)keydata;
-	// float offset = 100;
-
-	cbd = param;
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_ESCAPE))
-	{
-		cbd->menudata->menu_img[M_MAIN]->instances->enabled = true;
-		cbd->menudata->menu_img[M_MAP]->instances->enabled = true;
-		cbd->menudata->menu_img[M_CURSOR]->instances->enabled = true;
-		cbd->state = STATE_MAIN;
-	}
-	if (cbd->state == STATE_MAIN)
-	{
-		cbd->game->instances->enabled = false;
-		i = move_cursor_main_menu(cbd, i);
-	}
-	if (cbd->state == STATE_MAP_SEL)
-	{
-		cbd->game->instances->enabled = false;
-		i = move_cursor_map_select(cbd, i);
-	}
-	if (cbd->state == STATE_GAME)
-	{
-		cbd->menudata->menu_img[M_MAIN]->instances->enabled = false;
-		cbd->menudata->menu_img[M_MAP]->instances->enabled = false;
-		cbd->menudata->menu_img[M_CURSOR]->instances->enabled = false;
-		cbd->game->instances->enabled = true;
-	}
-
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_1))
-		cbd->hud->equipped = WPN_FIST;
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_2))
-		cbd->hud->equipped = WPN_CHAINSAW;
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_M))
-		cbd->hud->equipped = WPN_MAP;
-
+	menu->main_menu.current_item = move_cursor(menu->main_menu.cursor, menu->main_menu.current_item, BTN_MAIN_COUNT - 1, menu->main_menu.cursor_positons, dir);
 }
 
-t_menu *cbd_init_menu(mlx_t *mlx)
+void	move_cursor_select_menu(t_menu *menu, int dir)
+{
+	menu->select_menu.current_item = move_cursor(menu->select_menu.cursor, menu->select_menu.current_item, BTN_SELECT_COUNT - 1, menu->select_menu.cursor_positons, dir);
+}
+
+void	menu_move_cursor(t_menu *menu, int dir)
+{
+	if (menu->state == MAIN)
+		move_cursor_main_menu(menu, dir);
+	if (menu->state == MAP_SELECT)
+		move_cursor_select_menu(menu, dir);
+}
+
+void	set_menu_state(t_menu *menu, t_menu_state state)
+{
+	if (state == MAIN)
+	{
+		set_cursor(menu->main_menu.cursor, menu->main_menu.cursor_positons[0]);
+		menu->state = MAIN;
+		menu->main_menu.current_item = BTN_PLAY;
+		menu->main_menu.bg->instances->enabled = true;
+		menu->main_menu.cursor->instances->enabled = true;
+		menu->select_menu.bg->instances->enabled = false;
+	}
+	if (state == MAP_SELECT)
+	{
+		set_cursor(menu->select_menu.cursor, menu->select_menu.cursor_positons[0]);
+		menu->state = MAP_SELECT;
+		menu->select_menu.current_item = BTN_DARK_SECRET;
+		menu->main_menu.bg->instances->enabled = false;
+		menu->main_menu.cursor->instances->enabled = true;
+		menu->select_menu.bg->instances->enabled = true;
+	}
+	if (state == OFF)
+	{
+		menu->main_menu.bg->instances->enabled = false;
+		menu->main_menu.cursor->instances->enabled = false;
+		menu->select_menu.bg->instances->enabled = false;
+		menu->select_menu.cursor->instances->enabled = false;
+		menu->state = OFF;
+	}
+}
+
+void	menu_enter(t_menu *menu)
+{
+	if (menu->state == MAIN)
+	{
+		if (menu->main_menu.current_item == BTN_PLAY)
+			set_menu_state(menu, OFF);
+		if (menu->main_menu.current_item == BTN_MAP_SELECT)
+			set_menu_state(menu, MAP_SELECT);
+		if (menu->main_menu.current_item == BTN_EXIT)
+			exit(0);
+	}
+	else if (menu->state == MAP_SELECT)
+	{
+		if (menu->select_menu.current_item == BTN_BACK)
+			set_menu_state(menu, MAIN);
+	}
+}
+
+void	menu_escape(t_menu *menu)
+{
+	set_menu_state(menu, MAIN);
+}
+
+mlx_image_t *cbd_init_menu_img(mlx_t *mlx, char *path)
+{
+	mlx_texture_t	*tmp;
+	mlx_image_t		*img;
+
+	tmp = mlx_load_png(path);
+	if (!tmp)
+		return (NULL);
+	img = mlx_texture_to_image(mlx, tmp);
+	mlx_delete_texture(tmp);
+	return (img);
+}
+
+void	set_main_cursor_positions(t_menu *menu)
+{
+	const t_vec2i	positions[4] =	{{(WIDTH / 2 + 64),(HEIGHT >> 1)},
+							{(WIDTH / 2 + 64),(HEIGHT >> 1) + 80},
+							{(WIDTH / 2 + 64),(HEIGHT >> 1) + 160}};
+	menu->main_menu.cursor_positons[0] = positions[0];
+	menu->main_menu.cursor_positons[1] = positions[1];
+	menu->main_menu.cursor_positons[2] = positions[2];
+}
+
+void	set_select_cursor_positions(t_menu *menu)
+{
+	const t_vec2i	positions[7] =	{{(WIDTH / 2 + 80),((HEIGHT >> 1) - 8)},
+									{(WIDTH / 2 + 80),((HEIGHT >> 1) - 8) + 45},
+									{(WIDTH / 2 + 80),((HEIGHT >> 1) - 8) + 90},
+									{(WIDTH / 2 + 80),((HEIGHT >> 1) - 8) + 135},
+									{(WIDTH / 2 + 80),((HEIGHT >> 1) - 8) + 180},
+									{(WIDTH / 2 + 80),((HEIGHT >> 1) - 8) + 225}};
+	menu->select_menu.cursor_positons[0] = positions[0];
+	menu->select_menu.cursor_positons[1] = positions[1];
+	menu->select_menu.cursor_positons[2] = positions[2];
+	menu->select_menu.cursor_positons[3] = positions[3];
+	menu->select_menu.cursor_positons[4] = positions[4];
+	menu->select_menu.cursor_positons[5] = positions[5];
+}
+
+t_menu	*cbd_init_menu(mlx_t *mlx)
 {
 	t_menu 			*menu;
 
-	menu = malloc(sizeof(t_menu));
+	menu = ft_calloc(1, sizeof(t_menu));
 	if (!menu)
 		return (NULL);
-	menu->menu_img[M_MAIN] = mlx_new_image(mlx, WIDTH, HEIGHT);
-	menu->menu_img[M_MAP] = mlx_new_image(mlx, WIDTH, HEIGHT);
-	menu->menu_img[M_CURSOR] = mlx_new_image(mlx, 64, 64);
-	menu->menu_tex[M_MAIN] = mlx_load_png("./data/menu/menu_main.png");
-	menu->menu_tex[M_MAP] = mlx_load_png("./data/menu/menu_map_select.png");
-	menu->menu_tex[M_CURSOR] = mlx_load_png("./data/menu/selector_knife.png");
-	if (!menu->menu_img[M_MAIN] || !menu->menu_img[M_MAP] || !menu->menu_img[M_CURSOR])
-		return (NULL);
-	menu->menu_img[M_MAIN] = mlx_texture_to_image(mlx, menu->menu_tex[M_MAIN]);
-	menu->menu_img[M_MAP] = mlx_texture_to_image(mlx, menu->menu_tex[M_MAP]);
-	menu->menu_img[M_CURSOR] = mlx_texture_to_image(mlx, menu->menu_tex[M_CURSOR]);
-	mlx_image_to_window(mlx, menu->menu_img[M_MAP], 0, 0);
-	mlx_image_to_window(mlx, menu->menu_img[M_MAIN], 0, 0);
-	mlx_image_to_window(mlx, menu->menu_img[M_CURSOR], WIDTH / 2 +  64, HEIGHT / 2);
+	// Main menu
+	menu->main_menu.bg = cbd_init_menu_img(mlx, "./data/menu/menu_main.png");
+	// menu->main_menu.map = cbd_init_menu_img(mlx, "CORRECT IMAGE PATH");
+	// Select menu
+	menu->select_menu.bg = cbd_init_menu_img(mlx, "./data/menu/menu_map_select.png");
+	// menu->select_menu.map = cbd_init_menu_img(mlx, "CORRECT IMAGE PATH");
+	menu->main_menu.cursor = cbd_init_menu_img(mlx, "./data/menu/selector_knife.png");
+	menu->select_menu.cursor = menu->main_menu.cursor;
+
+	mlx_image_to_window(mlx, menu->main_menu.bg, 0, 0);
+	// mlx_image_to_window(mlx, menu->main_menu.map, 0, 0);
+	mlx_image_to_window(mlx, menu->select_menu.bg, 0, 0);
+	mlx_image_to_window(mlx, menu->main_menu.cursor, WIDTH / 2 +  64, HEIGHT / 2);
+	// mlx_image_to_window(mlx, menu->select_menu.map, 0, 0);
+	set_main_cursor_positions(menu);
+	set_select_cursor_positions(menu);
+	set_menu_state(menu, MAIN);
 	return (menu);
 }

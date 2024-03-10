@@ -74,19 +74,19 @@ bool cbd_init(t_app *cbd)
 	if (!cbd->menudata)
 		return (cbd_error(ERR_ALLOC), FAILURE);
 
+	// Init Input
+	// cbd_init_input(cbd);
+
 	//Setup mlx hooks
-	mlx_key_hook(cbd->mlx, navigate_menu, cbd);
-	mlx_loop_hook(cbd->mlx, move_player, cbd);
-	printf("test\n");
+	mlx_key_hook(cbd->mlx, cbd_input, cbd);
+	mlx_loop_hook(cbd->mlx, cbd_loop, cbd);
 	return (SUCCESS);
 }
 
 bool	cbd_main(t_app *cbd)
 {
-	printf("Init\n");
 	if (cbd_init(cbd))
 		return (FAILURE);
-	printf("Init success\n");
 	mlx_loop(cbd->mlx);
 	mlx_terminate(cbd->mlx);
 	cleanup(cbd);
