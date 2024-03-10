@@ -11,12 +11,14 @@ SRCS	:= \
 		   cbd_render.c			\
 		   cbd_loop.c			\
 		   error/error.c 		\
+		   init/cbd_init.c		\
 		   parser/parser.c 		\
 		   parser/init.c 		\
 		   parser/get_data.c 	\
 		   parser/bools.c		\
 		   parser/validate_data.c \
-		   menu/menu.c			\
+		   menu/menu_navigation.c\
+		   menu/menu_setters.c	\
 		   raycaster/raycaster.c\
 		   raycaster/vec.c		\
 		   render/draw.c		\
