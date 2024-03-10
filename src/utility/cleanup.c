@@ -28,14 +28,14 @@ void	cleanup_map(t_map *map)
 
 void	cleanup_menu(t_menu *menu)
 {
-	int i;
+	// int i;
 
-	i = 0;
-	while (i < M_SIZE)
-	{
-		mlx_delete_texture(menu->menu_tex[i]);
-		i++;
-	}
+	// i = 0;
+	// while (i < M_SIZE)
+	// {
+	// 	// mlx_delete_texture(menu->menu_tex[i]);
+	// 	i++;
+	// }
 	free(menu);
 }
 

@@ -63,16 +63,8 @@ typedef enum e_dir {
 	DIR_SIZE,
 } e_dir;
 
-typedef enum e_menu_elements {
-	M_MAIN,
-	M_MAP,
-	M_CURSOR,
-	M_SIZE,
-} t_menu_elements;
-
 typedef enum e_state {
-	STATE_MAIN,
-	STATE_MAP_SEL,
+	STATE_MENU,
 	STATE_GAME,
 } t_state;
 
@@ -83,29 +75,19 @@ typedef struct s_ray {
 	uint8_t	side;
 } t_ray;
 
-typedef void (*t_input_handler)(mlx_key_data_t, t_app *);
-
-typedef struct s_input {
-	bool key[348];
-	t_input_handler handler[348];
-} t_input;
-
-typedef enum e_action {
+enum e_action {
 	FORWARD,
 	BACKWARD,
 	LEFT,
 	RIGHT,
 	ACTION_SIZE,
-} t_action;
+};
+
 typedef struct s_action {
 	bool	forward;
 	bool	backward;
 	bool	left;
 	bool	right;
-	// bool	s;
-	// bool	d;
-	// bool	up;
-	// bool	down;
 	bool	action[ACTION_SIZE];
 } t_action;
 
@@ -122,8 +104,8 @@ typedef struct s_player {
 
 typedef struct s_map {
 	char			**raw_data;
-	char 			**tex_path;
-	char 			**cbd_map;
+	char			**tex_path;
+	char			**cbd_map;
 	mlx_texture_t	**cbd_tex;
 	t_rgba			floor;
 	t_rgba			ceiling;
@@ -134,9 +116,51 @@ typedef struct s_map {
 	bool			valid;
 } 	t_map;
 
+typedef struct s_main_menu {
+	enum e_m_main_items {
+		BTN_PLAY,
+		BTN_MAP_SELECT,
+		BTN_EXIT,
+		BTN_MAIN_COUNT,
+	} t_m_main_items;
+	mlx_image_t			*bg;
+	mlx_image_t			*map;
+	mlx_image_t			*cursor;
+	mlx_image_t			*preview_img;
+	t_vec2i				cursor_pos;
+	t_vec2i				cursor_positons[4];
+	enum e_m_main_items	current_item;
+} t_main_menu;
+
+typedef struct s_select_menu {
+	enum e_m_select_items {
+		BTN_DARK_SECRET,
+		BTN_THE_BUNKER,
+		BTN_RABBIT_HOLE,
+		BTN_SNOW_CRASH,
+		BTN_CONFRONTATION,
+		BTN_BACK,
+		BTN_SELECT_COUNT,
+	} t_m_select_items;
+	mlx_image_t			*bg;
+	mlx_image_t			*map;
+	mlx_image_t			*cursor;
+	mlx_image_t			*preview_img;
+	t_vec2i				cursor_pos;
+	t_vec2i				cursor_positons[7];
+	enum e_m_select_items	current_item;
+} t_select_menu;
+
+typedef enum e_menu_state {
+	OFF,
+	MAIN,
+	MAP_SELECT,
+} t_menu_state;
+
 typedef struct s_menu {
-	mlx_texture_t	*menu_tex[M_SIZE];
-	mlx_image_t 	*menu_img[M_SIZE];
+	t_main_menu		main_menu;
+	t_select_menu	select_menu;
+	t_menu_state	state;
 } t_menu;
 
 typedef struct s_hud {
@@ -151,6 +175,13 @@ typedef struct s_hud {
 	int8_t equipped;
 } t_hud;
 
+typedef void (*t_input_handler)(mlx_key_data_t, void *);
+
+typedef struct s_input {
+	bool			key[348];
+	t_input_handler	handler[348];
+} t_input;
+
 typedef struct s_app {
 	t_particle 	particles[N_PARTICLES];
 	t_player 	playerdata;
@@ -163,6 +194,8 @@ typedef struct s_app {
 	t_input		input;
 }	t_app;
 
+
+
 //		Utility
 void	print_2d(char **str);
 void	print_debug_info(t_app *cub3d);
@@ -170,7 +203,11 @@ void	cleanup(t_app *app);
 
 //		Menu.c
 // void	navigate_menu(mlx_key_data_t keydata, void *param);
-int		move_cursor_main_menu(t_app *cbd, int i);
+// int		move_cursor_main_menu(t_app *cbd, int i);
+void	menu_move_cursor(t_menu *menu, int dir);
+void	menu_enter(t_menu *menu);
+void	menu_escape(t_menu *menu);
+void	set_menu_state(t_menu *menu, t_menu_state state);
 int		move_cursor_map_select(t_app *cbd, int i);
 t_menu 	*cbd_init_menu(mlx_t *mlx);
 
@@ -195,10 +232,22 @@ void	draw_circle(mlx_image_t *image, uint32_t color, t_vec2i pos, float r);
 bool	cbd_main(t_app *cbd);
 bool	cbd_init(t_app *cbd);
 void	cbd_loop(void *param);
+void	cbd_init_input(t_app *cbd);
 void	cbd_input(mlx_key_data_t keydata, void *param);
 
 //		Interaction
 void	move_player(t_app *cbd);
+
+//		Input_handlers
+// void	default_handler(mlx_key_data_t keydata, void *param);
+// void	forward_handler(mlx_key_data_t keydata, void *param);
+// void	backward_handler(mlx_key_data_t keydata, void *param);;
+// void	left_handler(mlx_key_data_t keydata, void *param);
+// void	right_handler(mlx_key_data_t keydata, void *param);
+// void	escape_handler(mlx_key_data_t keydata, void *param);
+// void	enter_handler(mlx_key_data_t keydata, void *param);
+// void	weapon_handler(mlx_key_data_t keydata, void *param);
+// void	map_handler(mlx_key_data_t keydata, void *param);
 
 
 #endif //CUB3D_H

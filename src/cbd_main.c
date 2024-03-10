@@ -74,6 +74,9 @@ bool cbd_init(t_app *cbd)
 	if (!cbd->menudata)
 		return (cbd_error(ERR_ALLOC), FAILURE);
 
+	// Init Input
+	// cbd_init_input(cbd);
+
 	//Setup mlx hooks
 	mlx_key_hook(cbd->mlx, cbd_input, cbd);
 	mlx_loop_hook(cbd->mlx, cbd_loop, cbd);
