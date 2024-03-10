@@ -4,6 +4,12 @@
 # include <cbd_vec.h>
 # include <MLX42.h>
 
+//Window size
+# define WIDTH 			1280
+# define HEIGHT 		720
+# define FOV 			90
+
+
 //Colors
 # define WHITE 		0xFFFFFFFF
 # define OFF_WHITE	0xF0F0F0FF
@@ -12,15 +18,10 @@
 # define BLUE 		0x0000FFFF
 
 //Dimensions
-# define TILES 			(64 + 64)
-# define TILESIZE 		WIDTH / TILES
-# define MAPSIZE		WIDTH - (TILESIZE * 16)
-# define RADARW			626
-# define RADARH			448
-# define N_PARTICLES	25
-# define WIDTH 			1280
-# define HEIGHT 		720
-# define FOV 			90
+# define TILESIZE 		64
+# define MINIMAP_WIDTH	184
+# define MINIMAP_HEIGHT	118
+# define N_PARTICLES	40
 
 typedef struct s_bresenham
 {
@@ -84,16 +85,19 @@ typedef struct s_hud {
 
 //Color
 int32_t	color(uint8_t r, uint8_t g, uint8_t b);
+int32_t	color_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 
 //Draw
 void	draw_hud(t_hud *hud);
 void	draw_background(mlx_image_t *img, int32_t color);
-void	draw_player(char **map, mlx_image_t *img, t_vec2d pos, t_vec2d dir);
+void	draw_player(mlx_image_t *img);
 void	draw_map(char **map, t_hud *hud, int width, int height);
+void	draw_minimap(mlx_image_t *hud_map, t_vec2d pos, char **map, int width, int height);
 void	draw_wall_strip(mlx_image_t *game, uint32_t color, int height, int x, float headbob, float map_peak);
 void	draw_walls(mlx_image_t *game, t_ray *rays, float headbob, float map_peak);
 void	draw_line(mlx_image_t *image, uint32_t color, t_vec2i p1, t_vec2i p2);
 void	draw_square(mlx_image_t *image, uint32_t color, t_vec2i pos, t_vec2i dimension);
+void	draw_noise_square(mlx_image_t *image, t_vec2i pos, t_vec2i dimension);
 void	draw_circle(mlx_image_t *image, uint32_t color, t_vec2i pos, float r);
 
 //Post processing

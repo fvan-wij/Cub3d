@@ -14,6 +14,7 @@ typedef struct 	s_vec2d {
 void	vec_normalize(t_vec2d *vec);
 double	vec_length(t_vec2d vec);
 t_vec2d	vec_assign(double x, double y);
+t_vec2i	vec2i_assign(double x, double y);
 t_vec2d	vec_rotate(t_vec2d direction, double angle);
 t_vec2i	vec_to_int(t_vec2d vec);
 t_vec2d	vec_to_float(t_vec2i vec);

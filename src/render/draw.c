@@ -37,30 +37,44 @@ void	draw_background(mlx_image_t *img, int32_t color)
 	draw_square(img, color, init, screen);
 }
 
-void	draw_player(char **map, mlx_image_t *img, t_vec2d pos, t_vec2d dir)
+void	draw_player(mlx_image_t *img)
 {
-	const float r = TILESIZE>>1;
-	(void) map;
-	// int		i;
-
-	// i = 0;
-	t_vec2d world_dir = vec_assign((pos.x + dir.x) * TILESIZE, (pos.y + dir.y) * TILESIZE);
-	t_vec2d world_pos = vec_assign(pos.x * TILESIZE, pos.y * TILESIZE);
-	// while (i < WIDTH)
-	// {
-		// p.rays[i] = cast_ray(map, p, i);
-		// if (p.rays[i].intersection.x <= WIDTH && p.rays[i].intersection.x >= 0 && p.rays[i].intersection.y <= HEIGHT && p.rays[i].intersection.y >= 0)
-		// {
-		// 	draw_line(img, color(151, 0, 0), vec_to_int(world_pos), vec_to_int(p.rays[i].intersection));
-		// }
-		// i++;
-	// }
-	if (world_dir.x <= WIDTH && world_dir.x >= 0 && world_dir.y <= HEIGHT && world_dir.y >= 0)
-	{
-		draw_circle(img, color(151, 0, 0), vec_to_int(world_pos), r);
-		// draw_line(img, BLUE, vec_to_int(world_pos), vec_to_int(world_dir)); // Draws player looking direction
-	}
+	const float r = (TILESIZE)>>4;
+	draw_circle(img, color(255, 255, 255), vec2i_assign((float) (img->width/2), (float)(img->height/2)), r);
 }
+
+void	draw_minimap(mlx_image_t *hud_map, t_vec2d pos, char **map, int width, int height)
+{
+	draw_noise_square(hud_map, vec2i_assign(0, 0), vec2i_assign(hud_map->width, hud_map->height));
+	t_vec2d	offset;
+	t_vec2i loc;
+
+	float tileH = (float) MINIMAP_HEIGHT / 16;
+	t_vec2i size;
+	int y;
+	int	x;
+	y = 0;
+
+	offset.x = -(((pos.x / MINIMAP_WIDTH) * MINIMAP_WIDTH) * tileH) + (MINIMAP_WIDTH>>1);
+	offset.y = -(((pos.y / MINIMAP_HEIGHT) * MINIMAP_HEIGHT) * tileH) + (MINIMAP_HEIGHT>>1);
+	while (y < height)
+	{
+		x = 0;
+		while (x < width)
+		{
+			loc.x = (x * tileH) + offset.x;
+			loc.y = (y * tileH) + offset.y;
+			size.x = tileH + 1;
+			size.y = tileH + 1;
+			if (map[y][x] == '0' && loc.x < MINIMAP_WIDTH && loc.y < MINIMAP_HEIGHT && loc.x > 0 && loc.y > 0)
+				draw_square(hud_map, color_rgba(0, 0, 0, 50), loc, size);
+			x++;
+		}
+		y++;
+	}
+	draw_player(hud_map);
+}
+
 
 void	draw_map(char **map, t_hud *hud, int width, int height)
 {
@@ -91,12 +105,36 @@ void	draw_map(char **map, t_hud *hud, int width, int height)
 	// printf("pos(%f, %f), dir(%f, %f), plane(%f, %f)\n", cbd->playerdata.pos.x,cbd->playerdata.pos.y, cbd->playerdata.dir.x,cbd->playerdata.dir.y, cbd->playerdata.plane.x ,cbd->playerdata.plane.y);
 }
 
-void	draw_wall_strip(mlx_image_t *game,
-	uint32_t color, int height, int x, float headbob, float map_peak)
+// void	draw_wall_strip(mlx_image_t *game,
+// 	uint32_t color, int height, int x, float headbob, float map_peak)
+// {
+// 	int y;
+// 	int draw_start;
+// 	int draw_end;
+//
+// 	draw_start = (-height / 2) + (HEIGHT / 2);
+// 	draw_end = (height / 2) + (HEIGHT / 2);
+// 	draw_start += (sin(headbob) * 10) + map_peak;
+// 	draw_end += (sin(headbob) * 10) + map_peak;
+// 	if (draw_start < 0)
+// 		draw_start = 0;
+// 	if (draw_end >= HEIGHT)
+// 		draw_end = HEIGHT - 1;
+// 	y = draw_start;
+// 	while (y < height + draw_start)
+// 	{
+// 		if (y >= draw_start && y <= draw_end)
+// 			mlx_put_pixel(game, x, y, color);
+// 		y++;
+// 	}
+// }
+
+void	draw_wall_strip(mlx_image_t *game, uint32_t color, int height, int x, float headbob, float map_peak)
 {
 	int y;
 	int draw_start;
 	int draw_end;
+	(void) color;
 
 	draw_start = (-height / 2) + (HEIGHT / 2);
 	draw_end = (height / 2) + (HEIGHT / 2);
@@ -109,8 +147,9 @@ void	draw_wall_strip(mlx_image_t *game,
 	y = draw_start;
 	while (y < height + draw_start)
 	{
-		if (y >= draw_start && y <= draw_end)
-			mlx_put_pixel(game, x, y, color);
+			uint8_t noise = rand();
+			if (y >= draw_start && y <= draw_end)
+				mlx_put_pixel(game, x, y, color_rgba(noise, noise, noise, noise));	
 		y++;
 	}
 }

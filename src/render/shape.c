@@ -1,6 +1,7 @@
 #include <MLX42.h>
 #include <cub3d.h>
 #include <math.h>
+#include <stdlib.h>
 
 void	draw_square(mlx_image_t *image, uint32_t color, t_vec2i pos, t_vec2i dimension)
 {
@@ -17,6 +18,29 @@ void	draw_square(mlx_image_t *image, uint32_t color, t_vec2i pos, t_vec2i dimens
 		{
 			if (pos.x >= 0 && pos.x < WIDTH && pos.y >= 0 && pos.y < HEIGHT)
 				mlx_put_pixel(image, pos.x, pos.y, color);
+			pos.x++;
+		}
+		pos.y++;
+	}
+}
+void	draw_noise_square(mlx_image_t *image, t_vec2i pos, t_vec2i dimension)
+{
+	int reset;
+
+	dimension.x += pos.x;
+	dimension.y += pos.y;
+
+	reset = pos.x;
+	while (pos.y < dimension.y)
+	{
+		pos.x = reset;
+		while (pos.x < dimension.x)
+		{
+			if (pos.x >= 0 && pos.x < WIDTH && pos.y >= 0 && pos.y < HEIGHT)
+			{
+				uint8_t	noise = rand();
+				mlx_put_pixel(image, pos.x, pos.y, color(noise, noise, noise));
+			}
 			pos.x++;
 		}
 		pos.y++;
