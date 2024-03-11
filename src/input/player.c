@@ -17,7 +17,7 @@ void	move_player(t_app *cbd)
 	pos = vec_assign(cbd->playerdata.pos.x, cbd->playerdata.pos.y);
 	dir = vec_assign(cbd->playerdata.dir.x, cbd->playerdata.dir.y);
 
-	cbd->hud->img[cbd->hud->equipped]->instances[0].x = (cos(cbd->playerdata.headbob) * 2) + (WIDTH>>1) - (cbd->hud->img[cbd->hud->equipped]->width>>1);
+	// cbd->hud->img[cbd->hud->equipped]->instances[0].x = (cos(cbd->playerdata.headbob) * 2) + (WIDTH>>1) - (cbd->hud->img[cbd->hud->equipped]->width>>1);
 
 	//Shift multiplier
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_LEFT_SHIFT))
@@ -25,10 +25,10 @@ void	move_player(t_app *cbd)
 		move_speed *= 2;
 		headbob_speed *= 2;
 	}
-	if (cbd->hud->img[HUD_MAP]->enabled && cbd->playerdata.map_peak > -100)
-		cbd->playerdata.map_peak -= cos(cbd->mlx->delta_time) * 2;
-	else if (cbd->playerdata.map_peak < 0)
-		cbd->playerdata.map_peak += cos(cbd->mlx->delta_time) * 2;
+	// if (cbd->hud->img[HUD_MAP]->enabled && cbd->playerdata.map_peak > -100)
+	// 	cbd->playerdata.map_peak -= cos(cbd->mlx->delta_time) * 2;
+	// else if (cbd->playerdata.map_peak < 0)
+	// 	cbd->playerdata.map_peak += cos(cbd->mlx->delta_time) * 2;
 
 
 	t_vec2d potential_pos = pos;

@@ -8,24 +8,38 @@
 
 void	draw_hud(t_hud *hud)
 {
-	if (hud->equipped == WPN_FIST)
-		hud->img[WPN_FIST]->enabled = true;
+	(void) hud;
+	// if (hud->equipped == WPN_FIST)
+	// 	hud->img[WPN_FIST]->enabled = true;
+	// else
+	// 	hud->img[WPN_FIST]->enabled = false;
+	// if (hud->equipped == WPN_MAP)
+	// {
+	// 	hud->img[WPN_MAP]->enabled = true;
+	// 	hud->img[HUD_MAP]->enabled = true;
+	// }
+	// else
+	// {
+	// 	hud->img[WPN_MAP]->enabled = false;
+	// 	hud->img[HUD_MAP]->enabled = false;
+	// }
+	// if (hud->equipped == WPN_CHAINSAW)
+	// 	hud->img[WPN_CHAINSAW]->enabled = true;
+	// else
+	// 	hud->img[WPN_CHAINSAW]->enabled = false;
+}
+
+void	draw_equipped_weapon(t_inventory	*inv)
+{
+	// printf("inv->equipped: %d\n", inv->equipped);
+	if (inv->equipped == WPN_FIST && inv->weapons[WPN_FIST].fire_animation->loop != true)
+		inv->weapons[WPN_FIST].img->enabled = true;
 	else
-		hud->img[WPN_FIST]->enabled = false;
-	if (hud->equipped == WPN_MAP)
-	{
-		hud->img[WPN_MAP]->enabled = true;
-		hud->img[HUD_MAP]->enabled = true;
-	}
+		inv->weapons[WPN_FIST].img->enabled = false;
+	if (inv->equipped == WPN_CHAINSAW && inv->weapons[WPN_CHAINSAW].fire_animation->loop != true)
+		inv->weapons[WPN_CHAINSAW].img->enabled = true;
 	else
-	{
-		hud->img[WPN_MAP]->enabled = false;
-		hud->img[HUD_MAP]->enabled = false;
-	}
-	if (hud->equipped == WPN_CHAINSAW)
-		hud->img[WPN_CHAINSAW]->enabled = true;
-	else
-		hud->img[WPN_CHAINSAW]->enabled = false;
+		inv->weapons[WPN_CHAINSAW].img->enabled = false;
 }
 
 

@@ -42,5 +42,6 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [x] Add Po player-centered minimap
 - [ ] Add ambient soundtrack
 - [ ] Add event triggered sound
-- [ ] Add shooting, reloading, saw, smash animations
+- [x] Add saw and smashing animations
+- [ ] Add continuous animation for saw.
 - [ ] Implement textures
