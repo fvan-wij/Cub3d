@@ -47,7 +47,7 @@ t_menu	*cbd_init_menu(mlx_t *mlx)
 	return (menu);
 }
 
-t_animation	*init_animation(mlx_t	*mlx, char *path)
+t_animation	*init_weapon_animation(mlx_t	*mlx, char *path)
 {
 	t_animation	*animation;
 	char 		*temp;
@@ -71,8 +71,9 @@ t_animation	*init_animation(mlx_t	*mlx, char *path)
 			return (NULL);
 
 		w = (WIDTH/2) - (animation->frames[i].img->width / 2);
-		h = HEIGHT - (animation->frames[i].img->height>>1);
+		h = HEIGHT - (animation->frames[i].img->height>>1) - 100;
 		mlx_image_to_window(mlx, animation->frames[i].img, w, h); 
+		animation->frames[i].img->enabled = false;
 		animation->frames[i].duration = 2;
 		temp[n] = temp[n] + 1;
 		i++;
@@ -88,15 +89,17 @@ t_inventory *cbd_init_inventory(mlx_t *mlx)
 	inv = ft_calloc(1, sizeof(t_inventory));
 	if (!inv)
 		return (NULL);
-	// inv
-
 	inv->weapons[WPN_FIST].img = cbd_init_texture_img(mlx, "./data/textures/player/hands2.png");
 	inv->weapons[WPN_MAP].img = cbd_init_texture_img(mlx, "./data/textures/player/radar3.png");
 	inv->weapons[WPN_CHAINSAW].img = cbd_init_texture_img(mlx, "./data/textures/player/chainsaw.png");
 
 	inv->weapons[WPN_FIST].type = WPN_FIST;
-	inv->weapons[WPN_FIST].fire_animation = init_animation(mlx, "./data/textures/player/animation/fist/frame_0.png");
+	inv->weapons[WPN_CHAINSAW].type = WPN_CHAINSAW;
+	inv->weapons[WPN_FIST].fire_animation = init_weapon_animation(mlx, "./data/textures/player/animation/fist/frame_0.png");
 	if (!inv->weapons[WPN_FIST].fire_animation)
+		return (NULL);
+	inv->weapons[WPN_CHAINSAW].fire_animation = init_weapon_animation(mlx, "./data/textures/player/animation/chainsaw/frame_0.png");
+	if (!inv->weapons[WPN_CHAINSAW].fire_animation)
 		return (NULL);
 	return (inv);
 }
@@ -149,12 +152,12 @@ bool cbd_init(t_app *cbd)
 	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_OVERLAY], 0, 0);
 	// mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_MAP], (WIDTH>>1) - (MINIMAP_WIDTH>>2) - 16, (HEIGHT>>1) + (MINIMAP_HEIGHT>>3) + 4);
 	// mlx_image_to_window(cbd->mlx, cbd->hud->img[WPN_MAP], (WIDTH/2) - (cbd->hud->img[WPN_MAP]->width / 2), HEIGHT - cbd->hud->img[WPN_MAP]->height);
-	// mlx_image_to_window(cbd->mlx, cbd->hud->img[WPN_CHAINSAW], (WIDTH/2) - (cbd->hud->img[WPN_CHAINSAW]->width / 2), HEIGHT - (cbd->hud->img[WPN_CHAINSAW]->height * 0.8));
 	cbd->playerdata.inv = cbd_init_inventory(cbd->mlx);
 	if (!cbd->playerdata.inv)
 		return (cbd_error(ERR_ALLOC), FAILURE);
 	cbd->playerdata.inv->equipped = WPN_FIST;
 	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_FIST].img, (WIDTH/2) - (cbd->playerdata.inv->weapons[WPN_FIST].img->width / 2), HEIGHT - (cbd->playerdata.inv->weapons[WPN_FIST].img->height>>1));
+	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_CHAINSAW].img, (WIDTH/2) - (cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->width / 2), HEIGHT - (cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->height * 0.8));
 
 	//Init menu images
 	cbd->menudata = cbd_init_menu(cbd->mlx);

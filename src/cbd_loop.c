@@ -12,5 +12,6 @@ void	cbd_loop(void *param)
 
 	cbd = param;
 	move_player(cbd);
+	play_weapon_animation(cbd->mlx, cbd->playerdata.inv);
 	cbd_render(cbd);
 }

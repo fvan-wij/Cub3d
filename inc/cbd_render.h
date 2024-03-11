@@ -96,8 +96,8 @@ typedef struct s_weapon {
 typedef struct s_inventory {
 	enum e_inv_items {
 		WPN_FIST,
-		WPN_MAP,
 		WPN_CHAINSAW,
+		WPN_MAP,
 		WPN_SIZE,
 	} t_inv_items;
 	t_weapon	weapons[WPN_SIZE];
@@ -139,6 +139,6 @@ void	draw_gradient_bg(t_hud *hud);
 void	draw_particles(mlx_image_t *game, t_particle *particles);
 
 //Animation
-void	shoot_weapon(mlx_t	*mlx, t_inventory *inv);
+void	play_weapon_animation(mlx_t	*mlx, t_inventory *inv);
 
 #endif //CBD_RENDER_H
