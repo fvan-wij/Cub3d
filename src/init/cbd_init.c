@@ -18,7 +18,7 @@ mlx_image_t *cbd_init_texture_img(mlx_t *mlx, char *path)
 	return (img);
 }
 
-t_menu	*cbd_init_menu(mlx_t *mlx)
+t_menu	*cbd_init_menu(mlx_t *mlx, t_map *map)
 {
 	t_menu 			*menu;
 
@@ -36,6 +36,10 @@ t_menu	*cbd_init_menu(mlx_t *mlx)
 	menu->main_menu.cursor = cbd_init_texture_img(mlx, "./data/menu/selector_knife.png");
 	menu->select_menu.cursor = menu->main_menu.cursor;
 
+	menu->select_menu.preview_img = cbd_init_texture_img(mlx, "./data/textures/map_preview.png");
+	menu->main_menu.preview_img = menu->select_menu.preview_img;	
+	mlx_image_to_window(mlx, menu->main_menu.preview_img, 0, 0);
+	menu->main_menu.preview_img->instances->z = -1;
 	mlx_image_to_window(mlx, menu->main_menu.bg, 0, 0);
 		// mlx_image_to_window(mlx, menu->main_menu.map, 0, 0);
 	mlx_image_to_window(mlx, menu->select_menu.bg, 0, 0);
@@ -43,7 +47,10 @@ t_menu	*cbd_init_menu(mlx_t *mlx)
 		// mlx_image_to_window(mlx, menu->select_menu.map, 0, 0);
 	set_main_cursor_positions(menu);
 	set_select_cursor_positions(menu);
+	set_map_preview_positions(menu);
 	set_menu_state(menu, MAIN);
+	menu->main_menu.preview_img->instances->x = menu->preview_positions[map->current_map].x;
+	menu->main_menu.preview_img->instances->y = menu->preview_positions[map->current_map].y;
 	return (menu);
 }
 
@@ -114,8 +121,9 @@ void	init_playerdata(t_player *playerdata, t_map *mapdata)
 {
 	mapdata->cbd_map[(int)mapdata->start_pos.y][(int)mapdata->start_pos.x] = '0';
 	playerdata->pos = mapdata->start_pos;
-
 	playerdata->dir = mapdata->start_dir;
+	playerdata->pos.x += 0.5f;
+	playerdata->pos.y += 0.5f;
 	playerdata->scalar = 1;
 	playerdata->plane = vec_rotate(playerdata->dir, M_PI / 2);
 	playerdata->map_peak = 0;
@@ -189,9 +197,11 @@ bool cbd_init(t_app *cbd)
 	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_MAP].img, (WIDTH>>2), (HEIGHT>>3));
 	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_FIST].img, (WIDTH>>1) - (cbd->playerdata.inv->weapons[WPN_FIST].img->width / 2), HEIGHT - (cbd->playerdata.inv->weapons[WPN_FIST].img->height>>1));
 	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_CHAINSAW].img, (WIDTH>>1) - (cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->width / 2), HEIGHT - (cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->height * 0.8));
+	cbd->playerdata.inv->weapons[WPN_MAP].img->enabled = false;
+	cbd->playerdata.inv->weapons[WPN_FIST].img->enabled = false;
+	cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->enabled = false;
 
-
-	cbd->menudata = cbd_init_menu(cbd->mlx);
+	cbd->menudata = cbd_init_menu(cbd->mlx, cbd->mapdata);
 	if (!cbd->menudata)
 		return (cbd_error(ERR_ALLOC), FAILURE);
 

@@ -102,6 +102,7 @@ mlx_texture_t	**get_mlx_tex(char **tex_path)
 	return (textures);
 }
 
+
 t_map	*get_map_data(int fd, t_map *mapdata, t_valid *is)
 {
 	char 	*line;
@@ -118,6 +119,7 @@ t_map	*get_map_data(int fd, t_map *mapdata, t_valid *is)
 		free(line);
 		line = get_next_line(fd);
 	}
+	close(fd);
 	if (!mapdata->raw_data)
 		return (cbd_error(ERR_INVALID_MAP), NULL);
 	mapdata->cbd_tex = get_mlx_tex(mapdata->tex_path);

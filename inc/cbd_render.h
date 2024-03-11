@@ -9,7 +9,6 @@
 # define HEIGHT 		720
 # define FOV 			90
 
-
 //Colors
 # define WHITE 		0xFFFFFFFF
 # define OFF_WHITE	0xF0F0F0FF
@@ -21,7 +20,7 @@
 # define TILESIZE 		64
 # define MINIMAP_WIDTH	184
 # define MINIMAP_HEIGHT	118
-# define N_PARTICLES	40
+# define N_PARTICLES	30
 
 typedef struct s_bresenham
 {

@@ -20,6 +20,7 @@ SRCS	:= \
 		   parser/validate_data.c \
 		   menu/menu_navigation.c\
 		   menu/menu_setters.c	\
+		   menu/menu_loadmap.c	\
 		   raycaster/raycaster.c\
 		   raycaster/vec.c		\
 		   render/draw.c		\

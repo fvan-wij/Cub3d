@@ -48,7 +48,72 @@ void	menu_enter(t_menu *menu)
 	{
 		if (menu->select_menu.current_item == BTN_BACK)
 			set_menu_state(menu, MAIN);
+		if (menu->select_menu.current_item == BTN_DARK_SECRET)
+		{
+			set_menu_state(menu, MAP_LOAD);
+			menu->current_position = menu->preview_positions[BTN_DARK_SECRET];
+		}
+		if (menu->select_menu.current_item == BTN_THE_BUNKER)
+		{
+			set_menu_state(menu, MAP_LOAD);
+			menu->current_position = menu->preview_positions[BTN_THE_BUNKER];
+		}
+		if (menu->select_menu.current_item == BTN_RABBIT_HOLE)
+		{
+			set_menu_state(menu, MAP_LOAD);
+			menu->current_position = menu->preview_positions[BTN_RABBIT_HOLE];
+		}
+		if (menu->select_menu.current_item == BTN_SNOW_CRASH)
+		{
+			set_menu_state(menu, MAP_LOAD);
+			menu->current_position = menu->preview_positions[BTN_SNOW_CRASH];
+		}
+		if (menu->select_menu.current_item == BTN_CONFRONTATION)
+		{
+			set_menu_state(menu, MAP_LOAD);
+			menu->current_position = menu->preview_positions[BTN_CONFRONTATION];
+		}
 	}
+}
+
+void	display_preview(t_menu *menu, t_map *mapdata)
+{
+		if (menu->select_menu.current_item == BTN_BACK)
+		{
+			menu->select_menu.preview_img->instances->x = menu->preview_positions[mapdata->current_map].x;
+			menu->select_menu.preview_img->instances->y = menu->preview_positions[mapdata->current_map].y;
+
+		}
+		if (menu->select_menu.current_item == BTN_DARK_SECRET)
+		{
+			menu->select_menu.preview_img->instances->x = menu->preview_positions[LVL_DARK_SECRET].x;
+			menu->select_menu.preview_img->instances->y = menu->preview_positions[LVL_DARK_SECRET].y;
+			menu->current_position = menu->preview_positions[LVL_DARK_SECRET];
+		}
+		if (menu->select_menu.current_item == BTN_THE_BUNKER)
+		{
+			menu->select_menu.preview_img->instances->x = menu->preview_positions[LVL_THE_BUNKER].x;
+			menu->select_menu.preview_img->instances->y = menu->preview_positions[LVL_THE_BUNKER].y;
+			menu->current_position = menu->preview_positions[LVL_THE_BUNKER];
+		}
+		if (menu->select_menu.current_item == BTN_RABBIT_HOLE)
+		{
+			menu->select_menu.preview_img->instances->x = menu->preview_positions[LVL_RABBIT_HOLE].x;
+			menu->select_menu.preview_img->instances->y = menu->preview_positions[LVL_RABBIT_HOLE].y;
+			menu->current_position = menu->preview_positions[LVL_RABBIT_HOLE];
+		}
+		if (menu->select_menu.current_item == BTN_SNOW_CRASH)
+		{
+			menu->select_menu.preview_img->instances->x = menu->preview_positions[LVL_SNOW_CRASH].x;
+			menu->select_menu.preview_img->instances->y = menu->preview_positions[LVL_SNOW_CRASH].y;
+			menu->current_position = menu->preview_positions[LVL_SNOW_CRASH];
+		}
+		if (menu->select_menu.current_item == BTN_CONFRONTATION)
+		{
+			menu->select_menu.preview_img->instances->x = menu->preview_positions[LVL_CONFRONTATION].x;
+			menu->select_menu.preview_img->instances->y = menu->preview_positions[LVL_CONFRONTATION].y;
+			menu->current_position = menu->preview_positions[LVL_CONFRONTATION];
+		}
 }
 
 void	menu_escape(t_menu *menu)

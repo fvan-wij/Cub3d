@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdio.h>
 
 static int	open_map(const char *file)
 {
@@ -14,6 +15,26 @@ static int	open_map(const char *file)
 	if (fd < 0)
 		return (cbd_error(ERR_OPEN), fd);
 	return (fd);
+}
+
+
+uint8_t	set_current_map(const char *file)
+{
+	char *temp;
+
+	temp = ft_strrchr(file, '/');
+	if (ft_strncmp(temp, "/dark_secret.cub", ft_strlen(temp)) == 0)
+		return (LVL_DARK_SECRET);
+	if (ft_strncmp(temp, "/the_bunker.cub", ft_strlen(temp)) == 0)
+		return (LVL_THE_BUNKER);
+	if (ft_strncmp(temp, "/rabbit_hole.cub", ft_strlen(temp)) == 0)
+		return (LVL_RABBIT_HOLE);
+	if (ft_strncmp(temp, "/snow_crash.cub", ft_strlen(temp)) == 0)
+		return (LVL_SNOW_CRASH);
+	if (ft_strncmp(temp, "/confrontation.cub", ft_strlen(temp)) == 0)
+		return (LVL_CONFRONTATION);
+	else
+		return (LVL_UNKNOWN);
 }
 
 t_map	*cbd_parse_map(const char *file)
@@ -35,7 +56,7 @@ t_map	*cbd_parse_map(const char *file)
 	mapdata->valid = validate_map_data(mapdata, &is);
 	if (!mapdata->valid)
 		return (NULL);
-
+	mapdata->current_map = set_current_map(file);
 	return (mapdata);
 }
 

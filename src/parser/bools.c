@@ -1,4 +1,5 @@
 #include <cbd_parser.h>
+#include <libft.h>
 
 bool	is_content(char *str)
 {
