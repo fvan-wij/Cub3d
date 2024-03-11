@@ -1,5 +1,8 @@
 #include <MLX42.h>
 #include <cub3d.h>
+#include <cbd_error.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 void	set_cursor(mlx_image_t *img, t_vec2i veci)
 {
@@ -17,6 +20,7 @@ void	set_menu_state(t_menu *menu, t_menu_state state)
 		menu->main_menu.bg->instances->enabled = true;
 		menu->main_menu.cursor->instances->enabled = true;
 		menu->select_menu.bg->instances->enabled = false;
+		menu->main_menu.preview_img->instances->enabled = true;
 	}
 	if (state == MAP_SELECT)
 	{
@@ -26,6 +30,7 @@ void	set_menu_state(t_menu *menu, t_menu_state state)
 		menu->main_menu.bg->instances->enabled = false;
 		menu->main_menu.cursor->instances->enabled = true;
 		menu->select_menu.bg->instances->enabled = true;
+		menu->main_menu.preview_img->instances->enabled = true;
 	}
 	if (state == OFF)
 	{
@@ -33,7 +38,12 @@ void	set_menu_state(t_menu *menu, t_menu_state state)
 		menu->main_menu.cursor->instances->enabled = false;
 		menu->select_menu.bg->instances->enabled = false;
 		menu->select_menu.cursor->instances->enabled = false;
+		menu->main_menu.preview_img->instances->enabled = false;
 		menu->state = OFF;
+	}
+	if (state == MAP_LOAD)
+	{
+		menu->state = MAP_LOAD;
 	}
 }
 
@@ -61,4 +71,23 @@ void	set_select_cursor_positions(t_menu *menu)
 	menu->select_menu.cursor_positons[3] = positions[3];
 	menu->select_menu.cursor_positons[4] = positions[4];
 	menu->select_menu.cursor_positons[5] = positions[5];
+}
+
+void	set_map_preview_positions(t_menu *menu)
+{
+	const int x_step = 993 / 3;
+	const int y_step = 228;
+	const t_vec2i positions[6] = {{195, 362}, 
+								{195 - x_step, 362},
+								{195 - (x_step * 2), 362},
+								{195, 362 - y_step},
+								{195 - x_step, 362 - y_step},
+								{195 - (x_step * 2), 362 - y_step}};
+	menu->preview_positions[0] = positions[0];
+	menu->preview_positions[1] = positions[1];
+	menu->preview_positions[2] = positions[2];
+	menu->preview_positions[3] = positions[3];
+	menu->preview_positions[4] = positions[4];
+	menu->preview_positions[5] = positions[5];
+	menu->current_position = positions[0];
 }

@@ -5,26 +5,11 @@
 # include <libft.h>
 # include <cbd_vec.h>
 # include <cbd_render.h>
+# include <cbd_parser.h>
 # include <cbd_menu.h>
 
 # define SUCCESS 0
 # define FAILURE 1
-
-typedef enum e_tex {
-	NO,
-	SO,
-	WE,
-	EA,
-	TEX_SIZE,
-} e_tex;
-
-typedef enum e_dir {
-	N,
-	S,
-	W,
-	E,
-	DIR_SIZE,
-} e_dir;
 
 typedef enum e_state {
 	STATE_MENU,
@@ -38,6 +23,13 @@ enum e_action {
 	RIGHT,
 	ACTION_SIZE,
 };
+
+typedef void (*t_input_handler)(mlx_key_data_t, void *);
+
+typedef struct s_input {
+	bool			key[348];
+	t_input_handler	handler[348];
+} t_input;
 
 typedef struct s_action {
 	bool	forward;
@@ -59,27 +51,6 @@ typedef struct s_player {
 	t_action	action;
 }	t_player;
 
-typedef struct s_map {
-	char			**raw_data;
-	char			**tex_path;
-	char			**cbd_map;
-	mlx_texture_t	**cbd_tex;
-	t_rgba			floor;
-	t_rgba			ceiling;
-	t_vec2d			start_pos;
-	t_vec2d			start_dir;
-	int				width;
-	int				height;
-	bool			valid;
-} 	t_map;
-
-typedef void (*t_input_handler)(mlx_key_data_t, void *);
-
-typedef struct s_input {
-	bool			key[348];
-	t_input_handler	handler[348];
-} t_input;
-
 typedef struct s_app {
 	t_particle 	particles[N_PARTICLES];
 	t_player 	playerdata;
@@ -97,6 +68,7 @@ typedef struct s_app {
 void	print_2d(char **str);
 void	print_debug_info(t_app *cub3d);
 void	cleanup(t_app *app);
+void	cleanup_map(t_map *map);
 
 // 		Rendering
 void	cbd_render(t_app *cbd);
@@ -123,6 +95,8 @@ void	move_player(t_app *cbd);
 
 //		Init
 mlx_image_t *cbd_init_texture_img(mlx_t *mlx, char *path);
+void	init_playerdata(t_player *playerdata, t_map *map);
+
 
 //		Input_handlers
 // void	default_handler(mlx_key_data_t keydata, void *param);

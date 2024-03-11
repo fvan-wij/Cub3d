@@ -11,7 +11,13 @@ void	cbd_loop(void *param)
 	t_app *cbd;
 
 	cbd = param;
-	move_player(cbd);
-	play_weapon_animation(cbd->mlx, cbd->playerdata.inv);
-	cbd_render(cbd);
+	if (cbd->menudata->state == OFF)
+	{
+		cbd->game->instances->enabled = true;
+		move_player(cbd);
+		play_weapon_animation(cbd->mlx, cbd->playerdata.inv);
+		cbd_render(cbd);
+	}
+	else if (cbd->menudata->state == MAP_SELECT)
+		display_preview(cbd->menudata, cbd->mapdata);
 }

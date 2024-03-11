@@ -2,6 +2,7 @@
 #include <MLX42.h>
 #include <stdlib.h>
 #include <cub3d.h>
+#include <cbd_error.h>
 #include <math.h>
 
 #include <stdio.h>
@@ -27,32 +28,8 @@
 void	cbd_input(mlx_key_data_t keydata, void *param)
 {
 	t_app		*cbd;
-	(void)keydata;
 
 	cbd = param;
-	// if (cbd->input.handler[keydata.key])
-	// 	cbd->input.handler[keydata.key](keydata, (void*)cbd);
-	// else
-	// 	default_handler(keydata, (void*)cbd);
-	//better menu stuff
-	// if (cbd->state == STATE_MAIN)
-	// {
-	// 	cbd->game->instances->enabled = false;
-	// 	i = move_cursor_main_menu(cbd, i);
-	// }
-	// if (cbd->state == STATE_MAP_SEL)
-	// {
-	// 	cbd->game->instances->enabled = false;
-	// 	i = move_cursor_map_select(cbd, i);
-	// }
-	// if (cbd->state == STATE_GAME)
-	// {
-	// 	cbd->menudata->menu_img[M_MAIN]->instances->enabled = false;
-	// 	cbd->menudata->menu_img[M_MAP]->instances->enabled = false;
-	// 	cbd->menudata->menu_img[M_CURSOR]->instances->enabled = false;
-	// 	cbd->game->instances->enabled = true;
-	// }
-
 	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS && cbd->playerdata.inv->equipped != WPN_MAP)
 		cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].fire_animation->loop = true;
 	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
@@ -60,11 +37,27 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 	if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS)
 		menu_move_cursor(cbd->menudata, 1);
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+	{
 		menu_escape(cbd->menudata);
+		cbd->game->instances->enabled = false;
+	}
 	if (keydata.key == MLX_KEY_ENTER && keydata.action == MLX_PRESS)
 	{
 		if (cbd->state == STATE_MENU)
 			menu_enter(cbd->menudata);
+		if (cbd->menudata->state == MAP_LOAD)
+		{
+			cbd->mapdata = load_map(cbd->mapdata, cbd->menudata->select_menu.current_item);
+			if (!cbd->mapdata)
+			{
+				cbd_error(ERR_LOAD_MAP);
+				exit(1);
+			}
+			printf("Map Loaded succesfully!\n");
+			cbd->menudata->state = MAIN;
+			init_playerdata(&cbd->playerdata, cbd->mapdata);
+			set_menu_state(cbd->menudata, MAIN);
+		}
 	}
 	if (!cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].fire_animation->loop)
 	{
