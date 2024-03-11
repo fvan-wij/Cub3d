@@ -52,24 +52,19 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 	// 	cbd->menudata->menu_img[M_CURSOR]->instances->enabled = false;
 	// 	cbd->game->instances->enabled = true;
 	// }
-	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS)
+
+	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS && cbd->playerdata.inv->equipped != WPN_MAP)
 		cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].fire_animation->loop = true;
 	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
 		menu_move_cursor(cbd->menudata, -1);
 	if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS)
 		menu_move_cursor(cbd->menudata, 1);
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-	{
 		menu_escape(cbd->menudata);
-	}
-
 	if (keydata.key == MLX_KEY_ENTER && keydata.action == MLX_PRESS)
 	{
 		if (cbd->state == STATE_MENU)
-		{
-			// call menu action
 			menu_enter(cbd->menudata);
-		}
 	}
 	if (!cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].fire_animation->loop)
 	{
@@ -77,5 +72,7 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 			cbd->playerdata.inv->equipped = WPN_FIST;
 		if (mlx_is_key_down(cbd->mlx, MLX_KEY_2))
 			cbd->playerdata.inv->equipped = WPN_CHAINSAW;
+		if (mlx_is_key_down(cbd->mlx, MLX_KEY_M))
+			cbd->playerdata.inv->equipped = WPN_MAP;
 	}
 }

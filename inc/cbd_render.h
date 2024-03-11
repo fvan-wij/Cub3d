@@ -119,12 +119,12 @@ int32_t	color(uint8_t r, uint8_t g, uint8_t b);
 int32_t	color_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 
 //Draw
-void	draw_hud(t_hud *hud);
+void	draw_hud(t_hud *hud, t_inventory *inv);
 void	draw_background(mlx_image_t *img, int32_t color);
 void	draw_player(mlx_image_t *img);
 void	draw_map(char **map, t_hud *hud, int width, int height);
 void	draw_minimap(mlx_image_t *hud_map, t_vec2d pos, char **map, int width, int height);
-void	draw_wall_strip(mlx_image_t *game, uint32_t color, int height, int x, float headbob, float map_peak);
+void	draw_wall_strip(mlx_image_t *game, t_rgba color, int height, int x, float headbob, float map_peak);
 void	draw_walls(mlx_image_t *game, t_ray *rays, float headbob, float map_peak);
 void	draw_equipped_weapon(t_inventory *inv);
 

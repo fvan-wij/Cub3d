@@ -47,7 +47,7 @@ t_menu	*cbd_init_menu(mlx_t *mlx)
 	return (menu);
 }
 
-t_animation	*init_weapon_animation(mlx_t	*mlx, char *path)
+t_animation	*init_weapon_animation(mlx_t *mlx, char *path)
 {
 	t_animation	*animation;
 	char 		*temp;
@@ -57,6 +57,8 @@ t_animation	*init_weapon_animation(mlx_t	*mlx, char *path)
 	int 		h;
 
 	animation = ft_calloc(1, sizeof(t_animation));
+	if (!path && animation)
+		return (animation);
 	n = ft_strchr_index(path, '0');
 	if (!animation)
 		return (NULL);
@@ -101,71 +103,100 @@ t_inventory *cbd_init_inventory(mlx_t *mlx)
 	inv->weapons[WPN_CHAINSAW].fire_animation = init_weapon_animation(mlx, "./data/textures/player/animation/chainsaw/frame_0.png");
 	if (!inv->weapons[WPN_CHAINSAW].fire_animation)
 		return (NULL);
+	inv->weapons[WPN_MAP].fire_animation = init_weapon_animation(mlx, NULL); 
+	if (!inv->weapons[WPN_MAP].fire_animation)
+		return (NULL);
+
 	return (inv);
 }
 
-bool cbd_init(t_app *cbd)
+void	init_playerdata(t_player *playerdata, t_map *mapdata)
 {
-	//Init player data;
-	cbd->mapdata->cbd_map[(int)cbd->mapdata->start_pos.y][(int)cbd->mapdata->start_pos.x] = '0';
-	cbd->playerdata.pos = cbd->mapdata->start_pos;
+	mapdata->cbd_map[(int)mapdata->start_pos.y][(int)mapdata->start_pos.x] = '0';
+	playerdata->pos = mapdata->start_pos;
 
-	cbd->playerdata.dir = cbd->mapdata->start_dir;
-	cbd->playerdata.scalar = 1;
-	cbd->playerdata.plane = vec_rotate(cbd->playerdata.dir, M_PI / 2);
-	cbd->playerdata.map_peak = 0;
+	playerdata->dir = mapdata->start_dir;
+	playerdata->scalar = 1;
+	playerdata->plane = vec_rotate(playerdata->dir, M_PI / 2);
+	playerdata->map_peak = 0;
+}
 
-	ft_memset(cbd->particles, 0, sizeof(t_particle[N_PARTICLES]));
+void	init_particles(t_particle *particles)
+{
+	ft_memset(particles, 0, sizeof(t_particle[N_PARTICLES]));
 	int i = 0;
 	int step = WIDTH / N_PARTICLES;
 	while (i < N_PARTICLES)
 	{
-		cbd->particles[i].dir.y = 1.0;
-		cbd->particles[i].p.x = i * step;
-		cbd->particles[i].p.y = ((float) rand() / (float)RAND_MAX) * HEIGHT;
-		if (cbd->particles[i].p.x < (WIDTH>>1))
-			cbd->particles[i].dir.x = -1.0;
+		particles[i].dir.y = 1.0;
+		particles[i].p.x = i * step;
+		particles[i].p.y = ((float) rand() / (float)RAND_MAX) * HEIGHT;
+		if (particles[i].p.x < (WIDTH>>1))
+			particles[i].dir.x = -1.0;
 		else
-			cbd->particles[i].dir.x = 1.0;
+			particles[i].dir.x = 1.0;
 
-		cbd->particles[i].size.x = (float) rand() / (float)RAND_MAX * 3;
-		cbd->particles[i].size.y = cbd->particles[i].size.x;
-		cbd->particles[i].reset = cbd->particles[i].size;
+		particles[i].size.x = (float) rand() / (float)RAND_MAX * 3;
+		particles[i].size.y = particles[i].size.x;
+		particles[i].reset = particles[i].size;
 		i++;
 	}
+}
 
-	//Init MLX
-	cbd->mlx = mlx_init(WIDTH, HEIGHT, "Telestein 3D", true);
+mlx_t	*cbd_init_window(void)
+{
+	mlx_t	*window;
+
+	window = mlx_init(WIDTH, HEIGHT, "Telestein 3D", true);
+	if (!window)
+		return (NULL);
+	return (window);
+}
+
+t_hud	*cbd_init_hud(mlx_t *mlx)
+{
+	t_hud *hud;
+
+	hud = malloc(sizeof(t_hud));
+	if (!hud)
+		return (NULL);
+	hud->img[HUD_MAP] = mlx_new_image(mlx, MINIMAP_WIDTH, MINIMAP_HEIGHT);
+	hud->img[HUD_OVERLAY] = mlx_new_image(mlx, WIDTH, HEIGHT);
+	return (hud);
+}
+
+bool cbd_init(t_app *cbd)
+{
+	cbd->mlx = cbd_init_window();
 	if (!cbd->mlx)
-		return (FAILURE);
+		return(cbd_error(ERR_ALLOC), FAILURE);
 
-	//Init game images
-	cbd->hud = malloc(sizeof(t_hud));
 	cbd->game = mlx_new_image(cbd->mlx, WIDTH, HEIGHT);
+	mlx_image_to_window(cbd->mlx, cbd->game, 0, 0);
 	if (!cbd->game)
 		return (cbd_error(ERR_ALLOC), FAILURE);
-	// cbd->hud->img[HUD_MAP] = mlx_new_image(cbd->mlx, MINIMAP_WIDTH, MINIMAP_HEIGHT);
-	cbd->hud->img[HUD_OVERLAY] = mlx_new_image(cbd->mlx, WIDTH, HEIGHT);
 
-
-	mlx_image_to_window(cbd->mlx, cbd->game, 0, 0);
+	cbd->hud = cbd_init_hud(cbd->mlx);
 	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_OVERLAY], 0, 0);
-	// mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_MAP], (WIDTH>>1) - (MINIMAP_WIDTH>>2) - 16, (HEIGHT>>1) + (MINIMAP_HEIGHT>>3) + 4);
-	// mlx_image_to_window(cbd->mlx, cbd->hud->img[WPN_MAP], (WIDTH/2) - (cbd->hud->img[WPN_MAP]->width / 2), HEIGHT - cbd->hud->img[WPN_MAP]->height);
+	if (!cbd->hud)
+		return (cbd_error(ERR_ALLOC), FAILURE);
+
 	cbd->playerdata.inv = cbd_init_inventory(cbd->mlx);
 	if (!cbd->playerdata.inv)
 		return (cbd_error(ERR_ALLOC), FAILURE);
-	cbd->playerdata.inv->equipped = WPN_FIST;
-	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_FIST].img, (WIDTH/2) - (cbd->playerdata.inv->weapons[WPN_FIST].img->width / 2), HEIGHT - (cbd->playerdata.inv->weapons[WPN_FIST].img->height>>1));
-	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_CHAINSAW].img, (WIDTH/2) - (cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->width / 2), HEIGHT - (cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->height * 0.8));
 
-	//Init menu images
+	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_MAP], (WIDTH>>1) - (MINIMAP_WIDTH>>2) - 16, (HEIGHT>>1) + (MINIMAP_HEIGHT>>3) + 4);
+	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_MAP].img, (WIDTH>>2), (HEIGHT>>3));
+	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_FIST].img, (WIDTH>>1) - (cbd->playerdata.inv->weapons[WPN_FIST].img->width / 2), HEIGHT - (cbd->playerdata.inv->weapons[WPN_FIST].img->height>>1));
+	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_CHAINSAW].img, (WIDTH>>1) - (cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->width / 2), HEIGHT - (cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->height * 0.8));
+
+
 	cbd->menudata = cbd_init_menu(cbd->mlx);
 	if (!cbd->menudata)
 		return (cbd_error(ERR_ALLOC), FAILURE);
 
-	// Init Input
-	// cbd_init_input(cbd);
+	init_playerdata(&cbd->playerdata, cbd->mapdata);
+	init_particles(cbd->particles);
 
 	//Setup mlx hooks
 	mlx_key_hook(cbd->mlx, cbd_input, cbd);

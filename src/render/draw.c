@@ -6,32 +6,16 @@
 #include <math.h>
 #include <stdlib.h>
 
-void	draw_hud(t_hud *hud)
+void	draw_hud(t_hud *hud, t_inventory *inv)
 {
-	(void) hud;
-	// if (hud->equipped == WPN_FIST)
-	// 	hud->img[WPN_FIST]->enabled = true;
-	// else
-	// 	hud->img[WPN_FIST]->enabled = false;
-	// if (hud->equipped == WPN_MAP)
-	// {
-	// 	hud->img[WPN_MAP]->enabled = true;
-	// 	hud->img[HUD_MAP]->enabled = true;
-	// }
-	// else
-	// {
-	// 	hud->img[WPN_MAP]->enabled = false;
-	// 	hud->img[HUD_MAP]->enabled = false;
-	// }
-	// if (hud->equipped == WPN_CHAINSAW)
-	// 	hud->img[WPN_CHAINSAW]->enabled = true;
-	// else
-	// 	hud->img[WPN_CHAINSAW]->enabled = false;
+	if (inv->equipped == WPN_MAP)
+		hud->img[HUD_MAP]->enabled = true;
+	else
+		hud->img[HUD_MAP]->enabled = false;
 }
 
-void	draw_equipped_weapon(t_inventory	*inv)
+void	draw_equipped_weapon(t_inventory *inv)
 {
-	// printf("inv->equipped: %d\n", inv->equipped);
 	if (inv->equipped == WPN_FIST && inv->weapons[WPN_FIST].fire_animation->loop != true)
 		inv->weapons[WPN_FIST].img->enabled = true;
 	else
@@ -40,8 +24,11 @@ void	draw_equipped_weapon(t_inventory	*inv)
 		inv->weapons[WPN_CHAINSAW].img->enabled = true;
 	else
 		inv->weapons[WPN_CHAINSAW].img->enabled = false;
+	if (inv->equipped == WPN_MAP && inv->weapons[WPN_CHAINSAW].fire_animation->loop != true)
+		inv->weapons[WPN_MAP].img->enabled = true;
+	else
+		inv->weapons[WPN_MAP].img->enabled = false;
 }
-
 
 void	draw_background(mlx_image_t *img, int32_t color)
 {
@@ -116,39 +103,13 @@ void	draw_map(char **map, t_hud *hud, int width, int height)
 		}
 		i++;
 	}
-	// printf("pos(%f, %f), dir(%f, %f), plane(%f, %f)\n", cbd->playerdata.pos.x,cbd->playerdata.pos.y, cbd->playerdata.dir.x,cbd->playerdata.dir.y, cbd->playerdata.plane.x ,cbd->playerdata.plane.y);
 }
 
-// void	draw_wall_strip(mlx_image_t *game,
-// 	uint32_t color, int height, int x, float headbob, float map_peak)
-// {
-// 	int y;
-// 	int draw_start;
-// 	int draw_end;
-//
-// 	draw_start = (-height / 2) + (HEIGHT / 2);
-// 	draw_end = (height / 2) + (HEIGHT / 2);
-// 	draw_start += (sin(headbob) * 10) + map_peak;
-// 	draw_end += (sin(headbob) * 10) + map_peak;
-// 	if (draw_start < 0)
-// 		draw_start = 0;
-// 	if (draw_end >= HEIGHT)
-// 		draw_end = HEIGHT - 1;
-// 	y = draw_start;
-// 	while (y < height + draw_start)
-// 	{
-// 		if (y >= draw_start && y <= draw_end)
-// 			mlx_put_pixel(game, x, y, color);
-// 		y++;
-// 	}
-// }
-
-void	draw_wall_strip(mlx_image_t *game, uint32_t color, int height, int x, float headbob, float map_peak)
+void	draw_wall_strip(mlx_image_t *game, t_rgba color, int height, int x, float headbob, float map_peak)
 {
 	int y;
 	int draw_start;
 	int draw_end;
-	(void) color;
 
 	draw_start = (-height / 2) + (HEIGHT / 2);
 	draw_end = (height / 2) + (HEIGHT / 2);
@@ -163,8 +124,8 @@ void	draw_wall_strip(mlx_image_t *game, uint32_t color, int height, int x, float
 	{
 			uint8_t noise = rand();
 			if (y >= draw_start && y <= draw_end)
-				mlx_put_pixel(game, x, y, color_rgba(noise, noise, noise, noise));	
-		y++;
+				mlx_put_pixel(game, x, y, color_rgba(noise, noise, noise, color.a));	
+		y+=2;
 	}
 }
 
@@ -175,18 +136,14 @@ void	draw_walls(mlx_image_t *game, t_ray *rays, float headbob, float map_peak)
 	while (x < WIDTH)
 	{
 		int line_height = (int)(HEIGHT / rays[x].wall_dist);
-		// if (x == 0)
-		// 	printf("strip_start(%d, %d), strip_end(%d, %d)", strip_start.x, strip_start.y, strip_end.x, strip_end.y);
 		t_rgba c;
 		c.color = 0;
 		if (rays[x].side == 0)
-			c.color = 0xffffffff;
+			c.a = 255;
 		else if (rays[x].side == 1)
-			c.color = 0xaaaaaaff;
-		draw_wall_strip(game, c.color, line_height, x, headbob, map_peak);
+			c.a = 150;
+		draw_wall_strip(game, c, line_height, x, headbob, map_peak);
 		x += 6;
-		// if (x % 2 == 0)
-		// 	x += 2;
 	}
 }
 
@@ -198,10 +155,10 @@ void	draw_particles(mlx_image_t *game, t_particle *particles)
 	while (i < N_PARTICLES)
 	{
 		float y = ((float) rand() / (float)RAND_MAX / 4);
-
-		particles[i].dir.y = y;
+		particles[i].dir.y = y - 0.05;
 		particles[i].p.x = particles[i].p.x + particles[i].dir.x * 2;
 		particles[i].p.y = particles[i].p.y + particles[i].dir.y * 2;
+		particles[i].dir.x = 0.1 * -y;
 		if (particles[i].p.y > HEIGHT)
 			particles[i].p.y = 0;
 		if (particles[i].p.y < 0)
@@ -210,7 +167,7 @@ void	draw_particles(mlx_image_t *game, t_particle *particles)
 		if (particles[i].p.x > WIDTH)
 			particles[i].p.x = y;
 		if (particles[i].p.x < 0)
-			particles[i].p.x = y;
+			particles[i].p.x = WIDTH;
 		draw_square(game, color(175, 175, 175), vec_to_int(particles[i].p), vec_to_int(particles[i].size));
 		i++;
 	}

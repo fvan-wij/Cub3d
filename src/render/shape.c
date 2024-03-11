@@ -41,9 +41,9 @@ void	draw_noise_square(mlx_image_t *image, t_vec2i pos, t_vec2i dimension)
 				uint8_t	noise = rand();
 				mlx_put_pixel(image, pos.x, pos.y, color(noise, noise, noise));
 			}
-			pos.x++;
+			pos.x+=2;
 		}
-		pos.y++;
+		pos.y+=2;
 	}
 }
 
