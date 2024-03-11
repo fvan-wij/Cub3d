@@ -92,6 +92,7 @@ void	cbd_input(mlx_key_data_t keydata, void *param);
 
 //		Interaction
 void	move_player(t_app *cbd);
+void	change_map(t_app *cbd);
 
 //		Init
 mlx_image_t *cbd_init_texture_img(mlx_t *mlx, char *path);

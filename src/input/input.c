@@ -45,19 +45,6 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 	{
 		if (cbd->state == STATE_MENU)
 			menu_enter(cbd->menudata);
-		if (cbd->menudata->state == MAP_LOAD)
-		{
-			cbd->mapdata = load_map(cbd->mapdata, cbd->menudata->select_menu.current_item);
-			if (!cbd->mapdata)
-			{
-				cbd_error(ERR_LOAD_MAP);
-				exit(1);
-			}
-			printf("Map Loaded succesfully!\n");
-			cbd->menudata->state = MAIN;
-			init_playerdata(&cbd->playerdata, cbd->mapdata);
-			set_menu_state(cbd->menudata, MAIN);
-		}
 	}
 	if (!cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].fire_animation->loop)
 	{

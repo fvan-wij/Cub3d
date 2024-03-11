@@ -20,4 +20,8 @@ void	cbd_loop(void *param)
 	}
 	else if (cbd->menudata->state == MAP_SELECT)
 		display_preview(cbd->menudata, cbd->mapdata);
+	else if (cbd->menudata->state == MAP_LOAD)
+	{
+		change_map(cbd);
+	}
 }

@@ -1,6 +1,8 @@
 #include <cub3d.h>
 #include <cbd_error.h>
 #include <cbd_parser.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 t_map	*load_map(t_map *curr_map, uint8_t	map_id)
 {
@@ -22,4 +24,18 @@ t_map	*load_map(t_map *curr_map, uint8_t	map_id)
 	if (!new_map)
 		return (NULL);
 	return (new_map);
+}
+
+void	change_map(t_app *cbd)
+{
+	cbd->mapdata = load_map(cbd->mapdata, cbd->menudata->select_menu.current_item);
+		if (!cbd->mapdata)
+			{
+				cbd_error(ERR_LOAD_MAP);
+				exit(1);
+			}
+			printf("Map Loaded succesfully!\n");
+			cbd->menudata->state = MAIN;
+			init_playerdata(&cbd->playerdata, cbd->mapdata);
+			set_menu_state(cbd->menudata, MAIN);
 }
