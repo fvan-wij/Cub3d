@@ -123,7 +123,7 @@ bool	tex_size_is_valid(t_map *mapdata)
 	i = 0;
 	while (i < TEX_SIZE)
 	{
-		if (mapdata->cbd_tex[i]->width != 64 && mapdata->cbd_tex[i]->height != 64)
+		if (mapdata->tex[i]->width != 64 && mapdata->tex[i]->height != 64)
 			return (false);
 		i++;
 	}

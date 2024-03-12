@@ -39,7 +39,7 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
 		menu_escape(cbd->menudata);
-		cbd->game->instances->enabled = false;
+		cbd->render.img->instances->enabled = false;
 	}
 	if (keydata.key == MLX_KEY_ENTER && keydata.action == MLX_PRESS)
 	{

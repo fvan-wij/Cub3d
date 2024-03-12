@@ -46,7 +46,7 @@ typedef struct s_map {
 	char			**raw_data;
 	char			**tex_path;
 	char			**cbd_map;
-	mlx_texture_t	**cbd_tex;
+	mlx_texture_t	**tex;
 	t_rgba			floor;
 	t_rgba			ceiling;
 	t_vec2d			start_pos;

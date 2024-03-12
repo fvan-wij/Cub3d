@@ -19,7 +19,7 @@ t_vec2d	vec_rotate(t_vec2d direction, double angle);
 t_vec2i	vec_to_int(t_vec2d vec);
 t_vec2d	vec_to_float(t_vec2i vec);
 t_vec2d	vec_divide(t_vec2d vec, double denominator);
-t_vec2i 	vec_divide_int(t_vec2i vec, double denominator);
+t_vec2i vec_divide_int(t_vec2i vec, double denominator);
 t_vec2d vec_min(t_vec2d a, t_vec2d b);
 t_vec2d vec_max(t_vec2d a, t_vec2d b);
 t_vec2d vec_sub(t_vec2d a, t_vec2d b);

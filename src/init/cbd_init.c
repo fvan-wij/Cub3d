@@ -37,7 +37,7 @@ t_menu	*cbd_init_menu(mlx_t *mlx, t_map *map)
 	menu->select_menu.cursor = menu->main_menu.cursor;
 
 	menu->select_menu.preview_img = cbd_init_texture_img(mlx, "./data/textures/map_preview.png");
-	menu->main_menu.preview_img = menu->select_menu.preview_img;	
+	menu->main_menu.preview_img = menu->select_menu.preview_img;
 	mlx_image_to_window(mlx, menu->main_menu.preview_img, 0, 0);
 	menu->main_menu.preview_img->instances->z = -1;
 	mlx_image_to_window(mlx, menu->main_menu.bg, 0, 0);
@@ -81,7 +81,7 @@ t_animation	*init_weapon_animation(mlx_t *mlx, char *path)
 
 		w = (WIDTH/2) - (animation->frames[i].img->width / 2);
 		h = HEIGHT - (animation->frames[i].img->height>>1) - 100;
-		mlx_image_to_window(mlx, animation->frames[i].img, w, h); 
+		mlx_image_to_window(mlx, animation->frames[i].img, w, h);
 		animation->frames[i].img->enabled = false;
 		animation->frames[i].duration = 2;
 		temp[n] = temp[n] + 1;
@@ -110,11 +110,17 @@ t_inventory *cbd_init_inventory(mlx_t *mlx)
 	inv->weapons[WPN_CHAINSAW].fire_animation = init_weapon_animation(mlx, "./data/textures/player/animation/chainsaw/frame_0.png");
 	if (!inv->weapons[WPN_CHAINSAW].fire_animation)
 		return (NULL);
-	inv->weapons[WPN_MAP].fire_animation = init_weapon_animation(mlx, NULL); 
+	inv->weapons[WPN_MAP].fire_animation = init_weapon_animation(mlx, NULL);
 	if (!inv->weapons[WPN_MAP].fire_animation)
 		return (NULL);
 
 	return (inv);
+}
+
+void	init_render(t_render *render, t_hud *hud, t_inventory *inv)
+{
+	render->hud = hud;
+	render->inv = inv;
 }
 
 void	init_playerdata(t_player *playerdata, t_map *mapdata)
@@ -179,9 +185,9 @@ bool cbd_init(t_app *cbd)
 	if (!cbd->mlx)
 		return(cbd_error(ERR_ALLOC), FAILURE);
 
-	cbd->game = mlx_new_image(cbd->mlx, WIDTH, HEIGHT);
-	mlx_image_to_window(cbd->mlx, cbd->game, 0, 0);
-	if (!cbd->game)
+	cbd->render.img = mlx_new_image(cbd->mlx, WIDTH, HEIGHT);
+	mlx_image_to_window(cbd->mlx, cbd->render.img, 0, 0);
+	if (!cbd->render.img)
 		return (cbd_error(ERR_ALLOC), FAILURE);
 
 	cbd->hud = cbd_init_hud(cbd->mlx);
@@ -206,6 +212,7 @@ bool cbd_init(t_app *cbd)
 		return (cbd_error(ERR_ALLOC), FAILURE);
 
 	init_playerdata(&cbd->playerdata, cbd->mapdata);
+	init_render(&cbd->render, cbd->hud, cbd->playerdata.inv);
 	init_particles(cbd->particles);
 
 	//Setup mlx hooks
@@ -213,4 +220,3 @@ bool cbd_init(t_app *cbd)
 	mlx_loop_hook(cbd->mlx, cbd_loop, cbd);
 	return (SUCCESS);
 }
-

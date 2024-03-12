@@ -16,7 +16,7 @@ static char	*get_tex(char *temp)
 	{
 		dup = ft_strdup(path);
 		if (!dup)
-			return (cbd_error(ERR_ALLOC), NULL); 
+			return (cbd_error(ERR_ALLOC), NULL);
 		return (dup);
 	}
 }
@@ -32,7 +32,7 @@ static t_rgba	get_col(char *temp)
 		cbd_error(ERR_ALLOC);
 		return color;
 	}
-	if (ft_arrlen(colors) == 3) 
+	if (ft_arrlen(colors) == 3)
 	{
 		color.r = (uint8_t) ft_atoi(colors[0]);
 		color.g = (uint8_t) ft_atoi(colors[1]);
@@ -43,7 +43,7 @@ static t_rgba	get_col(char *temp)
 	return (color);
 }
 
-static void	retrieve_element(char *line, t_map *mapdata) 
+static void	retrieve_element(char *line, t_map *mapdata)
 {
 	int 	i;
 	char	**temp;
@@ -83,7 +83,7 @@ bool	tex_exists(char *path)
 }
 
 mlx_texture_t	**get_mlx_tex(char **tex_path)
-{	
+{
 	int				i;
 	mlx_texture_t 	**textures;
 
@@ -108,7 +108,7 @@ t_map	*get_map_data(int fd, t_map *mapdata, t_valid *is)
 	char 	*line;
 
 	line = get_next_line(fd);
-	while (line) 
+	while (line)
 	{
 		if (is_last_element(is) && line[0] == '\n')
 			return (cbd_error(ERR_INVALID_MAP), NULL);
@@ -122,8 +122,8 @@ t_map	*get_map_data(int fd, t_map *mapdata, t_valid *is)
 	close(fd);
 	if (!mapdata->raw_data)
 		return (cbd_error(ERR_INVALID_MAP), NULL);
-	mapdata->cbd_tex = get_mlx_tex(mapdata->tex_path);
-	if (!mapdata->cbd_tex)
+	mapdata->tex = get_mlx_tex(mapdata->tex_path);
+	if (!mapdata->tex)
 		return (NULL);
 	return (mapdata);
 }

@@ -105,45 +105,89 @@ void	draw_map(char **map, t_hud *hud, int width, int height)
 	}
 }
 
-void	draw_wall_strip(mlx_image_t *game, t_rgba color, int height, int x, float headbob, float map_peak)
+/* Takes a normalized x and y and returns the relative pixel color within the texture
+*/
+uint32_t	get_texture_pixel(mlx_texture_t *tex, double x, double y)
 {
+	t_rgba	color;
+	int 	index;
+
+	(void)y;
+	// index = (int)((int)(x * tex->width) + (int)(y * tex->height * tex->width)) * tex->bytes_per_pixel;
+	index = (int)(x * tex->width) * tex->bytes_per_pixel;
+	// printf("bytes_per_pixel: %d\n", tex->bytes_per_pixel);
+	// printf("index: %d\n", index);
+	color.r = tex->pixels[(index)];
+	color.g = tex->pixels[(index) + 1];
+	color.b = tex->pixels[(index) + 2];
+	color.a = tex->pixels[(index) + 3];
+	return (color.color);
+}
+
+void	draw_wall_strip(t_render render, int x, mlx_texture_t *tex)
+{
+	int wl_height = (int)(HEIGHT / render.rays[x].wall_dist);
 	int y;
 	int draw_start;
 	int draw_end;
+	double	wall_x;
+	double	wall_y;
 
-	draw_start = (-height / 2) + (HEIGHT / 2);
-	draw_end = (height / 2) + (HEIGHT / 2);
-	draw_start += (sin(headbob) * 10) + map_peak;
-	draw_end += (sin(headbob) * 10) + map_peak;
+	printf("intersection: %f, %f\n", render.rays[x].intersection.x, render.rays[x].intersection.y);
+	if (render.rays[x].side == 0)
+		wall_x = render.rays[x].intersection.y - floor(render.rays[x].intersection.y);
+	else
+		wall_x = render.rays[x].intersection.x - floor(render.rays[x].intersection.x);
+	printf("wall_x: %f\n", wall_x);
+	draw_start = (-wl_height / 2) + (HEIGHT / 2);
+	draw_end = draw_start + wl_height;
+	draw_start += (sin(render.headbob) * 10) + render.map_peak;
+	draw_end += (sin(render.headbob) * 10) + render.map_peak;
 	if (draw_start < 0)
 		draw_start = 0;
 	if (draw_end >= HEIGHT)
 		draw_end = HEIGHT - 1;
-	y = draw_start;
-	while (y < height + draw_start)
+	y = 0;
+	while (y + draw_start < draw_end)
 	{
-			uint8_t noise = rand();
-			if (y >= draw_start && y <= draw_end)
-				mlx_put_pixel(game, x, y, color_rgba(noise, noise, noise, color.a));	
-		y+=2;
+			// uint8_t noise = rand();
+			if (y >= 0 && y <= draw_end)
+			{
+				wall_y = (y / (double)wl_height);
+				mlx_put_pixel(render.img, x, y + draw_start, get_texture_pixel(tex, wall_x, wall_y));
+			}
+		y++;
 	}
 }
 
-void	draw_walls(mlx_image_t *game, t_ray *rays, float headbob, float map_peak)
+/*
+** Draws the walls
+** 	Needs:
+** 		The game image
+** 		The raycasting data
+** 		The headbobbing data
+** 		The map peak data
+**		The wall texture data
+*/
+void	draw_walls(t_render render, t_map *map)
 {
 	int x;
 	x = 0;
 	while (x < WIDTH)
 	{
-		int line_height = (int)(HEIGHT / rays[x].wall_dist);
 		t_rgba c;
 		c.color = 0;
-		if (rays[x].side == 0)
+		if (render.rays[x].side == 0)
+		{
 			c.a = 255;
-		else if (rays[x].side == 1)
+			draw_wall_strip(render, x, map->tex[0]);
+		}
+		else if (render.rays[x].side == 1)
+		{
 			c.a = 150;
-		draw_wall_strip(game, c, line_height, x, headbob, map_peak);
-		x += 6;
+			draw_wall_strip(render, x, map->tex[1]);
+		}
+		x++;
 	}
 }
 
