@@ -107,14 +107,14 @@ void	draw_map(char **map, t_hud *hud, int width, int height)
 
 /* Takes a normalized x and y and returns the relative pixel color within the texture
 */
-uint32_t	get_texture_pixel(mlx_texture_t *tex, double x, double y)
+int32_t	get_texture_pixel(mlx_texture_t *tex, double x, double y)
 {
 	t_rgba	color;
 	int 	index;
 
-	(void)y;
-	// index = (int)((int)(x * tex->width) + (int)(y * tex->height * tex->width)) * tex->bytes_per_pixel;
-	index = (int)(x * tex->width) * tex->bytes_per_pixel;
+	// (void)y;
+	index = (int)((x * tex->width) + ((y * tex->height) * tex->width)) * tex->bytes_per_pixel;
+	// index = (int)((double)x * (double)tex->width) * tex->bytes_per_pixel;
 	// printf("bytes_per_pixel: %d\n", tex->bytes_per_pixel);
 	// printf("index: %d\n", index);
 	color.r = tex->pixels[(index)];
@@ -133,12 +133,12 @@ void	draw_wall_strip(t_render render, int x, mlx_texture_t *tex)
 	double	wall_x;
 	double	wall_y;
 
-	printf("intersection: %f, %f\n", render.rays[x].intersection.x, render.rays[x].intersection.y);
+	// printf("intersection: %f, %f\n", render.rays[x].intersection.x, render.rays[x].intersection.y);
 	if (render.rays[x].side == 0)
 		wall_x = render.rays[x].intersection.y - floor(render.rays[x].intersection.y);
 	else
 		wall_x = render.rays[x].intersection.x - floor(render.rays[x].intersection.x);
-	printf("wall_x: %f\n", wall_x);
+	// printf("wall_x: %f\n", wall_x);
 	draw_start = (-wl_height / 2) + (HEIGHT / 2);
 	draw_end = draw_start + wl_height;
 	draw_start += (sin(render.headbob) * 10) + render.map_peak;
@@ -175,16 +175,16 @@ void	draw_walls(t_render render, t_map *map)
 	x = 0;
 	while (x < WIDTH)
 	{
-		t_rgba c;
-		c.color = 0;
+		// t_rgba c;
+		// c.color = 0;
 		if (render.rays[x].side == 0)
 		{
-			c.a = 255;
+			// c.a = 255;
 			draw_wall_strip(render, x, map->tex[0]);
 		}
 		else if (render.rays[x].side == 1)
 		{
-			c.a = 150;
+			// c.a = 150;
 			draw_wall_strip(render, x, map->tex[1]);
 		}
 		x++;

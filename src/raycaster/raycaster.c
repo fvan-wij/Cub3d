@@ -76,8 +76,8 @@ t_ray	raycast(char **map, t_vec2d pos, t_vec2d dir)
 
 	ray.wall_dist = perp_wall_dist;
 	ray.tile = map[vec_map.y][vec_map.x];
-	ray.intersection.x = (pos.x + (ray.dir.x * perp_wall_dist)) * TILESIZE;
-	ray.intersection.y = (pos.y + (ray.dir.y * perp_wall_dist)) * TILESIZE;
+	ray.intersection.x = (pos.x + (ray.dir.x * perp_wall_dist));
+	ray.intersection.y = (pos.y + (ray.dir.y * perp_wall_dist));
 
 	return (ray);
 }
