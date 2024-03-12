@@ -43,6 +43,10 @@ ifdef DEBUG
 	LIBFT_DEBUG += DEBUG=1
 endif
 
+ifdef OPTIMIZE
+	CFLAGS += -Ofast
+endif
+
 all: libft libmlx $(NAME)
 
 run: all
