@@ -13,15 +13,15 @@ void	cleanup_map(t_map *map)
 		ft_del_2d(map->cbd_map);
 	if (map->tex_path)
 		ft_del_2d(map->tex_path);
-	if (map->cbd_tex)
+	if (map->tex)
 	{
 		i = 0;
 		while (i < TEX_SIZE)
 		{
-			mlx_delete_texture(map->cbd_tex[i]);
+			mlx_delete_texture(map->tex[i]);
 			i++;
 		}
-		free(map->cbd_tex);
+		free(map->tex);
 	}
 	free(map);
 }

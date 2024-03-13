@@ -109,10 +109,10 @@ void	move_player(t_app *cbd)
 
 	//Peak animation
 	cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].img->instances[0].x = (cos(cbd->playerdata.headbob) * 2) + (WIDTH>>1) - (cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].img->width>>1);
-	if (cbd->hud->img[HUD_MAP]->enabled && cbd->playerdata.map_peak > -100)
-		cbd->playerdata.map_peak -= cos(cbd->mlx->delta_time) * 2;
-	else if (cbd->playerdata.map_peak < 0)
-		cbd->playerdata.map_peak += cos(cbd->mlx->delta_time) * 2;
+	if (cbd->hud->img[HUD_MAP]->enabled && cbd->render.map_peak > -100)
+		cbd->render.map_peak -= cos(cbd->mlx->delta_time) * 2;
+	else if (cbd->render.map_peak < 0)
+		cbd->render.map_peak += cos(cbd->mlx->delta_time) * 2;
 
 	//Shift multiplier
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_LEFT_SHIFT))
@@ -127,9 +127,9 @@ void	move_player(t_app *cbd)
 		resolve_particles(cbd->particles);
 		potential_pos.x = pos.x + dir.x * move_speed;
 		potential_pos.y = pos.y + dir.y * move_speed;
-		cbd->playerdata.headbob += headbob_speed;
-		if (cbd->playerdata.headbob > 2 * M_PI)
-			cbd->playerdata.headbob = 0;
+		cbd->render.headbob += headbob_speed;
+		if (cbd->render.headbob > 2 * M_PI)
+			cbd->render.headbob = 0;
 		potential_pos = resolve_collision(cbd->mapdata->cbd_map, pos, dir, potential_pos);
 	}
 	else if (mlx_is_key_down(cbd->mlx, MLX_KEY_DOWN)) //Move backwards and resolve collision
@@ -137,15 +137,15 @@ void	move_player(t_app *cbd)
 		potential_pos.x = pos.x - dir.x * move_speed;
 		potential_pos.y = pos.y - dir.y * move_speed;
 		potential_pos = resolve_collision(cbd->mapdata->cbd_map, pos, dir, potential_pos);
-		cbd->playerdata.headbob += headbob_speed;
-		if (cbd->playerdata.headbob > 2 * M_PI)
-			cbd->playerdata.headbob = 0;
+		cbd->render.headbob += headbob_speed;
+		if (cbd->render.headbob > 2 * M_PI)
+			cbd->render.headbob = 0;
 	}
 	else //Reset walking animation
 	{
-		cbd->playerdata.headbob -= cbd->mlx->delta_time;
-		if (cbd->playerdata.headbob < 0)
-			cbd->playerdata.headbob = 0;
+		cbd->render.headbob -= cbd->mlx->delta_time;
+		if (cbd->render.headbob < 0)
+			cbd->render.headbob = 0;
 	}
 	//Player rotation
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_RIGHT) && cbd->playerdata.pos.x <= cbd->mapdata->width)

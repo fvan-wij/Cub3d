@@ -2,6 +2,7 @@
 # define CBD_RENDER_H
 # include <stdint.h>
 # include <cbd_vec.h>
+// # include <cbd_parser.h>
 # include <MLX42.h>
 
 //Window size
@@ -60,6 +61,7 @@ typedef struct s_ray {
 	t_vec2d intersection;
 	double	wall_dist;
 	uint8_t	side;
+	char	tile;
 } t_ray;
 
 typedef	struct s_particle {
@@ -113,6 +115,17 @@ typedef struct s_hud {
 	mlx_image_t	*img[HUD_SIZE];
 } t_hud;
 
+typedef struct s_render {
+	mlx_image_t	*img;
+	t_hud		*hud;
+	t_inventory	*inv;
+	t_ray		rays[WIDTH];
+	float		headbob;
+	float		map_peak;
+} t_render;
+
+typedef struct s_map t_map;
+
 //Color
 int32_t	color(uint8_t r, uint8_t g, uint8_t b);
 int32_t	color_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
@@ -123,8 +136,8 @@ void	draw_background(mlx_image_t *img, int32_t color);
 void	draw_player(mlx_image_t *img);
 void	draw_map(char **map, t_hud *hud, int width, int height);
 void	draw_minimap(mlx_image_t *hud_map, t_vec2d pos, char **map, int width, int height);
-void	draw_wall_strip(mlx_image_t *game, t_rgba color, int height, int x, float headbob, float map_peak);
-void	draw_walls(mlx_image_t *game, t_ray *rays, float headbob, float map_peak);
+void	draw_wall_strip(t_render render, int x, mlx_texture_t *tex, int color_offset);
+void	draw_walls(t_render render, t_map *map);
 void	draw_equipped_weapon(t_inventory *inv);
 
 //Draw	shapes

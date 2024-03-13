@@ -54,10 +54,10 @@ typedef struct s_player {
 typedef struct s_app {
 	t_particle 	particles[N_PARTICLES];
 	t_player 	playerdata;
+	t_render	render;
 	t_menu		*menudata;
 	t_map		*mapdata;
 	t_hud		*hud;
-	mlx_image_t	*game;
 	t_state		state;
 	mlx_t		*mlx;
 	t_input		input;
@@ -74,8 +74,8 @@ void	cleanup_map(t_map *map);
 void	cbd_render(t_app *cbd);
 
 //		Raycaster
-t_ray	cast_ray(char **map, t_player p, int x);
-void	cast_rays(char **map, t_player *p);
+t_ray	raycast(char **map, t_vec2d pos, t_vec2d dir);
+void	cast_rays(char **map, t_render *render, t_player *p);
 
 //		Shapes
 void	draw_background(mlx_image_t *img, int32_t color);
