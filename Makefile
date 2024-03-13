@@ -2,15 +2,18 @@ NAME	:= cub3d
 CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast
 LIBMLX	:= ./lib/MLX42
 LIBFT	:= ./lib/libft
+MAUDIO	:= ./lib/miniaudio
 
-HEADERS	:= -I ./inc -I $(LIBMLX)/include/MLX42 -I $(LIBFT)
-LIBS	:= $(LIBMLX)/build/libmlx42.a $(LIBFT)/libft.a -ldl -lglfw -pthread -lm
+HEADERS	:= -I ./inc -I $(LIBMLX)/include/MLX42 -I $(LIBFT) -I $(MAUDIO)
+LIBS	:= $(LIBMLX)/build/libmlx42.a $(LIBFT)/libft.a -ldl -lglfw -lpthread -lm
 SRCS	:= \
 		   main.c 				\
 		   animation.c			\
 		   cbd_main.c			\
+		   cbd_audio.c 			\
 		   cbd_render.c			\
 		   cbd_loop.c			\
+		   miniaudio.c 			\
 		   error/error.c 		\
 		   init/cbd_init.c		\
 		   parser/parser.c 		\

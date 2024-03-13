@@ -1,6 +1,6 @@
 [
  {
-  "directory": "/home/flip/Cub3d",
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
   "arguments": [
    "cc",
    "-Wextra",
@@ -14,6 +14,8 @@
    "./lib/MLX42/include/MLX42",
    "-I",
    "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
    "-o",
    "obj/main.o",
    "-c",
@@ -22,7 +24,7 @@
   "file": "src/main.c"
  },
  {
-  "directory": "/home/flip/Cub3d",
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
   "arguments": [
    "cc",
    "-Wextra",
@@ -36,6 +38,152 @@
    "./lib/MLX42/include/MLX42",
    "-I",
    "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
+   "-o",
+   "obj/animation.o",
+   "-c",
+   "src/animation.c"
+  ],
+  "file": "src/animation.c"
+ },
+ {
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
+   "-o",
+   "obj/cbd_main.o",
+   "-c",
+   "src/cbd_main.c"
+  ],
+  "file": "src/cbd_main.c"
+ },
+ {
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
+   "-o",
+   "obj/cbd_audio.o",
+   "-c",
+   "src/cbd_audio.c"
+  ],
+  "file": "src/cbd_audio.c"
+ },
+ {
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
+   "-o",
+   "obj/cbd_render.o",
+   "-c",
+   "src/cbd_render.c"
+  ],
+  "file": "src/cbd_render.c"
+ },
+ {
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
+   "-o",
+   "obj/cbd_loop.o",
+   "-c",
+   "src/cbd_loop.c"
+  ],
+  "file": "src/cbd_loop.c"
+ },
+ {
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
+   "-o",
+   "obj/miniaudio.o",
+   "-c",
+   "src/miniaudio.c"
+  ],
+  "file": "src/miniaudio.c"
+ },
+ {
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
    "-o",
    "obj/error/error.o",
    "-c",
@@ -44,7 +192,7 @@
   "file": "src/error/error.c"
  },
  {
-  "directory": "/home/flip/Cub3d",
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
   "arguments": [
    "cc",
    "-Wextra",
@@ -58,6 +206,32 @@
    "./lib/MLX42/include/MLX42",
    "-I",
    "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
+   "-o",
+   "obj/init/cbd_init.o",
+   "-c",
+   "src/init/cbd_init.c"
+  ],
+  "file": "src/init/cbd_init.c"
+ },
+ {
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
    "-o",
    "obj/parser/parser.o",
    "-c",
@@ -66,7 +240,7 @@
   "file": "src/parser/parser.c"
  },
  {
-  "directory": "/home/flip/Cub3d",
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
   "arguments": [
    "cc",
    "-Wextra",
@@ -80,6 +254,8 @@
    "./lib/MLX42/include/MLX42",
    "-I",
    "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
    "-o",
    "obj/parser/init.o",
    "-c",
@@ -88,7 +264,7 @@
   "file": "src/parser/init.c"
  },
  {
-  "directory": "/home/flip/Cub3d",
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
   "arguments": [
    "cc",
    "-Wextra",
@@ -102,6 +278,8 @@
    "./lib/MLX42/include/MLX42",
    "-I",
    "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
    "-o",
    "obj/parser/get_data.o",
    "-c",
@@ -110,7 +288,7 @@
   "file": "src/parser/get_data.c"
  },
  {
-  "directory": "/home/flip/Cub3d",
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
   "arguments": [
    "cc",
    "-Wextra",
@@ -124,6 +302,8 @@
    "./lib/MLX42/include/MLX42",
    "-I",
    "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
    "-o",
    "obj/parser/bools.o",
    "-c",
@@ -132,7 +312,7 @@
   "file": "src/parser/bools.c"
  },
  {
-  "directory": "/home/flip/Cub3d",
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
   "arguments": [
    "cc",
    "-Wextra",
@@ -146,6 +326,8 @@
    "./lib/MLX42/include/MLX42",
    "-I",
    "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
    "-o",
    "obj/parser/validate_data.o",
    "-c",
@@ -154,7 +336,7 @@
   "file": "src/parser/validate_data.c"
  },
  {
-  "directory": "/home/flip/Cub3d",
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
   "arguments": [
    "cc",
    "-Wextra",
@@ -168,15 +350,17 @@
    "./lib/MLX42/include/MLX42",
    "-I",
    "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
    "-o",
-   "obj/menu/menu.o",
+   "obj/menu/menu_navigation.o",
    "-c",
-   "src/menu/menu.c"
+   "src/menu/menu_navigation.c"
   ],
-  "file": "src/menu/menu.c"
+  "file": "src/menu/menu_navigation.c"
  },
  {
-  "directory": "/home/flip/Cub3d",
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
   "arguments": [
    "cc",
    "-Wextra",
@@ -190,15 +374,17 @@
    "./lib/MLX42/include/MLX42",
    "-I",
    "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
    "-o",
-   "obj/raycaster/line.o",
+   "obj/menu/menu_setters.o",
    "-c",
-   "src/raycaster/line.c"
+   "src/menu/menu_setters.c"
   ],
-  "file": "src/raycaster/line.c"
+  "file": "src/menu/menu_setters.c"
  },
  {
-  "directory": "/home/flip/Cub3d",
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
   "arguments": [
    "cc",
    "-Wextra",
@@ -212,11 +398,277 @@
    "./lib/MLX42/include/MLX42",
    "-I",
    "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
+   "-o",
+   "obj/menu/menu_loadmap.o",
+   "-c",
+   "src/menu/menu_loadmap.c"
+  ],
+  "file": "src/menu/menu_loadmap.c"
+ },
+ {
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
+   "-o",
+   "obj/raycaster/raycaster.o",
+   "-c",
+   "src/raycaster/raycaster.c"
+  ],
+  "file": "src/raycaster/raycaster.c"
+ },
+ {
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
+   "-o",
+   "obj/raycaster/vec.o",
+   "-c",
+   "src/raycaster/vec.c"
+  ],
+  "file": "src/raycaster/vec.c"
+ },
+ {
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
+   "-o",
+   "obj/render/draw.o",
+   "-c",
+   "src/render/draw.c"
+  ],
+  "file": "src/render/draw.c"
+ },
+ {
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
+   "-o",
+   "obj/render/line.o",
+   "-c",
+   "src/render/line.c"
+  ],
+  "file": "src/render/line.c"
+ },
+ {
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
+   "-o",
+   "obj/render/shape.o",
+   "-c",
+   "src/render/shape.c"
+  ],
+  "file": "src/render/shape.c"
+ },
+ {
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
+   "-o",
+   "obj/render/color.o",
+   "-c",
+   "src/render/color.c"
+  ],
+  "file": "src/render/color.c"
+ },
+ {
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
+   "-o",
+   "obj/render/post_processing.o",
+   "-c",
+   "src/render/post_processing.c"
+  ],
+  "file": "src/render/post_processing.c"
+ },
+ {
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
    "-o",
    "obj/utility/printing.o",
    "-c",
    "src/utility/printing.c"
   ],
   "file": "src/utility/printing.c"
+ },
+ {
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
+   "-o",
+   "obj/utility/cleanup.o",
+   "-c",
+   "src/utility/cleanup.c"
+  ],
+  "file": "src/utility/cleanup.c"
+ },
+ {
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
+   "-o",
+   "obj/input/input.o",
+   "-c",
+   "src/input/input.c"
+  ],
+  "file": "src/input/input.c"
+ },
+ {
+  "directory": "/home/fvan-wij/Documents/Github_Projects/Cub3d",
+  "arguments": [
+   "cc",
+   "-Wextra",
+   "-Wall",
+   "-Werror",
+   "-Wunreachable-code",
+   "-Ofast",
+   "-I",
+   "./inc",
+   "-I",
+   "./lib/MLX42/include/MLX42",
+   "-I",
+   "./lib/libft",
+   "-I",
+   "./lib/miniaudio",
+   "-o",
+   "obj/input/player.o",
+   "-c",
+   "src/input/player.c"
+  ],
+  "file": "src/input/player.c"
  }
 ]

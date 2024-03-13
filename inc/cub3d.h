@@ -61,6 +61,7 @@ typedef struct s_app {
 	t_state		state;
 	mlx_t		*mlx;
 	t_input		input;
+	void		*audio;
 }	t_app;
 
 
