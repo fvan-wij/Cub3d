@@ -107,20 +107,34 @@ void	draw_map(char **map, t_hud *hud, int width, int height)
 
 /* Takes a normalized x and y and returns the relative pixel color within the texture
 */
-int32_t	get_texture_pixel(mlx_texture_t *tex, double x, double y)
+int32_t	get_texture_pixel(mlx_texture_t *tex, double x, double y, int color_offset)
 {
 	t_rgba	color;
 	int 	index;
 
 	index = (int)((x * tex->width) + ((int)(y * tex->height) * tex->width)) * tex->bytes_per_pixel;
-	color.r = tex->pixels[(index)];
-	color.g = tex->pixels[(index) + 1];
-	color.b = tex->pixels[(index) + 2];
-	color.a = tex->pixels[(index) + 3];
+	if ( tex->pixels[(index)] - color_offset < 0)
+		color.r = 0;
+	else
+		color.r = tex->pixels[(index)] - color_offset;
+	if ( tex->pixels[(index) + 1] - color_offset < 0)
+		color.g = 0;
+	else
+		color.g = tex->pixels[(index) + 1] - color_offset;
+	if ( tex->pixels[(index) + 2] - color_offset < 0)
+		color.b = 0;
+	else
+		color.b = tex->pixels[(index) + 2] - color_offset;
+
+
+	// color.g = tex->pixels[(index) + 1] - color_offset;
+	// color.b = tex->pixels[(index) + 2] - color_offset;
+	// color.a = tex->pixels[(index) + 3];
+	color.a = 255;
 	return (color.color);
 }
 
-void	draw_wall_strip(t_render render, int x, mlx_texture_t *tex)
+void	draw_wall_strip(t_render render, int x, mlx_texture_t *tex, int color_offset)
 {
 	int wl_height = (int)(HEIGHT / render.rays[x].wall_dist);
 	int y;
@@ -129,16 +143,14 @@ void	draw_wall_strip(t_render render, int x, mlx_texture_t *tex)
 	double	wall_x;
 	double	wall_y;
 
-	// printf("intersection: %f, %f\n", render.rays[x].intersection.x, render.rays[x].intersection.y);
 	if (render.rays[x].side == 0)
 		wall_x = render.rays[x].intersection.y - floor(render.rays[x].intersection.y);
 	else
 		wall_x = render.rays[x].intersection.x - floor(render.rays[x].intersection.x);
-	// printf("wall_x: %f\n", wall_x);
 	draw_start = (HEIGHT / 2) - (wl_height / 2);
 	draw_end = draw_start + wl_height;
-	// draw_start += (sin(render.headbob) * 10) + render.map_peak;
-	// draw_end += (sin(render.headbob) * 10) + render.map_peak;
+	draw_start += (sin(render.headbob) * 10) + render.map_peak;
+	draw_end += (sin(render.headbob) * 10) + render.map_peak;
 	if (draw_start < 0)
 		y = -draw_start;
 	else
@@ -148,7 +160,7 @@ void	draw_wall_strip(t_render render, int x, mlx_texture_t *tex)
 	while (y + draw_start < draw_end && y + draw_start < HEIGHT)
 	{
 		wall_y = (y / (double)wl_height);
-		mlx_put_pixel(render.img, x, y + draw_start, get_texture_pixel(tex, wall_x, wall_y));
+		mlx_put_pixel(render.img, x, y + draw_start, get_texture_pixel(tex, wall_x, wall_y, color_offset));
 		y++;
 	}
 }
@@ -168,17 +180,19 @@ void	draw_walls(t_render render, t_map *map)
 	x = 0;
 	while (x < WIDTH)
 	{
-		// t_rgba c;
-		// c.color = 0;
 		if (render.rays[x].side == 0)
 		{
-			// c.a = 255;
-			draw_wall_strip(render, x, map->tex[0]);
+			if (render.rays[x].dir.x > 0)
+				draw_wall_strip(render, x, map->tex[WE], 30);
+			if (render.rays[x].dir.x < 0)
+				draw_wall_strip(render, x, map->tex[EA], 30);
 		}
 		else if (render.rays[x].side == 1)
 		{
-			// c.a = 150;
-			draw_wall_strip(render, x, map->tex[1]);
+			if (render.rays[x].dir.y > 0)
+				draw_wall_strip(render, x, map->tex[NO], 0);
+			if (render.rays[x].dir.y < 0)
+				draw_wall_strip(render, x, map->tex[SO], 0);
 		}
 		x++;
 	}

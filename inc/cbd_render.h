@@ -136,7 +136,7 @@ void	draw_background(mlx_image_t *img, int32_t color);
 void	draw_player(mlx_image_t *img);
 void	draw_map(char **map, t_hud *hud, int width, int height);
 void	draw_minimap(mlx_image_t *hud_map, t_vec2d pos, char **map, int width, int height);
-void	draw_wall_strip(t_render render, int x, mlx_texture_t *tex);
+void	draw_wall_strip(t_render render, int x, mlx_texture_t *tex, int color_offset);
 void	draw_walls(t_render render, t_map *map);
 void	draw_equipped_weapon(t_inventory *inv);
 
