@@ -31,9 +31,9 @@ mlx_texture_t	*dither_texture(mlx_texture_t *tex)
 
 			int factor = 3;
 
-			uint8_t new_r = round(((factor * r>>8)) * ((125>>1)));
-			uint8_t new_g = round(((factor * g>>8)) * ((150>>1)));
-			uint8_t new_b = round(((factor * b>>8)) * ((200>>1)));
+			uint8_t new_r = round(((factor * r>>8)) * ((255>>1)));
+			uint8_t new_g = round(((factor * g>>8)) * ((255>>1)));
+			uint8_t new_b = round(((factor * b>>8)) * ((255>>1)));
 
 			int32_t q_r = r - new_r;
 			int32_t q_g = g - new_g;
@@ -88,9 +88,9 @@ mlx_image_t	*dither_image(mlx_image_t *img)
 
 			int factor = 2;
 
-			uint8_t new_r = round(((factor * r>>8)) * ((125>>1)));
-			uint8_t new_g = round(((factor * g>>8)) * ((150>>1)));
-			uint8_t new_b = round(((factor * b>>8)) * ((200>>1)));
+			uint8_t new_r = round(((factor * r>>8)) * ((255>>1)));
+			uint8_t new_g = round(((factor * g>>8)) * ((255>>1)));
+			uint8_t new_b = round(((factor * b>>8)) * ((255>>1)));
 
 			int32_t q_r = r - new_r;
 			int32_t q_g = g - new_g;
