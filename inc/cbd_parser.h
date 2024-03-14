@@ -11,8 +11,8 @@
 
 
 // Add characters to walls for character-based textures, WALLS_SIZE = n of characters + 1
-// # define WALLS "12"
-// # define WALLS_SIZE 3
+# define WALLS "123456789\0"
+# define WALLS_SIZE 10
 
 typedef enum e_tex {
 	NO,

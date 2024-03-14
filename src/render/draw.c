@@ -180,9 +180,11 @@ void	draw_walls(t_render render, t_map *map)
 	while (x < WIDTH)
 	{
 		if (render.rays[x].tile == '1')
-				draw_wall_strip(render, x, map->tex[WE], render.rays[x].wall_dist * 30);
+			draw_wall_strip(render, x, map->tex[WE], render.rays[x].wall_dist * 30);
 		else if (render.rays[x].tile == '2')
-				draw_wall_strip(render, x, map->tex[SO], render.rays[x].wall_dist * 30);
+			draw_wall_strip(render, x, map->tex[SO], render.rays[x].wall_dist * 30);
+		else
+			draw_wall_strip(render, x, map->tex[EA], render.rays[x].wall_dist * 30);
 		x++;
 	}
 }

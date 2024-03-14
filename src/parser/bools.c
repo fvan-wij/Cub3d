@@ -4,12 +4,12 @@
 static bool	is_mapchar(char c)
 {
 	size_t		i;
-	const char	map_content[10] = {"120NWES\t \0"};
+	const char	map_content[10] = {"0NWES\t \0"};
 
 	i = 0;
 	while (map_content[i])
 	{
-		if (c == map_content[i])
+		if (c == map_content[i] || is_wall(c))
 			return (true);
 		i++;
 	}
@@ -19,7 +19,7 @@ static bool	is_mapchar(char c)
 bool	is_wall(char c)
 {
 	size_t		i;
-	const char	map_content[3] = {"12\0"};
+	const char	map_content[WALLS_SIZE] = WALLS;
 
 	i = 0;
 	while (map_content[i])
