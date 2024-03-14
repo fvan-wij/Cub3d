@@ -1,4 +1,5 @@
 # Cub3d (Raycaster in C)
+![](https://github.com/fvan-wij/Cub3d_Telestein3D/blob/main/telestein.gif)
 
 ## Project description
 The aim of this project is to build a dynamic maze which can be explored in first-person similar to the game Wolfenstein 3D.
