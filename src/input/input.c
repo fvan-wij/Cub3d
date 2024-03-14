@@ -40,6 +40,10 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 	}
 	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
 	{
+		if (keydata.modifier == MLX_SHIFT)
+			ma_sound_set_pitch(audio->sound[SND_WALK], 1.2f);
+		else
+			ma_sound_set_pitch(audio->sound[SND_WALK], 1.0f);
 		if (cbd->menudata->state == OFF)
 			loop_sound(audio, SND_WALK);
 		if (cbd->menudata->state != OFF)

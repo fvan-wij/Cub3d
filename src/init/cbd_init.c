@@ -150,7 +150,7 @@ void	init_particles(t_particle *particles)
 		else
 			particles[i].dir.x = 1.0;
 
-		particles[i].size.x = (float) rand() / (float)RAND_MAX * 3;
+		particles[i].size.x = (float) rand() / (float)RAND_MAX * 4;
 		particles[i].size.y = particles[i].size.x;
 		particles[i].reset = particles[i].size;
 		i++;
@@ -176,11 +176,14 @@ t_hud	*cbd_init_hud(mlx_t *mlx)
 		return (NULL);
 	hud->img[HUD_MAP] = mlx_new_image(mlx, MINIMAP_WIDTH, MINIMAP_HEIGHT);
 	hud->img[HUD_OVERLAY] = mlx_new_image(mlx, WIDTH, HEIGHT);
+	hud->img[HUD_CRT] = mlx_new_image(mlx, WIDTH, HEIGHT);
 	return (hud);
 }
 
 bool cbd_init(t_app *cbd)
 {
+	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
+	mlx_set_setting(MLX_MAXIMIZED, 1);
 	cbd->mlx = cbd_init_window();
 	if (!cbd->mlx)
 		return(cbd_error(ERR_ALLOC), FAILURE);
@@ -203,6 +206,7 @@ bool cbd_init(t_app *cbd)
 	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_MAP].img, (WIDTH>>2), (HEIGHT>>3));
 	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_FIST].img, (WIDTH>>1) - (cbd->playerdata.inv->weapons[WPN_FIST].img->width / 2), HEIGHT - (cbd->playerdata.inv->weapons[WPN_FIST].img->height>>1));
 	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_CHAINSAW].img, (WIDTH>>1) - (cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->width / 2), HEIGHT - (cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->height * 0.8));
+	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_CRT], 0, 0);
 	cbd->playerdata.inv->weapons[WPN_MAP].img->enabled = false;
 	cbd->playerdata.inv->weapons[WPN_FIST].img->enabled = false;
 	cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->enabled = false;

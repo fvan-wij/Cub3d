@@ -30,18 +30,22 @@ void	draw_equipped_weapon(t_inventory *inv)
 		inv->weapons[WPN_MAP].img->enabled = false;
 }
 
-void	draw_background(mlx_image_t *img, int32_t color)
+void	draw_background(mlx_image_t *img, int32_t color, int peek)
 {
 	const t_vec2i init = {0, 0};
-	const t_vec2i screen = {WIDTH, HEIGHT};
+	const t_vec2i screen = {WIDTH, HEIGHT/2 + peek};
 
-	draw_square(img, color, init, screen);
+	const t_vec2i init2 = {0, HEIGHT/2 + peek};
+	const t_vec2i screen2 = {WIDTH, HEIGHT};
+	(void )color;
+	draw_square(img, color_rgba(75, 0, 0, 255), init, screen);
+	draw_square(img, color_rgba(50, 0, 0, 255), init2, screen2);
 }
 
 void	draw_player(mlx_image_t *img)
 {
 	const float r = (TILESIZE)>>4;
-	draw_circle(img, color(255, 255, 255), vec2i_assign((float) (img->width/2), (float)(img->height/2)), r);
+	draw_circle(img, color(255, 255, 255), vec2i_assign((float) (img->width>>1), (float)(img->height>>1)), r);
 }
 
 void	draw_minimap(mlx_image_t *hud_map, t_vec2d pos, char **map, int width, int height)
@@ -183,16 +187,16 @@ void	draw_walls(t_render render, t_map *map)
 		if (render.rays[x].side == 0)
 		{
 			if (render.rays[x].dir.x > 0)
-				draw_wall_strip(render, x, map->tex[WE], 30);
+				draw_wall_strip(render, x, map->tex[WE], render.rays[x].wall_dist * 30);
 			if (render.rays[x].dir.x < 0)
-				draw_wall_strip(render, x, map->tex[EA], 30);
+				draw_wall_strip(render, x, map->tex[EA], render.rays[x].wall_dist * 30);
 		}
 		else if (render.rays[x].side == 1)
 		{
 			if (render.rays[x].dir.y > 0)
-				draw_wall_strip(render, x, map->tex[NO], 0);
+				draw_wall_strip(render, x, map->tex[NO], render.rays[x].wall_dist * 30);
 			if (render.rays[x].dir.y < 0)
-				draw_wall_strip(render, x, map->tex[SO], 0);
+				draw_wall_strip(render, x, map->tex[SO], render.rays[x].wall_dist * 30);
 		}
 		x++;
 	}
@@ -219,7 +223,7 @@ void	draw_particles(mlx_image_t *game, t_particle *particles)
 			particles[i].p.x = y;
 		if (particles[i].p.x < 0)
 			particles[i].p.x = WIDTH;
-		draw_square(game, color(175, 175, 175), vec_to_int(particles[i].p), vec_to_int(particles[i].size));
+		draw_square(game, color(75, 75, 75), vec_to_int(particles[i].p), vec_to_int(particles[i].size));
 		i++;
 	}
 }

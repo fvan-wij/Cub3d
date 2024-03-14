@@ -78,12 +78,6 @@ void	cbd_render(t_app *cbd);
 t_ray	raycast(char **map, t_vec2d pos, t_vec2d dir);
 void	cast_rays(char **map, t_render *render, t_player *p);
 
-//		Shapes
-void	draw_background(mlx_image_t *img, int32_t color);
-void	draw_line(mlx_image_t *image, uint32_t color, t_vec2i p1, t_vec2i p2);
-void	draw_square(mlx_image_t *image, uint32_t color, t_vec2i pos, t_vec2i dimension);
-void	draw_circle(mlx_image_t *image, uint32_t color, t_vec2i pos, float r);
-
 //		Game
 bool	cbd_main(t_app *cbd);
 bool	cbd_init(t_app *cbd);
@@ -98,18 +92,5 @@ void	change_map(t_app *cbd);
 //		Init
 mlx_image_t *cbd_init_texture_img(mlx_t *mlx, char *path);
 void	init_playerdata(t_player *playerdata, t_map *map);
-
-
-//		Input_handlers
-// void	default_handler(mlx_key_data_t keydata, void *param);
-// void	forward_handler(mlx_key_data_t keydata, void *param);
-// void	backward_handler(mlx_key_data_t keydata, void *param);;
-// void	left_handler(mlx_key_data_t keydata, void *param);
-// void	right_handler(mlx_key_data_t keydata, void *param);
-// void	escape_handler(mlx_key_data_t keydata, void *param);
-// void	enter_handler(mlx_key_data_t keydata, void *param);
-// void	weapon_handler(mlx_key_data_t keydata, void *param);
-// void	map_handler(mlx_key_data_t keydata, void *param);
-
 
 #endif //CUB3D_H

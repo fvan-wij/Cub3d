@@ -107,7 +107,7 @@ void	move_player(t_app *cbd)
 	pos = vec_assign(cbd->playerdata.pos.x, cbd->playerdata.pos.y);
 	dir = vec_assign(cbd->playerdata.dir.x, cbd->playerdata.dir.y);
 
-	//Peak animation
+	//Peek animation
 	cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].img->instances[0].x = (cos(cbd->playerdata.headbob) * 2) + (WIDTH>>1) - (cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].img->width>>1);
 	if (cbd->hud->img[HUD_MAP]->enabled && cbd->render.map_peak > -100)
 		cbd->render.map_peak -= cos(cbd->mlx->delta_time) * 2;

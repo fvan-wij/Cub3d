@@ -16,7 +16,6 @@ bool	cbd_main(t_app *cbd)
 	cbd->audio = cbd_init_audio();
 	play_sound(cbd->audio, SND_MUSIC);
 
-	draw_gradient_bg(cbd->hud);
 	mlx_loop(cbd->mlx);
 	mlx_terminate(cbd->mlx);
 	cleanup(cbd);

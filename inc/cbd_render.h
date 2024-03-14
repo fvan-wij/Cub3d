@@ -110,6 +110,7 @@ typedef struct s_hud {
 	enum e_hud_items {
 		HUD_MAP,
 		HUD_OVERLAY,
+		HUD_CRT,
 		HUD_SIZE,
 	} t_hud_items;
 	mlx_image_t	*img[HUD_SIZE];
@@ -132,7 +133,8 @@ int32_t	color_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 
 //Draw
 void	draw_hud(t_hud *hud, t_inventory *inv);
-void	draw_background(mlx_image_t *img, int32_t color);
+void	draw_background(mlx_image_t *img, int32_t color, int peek);
+// void	draw_background(mlx_image_t *img, int32_t color);
 void	draw_player(mlx_image_t *img);
 void	draw_map(char **map, t_hud *hud, int width, int height);
 void	draw_minimap(mlx_image_t *hud_map, t_vec2d pos, char **map, int width, int height);
@@ -145,10 +147,11 @@ void	draw_line(mlx_image_t *image, uint32_t color, t_vec2i p1, t_vec2i p2);
 void	draw_square(mlx_image_t *image, uint32_t color, t_vec2i pos, t_vec2i dimension);
 void	draw_noise_square(mlx_image_t *image, t_vec2i pos, t_vec2i dimension);
 void	draw_circle(mlx_image_t *image, uint32_t color, t_vec2i pos, float r);
+void	draw_particles(mlx_image_t *game, t_particle *particles);
 
 //Post processing
-void	draw_gradient_bg(t_hud *hud);
-void	draw_particles(mlx_image_t *game, t_particle *particles);
+void 	draw_gradient_bg(mlx_image_t *img, int32_t c1, int32_t c2);
+void	draw_radial_overlay(t_hud *hud);
 
 //Animation
 void	play_weapon_animation(mlx_t	*mlx, t_inventory *inv);
