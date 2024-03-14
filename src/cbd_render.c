@@ -33,5 +33,6 @@ void	cbd_render(t_app *cbd)
 	draw_hud(cbd->hud, cbd->playerdata.inv);
 	draw_equipped_weapon(cbd->playerdata.inv);
 	draw_particles(cbd->render.img, cbd->particles);
-	draw_radial_overlay(cbd->hud);
+	cbd->render.img = dither_image(cbd->render.img);
+	// draw_radial_overlay(cbd->hud);
 }

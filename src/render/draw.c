@@ -161,6 +161,7 @@ void	draw_wall_strip(t_render render, int x, mlx_texture_t *tex, int color_offse
 		y = 0;
 	if (draw_end >= HEIGHT)
 		draw_end = HEIGHT;
+
 	while (y + draw_start < draw_end && y + draw_start < HEIGHT)
 	{
 		wall_y = (y / (double)wl_height);

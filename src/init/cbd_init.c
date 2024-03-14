@@ -13,6 +13,7 @@ mlx_image_t *cbd_init_texture_img(mlx_t *mlx, char *path)
 	tmp = mlx_load_png(path);
 	if (!tmp)
 		return (NULL);
+	tmp = dither_texture(tmp);
 	img = mlx_texture_to_image(mlx, tmp);
 	mlx_delete_texture(tmp);
 	return (img);
@@ -218,6 +219,12 @@ bool cbd_init(t_app *cbd)
 	init_playerdata(&cbd->playerdata, cbd->mapdata);
 	init_render(&cbd->render, cbd->hud, cbd->playerdata.inv);
 	init_particles(cbd->particles);
+
+	//Dithering
+	// cbd->mapdata->tex[WE] = dither_texture(cbd->mapdata->tex[WE]);
+	// cbd->mapdata->tex[NO] = dither_texture(cbd->mapdata->tex[NO]);
+	// cbd->mapdata->tex[EA] = dither_texture(cbd->mapdata->tex[EA]);
+	// cbd->mapdata->tex[SO] = dither_texture(cbd->mapdata->tex[SO]);
 
 	//Setup mlx hooks
 	mlx_key_hook(cbd->mlx, cbd_input, cbd);
