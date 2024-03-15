@@ -60,6 +60,28 @@ void main()
         case 15: outColor = texture(Texture15, TexCoord); break;
         default: outColor = vec4(1.0, 0.0, 0.0, 1.0); break;
     }
-	vec4 ditheredColor = step(ditherValue, outColor);
-	FragColor = smoothstep(0.2, 0.8, outColor);
+	vec4 ogColor = outColor;
+
+	if (outColor.r < ditherValue && outColor.r > 0.3)
+		outColor.r = 0.9;
+	else if (outColor.r < ditherValue && outColor.r < 0.15)
+		outColor.r = 0.25;
+	else
+		outColor.r = 0.4;
+
+	if (outColor.g < ditherValue && outColor.g > 0.3)
+		outColor.g = 0.9;
+	else if (outColor.g < ditherValue && outColor.g < 0.15)
+		outColor.g = 0.1;
+	else
+		outColor.g = 0.;
+
+	if (outColor.b < ditherValue && outColor.b > 0.3)
+		outColor.b = 0.29;
+	else if (outColor.b < ditherValue && outColor.b < 0.15)
+		outColor.b = 0.20;
+	else
+		outColor.b = 0.7;
+
+	FragColor = outColor;
 }

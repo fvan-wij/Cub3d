@@ -13,7 +13,7 @@ mlx_image_t *cbd_init_texture_img(mlx_t *mlx, char *path)
 	tmp = mlx_load_png(path);
 	if (!tmp)
 		return (NULL);
-	tmp = dither_texture(tmp);
+	// tmp = dither_texture(tmp);
 	img = mlx_texture_to_image(mlx, tmp);
 	mlx_delete_texture(tmp);
 	return (img);
@@ -29,11 +29,9 @@ t_menu	*cbd_init_menu(mlx_t *mlx, t_map *map)
 
 	// Main menu
 	menu->main_menu.bg = cbd_init_texture_img(mlx, "./data/menu/menu_main.png");
-		// menu->main_menu.map = cbd_init_texture_img(mlx, "CORRECT IMAGE PATH");
 
 	// Select menu
 	menu->select_menu.bg = cbd_init_texture_img(mlx, "./data/menu/menu_map_select.png");
-		// menu->select_menu.map = cbd_init_texture_img(mlx, "CORRECT IMAGE PATH");
 	menu->main_menu.cursor = cbd_init_texture_img(mlx, "./data/menu/selector_knife.png");
 	menu->select_menu.cursor = menu->main_menu.cursor;
 
@@ -42,10 +40,8 @@ t_menu	*cbd_init_menu(mlx_t *mlx, t_map *map)
 	mlx_image_to_window(mlx, menu->main_menu.preview_img, 0, 0);
 	menu->main_menu.preview_img->instances->z = -1;
 	mlx_image_to_window(mlx, menu->main_menu.bg, 0, 0);
-		// mlx_image_to_window(mlx, menu->main_menu.map, 0, 0);
 	mlx_image_to_window(mlx, menu->select_menu.bg, 0, 0);
 	mlx_image_to_window(mlx, menu->main_menu.cursor, WIDTH / 2 +  64, HEIGHT / 2);
-		// mlx_image_to_window(mlx, menu->select_menu.map, 0, 0);
 	set_main_cursor_positions(menu);
 	set_select_cursor_positions(menu);
 	set_map_preview_positions(menu);
