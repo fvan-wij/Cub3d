@@ -116,11 +116,19 @@ typedef struct s_hud {
 	mlx_image_t	*img[HUD_SIZE];
 } t_hud;
 
+//Sprite
+typedef struct s_sprite {
+	t_vec2d			pos;
+	mlx_texture_t	*tex;
+	// t_vec2d		size;
+} t_sprite;
+
 typedef struct s_render {
 	mlx_image_t	*img;
 	t_hud		*hud;
 	t_inventory	*inv;
 	t_ray		rays[WIDTH];
+	t_sprite	*sprite;
 	float		headbob;
 	float		map_peak;
 } t_render;
