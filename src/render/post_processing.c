@@ -21,7 +21,7 @@ static void	draw_scanlines_bg(mlx_image_t *img)
 				c.r = v1;
 				c.g = v1;
 				c.b = v1;
-				c.a = 25;
+				c.a = 10;
 				if (x < img->width && y < img->height)
 						mlx_put_pixel(img, x, y, c.color);
 				x++;
@@ -61,7 +61,7 @@ void	draw_radial_overlay(t_hud *hud)
                 current_col.r = color1.r + ratio * (color2.r - color1.r);
                 current_col.g = color1.g + ratio * (color2.g - color1.g);
                 current_col.b = color1.b + ratio * (color2.b - color1.b);
-                current_col.a = 50;
+                current_col.a = 40;
 				if (x < width && y < height)
                 	mlx_put_pixel(hud->img[HUD_OVERLAY], x, y, current_col.color);
             }
@@ -69,7 +69,7 @@ void	draw_radial_overlay(t_hud *hud)
         }
 		y++;
     }
-	draw_scanlines_bg(hud->img[HUD_OVERLAY]);
+	// draw_scanlines_bg(hud->img[HUD_OVERLAY]);
 }
 
 

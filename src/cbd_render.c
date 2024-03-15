@@ -26,7 +26,8 @@
 */
 void	cbd_render(t_app *cbd)
 {
-	draw_gradient_bg(cbd->render.img,color_rgba(100, 10, 0, 255), color_rgba(0, 0, 0, 255));
+	// draw_gradient_bg(cbd->render.img,color_rgba(100, 10, 0, 255), color_rgba(0, 0, 0, 255));
+	draw_background(cbd->render.img, color_rgba(100, 10, 0, 255), cbd->render.map_peak);
 	cast_rays(cbd->mapdata->cbd_map, &cbd->render, &cbd->playerdata);
 	draw_walls(cbd->render, cbd->mapdata);
 	draw_minimap(cbd->hud->img[HUD_MAP], cbd->playerdata.pos, cbd->mapdata->cbd_map, cbd->mapdata->width, cbd->mapdata->height);
