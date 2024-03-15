@@ -37,9 +37,8 @@ void	draw_background(mlx_image_t *img, int32_t color, int peek)
 
 	const t_vec2i init2 = {0, HEIGHT/2 + peek};
 	const t_vec2i screen2 = {WIDTH, HEIGHT};
-	(void )color;
-	draw_square(img, color_rgba(75, 0, 0, 255), init, screen);
-	draw_square(img, color_rgba(50, 0, 0, 255), init2, screen2);
+	draw_square(img, color, init, screen);
+	draw_square(img, color, init2, screen2);
 }
 
 void	draw_player(mlx_image_t *img)
@@ -161,6 +160,7 @@ void	draw_wall_strip(t_render render, int x, mlx_texture_t *tex, int color_offse
 		y = 0;
 	if (draw_end >= HEIGHT)
 		draw_end = HEIGHT;
+
 	while (y + draw_start < draw_end && y + draw_start < HEIGHT)
 	{
 		wall_y = (y / (double)wl_height);

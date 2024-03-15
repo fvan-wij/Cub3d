@@ -18,6 +18,7 @@ void	loop_sound(t_audio *audio, uint8_t type)
 void	stop_sound(t_audio *audio, uint8_t type)
 {
 	ma_sound_stop(audio->sound[type]);
+	ma_sound_seek_to_pcm_frame(audio->sound[type], 0);
 }
 
 static ma_sound	*init_sound(ma_engine *engine, const char *path)
@@ -63,13 +64,15 @@ t_audio	*cbd_init_audio(void)
 	if (result != MA_SUCCESS)
 		(free(game_audio), free(game_audio->engine), (void) NULL);
 	game_audio->sound[SND_MUSIC] = init_sound(game_audio->engine, "./data/audio/ambient_music.mp3");
-	game_audio->sound[SND_WALK] = init_sound(game_audio->engine, "./data/audio/step.mp3");
+	game_audio->sound[SND_WALK] = init_sound(game_audio->engine, "./data/audio/step_3.mp3");
+	game_audio->sound[SND_MENU] = init_sound(game_audio->engine, "./data/audio/menu.wav");
 	game_audio->sound[SND_SEARCH] = init_sound(game_audio->engine, "./data/audio/search.mp3");
 	game_audio->sound[SND_PUNCH] = init_sound(game_audio->engine, "./data/audio/punch.mp3");
 	game_audio->sound[SND_TICK] = init_sound(game_audio->engine, "./data/audio/tick.mp3");
-	ma_sound_set_volume(game_audio->sound[SND_TICK], 2.0f);
+	ma_sound_set_volume(game_audio->sound[SND_TICK], 1.0f);
 	ma_sound_set_volume(game_audio->sound[SND_SEARCH], 3.0f);
 	ma_sound_set_volume(game_audio->sound[SND_PUNCH], 0.5f);
+	ma_sound_set_volume(game_audio->sound[SND_WALK], 1.2f);
 	game_audio->is_initialized = true;
 	return (game_audio);
 }

@@ -26,12 +26,14 @@
 */
 void	cbd_render(t_app *cbd)
 {
-	draw_gradient_bg(cbd->render.img,color_rgba(100, 10, 0, 255), color_rgba(0, 0, 0, 255));
+	draw_gradient_bg(cbd->render.img,color_rgba(9, 45, 56, 255), color_rgba(0, 0, 0, 255));
+	// draw_background(cbd->render.img, color_rgba(9, 45, 56, 255), cbd->render.map_peak);
 	cast_rays(cbd->mapdata->cbd_map, &cbd->render, &cbd->playerdata);
 	draw_walls(cbd->render, cbd->mapdata);
 	draw_minimap(cbd->hud->img[HUD_MAP], cbd->playerdata.pos, cbd->mapdata->cbd_map, cbd->mapdata->width, cbd->mapdata->height);
 	draw_hud(cbd->hud, cbd->playerdata.inv);
 	draw_equipped_weapon(cbd->playerdata.inv);
 	draw_particles(cbd->render.img, cbd->particles);
-	draw_radial_overlay(cbd->hud);
+	cbd->render.img = dither_image(cbd->render.img);
+	// draw_radial_overlay(cbd->hud);
 }
