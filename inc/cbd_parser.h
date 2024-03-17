@@ -9,6 +9,11 @@
 # define FAILURE 1
 # define FILL 'X'
 
+
+// Add characters to walls for character-based textures, WALLS_SIZE = n of characters + 1
+# define WALLS "123456789\0"
+# define WALLS_SIZE 10
+
 typedef enum e_tex {
 	NO,
 	SO,
@@ -71,5 +76,6 @@ bool	is_tex(char *line, t_valid *is);
 bool	is_col(char *line, t_valid *is);
 bool	is_content(char *str);
 bool	is_last_element(t_valid *is);
+bool	is_wall(char c);
 
 #endif

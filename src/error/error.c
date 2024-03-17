@@ -9,6 +9,7 @@ static const char* g_error[ERR_SIZE + 1] =
 	[ERR_OPEN] = "Cub3d Error: could not open file",
 	[ERR_ALLOC] = "Cub3d Error: error allocating memory",
 	[ERR_INVALID_MAP] = "Cub3d Error: map is invalid",
+	[ERR_INVALID_WALL] = "Cub3d Error: map is invalid (open wall detected)",
 	[ERR_INVALID_START] = "Cub3d Error: start position is invalid", 
 	[ERR_FILE_INEXISTS] = "Cub3d Error: texture does not exist",
 	[ERR_TEX_SIZE] = "Cub3d Error: texture must be 64x64", 

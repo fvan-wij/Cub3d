@@ -97,7 +97,7 @@ void	draw_map(char **map, t_hud *hud, int width, int height)
 			if (p.x <= WIDTH && p.x >= 0 && p.y <= HEIGHT && p.y >= 0)
 			{
 				t_vec2i size = {TILESIZE, TILESIZE};
-				if (map[i][j] == '1')
+				if (map[i][j] == '1' || map[i][j] == '2')
 					draw_square(hud->img[HUD_MAP], color(200, 200, 200), p, size);
 				else
 					draw_square(hud->img[HUD_MAP], OFF_WHITE, p, size);
@@ -113,7 +113,7 @@ void	draw_map(char **map, t_hud *hud, int width, int height)
 t_rgba	get_texture_pixel(mlx_texture_t *tex, double x, double y)
 {
 	t_rgba	color;
-
+ 
 	color = get_color_from_tex(tex, x * tex->width, y * tex->height);
 	return (color);
 }
@@ -168,20 +168,12 @@ void	draw_walls(t_render render, t_map *map)
 	x = 0;
 	while (x < WIDTH)
 	{
-		if (render.rays[x].side == 0)
-		{
-			if (render.rays[x].dir.x > 0)
-				draw_wall_strip(render, x, map->tex[WE], render.rays[x].wall_dist * 30);
-			if (render.rays[x].dir.x < 0)
-				draw_wall_strip(render, x, map->tex[EA], render.rays[x].wall_dist * 30);
-		}
-		else if (render.rays[x].side == 1)
-		{
-			if (render.rays[x].dir.y > 0)
-				draw_wall_strip(render, x, map->tex[NO], render.rays[x].wall_dist * 30);
-			if (render.rays[x].dir.y < 0)
-				draw_wall_strip(render, x, map->tex[SO], render.rays[x].wall_dist * 30);
-		}
+		if (render.rays[x].tile == '1')
+			draw_wall_strip(render, x, map->tex[WE], render.rays[x].wall_dist * 30);
+		else if (render.rays[x].tile == '2')
+			draw_wall_strip(render, x, map->tex[SO], render.rays[x].wall_dist * 30);
+		else
+			draw_wall_strip(render, x, map->tex[EA], render.rays[x].wall_dist * 30);
 		x++;
 	}
 }

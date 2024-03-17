@@ -54,7 +54,7 @@ t_vec2d	resolve_collision(char **map, t_vec2d pos, t_vec2d dir, t_vec2d potentia
 	char D = map[(int)pos.y + 1][(int)pos.x];
 	char L = map[(int)pos.y][(int)pos.x - 1];
 
-	if (local_pos.x <= 0.5 && L == '1')
+	if (local_pos.x <= 0.5 && is_wall(L))
 	{
 		float dl = local_pos.x;
 		if (dl <= r)
@@ -63,7 +63,7 @@ t_vec2d	resolve_collision(char **map, t_vec2d pos, t_vec2d dir, t_vec2d potentia
 			potential_pos.x = potential_pos.x + overlap;
 		}
 	}
-	if (local_pos.y >= 0.5 && D == '1')
+	if (local_pos.y >= 0.5 && is_wall(D))
 	{
 		float dd = 1 - local_pos.y;
 		if (dd <= r)
@@ -72,7 +72,7 @@ t_vec2d	resolve_collision(char **map, t_vec2d pos, t_vec2d dir, t_vec2d potentia
 			potential_pos.y = potential_pos.y - overlap;
 		}
 	}
-	if (local_pos.y <= 0.5 && U == '1')
+	if (local_pos.y <= 0.5 && is_wall(U))
 	{
 		float du = local_pos.y;
 		if (du <= r)
@@ -81,7 +81,7 @@ t_vec2d	resolve_collision(char **map, t_vec2d pos, t_vec2d dir, t_vec2d potentia
 			potential_pos.y = potential_pos.y + overlap;
 		}
 	}
-	if (local_pos.x >= 0.5 && R == '1')
+	if (local_pos.x >= 0.5 && is_wall(R))
 	{
 		float dr = 1 - local_pos.x;
 		if (dr <= r)

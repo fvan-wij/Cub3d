@@ -57,16 +57,16 @@ bool	wall_is_valid(t_map *mapdata, int i, int j)
 	err = true;
 	if ((i < 0 || j < 0 || i >= lenH - 1 || j >= lenW - 1))
 		return (false);
-	if ((i == 0 || j == 0 || i == (lenH - 1) || j == (lenW - 1)) && mapdata->raw_data[i][j] != '1')
+	if ((i == 0 || j == 0 || i == (lenH - 1) || j == (lenW - 1)) && !is_wall(mapdata->raw_data[i][j]))
 		return (false);
 	mapdata->raw_data[i][j] = FILL;
-	if (err && (i + 1) <= (lenH - 1) && mapdata->raw_data[i + 1][j] != '1' && mapdata->raw_data[i + 1][j] != FILL)
+	if (err && (i + 1) <= (lenH - 1) && !is_wall(mapdata->raw_data[i + 1][j]) && mapdata->raw_data[i + 1][j] != FILL)
 		err = wall_is_valid(mapdata, i + 1, j);
-	if (err && (j + 1) <= (lenW - 1) && mapdata->raw_data[i][j + 1] != '1' && mapdata->raw_data[i][j + 1] != FILL)
+	if (err && (j + 1) <= (lenW - 1) && !is_wall(mapdata->raw_data[i][j + 1]) && mapdata->raw_data[i][j + 1] != FILL)
 		err = wall_is_valid(mapdata, i, j + 1);
-	if (err && (i - 1) >= 0 && mapdata->raw_data[i - 1][j] != '1' && mapdata->raw_data[i - 1][j] != FILL)
+	if (err && (i - 1) >= 0 && !is_wall(mapdata->raw_data[i - 1][j]) && mapdata->raw_data[i - 1][j] != FILL)
 		err = wall_is_valid(mapdata, i - 1, j);
-	if (err && (j - 1) >= 0 && mapdata->raw_data[i][j - 1] != '1' && mapdata->raw_data[i][j - 1] != FILL)
+	if (err && (j - 1) >= 0 && !is_wall(mapdata->raw_data[i][j - 1]) && mapdata->raw_data[i][j - 1] != FILL)
 		err = wall_is_valid(mapdata, i, j - 1);
 	return (err);
 }
@@ -139,7 +139,7 @@ bool	validate_map_data(t_map *mapdata, t_valid *is)
 	if (!mapdata->cbd_map)
 		return (cbd_error(ERR_ALLOC), ft_del_2d(mapdata->raw_data), false);
 	if (!wall_is_valid(mapdata, mapdata->start_pos.y, mapdata->start_pos.x))
-		return (cbd_error(ERR_INVALID_MAP), ft_del_2d(mapdata->raw_data), false);
+		return (cbd_error(ERR_INVALID_WALL), ft_del_2d(mapdata->raw_data), false);
 	if (!tex_size_is_valid(mapdata))
 		return (cbd_error(ERR_TEX_SIZE), ft_del_2d(mapdata->raw_data), false);
 	return (true);

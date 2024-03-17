@@ -1,6 +1,36 @@
 #include <cbd_parser.h>
 #include <libft.h>
 
+static bool	is_mapchar(char c)
+{
+	size_t		i;
+	const char	map_content[10] = {"0NWES\t \0"};
+
+	i = 0;
+	while (map_content[i])
+	{
+		if (c == map_content[i] || is_wall(c))
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
+bool	is_wall(char c)
+{
+	size_t		i;
+	const char	map_content[WALLS_SIZE] = WALLS;
+
+	i = 0;
+	while (map_content[i])
+	{
+		if (c == map_content[i])
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
 bool	is_content(char *str)
 {
 	size_t	i;
@@ -10,10 +40,7 @@ bool	is_content(char *str)
 		return (false);
 	while (str[i])
 	{
-		if (str[i] == '1' || str[i] == '0'
-			|| str[i] == 'N' || str[i] == 'W' 
-			|| str[i] == 'E' || str[i] == 'S'
-			|| str[i] == '\t' || str[i] == ' ')
+		if (is_mapchar(str[i]))
 			i++;
 		else
 			break;
