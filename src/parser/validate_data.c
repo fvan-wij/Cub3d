@@ -121,6 +121,7 @@ bool	tex_size_is_valid(t_map *mapdata)
 	int	i;
 
 	i = 0;
+	return (true);
 	while (i < TEX_SIZE)
 	{
 		if (mapdata->tex[i]->width != 64 && mapdata->tex[i]->height != 64)

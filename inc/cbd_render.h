@@ -164,8 +164,10 @@ void	draw_circle(mlx_image_t *image, uint32_t color, t_vec2i pos, float r);
 void	draw_particles(mlx_image_t *game, t_particle *particles);
 
 //Post processing
-void 	draw_gradient_bg(mlx_image_t *img, int32_t c1, int32_t c2);
-void	draw_radial_overlay(t_hud *hud);
+void 			draw_gradient_bg(mlx_image_t *img, int32_t c1, int32_t c2);
+void			draw_radial_overlay(t_hud *hud);
+mlx_texture_t	*dither_texture(mlx_texture_t *tex);
+mlx_image_t		*dither_image(mlx_image_t *img);
 
 //Animation
 void	play_weapon_animation(mlx_t	*mlx, t_inventory *inv);
