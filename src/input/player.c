@@ -108,7 +108,7 @@ void	move_player(t_app *cbd)
 	dir = vec_assign(cbd->playerdata.dir.x, cbd->playerdata.dir.y);
 
 	//Peek animation
-	cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].img->instances[0].x = (cos(cbd->playerdata.headbob) * 2) + (WIDTH>>1) - (cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].img->width>>1);
+	cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].img->instances[0].x = (cos(cbd->render.headbob) * 2) + (WIDTH>>1) - (cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].img->width>>1);
 	if (cbd->hud->img[HUD_MAP]->enabled && cbd->render.map_peak > -100)
 		cbd->render.map_peak -= cos(cbd->mlx->delta_time) * 2;
 	else if (cbd->render.map_peak < 0)
@@ -117,8 +117,8 @@ void	move_player(t_app *cbd)
 	//Shift multiplier
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_LEFT_SHIFT))
 	{
-		move_speed *= 2;
-		headbob_speed *= 2;
+		move_speed *= 1.25;
+		headbob_speed *= 2.25;
 	}
 
 	//Player movement
@@ -161,5 +161,6 @@ void	move_player(t_app *cbd)
 		cbd->playerdata.plane = vec_rotate(cbd->playerdata.plane, -cbd->mlx->delta_time * 3);
 	}
 	//Resolve movement
+	cbd->render.y_offset = (sin(cbd->render.headbob) * 10) + cbd->render.map_peak;
 	cbd->playerdata.pos = potential_pos;
 }

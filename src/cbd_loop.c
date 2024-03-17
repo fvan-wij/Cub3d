@@ -14,6 +14,7 @@ void	cbd_loop(void *param)
 	if (cbd->menudata->state == OFF)
 	{
 		cbd->render.img->instances->enabled = true;
+		cbd->render.sprite_img->instances->enabled = true;
 		move_player(cbd);
 		play_weapon_animation(cbd->mlx, cbd->playerdata.inv);
 		cbd_render(cbd);

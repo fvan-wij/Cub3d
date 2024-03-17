@@ -116,20 +116,33 @@ typedef struct s_hud {
 	mlx_image_t	*img[HUD_SIZE];
 } t_hud;
 
+//Sprite
+typedef struct s_sprite {
+	t_vec2d			pos;
+	mlx_texture_t	*tex;
+	// t_vec2d		size;
+} t_sprite;
+
 typedef struct s_render {
 	mlx_image_t	*img;
+	mlx_image_t	*sprite_img;
 	t_hud		*hud;
 	t_inventory	*inv;
 	t_ray		rays[WIDTH];
+	t_sprite	*sprite;
 	float		headbob;
 	float		map_peak;
+	int			y_offset;
 } t_render;
 
 typedef struct s_map t_map;
+typedef struct s_player t_player;
 
 //Color
 int32_t	color(uint8_t r, uint8_t g, uint8_t b);
 int32_t	color_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
+t_rgba	get_color_from_tex(mlx_texture_t *tex, int x, int y);
+t_rgba	color_darken(t_rgba color, int amount);
 
 //Draw
 void	draw_hud(t_hud *hud, t_inventory *inv);
@@ -140,6 +153,7 @@ void	draw_map(char **map, t_hud *hud, int width, int height);
 void	draw_minimap(mlx_image_t *hud_map, t_vec2d pos, char **map, int width, int height);
 void	draw_wall_strip(t_render render, int x, mlx_texture_t *tex, int color_offset);
 void	draw_walls(t_render render, t_map *map);
+void	draw_sprites(t_render *render, t_map *map, t_player *player);
 void	draw_equipped_weapon(t_inventory *inv);
 
 //Draw	shapes
@@ -150,8 +164,10 @@ void	draw_circle(mlx_image_t *image, uint32_t color, t_vec2i pos, float r);
 void	draw_particles(mlx_image_t *game, t_particle *particles);
 
 //Post processing
-void 	draw_gradient_bg(mlx_image_t *img, int32_t c1, int32_t c2);
-void	draw_radial_overlay(t_hud *hud);
+void 			draw_gradient_bg(mlx_image_t *img, int32_t c1, int32_t c2);
+void			draw_radial_overlay(t_hud *hud);
+mlx_texture_t	*dither_texture(mlx_texture_t *tex);
+mlx_image_t		*dither_image(mlx_image_t *img);
 
 //Animation
 void	play_weapon_animation(mlx_t	*mlx, t_inventory *inv);

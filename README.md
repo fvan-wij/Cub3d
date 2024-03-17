@@ -29,11 +29,20 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 
 *Raycaster*
 
-- [ ] consider writing the raycaster in a dynamic structure so that it can be used for multiple purposes
+- [x] consider writing the raycaster in a dynamic structure so that it can be used for multiple purposes
 - [x] draw a 2d representation of the map
 - [x] cast vertical and horizontal ray and determine distance between player and wall
 - [x] implement circle-wall collision detection
 - [ ] fix bug where circle-wall collision doesn't work for 45 degree angle at corner and refactor collision
+
+*Gameplay*
+- [ ] Add jumpscares
+- [ ] Add patrolling Nooo-nooo's
+- [ ] Add Po miniboss
+- [ ] Add Dipsy miniboss
+- [ ] Add Laa-Laa miniboss
+- [ ] Add Tinky-Winky miniboss
+- [ ] Add the most cursed sun baby endboss ever
 
 *Features*
 - [x] Improve immersion by adding headbobbing on the Y-axis
@@ -41,8 +50,12 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [x] Pressing M opens the map
 - [x] Add dust particles
 - [x] Add Po player-centered minimap
-- [ ] Add ambient soundtrack
-- [ ] Add event triggered sound
+- [x] Add ambient soundtrack
+- [x] Add menu soundtrack
+- [x] Add event triggered sound
 - [x] Add saw and smashing animations
 - [ ] Add continuous animation for saw.
-- [ ] Implement textures
+- [x] Implement textures
+- [x] Slither some dither in
+- [ ] Minimap should play buzzing sound
+- [ ] Add sprites
