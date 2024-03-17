@@ -64,6 +64,8 @@ static void	retrieve_element(char *line, t_map *mapdata)
 			mapdata->floor = get_col(temp[i + 1]);
 		if (ft_strncmp(temp[i], "C", ft_strlen(temp[i])) == 0 && temp[i + 1])
 			mapdata->ceiling = get_col(temp[i + 1]);
+		// if (ft_strncmp(temp[i], "SPRITE", ft_strlen(temp[i])) == 0 && temp[i + 1])
+		// 	mapdata->sprites[] = get_tex(temp[i + 1]);
 		i++;
 	}
 	ft_del_2d(temp);

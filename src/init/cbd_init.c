@@ -118,6 +118,10 @@ void	init_render(t_render *render, t_hud *hud, t_inventory *inv)
 {
 	render->hud = hud;
 	render->inv = inv;
+	render->sprite = malloc(sizeof(t_sprite) * 1);
+	render->sprite[0].pos.x = 5;
+	render->sprite[0].pos.y = 2;
+	render->sprite[0].tex = mlx_load_png("./data/textures/sprites/chainsaw.png");
 }
 
 void	init_playerdata(t_player *playerdata, t_map *mapdata)
@@ -129,6 +133,8 @@ void	init_playerdata(t_player *playerdata, t_map *mapdata)
 	playerdata->pos.y += 0.5f;
 	playerdata->scalar = 1;
 	playerdata->plane = vec_rotate(playerdata->dir, M_PI / 2);
+	printf("Plane: %f, %f\n", playerdata->plane.x, playerdata->plane.y);
+	printf("Dir: %f, %f\n", playerdata->dir.x, playerdata->dir.y);
 	playerdata->map_peak = 0;
 }
 
@@ -188,6 +194,10 @@ bool cbd_init(t_app *cbd)
 	cbd->render.img = mlx_new_image(cbd->mlx, WIDTH, HEIGHT);
 	mlx_image_to_window(cbd->mlx, cbd->render.img, 0, 0);
 	if (!cbd->render.img)
+		return (cbd_error(ERR_ALLOC), FAILURE);
+	cbd->render.sprite_img = mlx_new_image(cbd->mlx, WIDTH, HEIGHT);
+	mlx_image_to_window(cbd->mlx, cbd->render.sprite_img, 0, 0);
+	if (!cbd->render.sprite_img)
 		return (cbd_error(ERR_ALLOC), FAILURE);
 
 	cbd->hud = cbd_init_hud(cbd->mlx);

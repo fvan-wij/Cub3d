@@ -161,5 +161,6 @@ void	move_player(t_app *cbd)
 		cbd->playerdata.plane = vec_rotate(cbd->playerdata.plane, -cbd->mlx->delta_time * 3);
 	}
 	//Resolve movement
+	cbd->render.y_offset = (sin(cbd->render.headbob) * 10) + cbd->render.map_peak;
 	cbd->playerdata.pos = potential_pos;
 }

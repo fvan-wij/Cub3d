@@ -30,6 +30,7 @@ void	cbd_render(t_app *cbd)
 	// draw_background(cbd->render.img, color_rgba(9, 45, 56, 255), cbd->render.map_peak);
 	cast_rays(cbd->mapdata->cbd_map, &cbd->render, &cbd->playerdata);
 	draw_walls(cbd->render, cbd->mapdata);
+	draw_sprites(&cbd->render, cbd->mapdata, &cbd->playerdata);
 	draw_minimap(cbd->hud->img[HUD_MAP], cbd->playerdata.pos, cbd->mapdata->cbd_map, cbd->mapdata->width, cbd->mapdata->height);
 	draw_hud(cbd->hud, cbd->playerdata.inv);
 	draw_equipped_weapon(cbd->playerdata.inv);
