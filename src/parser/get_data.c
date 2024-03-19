@@ -84,6 +84,15 @@ bool	tex_exists(char *path)
 	return (close(fd), true);
 }
 
+/*
+** Checks if the path to the texture exists and returns an array of NO, SO, WE, EA textures
+**	
+** Needs:
+**	tex_path (array of texture paths)
+** 		
+** Returns:
+**	mlx_texture_t **textures
+*/
 mlx_texture_t	**get_mlx_tex(char **tex_path)
 {
 	int				i;
@@ -105,6 +114,21 @@ mlx_texture_t	**get_mlx_tex(char **tex_path)
 }
 
 
+/*
+** Gets all the necessary data from the .cub file
+** such as:
+** 	Path to NO, EA, SO, WE textures
+** 	Map content
+** 	Ceiling and floor colors
+**	
+** Needs:
+**	Open filedescriptor to the .cub file
+**	Pointer to mapdata struct
+**	Pointer to validation struct
+** 		
+** Returns:
+**		t_map *mapdata
+*/
 t_map	*get_map_data(int fd, t_map *mapdata, t_valid *is)
 {
 	char 	*line;

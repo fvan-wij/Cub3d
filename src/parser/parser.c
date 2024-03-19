@@ -7,6 +7,13 @@
 #include <unistd.h>
 #include <stdio.h>
 
+/*
+** Opens map and returns the fd
+** Needs:
+** 		map file (path_to_map.cub)
+** Returns:
+**		int fd
+*/
 static int	open_map(const char *file)
 {
 	int fd;
@@ -18,6 +25,13 @@ static int	open_map(const char *file)
 }
 
 
+/*
+** Checks the file name of the map, and returns the LVL_ENUM
+** Needs:
+** 		map file (path_to_map.cub)
+** Returns:
+**		enum LVL_...
+*/
 uint8_t	set_current_map(const char *file)
 {
 	char *temp;
@@ -37,6 +51,14 @@ uint8_t	set_current_map(const char *file)
 		return (LVL_UNKNOWN);
 }
 
+
+/*
+** Parses and validates all the necessary mapdata
+** Needs:
+** 		map file (path_to_map.cub)
+** Returns:
+**		t_map *mapdata
+*/
 t_map	*cbd_parse_map(const char *file)
 {
 	int 	fd;
