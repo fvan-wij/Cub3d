@@ -5,6 +5,15 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+/*
+** Checks if the given character is the starting position.
+** Needs:
+**	char c (current character to check)
+**	t_map *mapdata
+**	t_valid (struct containing booleans of validated data)
+** Returns:
+**	true/false
+*/
 bool	is_player(char c, t_map *mapdata, t_valid *is)
 {
 	if (c == 'N')
@@ -30,6 +39,15 @@ bool	is_player(char c, t_map *mapdata, t_valid *is)
 	return (false);
 }
 
+
+/*
+** Checks if there are duplicate start positions
+** Needs:
+**	t_map *mapdata
+**	t_valid (struct containing booleans of validated data)
+** Returns:
+**	true/false
+*/
 bool	is_duplicate(t_valid *is, t_map *mapdata)
 {
 	int	i;
@@ -48,6 +66,15 @@ bool	is_duplicate(t_valid *is, t_map *mapdata)
 	return (false);
 }
 
+/*
+** Recursive funcction that checks if there are open walls (floodfill)
+** Needs:
+**	t_map *mapdata
+**	int i (x location)
+**	int j (y location)
+** Returns:
+**	true/false
+*/
 bool	wall_is_valid(t_map *mapdata, int i, int j)
 {
 	bool		err;
@@ -71,6 +98,13 @@ bool	wall_is_valid(t_map *mapdata, int i, int j)
 	return (err);
 }
 
+/*
+** Copies the validated raw_data
+** Needs:
+**	t_map *mapdata
+** Returns:
+**	copied map
+*/
 char	**get_map(t_map *mapdata)
 {
 	size_t	i;
@@ -87,6 +121,14 @@ char	**get_map(t_map *mapdata)
 	return (cbd_map);
 }
 
+/*
+** Checks if the start location is valid i.e. contains no duplicates
+** Needs:
+**	t_map *mapdata
+**	t_valid *is (struct containing booleans with validated data)
+** Returns:
+**	true/false
+*/
 bool	start_is_valid(t_map *mapdata, t_valid *is)
 {
 	int i;
@@ -116,6 +158,13 @@ bool	start_is_valid(t_map *mapdata, t_valid *is)
 	return (true);
 }
 
+/*
+** Checks if texture is 64x64
+** Needs:
+**	t_map *mapdata
+** Returns:
+**	true/false
+*/
 bool	tex_size_is_valid(t_map *mapdata)
 {
 	int	i;
@@ -131,6 +180,18 @@ bool	tex_size_is_valid(t_map *mapdata)
 	return (true);
 }
 
+/*
+** Validates the given map
+** Checks if:
+**	start is valid
+**	walls are valid
+**	texture size is valid
+**
+** Needs:
+**	t_map *mapdata
+** Returns:
+**	true/false
+*/
 bool	validate_map_data(t_map *mapdata, t_valid *is)
 {
 	if (!start_is_valid(mapdata, is))

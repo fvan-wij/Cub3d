@@ -4,6 +4,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+/*
+** Reads the given line and returns the path to a texture
+**	
+** Needs:
+**	a line of the .cub file
+** Returns:
+**	path to a texture
+*/
 static char	*get_tex(char *temp)
 {
 	char *path;
@@ -21,6 +29,14 @@ static char	*get_tex(char *temp)
 	}
 }
 
+/*
+** Reads the given line and returns the color values
+**	
+** Needs:
+**	a line of the .cub file
+** Returns:
+**	t_rgba color values	
+*/
 static t_rgba	get_col(char *temp)
 {
 	t_rgba color;
@@ -43,6 +59,12 @@ static t_rgba	get_col(char *temp)
 	return (color);
 }
 
+/*
+** Checks the given line and stores texture path or color in mapdata
+**	
+** Needs:
+**	a line of the .cub file
+*/
 static void	retrieve_element(char *line, t_map *mapdata)
 {
 	int 	i;
@@ -64,13 +86,20 @@ static void	retrieve_element(char *line, t_map *mapdata)
 			mapdata->floor = get_col(temp[i + 1]);
 		if (ft_strncmp(temp[i], "C", ft_strlen(temp[i])) == 0 && temp[i + 1])
 			mapdata->ceiling = get_col(temp[i + 1]);
-		// if (ft_strncmp(temp[i], "SPRITE", ft_strlen(temp[i])) == 0 && temp[i + 1])
-		// 	mapdata->sprites[] = get_tex(temp[i + 1]);
 		i++;
 	}
 	ft_del_2d(temp);
 }
 
+/*
+** Opens texture and checks if texture exists
+**	
+** Needs:
+**	path
+** 		
+** Returns:
+**	true/false
+*/
 bool	tex_exists(char *path)
 {
 	int	fd;
@@ -112,7 +141,6 @@ mlx_texture_t	**get_mlx_tex(char **tex_path)
 	}
 	return (textures);
 }
-
 
 /*
 ** Gets all the necessary data from the .cub file

@@ -1,6 +1,15 @@
 #include <cbd_parser.h>
 #include <libft.h>
+#include <stdbool.h>
+#include <unistd.h>
 
+/*
+** Checks if given character is a map character
+** Needs:
+**	char c
+** Returns:
+**	true/false
+*/
 static bool	is_mapchar(char c)
 {
 	size_t		i;
@@ -16,6 +25,13 @@ static bool	is_mapchar(char c)
 	return (false);
 }
 
+/*
+** Checks if given character is a wall
+** Needs:
+**	char c
+** Returns:
+**	true/false
+*/
 bool	is_wall(char c)
 {
 	size_t		i;
@@ -31,6 +47,13 @@ bool	is_wall(char c)
 	return (false);
 }
 
+/*
+** Checks if given line is mapcontent
+** Needs:
+**	line
+** Returns:
+**	true/false
+*/
 bool	is_content(char *str)
 {
 	size_t	i;
@@ -50,6 +73,14 @@ bool	is_content(char *str)
 	return (false);
 }
 
+/*
+** Checks if given line is a NO, SO, EA, WE texture
+** Needs:
+**	line
+**	t_valid is (struct containing all the read mapdata)
+** Returns:
+**	true/false
+*/
 bool	is_tex(char *line, t_valid *is)
 {
 	size_t	len;
@@ -72,6 +103,14 @@ bool	is_tex(char *line, t_valid *is)
 	return (false);
 }
 
+/*
+** Checks if given line is a floor or ceiling color
+** Needs:
+**	line
+**	t_valid is (struct containing all the read mapdata)
+** Returns:
+**	true/false
+*/
 bool	is_col(char *line, t_valid *is)
 {
 	if (ft_strncmp(line, "F ", 2) == 0)
@@ -81,6 +120,14 @@ bool	is_col(char *line, t_valid *is)
 	return (false);
 }
 
+
+/*
+** Checks if colors and textures have already been read
+** Needs:
+**	t_valid is (struct containing all the read mapdata)
+** Returns:
+**	true/false
+*/
 bool	is_last_element(t_valid *is)
 {
 	int	i;
@@ -97,4 +144,28 @@ bool	is_last_element(t_valid *is)
 	if (count == 4 && is->col_cl && is->col_fl)
 		return (true);
 	return (false);
+}
+
+/*
+** Checks if given map is a bonus file
+** Needs:
+**	t_valid is (struct containing all the read mapdata)
+** Returns:
+**	true/false
+*/
+bool	is_bonus(int fd)
+{
+	char buffer[10];
+
+	read(fd, &buffer, 10);
+	if (ft_strncmp("CBD_BONUS", buffer, 9) == 0)
+	{
+		ft_printf("Is bonus!\n");
+		return (true);
+	}
+	else 
+	{
+		ft_printf("Is NOT bonus!\n");
+		return (false);
+	}
 }

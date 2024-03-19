@@ -66,9 +66,13 @@ t_map	*cbd_parse_map(const char *file);
 t_map	*get_map_data(int fd, t_map *mapdata, t_valid *is);
 bool	validate_map_data(t_map *mapdata, t_valid *is);
 
+//		Bonus
+t_map	*parse_map_bonus(const char *file, int fd, t_map *mapdata);
+t_map	*parse_map_mandatory(const char *file, int fd, t_map *mapdata);
+
 //		Map select
 t_map	*load_map(t_map *curr_map, uint8_t	map_id);
-
+uint8_t	set_current_map(const char *file);
 
 //		Bools.c
 bool	is_tex(char *line, t_valid *is);
@@ -76,5 +80,6 @@ bool	is_col(char *line, t_valid *is);
 bool	is_content(char *str);
 bool	is_last_element(t_valid *is);
 bool	is_wall(char c);
+bool	is_bonus(int fd);
 
 #endif
