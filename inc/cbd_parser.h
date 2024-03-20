@@ -14,12 +14,13 @@
 # define WALLS "123456789\0"
 # define WALLS_SIZE 10
 
+# define TEX_SIZE 255
+
 typedef enum e_tex {
 	NO,
 	SO,
 	WE,
 	EA,
-	TEX_SIZE,
 } e_tex;
 
 typedef enum e_dir {
