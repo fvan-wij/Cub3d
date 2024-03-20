@@ -92,28 +92,6 @@ static void	retrieve_element(char *line, t_map *mapdata)
 }
 
 /*
-** Opens texture and checks if texture exists
-**	
-** Needs:
-**	path
-** 		
-** Returns:
-**	true/false
-*/
-bool	tex_exists(char *path)
-{
-	int	fd;
-	int len;
-
-	len = ft_strlen(path);
-	path[len - 1] = '\0';
-	fd = open(path, O_RDONLY);
-	if (fd < 0)
-		return (false);
-	return (close(fd), true);
-}
-
-/*
 ** Checks if the path to the texture exists and returns an array of NO, SO, WE, EA textures
 **	
 ** Needs:
@@ -122,7 +100,7 @@ bool	tex_exists(char *path)
 ** Returns:
 **	mlx_texture_t **textures
 */
-mlx_texture_t	**get_mlx_tex(char **tex_path)
+static mlx_texture_t	**get_mlx_tex(char **tex_path)
 {
 	int				i;
 	mlx_texture_t 	**textures;
@@ -140,29 +118,6 @@ mlx_texture_t	**get_mlx_tex(char **tex_path)
 		i++;
 	}
 	return (textures);
-}
-
-t_map	*get_map_data_bonus(int fd, t_map *mapdata, t_valid *is, char *line)
-{
-	ft_printf("BONUSSS!!!\n");
-	while (line)
-	{
-		if (is_last_element(is) && line[0] == '\n')
-			return (cbd_error(ERR_INVALID_MAP), NULL);
-		else if (is_tex(line, is) || is_col(line, is))
-			retrieve_element(line, mapdata);
-		else if (is_content(line) && is_last_element(is))
-			mapdata->raw_data = ft_add_2d(mapdata->raw_data, line);
-		free(line);
-		line = get_next_line(fd);
-	}
-	close(fd);
-	if (!mapdata->raw_data)
-		return (cbd_error(ERR_INVALID_MAP), NULL);
-	mapdata->tex = get_mlx_tex(mapdata->tex_path);
-	if (!mapdata->tex)
-		return (NULL);
-	return (mapdata);
 }
 
 t_map	*get_map_data_mandatory(int fd, t_map *mapdata, t_valid *is, char *line)
@@ -214,28 +169,3 @@ t_map	*get_map_data(int fd, t_map *mapdata, t_valid *is)
 		mapdata = get_map_data_mandatory(fd, mapdata, is, line);
 	return (mapdata);
 }
-
-// t_map	*get_map_data(int fd, t_map *mapdata, t_valid *is)
-// {
-// 	char 	*line;
-//
-// 	line = get_next_line(fd);
-// 	while (line)
-// 	{
-// 		if (is_last_element(is) && line[0] == '\n')
-// 			return (cbd_error(ERR_INVALID_MAP), NULL);
-// 		else if (is_tex(line, is) || is_col(line, is))
-// 			retrieve_element(line, mapdata);
-// 		else if (is_content(line) && is_last_element(is))
-// 			mapdata->raw_data = ft_add_2d(mapdata->raw_data, line);
-// 		free(line);
-// 		line = get_next_line(fd);
-// 	}
-// 	close(fd);
-// 	if (!mapdata->raw_data)
-// 		return (cbd_error(ERR_INVALID_MAP), NULL);
-// 	mapdata->tex = get_mlx_tex(mapdata->tex_path);
-// 	if (!mapdata->tex)
-// 		return (NULL);
-// 	return (mapdata);
-// }

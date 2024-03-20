@@ -2,6 +2,7 @@
 #include <libft.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 /*
 ** Checks if given character is a map character
@@ -168,4 +169,26 @@ bool	is_bonus(int fd)
 		ft_printf("Is NOT bonus!\n");
 		return (false);
 	}
+}
+
+/*
+** Opens texture and checks if texture exists
+**	
+** Needs:
+**	path
+** 		
+** Returns:
+**	true/false
+*/
+bool	tex_exists(char *path)
+{
+	int	fd;
+	int len;
+
+	len = ft_strlen(path);
+	path[len - 1] = '\0';
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		return (false);
+	return (close(fd), true);
 }

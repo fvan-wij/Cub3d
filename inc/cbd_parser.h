@@ -13,6 +13,22 @@
 # define WALLS "123456789\0"
 # define WALLS_SIZE 10
 
+typedef enum e_bonus_tex {
+	TEX_WALL1,
+	TEX_WALL2,
+	TEX_WALL3,
+	TEX_WALL4,
+	TEX_WALL5,
+	TEX_WALL6,
+	TEX_WALL7,
+	TEX_WALL8,
+	TEX_WALL9,
+	TEX_ENEMY,
+	TEX_OBJECT,
+	TEX_ITEM,
+	TEX_BONUS_SIZE,
+} e_bonus_tex;
+
 typedef enum e_tex {
 	NO,
 	SO,
@@ -65,6 +81,8 @@ typedef struct s_map {
 t_map 	*alloc_map(void);
 t_map	*cbd_parse_map(const char *file);
 t_map	*get_map_data(int fd, t_map *mapdata, t_valid *is);
+t_map	*get_map_data_bonus(int fd, t_map *mapdata, t_valid *is, char *line);
+t_map	*get_map_data_mandatory(int fd, t_map *mapdata, t_valid *is, char *line);
 bool	validate_map_data(t_map *mapdata, t_valid *is);
 
 //		Bonus
@@ -82,5 +100,6 @@ bool	is_content(char *line);
 bool	is_last_element(t_valid *is);
 bool	is_wall(char c);
 bool	is_bonus(int fd);
+bool	tex_exists(char *path);
 
 #endif
