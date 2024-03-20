@@ -54,21 +54,21 @@ bool	is_wall(char c)
 ** Returns:
 **	true/false
 */
-bool	is_content(char *str)
+bool	is_content(char *line)
 {
 	size_t	i;
 
 	i = 0;
-	if (!str)
+	if (!line)
 		return (false);
-	while (str[i])
+	while (line[i])
 	{
-		if (is_mapchar(str[i]))
+		if (is_mapchar(line[i]))
 			i++;
 		else
 			break;
 	}
-	if (str[i] == '\n')
+	if (line[i] == '\n')
 		return (true);
 	return (false);
 }

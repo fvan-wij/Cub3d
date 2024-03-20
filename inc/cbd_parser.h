@@ -59,6 +59,7 @@ typedef struct s_map {
 	int				height;
 	bool			valid;
 	uint8_t			current_map;
+	bool			is_bonus;
 } 	t_map;
 
 t_map 	*alloc_map(void);
@@ -77,7 +78,7 @@ uint8_t	set_current_map(const char *file);
 //		Bools.c
 bool	is_tex(char *line, t_valid *is);
 bool	is_col(char *line, t_valid *is);
-bool	is_content(char *str);
+bool	is_content(char *line);
 bool	is_last_element(t_valid *is);
 bool	is_wall(char c);
 bool	is_bonus(int fd);
