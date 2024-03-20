@@ -51,6 +51,32 @@ typedef struct s_player {
 	t_action	action;
 }	t_player;
 
+typedef struct entity {
+	enum e_entity_type {
+	ENTITY_ENEMY,
+	ENTITY_ITEM,
+	ENTITY_DECOR,
+	ENTITY_SIZE,
+	};
+	enum e_entity_state {
+	ENTITY_IDLE,
+	ENTITY_PATROL,
+	ENTITY_AGROED,
+	ENTITY_DEATH,
+	};
+	enum e_entity_type	type;
+	t_vec2d				pos;
+	t_vec2d				dir;
+	float				speed;
+	int					health;
+	int					damage;
+	t_vec2d				*positions;
+	int					current_position;
+	mlx_texture_t		*texture;
+	enum e_entity_state	state;
+	float				audio_timer;
+}	t_entity;
+
 typedef struct s_app {
 	t_particle 	particles[N_PARTICLES];
 	t_player 	playerdata;
