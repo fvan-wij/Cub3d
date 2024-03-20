@@ -50,29 +50,6 @@ uint8_t	set_current_map(const char *file)
 	else
 		return (LVL_UNKNOWN);
 }
-//
-// t_map	*parse_map(int fd, t_map *mapdata)
-// {
-// 	int 	fd;
-// 	t_map	*mapdata;
-// 	t_valid	is;
-//
-// 	ft_memset(&is, false, sizeof(t_valid));
-// 	mapdata = alloc_map();
-// 	if (!mapdata)
-// 		return (NULL);
-// 	fd = open_map(file);
-// 	if (fd < 0)
-// 		return (NULL);
-// 	mapdata = get_map_data(fd, mapdata, &is);
-// 	if (!mapdata)
-// 		return (NULL);
-// 	mapdata->valid = validate_map_data(mapdata, &is);
-// 	if (!mapdata->valid)
-// 		return (NULL);
-// 	mapdata->current_map = set_current_map(file);
-// 	return (mapdata);
-// }
 
 /*
 ** Parses and validates all the necessary mapdata
@@ -105,44 +82,3 @@ t_map	*cbd_parse_map(const char *file)
 }
 
 
-// t_map	*parse_map_mandatory(const char *file, int fd, t_map *mapdata)
-// {
-// 	t_valid	is;
-//
-// 	ft_memset(&is, false, sizeof(t_valid));
-// 	mapdata = get_map_data(fd, mapdata, &is);
-// 	if (!mapdata)
-// 		return (NULL);
-// 	mapdata->valid = validate_map_data(mapdata, &is);
-// 	if (!mapdata->valid)
-// 		return (NULL);
-// 	mapdata->current_map = set_current_map(file);
-// 	return (mapdata);
-// }
-
-/*
-** Parses and validates all the necessary mapdata
-** Needs:
-** 		map file (path_to_map.cub)
-** Returns:
-**		t_map *mapdata
-*/
-// t_map	*cbd_parse_map(const char *file)
-// {
-// 	int 	fd;
-// 	t_map	*mapdata;
-//
-// 	mapdata = alloc_map();
-// 	if (!mapdata)
-// 		return (NULL);
-// 	fd = open_map(file);
-// 	if (fd < 0)
-// 		return (NULL);
-// 	// if (is_bonus(fd))
-// 	// 	mapdata = parse_map_bonus(file, fd, mapdata);
-// 	// else
-// 	mapdata = parse_map_mandatory(file, fd, mapdata);
-// 	if (!mapdata)
-// 		return (NULL);
-// 	return (mapdata);
-// }

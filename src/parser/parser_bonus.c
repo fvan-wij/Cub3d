@@ -4,14 +4,64 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+static bool	is_mapchar(char c)
+{
+	size_t		i;
+	const char	map_content[20] = {"0123456789NWESeoi\t "};
+
+	i = 0;
+	while (map_content[i])
+	{
+		if (c == map_content[i] || is_wall(c))
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
+bool	is_mapcontent(char *line)
+{
+	size_t	i;
+
+	i = 0;
+	if (!line)
+		return (false);
+	while (line[i])
+	{
+		if (is_mapchar(line[i]))
+			i++;
+		else
+			break;
+	}
+	if (line[i] == '\n')
+		return (true);
+	return (false);
+}
+
 /*
-** Reads the given line and returns the path to a texture
-**	
-** Needs:
-**	a line of the .cub file
-** Returns:
-**	path to a texture
+** Identifies the element of the given line
+**	returns enum CONT_...
 */
+uint8_t	identify_element(char *line)
+{
+	if (is_mapcontent(line))
+		return (CONT_MAP);
+	else if (line[0] == 'W')
+		return (CONT_WALL);
+	else if (ft_strncmp(line, "F ", 2) == 0)
+		return (CONT_COLF);
+	else if (ft_strncmp(line, "C ", 2) == 0)
+		return (CONT_COLC);
+	else if (ft_strncmp(line, "e ", 2) == 0)
+		return (CONT_ENEMY);
+	else if (ft_strncmp(line, "o ", 2) == 0)
+		return (CONT_OBJECT);
+	else if (ft_strncmp(line, "i ", 2) == 0)
+		return (CONT_ITEM);
+	else
+	 	return (CONT_UNKNOWN);
+}
+
 static char	*get_tex(char *temp)
 {
 	char *path;
@@ -29,14 +79,6 @@ static char	*get_tex(char *temp)
 	}
 }
 
-/*
-** Reads the given line and returns the color values
-**	
-** Needs:
-**	a line of the .cub file
-** Returns:
-**	t_rgba color values	
-*/
 static t_rgba	get_col(char *temp)
 {
 	t_rgba color;
@@ -59,88 +101,92 @@ static t_rgba	get_col(char *temp)
 	return (color);
 }
 
-/*
-** Checks the given line and stores texture path or color in mapdata
-**	
-** Needs:
-**	a line of the .cub file
-*/
-static void	retrieve_element(char *line, t_map *mapdata)
+t_lst_cont	*append_node(t_lst_cont *head, char *line, uint8_t type)
 {
-	int 	i;
-	char	**temp;
+	t_lst_cont *node;
+	t_lst_cont *curr;
 
-	temp = ft_split(line, ' ');
-	i = 0;
-	while (temp[i])
+	node = ft_calloc(1, sizeof(t_lst_cont));
+	if (!node)
+		return (cbd_error(ERR_ALLOC), NULL);
+	node->type = type;
+	node->prev = NULL;
+	node->next = NULL;
+	if (type == CONT_WALL || type == CONT_ITEM || type == CONT_ENEMY)
 	{
-		if (ft_strncmp(temp[i], "NO", 2) == 0 && temp[i + 1])
-			mapdata->tex_path[NO] = get_tex(temp[i + 1]);
-		if (ft_strncmp(temp[i], "SO", 2) == 0 && temp[i + 1])
-			mapdata->tex_path[SO] = get_tex(temp[i + 1]);
-		if (ft_strncmp(temp[i], "WE", 2) == 0 && temp[i + 1])
-			mapdata->tex_path[WE] = get_tex(temp[i + 1]);
-		if (ft_strncmp(temp[i], "EA", 2) == 0 && temp[i + 1])
-			mapdata->tex_path[EA] = get_tex(temp[i + 1]);
-		if (ft_strncmp(temp[i], "F", ft_strlen(temp[i])) == 0 && temp[i + 1])
-			mapdata->floor = get_col(temp[i + 1]);
-		if (ft_strncmp(temp[i], "C", ft_strlen(temp[i])) == 0 && temp[i + 1])
-			mapdata->ceiling = get_col(temp[i + 1]);
-		i++;
+		node->tex_path = get_tex(line);
+		ft_printf("Added WALL, ITEM or ENEMY TEXTURE node\n");
 	}
-	ft_del_2d(temp);
+	else if (type == CONT_COLC || type == CONT_COLF)
+	{
+		node->color = get_col(line);
+		ft_printf("Added ceiling or floor color node\n");
+	}
+	else if (type == CONT_MAP)
+	{
+		if (!head)
+			return (cbd_error(ERR_MAPCONTENT_SEQUENCE), NULL);
+		curr = head;
+		while (!curr->next)
+		{
+			if (curr->type == CONT_MAP)
+			{
+				curr->map = ft_add_2d(curr->map, line);
+				ft_printf("Added mapcontent to CONT_MAP node\n");
+				return (head);
+			}
+			curr = curr->next;
+		}
+		if (!curr->next)
+		{
+			node->map = ft_add_2d(node->map, line);
+			ft_printf("Added mapcontent to new node\n");
+		}
+	}
+	if (!head)
+	{
+		head = node;
+		ft_printf("No head, creating new head!\n");
+		return (head);
+	}
+	else
+	{
+		curr = head;
+		while (curr->next != NULL)
+			curr = curr->next;
+		curr->next = node;
+		node->prev = curr;
+		return (head);
+	}
 }
 
 /*
-** Checks if the path to the texture exists and returns an array of NO, SO, WE, EA textures
-**	
-** Needs:
-**	tex_path (array of texture paths)
-** 		
-** Returns:
-**	mlx_texture_t **textures
+** Reads the map, stores the given line in a node, returns linked list of all the elements
+** Steps:
+**	Initialize LL
+**	Read line, identify element, store in node
+**	If CONT_WALL
 */
-static mlx_texture_t	**get_mlx_tex_bonus(char **tex_path)
+t_lst_cont	*get_map_data_bonus(int fd, char *line)
 {
-	size_t			i;
-	mlx_texture_t 	**textures;
+	t_lst_cont *head;
+	uint8_t		type;
 
-	i = 0;
-	textures = malloc(sizeof(mlx_texture_t *) * TEX_BONUS_SIZE);
-	while (tex_path[i] && i < TEX_BONUS_SIZE)
-	{
-		if (tex_exists(tex_path[i]))
-			textures[i] = mlx_load_png(tex_path[i]);
-		else
-			return (cbd_error(ERR_FILE_INEXISTS), NULL);
-		if (!textures)
-			return (cbd_error(ERR_ALLOC), NULL);
-		i++;
-	}
-	return (textures);
-}
-
-t_map	*get_map_data_bonus(int fd, t_map *mapdata, t_valid *is, char *line)
-{
-	ft_printf("BONUSSS!!!\n");
-	mapdata->is_bonus = true;
+	head = NULL;
+	line = get_next_line(fd);
 	while (line)
 	{
-		if (is_last_element(is) && line[0] == '\n')
-			return (cbd_error(ERR_INVALID_MAP), NULL);
-		else if (is_tex(line, is) || is_col(line, is))
-			retrieve_element(line, mapdata);
-		else if (is_content(line) && is_last_element(is))
-			mapdata->raw_data = ft_add_2d(mapdata->raw_data, line);
+		type = identify_element(line);	
+		if (type != CONT_UNKNOWN)
+			head = append_node(head, line, type);
+		else 
+		{
+			ft_printf("line: %s\n", line);
+			return (cbd_error(ERR_UNKNOWN_ELEM), free(line), NULL);
+		}
 		free(line);
 		line = get_next_line(fd);
 	}
-	close(fd);
-	if (!mapdata->raw_data)
-		return (cbd_error(ERR_INVALID_MAP), NULL);
-	mapdata->tex = get_mlx_tex_bonus(mapdata->tex_path);
-	if (!mapdata->tex)
-		return (NULL);
-	return (mapdata);
+	exit(0);
+	return (head);
 }
-

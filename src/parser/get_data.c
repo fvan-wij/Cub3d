@@ -161,11 +161,14 @@ t_map	*get_map_data_mandatory(int fd, t_map *mapdata, t_valid *is, char *line)
 t_map	*get_map_data(int fd, t_map *mapdata, t_valid *is)
 {
 	char 	*line;
+	t_lst_cont *head;
 
+	head = NULL;
 	line = get_next_line(fd);
 	if (ft_strncmp(line, "CBD_BONUS", 9) == 0)
-		mapdata = get_map_data_bonus(fd, mapdata, is, line);
+		head = get_map_data_bonus(fd, line);
 	else
 		mapdata = get_map_data_mandatory(fd, mapdata, is, line);
+	(void) head;
 	return (mapdata);
 }

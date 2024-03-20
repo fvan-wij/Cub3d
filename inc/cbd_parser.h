@@ -13,21 +13,28 @@
 # define WALLS "123456789\0"
 # define WALLS_SIZE 10
 
-typedef enum e_bonus_tex {
-	TEX_WALL1,
-	TEX_WALL2,
-	TEX_WALL3,
-	TEX_WALL4,
-	TEX_WALL5,
-	TEX_WALL6,
-	TEX_WALL7,
-	TEX_WALL8,
-	TEX_WALL9,
-	TEX_ENEMY,
-	TEX_OBJECT,
-	TEX_ITEM,
-	TEX_BONUS_SIZE,
-} e_bonus_tex;
+typedef struct s_lst_cont {
+	enum e_cont {
+		CONT_COLF,
+		CONT_COLC,
+		CONT_WALL,
+		CONT_ENEMY,
+		CONT_OBJECT,
+		CONT_ITEM,
+		CONT_MAP,
+		CONT_UNKNOWN,
+	} t_cont;
+	uint8_t				type;
+	bool				valid;
+	union {
+		char			*tex_path;
+		t_rgba			color;
+		char			**map;
+	};
+	char				c;
+	struct s_lst_cont	*prev;
+	struct s_lst_cont	*next;
+}	t_lst_cont;
 
 typedef enum e_tex {
 	NO,
@@ -81,7 +88,7 @@ typedef struct s_map {
 t_map 	*alloc_map(void);
 t_map	*cbd_parse_map(const char *file);
 t_map	*get_map_data(int fd, t_map *mapdata, t_valid *is);
-t_map	*get_map_data_bonus(int fd, t_map *mapdata, t_valid *is, char *line);
+t_lst_cont	*get_map_data_bonus(int fd, char *line);
 t_map	*get_map_data_mandatory(int fd, t_map *mapdata, t_valid *is, char *line);
 bool	validate_map_data(t_map *mapdata, t_valid *is);
 
