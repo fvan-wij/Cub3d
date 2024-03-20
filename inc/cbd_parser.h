@@ -69,10 +69,37 @@ typedef struct s_valid {
 	bool	map;
 } t_valid;
 
+typedef struct entity {
+	enum e_entity_type {
+	ENTITY_ENEMY,
+	ENTITY_ITEM,
+	ENTITY_DECOR,
+	ENTITY_SIZE,
+	} t_entity_type;
+	enum e_entity_state {
+	ENTITY_IDLE,
+	ENTITY_PATROL,
+	ENTITY_AGROED,
+	ENTITY_DEATH,
+	} t_entity_state;
+	enum e_entity_type	type;
+	t_vec2d				pos;
+	t_vec2d				dir;
+	float				speed;
+	int					health;
+	int					damage;
+	t_vec2d				*positions;
+	int					current_position;
+	mlx_texture_t		*texture;
+	enum e_entity_state	state;
+	float				audio_timer;
+}	t_entity;
+
 typedef struct s_map {
 	char			**raw_data;
 	char			**tex_path;
 	char			**cbd_map;
+	t_entity		**entities;
 	mlx_texture_t	**tex;
 	t_rgba			floor;
 	t_rgba			ceiling;
@@ -85,11 +112,11 @@ typedef struct s_map {
 	bool			is_bonus;
 } 	t_map;
 
-t_map 	*alloc_map(void);
+t_map	*alloc_map(uint8_t n_texpath);
 t_map	*cbd_parse_map(const char *file);
-t_map	*get_map_data(int fd, t_map *mapdata, t_valid *is);
-t_lst_cont	*get_map_data_bonus(int fd, char *line);
-t_map	*get_map_data_mandatory(int fd, t_map *mapdata, t_valid *is, char *line);
+t_map	*get_map_data(int fd, t_valid *is);
+t_map	*get_map_data_bonus(int fd, char *line);
+t_map	*get_map_data_mandatory(int fd, t_valid *is, char *line);
 bool	validate_map_data(t_map *mapdata, t_valid *is);
 
 //		Bonus
@@ -108,5 +135,10 @@ bool	is_last_element(t_valid *is);
 bool	is_wall(char c);
 bool	is_bonus(int fd);
 bool	tex_exists(char *path);
+
+//				Getters.c
+char			*get_texpath(char *temp);
+t_rgba			get_col(char *temp);
+mlx_texture_t	**get_mlx_tex(char **tex_path);
 
 #endif

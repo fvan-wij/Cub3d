@@ -16,29 +16,6 @@ typedef enum e_state {
 	STATE_GAME,
 } t_state;
 
-enum e_action {
-	FORWARD,
-	BACKWARD,
-	LEFT,
-	RIGHT,
-	ACTION_SIZE,
-};
-
-typedef void (*t_input_handler)(mlx_key_data_t, void *);
-
-typedef struct s_input {
-	bool			key[348];
-	t_input_handler	handler[348];
-} t_input;
-
-typedef struct s_action {
-	bool	forward;
-	bool	backward;
-	bool	left;
-	bool	right;
-	bool	action[ACTION_SIZE];
-} t_action;
-
 typedef struct s_player {
 	t_vec2d 	pos;
 	t_vec2d		dir;
@@ -48,7 +25,6 @@ typedef struct s_player {
 	float		map_peak;
 	t_ray		rays[WIDTH];
 	t_inventory	*inv;
-	t_action	action;
 }	t_player;
 
 typedef struct s_app {
@@ -60,12 +36,12 @@ typedef struct s_app {
 	t_hud		*hud;
 	t_state		state;
 	mlx_t		*mlx;
-	t_input		input;
 	void		*audio;
 }	t_app;
 
 
 //		Utility
+void	print_lst(t_lst_cont *head);
 void	print_2d(char **str);
 void	print_debug_info(t_app *cub3d);
 void	cleanup(t_app *app);

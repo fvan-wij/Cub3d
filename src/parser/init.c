@@ -3,12 +3,12 @@
 #include <cub3d.h>
 #include <stdlib.h>
 
-t_map	*alloc_map(void)
+t_map	*alloc_map(uint8_t n)
 {
 	t_map	*mapdata;
 
-	mapdata = malloc(sizeof(t_map ));
-	mapdata->tex_path 		= ft_calloc(sizeof(char *), TEX_SIZE + 1);
+	mapdata = malloc(sizeof(t_map));
+	mapdata->tex_path 		= ft_calloc(sizeof(char *), n + 1);
 	mapdata->cbd_map 		= NULL;
 	mapdata->raw_data 		= NULL;
 	mapdata->tex			= NULL;

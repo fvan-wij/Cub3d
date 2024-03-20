@@ -1,13 +1,13 @@
+#include "cbd_render.h"
 #include <cbd_parser.h>
 #include <cbd_error.h>
-#include <fcntl.h>
+#include <cub3d.h>
 #include <stdlib.h>
-#include <unistd.h>
 
 static bool	is_mapchar(char c)
 {
 	size_t		i;
-	const char	map_content[20] = {"0123456789NWESeoi\t "};
+	const char	map_content[20] = {"0123456789NWES\t "};
 
 	i = 0;
 	while (map_content[i])
@@ -24,7 +24,7 @@ bool	is_mapcontent(char *line)
 	size_t	i;
 
 	i = 0;
-	if (!line)
+	if (!line || line[0] == '\n')
 		return (false);
 	while (line[i])
 	{
@@ -62,43 +62,18 @@ uint8_t	identify_element(char *line)
 	 	return (CONT_UNKNOWN);
 }
 
-static char	*get_tex(char *temp)
+t_lst_cont *get_node(t_lst_cont *head, uint8_t type)
 {
-	char *path;
-	char *dup;
+	t_lst_cont *curr;
 
-	path = ft_strchr(temp, '.');
-	if (!path)
-		return (NULL);
-	else
+	curr = head;
+	while (curr->next != NULL)
 	{
-		dup = ft_strdup(path);
-		if (!dup)
-			return (cbd_error(ERR_ALLOC), NULL);
-		return (dup);
+		if (curr->type == type)
+			return (curr);
+		curr = curr->next;
 	}
-}
-
-static t_rgba	get_col(char *temp)
-{
-	t_rgba color;
-
-	color.color = 0;
-	char **colors = ft_split(temp, ',');
-	if (!colors)
-	{
-		cbd_error(ERR_ALLOC);
-		return color;
-	}
-	if (ft_arrlen(colors) == 3)
-	{
-		color.r = (uint8_t) ft_atoi(colors[0]);
-		color.g = (uint8_t) ft_atoi(colors[1]);
-		color.b = (uint8_t) ft_atoi(colors[2]);
-		color.a = (uint8_t) 255;
-		ft_del_2d(colors);
-	}
-	return (color);
+	return (NULL);
 }
 
 t_lst_cont	*append_node(t_lst_cont *head, char *line, uint8_t type)
@@ -106,47 +81,41 @@ t_lst_cont	*append_node(t_lst_cont *head, char *line, uint8_t type)
 	t_lst_cont *node;
 	t_lst_cont *curr;
 
+	if (type == CONT_UNKNOWN)
+		return (head);
 	node = ft_calloc(1, sizeof(t_lst_cont));
 	if (!node)
 		return (cbd_error(ERR_ALLOC), NULL);
 	node->type = type;
 	node->prev = NULL;
 	node->next = NULL;
-	if (type == CONT_WALL || type == CONT_ITEM || type == CONT_ENEMY)
-	{
-		node->tex_path = get_tex(line);
-		ft_printf("Added WALL, ITEM or ENEMY TEXTURE node\n");
-	}
+	if (type == CONT_WALL || type == CONT_ITEM || type == CONT_ENEMY || type == CONT_OBJECT)
+		node->tex_path = get_texpath(&line[2]);
 	else if (type == CONT_COLC || type == CONT_COLF)
-	{
-		node->color = get_col(line);
-		ft_printf("Added ceiling or floor color node\n");
-	}
+		node->color = get_col(&line[2]);
 	else if (type == CONT_MAP)
 	{
 		if (!head)
 			return (cbd_error(ERR_MAPCONTENT_SEQUENCE), NULL);
 		curr = head;
-		while (!curr->next)
+		while (curr->next != NULL)
 		{
 			if (curr->type == CONT_MAP)
 			{
 				curr->map = ft_add_2d(curr->map, line);
-				ft_printf("Added mapcontent to CONT_MAP node\n");
+				free(node);
 				return (head);
 			}
 			curr = curr->next;
 		}
-		if (!curr->next)
-		{
+		if (curr->next == NULL && curr->type != CONT_MAP)
 			node->map = ft_add_2d(node->map, line);
-			ft_printf("Added mapcontent to new node\n");
-		}
+		else if (curr->type == CONT_MAP)
+			curr->map = ft_add_2d(curr->map, line);
 	}
 	if (!head)
 	{
 		head = node;
-		ft_printf("No head, creating new head!\n");
 		return (head);
 	}
 	else
@@ -160,12 +129,57 @@ t_lst_cont	*append_node(t_lst_cont *head, char *line, uint8_t type)
 	}
 }
 
+size_t count_nodes(t_lst_cont *head, uint8_t type)
+{
+	t_lst_cont *temp;
+	size_t		i;
+
+	temp = head;
+	i = 0;
+	while (temp->next != NULL)
+	{
+		if (temp->type == type)
+			i++;
+		temp = temp->next;
+	}
+	return (i);
+}
+
+t_map	*copy_data(t_lst_cont *head, t_map *mapdata)
+{
+	uint8_t wall_count;
+	uint8_t entity_count;
+	t_lst_cont *temp;
+
+	temp = head;
+	wall_count = count_nodes(head, CONT_WALL);
+	entity_count = count_nodes(head, CONT_ENEMY);
+	entity_count += count_nodes(head, CONT_ITEM);
+	entity_count += count_nodes(head, CONT_OBJECT);
+	if (mapdata->tex)
+		free(mapdata->tex);
+	mapdata = alloc_map(wall_count);
+	if (!mapdata)
+		return (NULL);
+	mapdata->entities = malloc(sizeof(t_entity *) * entity_count);
+	while (temp->next != NULL)
+	{
+		if (temp->type == CONT_MAP)
+			mapdata->raw_data = temp->map;
+		if (temp->type == CONT_COLC)
+			mapdata->ceiling = temp->color;
+		if (temp->type == CONT_COLF)
+			mapdata->floor = temp->color;
+		temp = temp->next;
+	}
+	return (mapdata);
+}
+
 /*
 ** Reads the map, stores the given line in a node, returns linked list of all the elements
 ** Steps:
-**	Initialize LL
+**	Initialize lst
 **	Read line, identify element, store in node
-**	If CONT_WALL
 */
 t_lst_cont	*get_map_data_bonus(int fd, char *line)
 {
@@ -177,16 +191,10 @@ t_lst_cont	*get_map_data_bonus(int fd, char *line)
 	while (line)
 	{
 		type = identify_element(line);	
-		if (type != CONT_UNKNOWN)
-			head = append_node(head, line, type);
-		else 
-		{
-			ft_printf("line: %s\n", line);
-			return (cbd_error(ERR_UNKNOWN_ELEM), free(line), NULL);
-		}
+		head = append_node(head, line, type);
 		free(line);
 		line = get_next_line(fd);
 	}
-	exit(0);
+	print_lst(head);
 	return (head);
 }

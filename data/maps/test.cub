@@ -1,13 +1,14 @@
 CBD_BONUS
-W1 ./data/textures/north_tex.png
-W2 ./data/textures/north_tex.png
+W1 ./data/textures/W1.png
+W2 ./data/textures/W2.png
 e ./data/textures/enemy.png
 o ./data/textures/object.png
 i ./data/textures/item.png
 F 255,0,0
-C 255,0,0
-1111111234567891
-1000000000000001
-1000000N00000001
-1000000000000001
-1111111111111111
+C 100,0,0
+1111111111111111111
+10000000S0000000001
+1000000000000000001
+1000000000000000001
+1000000000000000001
+1111111111111111111

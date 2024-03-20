@@ -18,10 +18,11 @@ SRCS	:= \
 		   error/error.c 		\
 		   init/cbd_init.c		\
 		   parser/parser.c 		\
-		   parser/parser_bonus.c\
 		   parser/init.c 		\
 		   parser/get_data.c 	\
+		   parser/get_data_bonus.c\
 		   parser/bools.c		\
+		   parser/getters.c		\
 		   parser/validate_data.c \
 		   menu/menu_navigation.c\
 		   menu/menu_setters.c	\
