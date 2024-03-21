@@ -35,8 +35,22 @@ static bool	is_mapchar(char c)
 */
 bool	is_wall(char c)
 {
+	if (c == '1')
+		return (true);
+	return (false);
+}
+
+/*
+** Checks if given character is a wall
+** Needs:
+**	char c
+** Returns:
+**	true/false
+*/
+bool	is_wall_bonus(char c)
+{
 	size_t		i;
-	const char	map_content[WALLS_SIZE] = WALLS;
+	const char	map_content[9] = "123456789";
 
 	i = 0;
 	while (map_content[i])

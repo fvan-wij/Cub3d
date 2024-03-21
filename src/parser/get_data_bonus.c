@@ -3,6 +3,7 @@
 #include <cbd_error.h>
 #include <cub3d.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 static bool	is_mapchar(char c)
 {
@@ -129,50 +130,70 @@ t_lst_cont	*append_node(t_lst_cont *head, char *line, uint8_t type)
 	}
 }
 
-size_t count_nodes(t_lst_cont *head, uint8_t type)
+/*
+** Extracts entity data from the given line and stores it in the t_entity list
+**
+*/
+t_entity *append_entity(t_entity *entities, char *line, uint8_t type)
 {
-	t_lst_cont *temp;
-	size_t		i;
-
-	temp = head;
-	i = 0;
-	while (temp->next != NULL)
+	t_entity 	*new_entity;
+	t_entity	*curr;
+	char		**temp;
+	char 		p[2];
+	size_t 		i;
+	size_t		j;
+		
+	new_entity = ft_calloc(1, sizeof(t_entity));
+	if (!new_entity)
+		return (cbd_error(ERR_ALLOC), NULL);
+	temp = ft_split(line, ' ');
+	if (!temp)
+		return (cbd_error(ERR_ALLOC), NULL);
+	new_entity->texture = mlx_load_png(temp[2]);
+	if (type == CONT_ENEMY)
 	{
-		if (temp->type == type)
+		new_entity->speed = (float) ft_atoi(temp[3]);
+		new_entity->health = (float) ft_atoi(temp[4]);
+		new_entity->damage = (float) ft_atoi(temp[5]);
+		new_entity->type = ENTITY_ENEMY;
+		i = 5;
+		const size_t n = ft_arrlen(&temp[5]);
+		new_entity->positions = ft_calloc(n, sizeof(t_vec2d));
+		j = 0;
+		while (temp[i] && j < n)
+		{
+			ft_strlcpy(p, temp[i], 3);
+			new_entity->positions[j].x = ft_atoi(p);
+			ft_strlcpy(p, &temp[i][3], 3);
+			new_entity->positions[j].y = ft_atoi(p);
 			i++;
-		temp = temp->next;
+			j++;
+		}
+		new_entity->pos.x = new_entity->positions[0].x;
+		new_entity->pos.y = new_entity->positions[0].y;
 	}
-	return (i);
-}
-
-t_map	*copy_data(t_lst_cont *head, t_map *mapdata)
-{
-	uint8_t wall_count;
-	uint8_t entity_count;
-	t_lst_cont *temp;
-
-	temp = head;
-	wall_count = count_nodes(head, CONT_WALL);
-	entity_count = count_nodes(head, CONT_ENEMY);
-	entity_count += count_nodes(head, CONT_ITEM);
-	entity_count += count_nodes(head, CONT_OBJECT);
-	if (mapdata->tex)
-		free(mapdata->tex);
-	mapdata = alloc_map(wall_count);
-	if (!mapdata)
-		return (NULL);
-	mapdata->entities = malloc(sizeof(t_entity *) * entity_count);
-	while (temp->next != NULL)
+	else if (type == CONT_OBJECT || type == CONT_ITEM)
 	{
-		if (temp->type == CONT_MAP)
-			mapdata->raw_data = temp->map;
-		if (temp->type == CONT_COLC)
-			mapdata->ceiling = temp->color;
-		if (temp->type == CONT_COLF)
-			mapdata->floor = temp->color;
-		temp = temp->next;
+		if (type == CONT_OBJECT)
+			new_entity->type = ENTITY_DECOR;
+		else
+			new_entity->type = ENTITY_ITEM;
+		i = 3;
+		ft_strlcpy(p, temp[i], 3);
+		new_entity->pos.x = (float) ft_atoi(p);
+		ft_strlcpy(p, &temp[i][3], 3);
+		new_entity->pos.y = (float) ft_atoi(p);
 	}
-	return (mapdata);
+	if (!entities)
+		return (ft_del_2d(temp), new_entity);
+	else
+	{
+		curr = entities;
+		while (curr->next != NULL)
+			curr = curr->next;
+		curr->next = new_entity;
+		return (ft_del_2d(temp), entities);
+	}
 }
 
 /*
@@ -181,20 +202,36 @@ t_map	*copy_data(t_lst_cont *head, t_map *mapdata)
 **	Initialize lst
 **	Read line, identify element, store in node
 */
-t_lst_cont	*get_map_data_bonus(int fd, char *line)
+t_map	*get_map_data_bonus(int fd, char *line)
 {
-	t_lst_cont *head;
 	uint8_t		type;
+	uint8_t		tex_count;
+	t_map		*mapdata;
 
-	head = NULL;
+	mapdata = alloc_map_bonus();
+	if (!mapdata)
+		return (NULL);
 	line = get_next_line(fd);
 	while (line)
 	{
 		type = identify_element(line);	
-		head = append_node(head, line, type);
+		if (type == CONT_WALL)
+			mapdata->tex_path = ft_add_2d(mapdata->tex_path, get_texpath(&line[3]));
+		else if (type == CONT_MAP)
+			mapdata->raw_data = ft_add_2d(mapdata->raw_data, line);
+		else if (type == CONT_COLC)
+			mapdata->ceiling = get_col(&line[2]);
+		else if (type == CONT_COLF)
+			mapdata->floor = get_col(&line[2]);
+		else if (type == CONT_ENEMY || type == CONT_ITEM || type == CONT_OBJECT)
+			mapdata->entities = append_entity(mapdata->entities, line, type);
 		free(line);
 		line = get_next_line(fd);
 	}
-	print_lst(head);
-	return (head);
+	tex_count = ft_arrlen(mapdata->tex_path);
+	mapdata->tex = get_mlx_tex(mapdata->tex_path, tex_count);
+	if (!mapdata->tex)
+		return (NULL);
+	mapdata->n_tex = tex_count;
+	return (mapdata);
 }

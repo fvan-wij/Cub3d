@@ -7,24 +7,6 @@
 #include <stdio.h>
 #include <cbd_audio.h>
 
-// void	cbd_init_input(t_app *cbd)
-// {
-// 	ft_bzero(cbd->input.handler, sizeof(t_input_handler) * 348);
-// 	cbd->input.handler[MLX_KEY_W] = forward_handler;
-// 	cbd->input.handler[MLX_KEY_S] = backward_handler;
-// 	cbd->input.handler[MLX_KEY_A] = left_handler;
-// 	cbd->input.handler[MLX_KEY_D] = right_handler;
-// 	cbd->input.handler[MLX_KEY_LEFT] = left_handler;
-// 	cbd->input.handler[MLX_KEY_RIGHT] = right_handler;
-// 	cbd->input.handler[MLX_KEY_UP] = forward_handler;
-// 	cbd->input.handler[MLX_KEY_DOWN] = backward_handler;
-// 	cbd->input.handler[MLX_KEY_ESCAPE] = escape_handler;
-// 	cbd->input.handler[MLX_KEY_ENTER] = enter_handler;
-// 	cbd->input.handler[MLX_KEY_1] = weapon_handler;
-// 	cbd->input.handler[MLX_KEY_2] = weapon_handler;
-// 	cbd->input.handler[MLX_KEY_M] = map_handler;
-// }
-
 void	cbd_input(mlx_key_data_t keydata, void *param)
 {
 	t_app		*cbd;

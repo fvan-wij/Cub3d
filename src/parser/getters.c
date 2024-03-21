@@ -66,14 +66,14 @@ t_rgba	get_col(char *temp)
 ** Returns:
 **	mlx_texture_t **textures
 */
-mlx_texture_t	**get_mlx_tex(char **tex_path)
+mlx_texture_t	**get_mlx_tex(char **tex_path, uint8_t n)
 {
 	int				i;
 	mlx_texture_t 	**textures;
 
 	i = 0;
-	textures = malloc(sizeof(mlx_texture_t *) * TEX_SIZE);
-	while (tex_path[i] && i < TEX_SIZE)
+	textures = malloc(sizeof(mlx_texture_t *) * n);
+	while (tex_path[i] && i < n)
 	{
 		if (tex_exists(tex_path[i]))
 			textures[i] = mlx_load_png(tex_path[i]);

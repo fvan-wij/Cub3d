@@ -42,6 +42,7 @@ typedef struct s_app {
 
 //		Utility
 void	print_lst(t_lst_cont *head);
+void	print_entities(t_entity *head);
 void	print_2d(char **str);
 void	print_debug_info(t_app *cub3d);
 void	cleanup(t_app *app);

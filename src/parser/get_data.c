@@ -41,12 +41,12 @@ t_map	*get_map_data_mandatory(int fd, t_valid *is, char *line)
 	t_map *mapdata;
 	ft_printf("MAndATORY!!!\n");
 
-	mapdata = alloc_map(TEX_SIZE);
+	mapdata = alloc_map();
 	if (!mapdata)
 		return (NULL);
 	while (line)
 	{
-		if (is_last_element(is) && line[0] == '\n')
+		if ((is_last_element(is) && !is_content(line)) || line[0] == '\n')
 			return (cbd_error(ERR_INVALID_MAP), NULL);
 		else if (is_tex(line, is) || is_col(line, is))
 			retrieve_element(line, mapdata);
@@ -56,11 +56,9 @@ t_map	*get_map_data_mandatory(int fd, t_valid *is, char *line)
 		line = get_next_line(fd);
 	}
 	close(fd);
+	mapdata->tex = get_mlx_tex(mapdata->tex_path, TEX_SIZE);
 	if (!mapdata->raw_data)
 		return (cbd_error(ERR_INVALID_MAP), NULL);
-	mapdata->tex = get_mlx_tex(mapdata->tex_path);
-	if (!mapdata->tex)
-		return (NULL);
 	return (mapdata);
 }
 
@@ -79,18 +77,15 @@ t_map	*get_map_data_mandatory(int fd, t_valid *is, char *line)
 ** Returns:
 **		t_map *mapdata
 */
-t_map	*get_map_data(int fd, t_map *mapdata, t_valid *is)
+t_map	*get_map_data(int fd, t_valid *is)
 {
 	char 	*line;
-	t_lst_cont *head;
+	t_map	*mapdata;
 
-	head = NULL;
 	line = get_next_line(fd);
 	if (ft_strncmp(line, "CBD_BONUS", 9) == 0)
-		mapdata = get_map_data_bonus(fd, line, mapdata);
+		mapdata = get_map_data_bonus(fd, line);
 	else
-		mapdata = get_map_data_mandatory(fd, mapdata, is, line);
-	(void) head;
-	mapdata = NULL;
+		mapdata = get_map_data_mandatory(fd, is, line);
 	return (mapdata);
 }

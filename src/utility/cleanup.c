@@ -3,6 +3,27 @@
 #include <MLX42.h>
 #include <stdlib.h>
 
+	// enum e_entity_type	type;
+	// t_vec2d				pos;
+	// t_vec2d				dir;
+	// t_vec2d				*positions;
+	// int					health;
+	// int					damage;
+	// int					current_position;
+	// float				speed;
+	// float				audio_timer;
+	// mlx_texture_t		*texture;
+	// enum e_entity_state	state;
+
+void	free_node(t_entity *node)
+{
+	if (node->positions)
+		free(node->positions);
+	if (node->texture)
+		free(node->texture);
+	free(node);
+}
+
 void	cleanup_map(t_map *map)
 {
 	int i;
@@ -16,12 +37,25 @@ void	cleanup_map(t_map *map)
 	if (map->tex)
 	{
 		i = 0;
-		while (i < TEX_SIZE)
+		while (i < map->n_tex)
 		{
 			mlx_delete_texture(map->tex[i]);
 			i++;
 		}
 		free(map->tex);
+	}
+	if (map->entities)
+	{
+		t_entity *temp;
+		t_entity *curr;
+
+		curr = map->entities;
+		while (curr->next != NULL)
+		{
+			temp = curr;
+			curr = curr->next;
+			free_node(temp);
+		}
 	}
 	free(map);
 }
