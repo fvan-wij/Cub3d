@@ -1,4 +1,5 @@
 #include <cbd_parser.h>
+#include <cbd_error.h>
 #include <libft.h>
 #include <stdbool.h>
 #include <unistd.h>
@@ -170,9 +171,12 @@ bool	is_last_element(t_valid *is)
 */
 bool	is_bonus(int fd)
 {
+	int32_t	bytes;
 	char buffer[10];
 
-	read(fd, &buffer, 10);
+	bytes = read(fd, &buffer, 10);
+	if (bytes < 0)
+		return (cbd_error(ERR_FILE_INEXISTS), false);
 	if (ft_strncmp("CBD_BONUS", buffer, 9) == 0)
 	{
 		ft_printf("Is bonus!\n");
