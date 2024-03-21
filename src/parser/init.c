@@ -8,8 +8,8 @@ t_map	*alloc_map(void)
 	t_map	*mapdata;
 
 	mapdata = malloc(sizeof(t_map));
-	mapdata->tex_path 		= ft_calloc(sizeof(char *), TEX_SIZE + 1);
-	mapdata->tex			= NULL;
+	mapdata->walls.w_path 	= ft_calloc(sizeof(char *), TEX_SIZE + 1);
+	mapdata->walls.w_tex	= NULL;
 	mapdata->cbd_map 		= NULL;
 	mapdata->raw_data 		= NULL;
 	mapdata->start_pos.x 	= -1;
@@ -17,7 +17,7 @@ t_map	*alloc_map(void)
 	mapdata->valid 			= false;
 	mapdata->is_bonus		= false;
 	mapdata->n_tex			= TEX_SIZE;
-	if (!mapdata || !mapdata->tex_path)
+	if (!mapdata || !mapdata->walls.w_path)
 		return (cbd_error(ERR_ALLOC), NULL);
 	return (mapdata);
 }

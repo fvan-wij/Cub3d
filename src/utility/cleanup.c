@@ -32,17 +32,29 @@ void	cleanup_map(t_map *map)
 		ft_del_2d(map->raw_data);
 	if (map->cbd_map)
 		ft_del_2d(map->cbd_map);
-	if (map->tex_path)
-		ft_del_2d(map->tex_path);
-	if (map->tex)
+	if (map->walls.w_path)
+		ft_del_2d(map->walls.w_path);
+	if (map->walls.cw_path)
+		ft_del_2d(map->walls.cw_path);
+	if (map->walls.w_tex)
 	{
 		i = 0;
-		while (i < map->n_tex)
+		while (i < map->walls.n_w)
 		{
-			mlx_delete_texture(map->tex[i]);
+			mlx_delete_texture(map->walls.w_tex[i]);
 			i++;
 		}
-		free(map->tex);
+		free(map->walls.w_tex);
+	}
+	if (map->walls.cw_tex)
+	{
+		i = 0;
+		while (i < map->walls.n_cw)
+		{
+			mlx_delete_texture(map->walls.cw_tex[i]);
+			i++;
+		}
+		free(map->walls.cw_tex);
 	}
 	if (map->entities)
 	{

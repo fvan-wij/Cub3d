@@ -2,7 +2,6 @@
 # define CBD_RENDER_H
 # include <stdint.h>
 # include <cbd_vec.h>
-// # include <cbd_parser.h>
 # include <MLX42.h>
 
 //Window size
@@ -135,6 +134,20 @@ typedef struct s_render {
 	int			y_offset;
 } t_render;
 
+typedef struct s_wall t_wall;
+
+typedef void (*wall_strip_func)(t_render render, int x, t_wall *walls, float wall_dist);
+
+typedef struct s_wall {
+	wall_strip_func jump_table[256];
+	char			**w_path;
+	char			**cw_path;
+	mlx_texture_t	**w_tex;
+	mlx_texture_t	**cw_tex;
+	uint8_t			n_w;
+	uint8_t			n_cw;
+} t_wall;
+
 typedef struct s_map t_map;
 typedef struct s_player t_player;
 
@@ -147,12 +160,12 @@ t_rgba	color_darken(t_rgba color, int amount);
 //Draw
 void	draw_hud(t_hud *hud, t_inventory *inv);
 void	draw_background(mlx_image_t *img, int32_t color, int peek);
-// void	draw_background(mlx_image_t *img, int32_t color);
 void	draw_player(mlx_image_t *img);
 void	draw_map(char **map, t_hud *hud, int width, int height);
 void	draw_minimap(mlx_image_t *hud_map, t_vec2d pos, char **map, int width, int height);
 void	draw_wall_strip(t_render render, int x, mlx_texture_t *tex, int color_offset);
 void	draw_walls(t_render render, t_map *map);
+void	draw_walls_bonus(t_render render, t_map *map);
 void	draw_sprites(t_render *render, t_map *map, t_player *player);
 void	draw_equipped_weapon(t_inventory *inv);
 

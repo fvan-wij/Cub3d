@@ -51,7 +51,7 @@ bool	is_wall(char c)
 bool	is_wall_bonus(char c)
 {
 	size_t		i;
-	const char	map_content[9] = "123456789";
+	const char	map_content[13] = "123456789=-_";
 
 	i = 0;
 	while (map_content[i])
