@@ -51,7 +51,6 @@ uint8_t	set_current_map(const char *file)
 		return (LVL_UNKNOWN);
 }
 
-
 /*
 ** Parses and validates all the necessary mapdata
 ** Needs:
@@ -66,13 +65,10 @@ t_map	*cbd_parse_map(const char *file)
 	t_valid	is;
 
 	ft_memset(&is, false, sizeof(t_valid));
-	mapdata = alloc_map();
-	if (!mapdata)
-		return (NULL);
 	fd = open_map(file);
 	if (fd < 0)
 		return (NULL);
-	mapdata = get_map_data(fd, mapdata, &is);
+	mapdata = get_map_data(fd, &is);
 	if (!mapdata)
 		return (NULL);
 	mapdata->valid = validate_map_data(mapdata, &is);
@@ -81,4 +77,5 @@ t_map	*cbd_parse_map(const char *file)
 	mapdata->current_map = set_current_map(file);
 	return (mapdata);
 }
+
 

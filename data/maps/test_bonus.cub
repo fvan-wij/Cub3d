@@ -1,0 +1,31 @@
+CBD_BONUS
+
+W1 ./data/textures/north_tex.png
+W2 ./data/textures/south_tex.png
+W3 ./data/textures/west_tex.png
+W4 ./data/textures/east_tex.png
+W5 ./data/textures/east_tex.png
+
+e enemy ./data/textures/sprites/chainsaw.png 1 10 10,20 15,20 20,20 20,15 20,10
+o decor ./data/textures/sprites/chainsaw.png 50,20
+i item ./data/textures/sprites/chainsaw.png 01,20
+
+F 220,100,0
+C 225,30,0
+
+1111111111111111
+1111123454111111
+1111000000000011
+1111000000000011
+1111001111191111
+1111001111111111
+1111001111111111
+1111001115111111
+1111000000000011
+11110000N0000011
+1111000000000011
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111

@@ -165,16 +165,55 @@ void	draw_wall_strip(t_render render, int x, mlx_texture_t *tex, int color_offse
 void	draw_walls(t_render render, t_map *map)
 {
 	int x;
+
 	x = 0;
-	while (x < WIDTH)
+	if (map->is_bonus)
 	{
-		if (render.rays[x].tile == '1')
-			draw_wall_strip(render, x, map->tex[WE], render.rays[x].wall_dist * 30);
-		else if (render.rays[x].tile == '2')
-			draw_wall_strip(render, x, map->tex[SO], render.rays[x].wall_dist * 30);
-		else
-			draw_wall_strip(render, x, map->tex[EA], render.rays[x].wall_dist * 30);
-		x++;
+		while (x < WIDTH)
+		{
+			if (render.rays[x].tile == '1')
+				draw_wall_strip(render, x, map->tex[0], render.rays[x].wall_dist * 30);
+			else if (render.rays[x].tile == '2')
+				draw_wall_strip(render, x, map->tex[1], render.rays[x].wall_dist * 30);
+			else if (render.rays[x].tile == '3')
+				draw_wall_strip(render, x, map->tex[2], render.rays[x].wall_dist * 30);
+			else if (render.rays[x].tile == '4')
+				draw_wall_strip(render, x, map->tex[3], render.rays[x].wall_dist * 30);
+			else if (render.rays[x].tile == '5')
+				draw_wall_strip(render, x, map->tex[4], render.rays[x].wall_dist * 30);
+			else if (render.rays[x].tile == '6')
+				draw_wall_strip(render, x, map->tex[5], render.rays[x].wall_dist * 30);
+			else if (render.rays[x].tile == '7')
+				draw_wall_strip(render, x, map->tex[6], render.rays[x].wall_dist * 30);
+			else if (render.rays[x].tile == '8')
+				draw_wall_strip(render, x, map->tex[7], render.rays[x].wall_dist * 30);
+			else if (render.rays[x].tile == '9')
+				draw_wall_strip(render, x, map->tex[8], render.rays[x].wall_dist * 30);
+			else
+				draw_wall_strip(render, x, map->tex[0], render.rays[x].wall_dist * 30);
+			x++;
+		}
+	}
+	else
+	{
+		while (x < WIDTH)
+		{
+			if (render.rays[x].side == 0)
+			{
+				if (render.rays[x].dir.x > 0)
+					draw_wall_strip(render, x, map->tex[WE], render.rays[x].wall_dist * 30);
+				if (render.rays[x].dir.x < 0)
+					draw_wall_strip(render, x, map->tex[EA], render.rays[x].wall_dist * 30);
+			}
+			else if (render.rays[x].side == 1)
+			{
+				if (render.rays[x].dir.y > 0)
+					draw_wall_strip(render, x, map->tex[NO], render.rays[x].wall_dist * 30);
+				if (render.rays[x].dir.y < 0)
+					draw_wall_strip(render, x, map->tex[SO], render.rays[x].wall_dist * 30);
+			}
+			x++;
+		}
 	}
 }
 

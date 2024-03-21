@@ -1,6 +1,17 @@
 #include <cbd_parser.h>
+#include <cbd_error.h>
 #include <libft.h>
+#include <stdbool.h>
+#include <unistd.h>
+#include <fcntl.h>
 
+/*
+** Checks if given character is a map character
+** Needs:
+**	char c
+** Returns:
+**	true/false
+*/
 static bool	is_mapchar(char c)
 {
 	size_t		i;
@@ -16,10 +27,31 @@ static bool	is_mapchar(char c)
 	return (false);
 }
 
+/*
+** Checks if given character is a wall
+** Needs:
+**	char c
+** Returns:
+**	true/false
+*/
 bool	is_wall(char c)
 {
+	if (c == '1')
+		return (true);
+	return (false);
+}
+
+/*
+** Checks if given character is a wall
+** Needs:
+**	char c
+** Returns:
+**	true/false
+*/
+bool	is_wall_bonus(char c)
+{
 	size_t		i;
-	const char	map_content[WALLS_SIZE] = WALLS;
+	const char	map_content[9] = "123456789";
 
 	i = 0;
 	while (map_content[i])
@@ -31,25 +63,40 @@ bool	is_wall(char c)
 	return (false);
 }
 
-bool	is_content(char *str)
+/*
+** Checks if given line is mapcontent
+** Needs:
+**	line
+** Returns:
+**	true/false
+*/
+bool	is_content(char *line)
 {
 	size_t	i;
 
 	i = 0;
-	if (!str)
+	if (!line)
 		return (false);
-	while (str[i])
+	while (line[i])
 	{
-		if (is_mapchar(str[i]))
+		if (is_mapchar(line[i]))
 			i++;
 		else
 			break;
 	}
-	if (str[i] == '\n')
+	if (line[i] == '\n')
 		return (true);
 	return (false);
 }
 
+/*
+** Checks if given line is a NO, SO, EA, WE texture
+** Needs:
+**	line
+**	t_valid is (struct containing all the read mapdata)
+** Returns:
+**	true/false
+*/
 bool	is_tex(char *line, t_valid *is)
 {
 	size_t	len;
@@ -72,6 +119,14 @@ bool	is_tex(char *line, t_valid *is)
 	return (false);
 }
 
+/*
+** Checks if given line is a floor or ceiling color
+** Needs:
+**	line
+**	t_valid is (struct containing all the read mapdata)
+** Returns:
+**	true/false
+*/
 bool	is_col(char *line, t_valid *is)
 {
 	if (ft_strncmp(line, "F ", 2) == 0)
@@ -81,6 +136,14 @@ bool	is_col(char *line, t_valid *is)
 	return (false);
 }
 
+
+/*
+** Checks if colors and textures have already been read
+** Needs:
+**	t_valid is (struct containing all the read mapdata)
+** Returns:
+**	true/false
+*/
 bool	is_last_element(t_valid *is)
 {
 	int	i;
@@ -97,4 +160,53 @@ bool	is_last_element(t_valid *is)
 	if (count == 4 && is->col_cl && is->col_fl)
 		return (true);
 	return (false);
+}
+
+/*
+** Checks if given map is a bonus file
+** Needs:
+**	t_valid is (struct containing all the read mapdata)
+** Returns:
+**	true/false
+*/
+bool	is_bonus(int fd)
+{
+	int32_t	bytes;
+	char buffer[10];
+
+	bytes = read(fd, &buffer, 10);
+	if (bytes < 0)
+		return (cbd_error(ERR_FILE_INEXISTS), false);
+	if (ft_strncmp("CBD_BONUS", buffer, 9) == 0)
+	{
+		ft_printf("Is bonus!\n");
+		return (true);
+	}
+	else 
+	{
+		ft_printf("Is NOT bonus!\n");
+		return (false);
+	}
+}
+
+/*
+** Opens texture and checks if texture exists
+**	
+** Needs:
+**	path
+** 		
+** Returns:
+**	true/false
+*/
+bool	tex_exists(char *path)
+{
+	int	fd;
+	int len;
+
+	len = ft_strlen(path);
+	path[len - 1] = '\0';
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		return (false);
+	return (close(fd), true);
 }

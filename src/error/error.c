@@ -14,6 +14,8 @@ static const char* g_error[ERR_SIZE + 1] =
 	[ERR_FILE_INEXISTS] = "Cub3d Error: texture does not exist",
 	[ERR_TEX_SIZE] = "Cub3d Error: texture must be 64x64", 
 	[ERR_LOAD_MAP] = "Cub3d Error: could not load map (map select)",
+	[ERR_UNKNOWN_ELEM] = "Cub3d Error: unknown element present in .cub file",
+	[ERR_MAPCONTENT_SEQUENCE] = "Cub3d Error: map content should be last",
 	[ERR_SIZE] = "n/a",
 };
 
