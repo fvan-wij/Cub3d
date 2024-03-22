@@ -198,8 +198,16 @@ mlx_image_t		*dither_image(mlx_image_t *img);
 void			draw_scanlines_bg(mlx_image_t *img);
 void			init_wall_destruction_fx(t_wall_destruction *fx);
 
+//				Particles
+void			rotate_particles(t_particle *particles, float dir);
+void			resolve_particles(t_particle *particles, int8_t dir);
+
 //				Animation
 void			play_weapon_animation(mlx_t	*mlx, t_inventory *inv);
+t_vec2d			resolve_collision(char **map, t_vec2d pos, t_vec2d dir, t_vec2d potential_pos);
+void			headbob(float *headbob, float speed);
+void			reset_player_animation(t_render *render, mlx_t *mlx);
+void			peek_map(t_inventory *inv, t_render *render, mlx_image_t *img, mlx_t *mlx);
 
 //				Jump table
 void			initialize_jump_table(wall_strip_func jump_table[256]);

@@ -40,7 +40,9 @@ SRCS	:= \
 		   utility/printing.c	\
 		   utility/cleanup.c	\
 		   input/input.c		\
-		   input/player.c		\
+		   input/player_movement.c		\
+		   input/player_animation.c		\
+		   input/particle_movement.c		\
 
 SRCDIR	:= ./src
 OBJDIR	:= ./obj
