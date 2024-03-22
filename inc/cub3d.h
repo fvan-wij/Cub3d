@@ -58,6 +58,7 @@ void	cast_rays(char **map, t_render *render, t_player *p);
 bool	cbd_main(t_app *cbd);
 bool	cbd_init(t_app *cbd);
 void	cbd_loop(void *param);
+void	update_entities(t_app *cbd);
 void	cbd_init_input(t_app *cbd);
 void	cbd_input(mlx_key_data_t keydata, void *param);
 

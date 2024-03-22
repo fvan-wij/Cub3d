@@ -25,5 +25,7 @@ t_vec2d vec_max(t_vec2d a, t_vec2d b);
 t_vec2d vec_sub(t_vec2d a, t_vec2d b);
 t_vec2d vec_add(t_vec2d a, t_vec2d b);
 t_vec2d vec_mult(t_vec2d a, float scalar);
+double	vec_dot(t_vec2d a, t_vec2d b);
+double	vec_distance(t_vec2d a, t_vec2d b);
 
 #endif //CBD_VEC_H

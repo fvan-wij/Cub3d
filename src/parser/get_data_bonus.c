@@ -77,7 +77,7 @@ t_entity *append_entity(t_entity *entities, char *line, uint8_t type)
 	char 		p[2];
 	size_t 		i;
 	size_t		j;
-		
+
 	new_entity = ft_calloc(1, sizeof(t_entity));
 	if (!new_entity)
 		return (cbd_error(ERR_ALLOC), NULL);
@@ -97,10 +97,10 @@ t_entity *append_entity(t_entity *entities, char *line, uint8_t type)
 		j = 0;
 		while (temp[i] && j < n)
 		{
-			ft_strlcpy(p, temp[i], 3);
-			new_entity->positions[j].x = ft_atoi(p);
-			ft_strlcpy(p, &temp[i][3], 3);
-			new_entity->positions[j].y = ft_atoi(p);
+			char **temp2 = ft_split(temp[i], ',');
+			new_entity->positions[j].x = ft_atoi(temp2[0]);
+			new_entity->positions[j].y = ft_atoi(temp2[1]);
+			ft_del_2d(temp2);
 			i++;
 			j++;
 		}
@@ -148,7 +148,7 @@ t_map	*get_map_data_bonus(int fd, char *line)
 	line = get_next_line(fd);
 	while (line)
 	{
-		type = identify_element(line);	
+		type = identify_element(line);
 		if (type == CONT_WALL)
 			mapdata->walls.w_path = ft_add_2d(mapdata->walls.w_path, get_texpath(&line[3]));
 		else if (type == CONT_CWALL)

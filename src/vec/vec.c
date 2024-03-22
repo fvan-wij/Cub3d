@@ -1,6 +1,16 @@
 #include <cub3d.h>
 #include <math.h>
 
+double	vec_dot(t_vec2d a, t_vec2d b)
+{
+	return ((a.x * b.x) + (a.y * b.y));
+}
+
+double	vec_distance(t_vec2d a, t_vec2d b)
+{
+	return (sqrt(pow(b.x - a.x, 2) + pow(b.y - a.y, 2)));
+}
+
 void	vec_normalize(t_vec2d *vec)
 {
 	float length = sqrt((vec->x * vec->x) + (vec->y * vec->y));

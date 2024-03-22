@@ -16,6 +16,7 @@ SRCS	:= \
 		   cbd_loop.c			\
 		   miniaudio.c 			\
 		   error/error.c 		\
+		   entity.c				\
 		   init/cbd_init.c		\
 		   parser/parser.c 		\
 		   parser/init.c 		\
@@ -28,13 +29,14 @@ SRCS	:= \
 		   menu/menu_setters.c	\
 		   menu/menu_loadmap.c	\
 		   raycaster/raycaster.c\
-		   raycaster/vec.c		\
+		   vec/vec.c			\
 		   render/draw.c		\
 		   render/line.c		\
 		   render/shape.c		\
 		   render/color.c		\
 		   render/post_processing.c \
 		   render/sprite.c		\
+		   render/entity.c		\
 		   render/dithering.c	\
 		   render/walls.c		\
 		   utility/printing.c	\

@@ -130,7 +130,7 @@ typedef struct s_wall_destruction {
 	t_particle	particles[MAX_WALL_PARTICLES];
 	float		timer;
 	bool		b_timer;
-} t_wall_destruction; 
+} t_wall_destruction;
 
 typedef struct s_render {
 	mlx_image_t	*img;
@@ -163,6 +163,7 @@ typedef struct s_wall {
 
 typedef struct s_map t_map;
 typedef struct s_player t_player;
+typedef struct s_entity t_entity;
 
 //				Color
 int32_t			color(uint8_t r, uint8_t g, uint8_t b);
@@ -180,6 +181,7 @@ void			draw_wall_strip(t_render render, int x, mlx_texture_t *tex, int color_off
 void			draw_walls(t_render render, t_map *map);
 void			draw_walls_bonus(t_render render, t_map *map);
 void			draw_sprites(t_render *render, t_map *map, t_player *player);
+void			render_entities(t_render *render, t_entity *entities, t_player *player);
 void			draw_equipped_weapon(t_inventory *inv);
 
 //				Draw shapes
