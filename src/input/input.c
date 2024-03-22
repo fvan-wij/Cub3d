@@ -16,12 +16,14 @@ void	destroy_wall(t_map *mapdata, t_player *player, t_audio *audio, t_render *re
 		render->b_timer = true;
 		mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)] = '-';
 		play_sound(audio, SND_WALL1, 0.5f);
+		render->fx.b_timer = true;
 	}
 	else if (target == '-')
 	{
 		render->b_timer = true;
 		mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)] = '_';
 		play_sound(audio, SND_WALL2, 0.5f);
+		render->fx.b_timer = true;
 	}
 	else if (target == '_')
 	{

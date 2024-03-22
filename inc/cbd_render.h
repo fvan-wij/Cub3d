@@ -124,8 +124,10 @@ typedef struct s_sprite {
 	// t_vec2d		size;
 } t_sprite;
 
+#define MAX_WALL_PARTICLES 25
+
 typedef struct s_wall_destruction {
-	t_particle	particles[25];
+	t_particle	particles[MAX_WALL_PARTICLES];
 	float		timer;
 	bool		b_timer;
 } t_wall_destruction; 
@@ -183,6 +185,7 @@ void			draw_equipped_weapon(t_inventory *inv);
 //				Draw shapes
 void			draw_line(mlx_image_t *image, uint32_t color, t_vec2i p1, t_vec2i p2);
 void			draw_square(mlx_image_t *image, uint32_t color, t_vec2i pos, t_vec2i dimension);
+void			draw_square_centered(mlx_image_t *image, uint32_t color, t_vec2i pos, t_vec2i dimension);
 void			draw_noise_square(mlx_image_t *image, t_vec2i pos, t_vec2i dimension);
 void			draw_circle(mlx_image_t *image, uint32_t color, t_vec2i pos, float r);
 void			draw_particles(mlx_image_t *game, t_particle *particles);
@@ -193,6 +196,7 @@ void			draw_radial_overlay(mlx_image_t *img);
 mlx_texture_t	*dither_texture(mlx_texture_t *tex);
 mlx_image_t		*dither_image(mlx_image_t *img);
 void			draw_scanlines_bg(mlx_image_t *img);
+void			init_wall_destruction_fx(t_wall_destruction *fx);
 
 //				Animation
 void			play_weapon_animation(mlx_t	*mlx, t_inventory *inv);

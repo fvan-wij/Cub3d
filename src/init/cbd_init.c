@@ -116,33 +116,28 @@ t_inventory *cbd_init_inventory(mlx_t *mlx)
 
 void	init_wall_destruction_fx(t_wall_destruction *fx)
 {
-	ft_memset(fx, 0, sizeof(t_particle[25]));
-	int i = 0;
-	while (i < 25)
+	int i;
+
+	i = 0;
+	while (i < MAX_WALL_PARTICLES)
 	{
 		float dice = (rand() / (float) RAND_MAX);
 		float rvalx = (rand() / (float) RAND_MAX);
 		float rvaly = (rand() / (float) RAND_MAX);
-
-		if (dice > 0.5)
-			fx->particles[i].dir.x = rvalx;
-		else
-			fx->particles[i].dir.x = -rvalx;
-		if (dice > 0.5)
-			fx->particles[i].dir.y = rvaly;
-		else
-			fx->particles[i].dir.y = -rvaly;
-		printf("dir(%f, %f)\n", fx->particles[i].dir.x, fx->particles[i].dir.y);
-	
-		fx->particles[i].p.x = (WIDTH>>1);
-		fx->particles[i].p.y = (HEIGHT>>1);
-		fx->particles[i].size.x = dice * 30;
+		if (dice < 0.6)
+			rvalx = -rvalx;
+		if (dice < 0.2)
+			rvaly = -rvaly;
+		fx->particles[i].dir.x = rvalx;
+		fx->particles[i].dir.y = rvaly;
+		fx->particles[i].p.x = (WIDTH>>1) + (rvalx * 50);
+		fx->particles[i].p.y = (HEIGHT>>1) + (rvaly * 50);
+		fx->particles[i].size.x = dice * 20;
 		fx->particles[i].size.y = fx->particles[i].size.x;
 		fx->particles[i].reset = fx->particles[i].size;
 		fx->particles[i].rp = fx->particles[i].p;
 		i++;
 	}
-	fx->timer = 100;
 	fx->b_timer = false;
 }
 

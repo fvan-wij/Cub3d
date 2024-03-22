@@ -1,32 +1,30 @@
 #include <cub3d.h>
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 void	resolve_fx(mlx_image_t *img, t_particle *particles, t_wall_destruction *config)
 {
 	int i = 0;
 	int j = 0;
 
-	while (i < 25)
+	while (i < MAX_WALL_PARTICLES)
 	{
 		if (config->b_timer)
 		{
-			particles[i].size.x -= 1;
-			particles[i].size.y -= 1;
-			particles[i].p.x = particles[i].p.x + (particles[i].dir.x) * 2.5;
-			particles[i].p.y = particles[i].p.y + (particles[i].dir.y) * 2.5;
+			particles[i].size.x -= 1.50;
+			particles[i].size.y -= 1.50;
+			particles[i].p.x = particles[i].p.x + (particles[i].dir.x) * 5;
+			particles[i].p.y = particles[i].p.y + (particles[i].dir.y) * 60;
 			if (particles[i].size.x <= 0 || particles[i].size.y <= 0)
 				j++;
-			draw_circle(img, color_rgba(25, 175, 100, 50), vec_to_int(particles[i].p), particles[i].size.x);
+			draw_square_centered(img, color_rgba(255, 5, 20, 255), vec_to_int(particles[i].p), vec_to_int(particles[i].size));
 		}
 		else if (!config->b_timer)
-		{
-			particles[i].size = particles[i].reset;
-			particles[i].p = particles[i].rp;
-		}
+			init_wall_destruction_fx(config);
 		i++;
 	}
-	if (j == 25)
+	if (j == MAX_WALL_PARTICLES)
 		config->b_timer = false;
 }
 

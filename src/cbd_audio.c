@@ -3,6 +3,7 @@
 
 void	play_sound(t_audio *audio, uint8_t type, float volume)
 {
+	ma_sound_seek_to_pcm_frame(audio->sound[type], 0);
 	ma_sound_set_volume(audio->sound[type], volume);
 	ma_sound_start(audio->sound[type]);
 }
