@@ -43,6 +43,7 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [ ] Add Laa-Laa miniboss
 - [ ] Add Tinky-Winky miniboss
 - [ ] Add the most cursed sun baby endboss ever
+- [x] Add destructible walls
 
 *Features*
 - [x] Improve immersion by adding headbobbing on the Y-axis

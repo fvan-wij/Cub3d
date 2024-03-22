@@ -1,5 +1,6 @@
 #ifndef CBD_RENDER_H
 # define CBD_RENDER_H
+#include <stdbool.h>
 # include <stdint.h>
 # include <cbd_vec.h>
 # include <MLX42.h>
@@ -68,6 +69,7 @@ typedef	struct s_particle {
 	t_vec2d dir;
 	t_vec2d size;
 	t_vec2d	reset;
+	t_vec2d rp;
 } t_particle;
 
 //Animations
@@ -122,16 +124,25 @@ typedef struct s_sprite {
 	// t_vec2d		size;
 } t_sprite;
 
+typedef struct s_wall_destruction {
+	t_particle	particles[25];
+	float		timer;
+	bool		b_timer;
+} t_wall_destruction; 
+
 typedef struct s_render {
 	mlx_image_t	*img;
 	mlx_image_t	*sprite_img;
 	t_hud		*hud;
 	t_inventory	*inv;
 	t_ray		rays[WIDTH];
+	t_wall_destruction fx;
 	t_sprite	*sprite;
 	float		headbob;
 	float		map_peak;
 	int			y_offset;
+	float		timer;
+	bool		b_timer;
 } t_render;
 
 typedef struct s_wall t_wall;
@@ -178,9 +189,10 @@ void			draw_particles(mlx_image_t *game, t_particle *particles);
 
 //				Post processing
 void 			draw_gradient_bg(mlx_image_t *img, int32_t c1, int32_t c2);
-void			draw_radial_overlay(t_hud *hud);
+void			draw_radial_overlay(mlx_image_t *img);
 mlx_texture_t	*dither_texture(mlx_texture_t *tex);
 mlx_image_t		*dither_image(mlx_image_t *img);
+void			draw_scanlines_bg(mlx_image_t *img);
 
 //				Animation
 void			play_weapon_animation(mlx_t	*mlx, t_inventory *inv);

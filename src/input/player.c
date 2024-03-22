@@ -12,23 +12,12 @@ void	rotate_particles(t_particle *particles, float dir)
 	int i;
 
 	i = 0;
-	dir *=2;
+	dir *=4;
 	while (i < N_PARTICLES)
 	{
 		particles[i].p.x += dir;
 		i++;
 	}
-}
-
-void	destroy_wall(t_map *mapdata, t_player *player)
-{
-	char target = mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)];
-	if (target == '=')
-		mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)] = '-';
-	else if (target == '-')
-		mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)] = '_';
-	else if (target == '_')
-		mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)] = '0';
 }
 
 void	resolve_particles(t_particle *particles)
@@ -132,9 +121,6 @@ void	move_player(t_app *cbd)
 		move_speed *= 1.25;
 		headbob_speed *= 2.25;
 	}
-
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE))
-		destroy_wall(cbd->mapdata, &cbd->playerdata);
 
 	//Player movement
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_UP))//Move forward, resolve particles and collision

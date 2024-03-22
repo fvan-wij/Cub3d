@@ -1,8 +1,9 @@
 #include <cbd_audio.h>
 #include <stdlib.h>
 
-void	play_sound(t_audio *audio, uint8_t type)
+void	play_sound(t_audio *audio, uint8_t type, float volume)
 {
+	ma_sound_set_volume(audio->sound[type], volume);
 	ma_sound_start(audio->sound[type]);
 }
 
@@ -69,10 +70,9 @@ t_audio	*cbd_init_audio(void)
 	game_audio->sound[SND_SEARCH] = init_sound(game_audio->engine, "./data/audio/search.mp3");
 	game_audio->sound[SND_PUNCH] = init_sound(game_audio->engine, "./data/audio/punch.mp3");
 	game_audio->sound[SND_TICK] = init_sound(game_audio->engine, "./data/audio/tick.mp3");
-	ma_sound_set_volume(game_audio->sound[SND_TICK], 1.0f);
-	ma_sound_set_volume(game_audio->sound[SND_SEARCH], 3.0f);
-	ma_sound_set_volume(game_audio->sound[SND_PUNCH], 0.5f);
-	ma_sound_set_volume(game_audio->sound[SND_WALK], 1.2f);
+	game_audio->sound[SND_WALL1] = init_sound(game_audio->engine, "./data/audio/wall_destruction/wall2.mp3");
+	game_audio->sound[SND_WALL2] = init_sound(game_audio->engine, "./data/audio/wall_destruction/wall3.mp3");
+	game_audio->sound[SND_WALL3] = init_sound(game_audio->engine, "./data/audio/wall_destruction/wall1.mp3");
 	game_audio->is_initialized = true;
 	return (game_audio);
 }
