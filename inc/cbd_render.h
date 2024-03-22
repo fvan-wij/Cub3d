@@ -151,38 +151,41 @@ typedef struct s_wall {
 typedef struct s_map t_map;
 typedef struct s_player t_player;
 
-//Color
-int32_t	color(uint8_t r, uint8_t g, uint8_t b);
-int32_t	color_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
-t_rgba	get_color_from_tex(mlx_texture_t *tex, int x, int y);
-t_rgba	color_darken(t_rgba color, int amount);
+//				Color
+int32_t			color(uint8_t r, uint8_t g, uint8_t b);
+int32_t			color_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
+t_rgba			get_color_from_tex(mlx_texture_t *tex, int x, int y);
+t_rgba			color_darken(t_rgba color, int amount);
 
-//Draw
-void	draw_hud(t_hud *hud, t_inventory *inv);
-void	draw_background(mlx_image_t *img, int32_t color, int peek);
-void	draw_player(mlx_image_t *img);
-void	draw_map(char **map, t_hud *hud, int width, int height);
-void	draw_minimap(mlx_image_t *hud_map, t_vec2d pos, char **map, int width, int height);
-void	draw_wall_strip(t_render render, int x, mlx_texture_t *tex, int color_offset);
-void	draw_walls(t_render render, t_map *map);
-void	draw_walls_bonus(t_render render, t_map *map);
-void	draw_sprites(t_render *render, t_map *map, t_player *player);
-void	draw_equipped_weapon(t_inventory *inv);
+//				Draw
+void			draw_hud(t_hud *hud, t_inventory *inv);
+void			draw_background(mlx_image_t *img, int32_t color, int peek);
+void			draw_player(mlx_image_t *img);
+void			draw_map(char **map, t_hud *hud, int width, int height);
+void			draw_minimap(mlx_image_t *hud_map, t_vec2d pos, char **map, int width, int height);
+void			draw_wall_strip(t_render render, int x, mlx_texture_t *tex, int color_offset);
+void			draw_walls(t_render render, t_map *map);
+void			draw_walls_bonus(t_render render, t_map *map);
+void			draw_sprites(t_render *render, t_map *map, t_player *player);
+void			draw_equipped_weapon(t_inventory *inv);
 
-//Draw	shapes
-void	draw_line(mlx_image_t *image, uint32_t color, t_vec2i p1, t_vec2i p2);
-void	draw_square(mlx_image_t *image, uint32_t color, t_vec2i pos, t_vec2i dimension);
-void	draw_noise_square(mlx_image_t *image, t_vec2i pos, t_vec2i dimension);
-void	draw_circle(mlx_image_t *image, uint32_t color, t_vec2i pos, float r);
-void	draw_particles(mlx_image_t *game, t_particle *particles);
+//				Draw shapes
+void			draw_line(mlx_image_t *image, uint32_t color, t_vec2i p1, t_vec2i p2);
+void			draw_square(mlx_image_t *image, uint32_t color, t_vec2i pos, t_vec2i dimension);
+void			draw_noise_square(mlx_image_t *image, t_vec2i pos, t_vec2i dimension);
+void			draw_circle(mlx_image_t *image, uint32_t color, t_vec2i pos, float r);
+void			draw_particles(mlx_image_t *game, t_particle *particles);
 
-//Post processing
+//				Post processing
 void 			draw_gradient_bg(mlx_image_t *img, int32_t c1, int32_t c2);
 void			draw_radial_overlay(t_hud *hud);
 mlx_texture_t	*dither_texture(mlx_texture_t *tex);
 mlx_image_t		*dither_image(mlx_image_t *img);
 
-//Animation
-void	play_weapon_animation(mlx_t	*mlx, t_inventory *inv);
+//				Animation
+void			play_weapon_animation(mlx_t	*mlx, t_inventory *inv);
+
+//				Jump table
+void			initialize_jump_table(wall_strip_func jump_table[256]);
 
 #endif //CBD_RENDER_H

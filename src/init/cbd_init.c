@@ -222,15 +222,10 @@ bool cbd_init(t_app *cbd)
 	if (!cbd->menudata)
 		return (cbd_error(ERR_ALLOC), FAILURE);
 
+	initialize_jump_table(cbd->mapdata->walls.jump_table);
 	init_playerdata(&cbd->playerdata, cbd->mapdata);
 	init_render(&cbd->render, cbd->hud, cbd->playerdata.inv);
 	init_particles(cbd->particles);
-
-	//Dithering
-	// cbd->mapdata->tex[WE] = dither_texture(cbd->mapdata->tex[WE]);
-	// cbd->mapdata->tex[NO] = dither_texture(cbd->mapdata->tex[NO]);
-	// cbd->mapdata->tex[EA] = dither_texture(cbd->mapdata->tex[EA]);
-	// cbd->mapdata->tex[SO] = dither_texture(cbd->mapdata->tex[SO]);
 
 	//Setup mlx hooks
 	mlx_key_hook(cbd->mlx, cbd_input, cbd);
