@@ -16,7 +16,7 @@ void	draw_sprites(t_render *render, t_map *map, t_player *player)
 	for(int i = 0; i < numSprites; i++)
 	{
 	  spriteOrder[i] = i;
-	  spriteDistance[i] = ((player->pos.x - sprite[i].pos.x) * (player->pos.x - sprite[i].pos.x) + (player->pos.y - sprite[i].pos.y) * (player->pos.y - sprite[i].pos.y)); //sqrt not taken, unneeded
+	  spriteDistance[i] = ((player->pos.x - sprite[i].pos.x) * (player->pos.x - sprite[i].pos.x) + (player->pos.y - sprite[i].pos.y) * (player->pos.y - sprite[i].pos.y));//sqrt not taken, unneeded
 	}
 	// sortSprites(spriteOrder, spriteDistance, numSprites);
 

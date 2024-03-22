@@ -9,29 +9,6 @@
 # define FAILURE 1
 # define FILL 'X'
 
-typedef struct s_lst_cont {
-	enum e_cont {
-		CONT_COLF,
-		CONT_COLC,
-		CONT_WALL,
-		CONT_ENEMY,
-		CONT_OBJECT,
-		CONT_ITEM,
-		CONT_MAP,
-		CONT_UNKNOWN,
-	} t_cont;
-	uint8_t				type;
-	bool				valid;
-	union {
-		char			*tex_path;
-		t_rgba			color;
-		char			**map;
-	};
-	char				c;
-	struct s_lst_cont	*prev;
-	struct s_lst_cont	*next;
-}	t_lst_cont;
-
 # define TEX_SIZE 255
 
 typedef enum e_tex {
@@ -48,6 +25,18 @@ typedef enum e_dir {
 	E,
 	DIR_SIZE,
 } e_dir;
+
+typedef enum e_cont {
+	CONT_MAP,
+	CONT_WALL,
+	CONT_CWALL,
+	CONT_COLC,
+	CONT_COLF,
+	CONT_ITEM,
+	CONT_OBJECT,
+	CONT_ENEMY,
+	CONT_UNKNOWN,
+} t_cont;
 
 typedef enum e_level {
 	LVL_DARK_SECRET,
@@ -95,9 +84,10 @@ typedef struct s_entity {
 
 typedef struct s_map {
 	char			**raw_data;
-	char			**tex_path;
 	char			**cbd_map;
-	mlx_texture_t	**tex;
+	// char			**tex_path;
+	// mlx_texture_t	**tex;
+	t_wall			walls;
 	t_entity		*entities;
 	t_rgba			floor;
 	t_rgba			ceiling;

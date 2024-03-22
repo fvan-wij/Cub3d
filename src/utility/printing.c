@@ -22,14 +22,20 @@ void	print_debug_info(t_app *cub3d)
 	{
 		printf("[TEXTURES]\n");
 		size_t i = 0;
-		while (cub3d->mapdata->tex_path[i])
+		while (i < cub3d->mapdata->walls.n_w && cub3d->mapdata->walls.w_path[i])
 		{
-			printf("W%zu: %s\n",i + 1, cub3d->mapdata->tex_path[i]);
+			printf("W%zu: %s\n",i + 1, cub3d->mapdata->walls.w_path[i]);
+			i++;
+		}
+		i = 0;
+		while (i < cub3d->mapdata->walls.n_cw && cub3d->mapdata->walls.cw_path[i])
+		{
+			printf("W%zu: %s\n",i + 1, cub3d->mapdata->walls.cw_path[i]);
 			i++;
 		}
 	}
 	else
-		ft_printf("[TEXTURES]\ntex_path[NO]: %s\ntex_path[SO]: %s\ntex_path[WE]: %s\ntex_path[EA]: %s\n", cub3d->mapdata->tex_path[NO],cub3d-> mapdata->tex_path[SO],cub3d->mapdata->tex_path[WE], cub3d->mapdata->tex_path[EA]);
+		ft_printf("[TEXTURES]\ntex_path[NO]: %s\ntex_path[SO]: %s\ntex_path[WE]: %s\ntex_path[EA]: %s\n", cub3d->mapdata->walls.w_path[NO],cub3d-> mapdata->walls.w_path[SO],cub3d->mapdata->walls.w_path[WE], cub3d->mapdata->walls.w_path[EA]);
 	ft_printf("\n[COLORS]\nFloor color:  (%d, %d, %d)\nCeiling color: (%d, %d, %d)\n",cub3d->mapdata->floor.r, cub3d->mapdata->floor.g, cub3d->mapdata->floor.b, cub3d->mapdata->ceiling.r, cub3d->mapdata->ceiling.g, cub3d->mapdata->ceiling.b);
 	if (cub3d->mapdata->cbd_map)
 	{

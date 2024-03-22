@@ -36,6 +36,7 @@ SRCS	:= \
 		   render/post_processing.c \
 		   render/sprite.c		\
 		   render/dithering.c	\
+		   render/walls.c		\
 		   utility/printing.c	\
 		   utility/cleanup.c	\
 		   input/input.c		\

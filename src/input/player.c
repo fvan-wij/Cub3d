@@ -12,13 +12,14 @@ void	rotate_particles(t_particle *particles, float dir)
 	int i;
 
 	i = 0;
-	dir *=2;
+	dir *=4;
 	while (i < N_PARTICLES)
 	{
 		particles[i].p.x += dir;
 		i++;
 	}
 }
+
 void	resolve_particles(t_particle *particles)
 {
 	int i = 0;

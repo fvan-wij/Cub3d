@@ -9,7 +9,7 @@ void	update_animation(mlx_t *mlx, t_weapon *weapon)
 	int current_frame;
 
 	current_frame = (int) (weapon->fire_animation->total_time / weapon->fire_animation->frames[0].duration);
-	weapon->fire_animation->total_time += mlx->delta_time * 15;
+	weapon->fire_animation->total_time += mlx->delta_time * 25;
 	if (current_frame == 1)
 		weapon->fire_animation->frames[0].img->enabled = true;
 	else

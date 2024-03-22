@@ -8,7 +8,7 @@
 static bool	is_mapchar(char c)
 {
 	size_t		i;
-	const char	map_content[20] = {"0123456789NWES\t "};
+	const char	map_content[20] = {"0123456789NWES=-_\t "};
 
 	i = 0;
 	while (map_content[i])
@@ -47,6 +47,8 @@ uint8_t	identify_element(char *line)
 {
 	if (is_mapcontent(line))
 		return (CONT_MAP);
+	else if (line[0] == 'W' && (line[1] == '=' || line[1] == '-' || line[1] == '_'))
+		return (CONT_CWALL);
 	else if (line[0] == 'W')
 		return (CONT_WALL);
 	else if (ft_strncmp(line, "F ", 2) == 0)
@@ -61,73 +63,6 @@ uint8_t	identify_element(char *line)
 		return (CONT_ITEM);
 	else
 	 	return (CONT_UNKNOWN);
-}
-
-t_lst_cont *get_node(t_lst_cont *head, uint8_t type)
-{
-	t_lst_cont *curr;
-
-	curr = head;
-	while (curr->next != NULL)
-	{
-		if (curr->type == type)
-			return (curr);
-		curr = curr->next;
-	}
-	return (NULL);
-}
-
-t_lst_cont	*append_node(t_lst_cont *head, char *line, uint8_t type)
-{
-	t_lst_cont *node;
-	t_lst_cont *curr;
-
-	if (type == CONT_UNKNOWN)
-		return (head);
-	node = ft_calloc(1, sizeof(t_lst_cont));
-	if (!node)
-		return (cbd_error(ERR_ALLOC), NULL);
-	node->type = type;
-	node->prev = NULL;
-	node->next = NULL;
-	if (type == CONT_WALL || type == CONT_ITEM || type == CONT_ENEMY || type == CONT_OBJECT)
-		node->tex_path = get_texpath(&line[2]);
-	else if (type == CONT_COLC || type == CONT_COLF)
-		node->color = get_col(&line[2]);
-	else if (type == CONT_MAP)
-	{
-		if (!head)
-			return (cbd_error(ERR_MAPCONTENT_SEQUENCE), NULL);
-		curr = head;
-		while (curr->next != NULL)
-		{
-			if (curr->type == CONT_MAP)
-			{
-				curr->map = ft_add_2d(curr->map, line);
-				free(node);
-				return (head);
-			}
-			curr = curr->next;
-		}
-		if (curr->next == NULL && curr->type != CONT_MAP)
-			node->map = ft_add_2d(node->map, line);
-		else if (curr->type == CONT_MAP)
-			curr->map = ft_add_2d(curr->map, line);
-	}
-	if (!head)
-	{
-		head = node;
-		return (head);
-	}
-	else
-	{
-		curr = head;
-		while (curr->next != NULL)
-			curr = curr->next;
-		curr->next = node;
-		node->prev = curr;
-		return (head);
-	}
 }
 
 /*
@@ -158,7 +93,7 @@ t_entity *append_entity(t_entity *entities, char *line, uint8_t type)
 		new_entity->type = ENTITY_ENEMY;
 		i = 5;
 		const size_t n = ft_arrlen(&temp[5]);
-		new_entity->positions = ft_calloc(n, sizeof(t_vec2d));
+		new_entity->positions = ft_calloc(n + 1, sizeof(t_vec2d));
 		j = 0;
 		while (temp[i] && j < n)
 		{
@@ -205,7 +140,6 @@ t_entity *append_entity(t_entity *entities, char *line, uint8_t type)
 t_map	*get_map_data_bonus(int fd, char *line)
 {
 	uint8_t		type;
-	uint8_t		tex_count;
 	t_map		*mapdata;
 
 	mapdata = alloc_map_bonus();
@@ -216,7 +150,9 @@ t_map	*get_map_data_bonus(int fd, char *line)
 	{
 		type = identify_element(line);	
 		if (type == CONT_WALL)
-			mapdata->tex_path = ft_add_2d(mapdata->tex_path, get_texpath(&line[3]));
+			mapdata->walls.w_path = ft_add_2d(mapdata->walls.w_path, get_texpath(&line[3]));
+		else if (type == CONT_CWALL)
+			mapdata->walls.cw_path = ft_add_2d(mapdata->walls.cw_path, get_texpath(&line[3]));
 		else if (type == CONT_MAP)
 			mapdata->raw_data = ft_add_2d(mapdata->raw_data, line);
 		else if (type == CONT_COLC)
@@ -228,10 +164,20 @@ t_map	*get_map_data_bonus(int fd, char *line)
 		free(line);
 		line = get_next_line(fd);
 	}
-	tex_count = ft_arrlen(mapdata->tex_path);
-	mapdata->tex = get_mlx_tex(mapdata->tex_path, tex_count);
-	if (!mapdata->tex)
-		return (NULL);
-	mapdata->n_tex = tex_count;
+
+	if (mapdata->walls.w_path)
+	{
+		mapdata->walls.n_w = ft_arrlen(mapdata->walls.w_path);
+		mapdata->walls.w_tex = get_mlx_tex(mapdata->walls.w_path, mapdata->walls.n_w);
+		if (!mapdata->walls.w_tex)
+			return (NULL);
+	}
+	if (mapdata->walls.cw_path)
+	{
+		mapdata->walls.n_cw = ft_arrlen(mapdata->walls.cw_path);
+		mapdata->walls.cw_tex = get_mlx_tex(mapdata->walls.cw_path, mapdata->walls.n_cw);
+		if (!mapdata->walls.cw_tex)
+			return (NULL);
+	}
 	return (mapdata);
 }

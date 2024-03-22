@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static void	draw_scanlines_bg(mlx_image_t *img)
+void	draw_scanlines_bg(mlx_image_t *img)
 {
 	t_rgba		c;
 	uint32_t 	y;
@@ -31,7 +31,7 @@ static void	draw_scanlines_bg(mlx_image_t *img)
     }
 }
 
-void	draw_radial_overlay(t_hud *hud)
+void	draw_radial_overlay(mlx_image_t *img)
 {
     double distance;
 	t_rgba current_col;
@@ -40,13 +40,13 @@ void	draw_radial_overlay(t_hud *hud)
 	uint32_t y;
 	uint32_t x;
 
-	const uint32_t width = hud->img[HUD_OVERLAY]->width;
-	const uint32_t height = hud->img[HUD_OVERLAY]->height;
+	const uint32_t width = img->width;
+	const uint32_t height =img->height;
     const double max_dist = sqrt(pow((float)width / 2, 2) + pow((float)height / 2, 2));
 	const float centerX = width>>1;
 	const float centerY = height>>1;
 
-	color1.color = color(151, 0, 0);
+	color1.color = color(9, 51, 0);
 	color2.color = color(0, 0, 0);
 	y = 0;
 	while (y < height)
@@ -61,15 +61,15 @@ void	draw_radial_overlay(t_hud *hud)
                 current_col.r = color1.r + ratio * (color2.r - color1.r);
                 current_col.g = color1.g + ratio * (color2.g - color1.g);
                 current_col.b = color1.b + ratio * (color2.b - color1.b);
-                current_col.a = 40;
+                current_col.a = 100;
 				if (x < width && y < height)
-                	mlx_put_pixel(hud->img[HUD_OVERLAY], x, y, current_col.color);
+                	mlx_put_pixel(img, x, y, current_col.color);
             }
 			x++;
         }
 		y++;
     }
-	// draw_scanlines_bg(hud->img[HUD_OVERLAY]);
+	draw_scanlines_bg(img);
 }
 
 

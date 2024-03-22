@@ -208,7 +208,7 @@ bool	tex_size_is_valid(t_map *mapdata)
 	return (true);
 	while (i < TEX_SIZE)
 	{
-		if (mapdata->tex[i]->width != 64 && mapdata->tex[i]->height != 64)
+		if (mapdata->walls.w_tex[i]->width != 64 && mapdata->walls.w_tex[i]->height != 64)
 			return (false);
 		i++;
 	}

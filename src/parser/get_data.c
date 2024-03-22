@@ -20,13 +20,13 @@ static void	retrieve_element(char *line, t_map *mapdata)
 	while (temp[i])
 	{
 		if (ft_strncmp(temp[i], "NO", 2) == 0 && temp[i + 1])
-			mapdata->tex_path[NO] = get_texpath(temp[i + 1]);
+			mapdata->walls.w_path[NO] = get_texpath(temp[i + 1]);
 		if (ft_strncmp(temp[i], "SO", 2) == 0 && temp[i + 1])
-			mapdata->tex_path[SO] = get_texpath(temp[i + 1]);
+			mapdata->walls.w_path[SO] = get_texpath(temp[i + 1]);
 		if (ft_strncmp(temp[i], "WE", 2) == 0 && temp[i + 1])
-			mapdata->tex_path[WE] = get_texpath(temp[i + 1]);
+			mapdata->walls.w_path[WE] = get_texpath(temp[i + 1]);
 		if (ft_strncmp(temp[i], "EA", 2) == 0 && temp[i + 1])
-			mapdata->tex_path[EA] = get_texpath(temp[i + 1]);
+			mapdata->walls.w_path[EA] = get_texpath(temp[i + 1]);
 		if (ft_strncmp(temp[i], "F", ft_strlen(temp[i])) == 0 && temp[i + 1])
 			mapdata->floor = get_col(temp[i + 1]);
 		if (ft_strncmp(temp[i], "C", ft_strlen(temp[i])) == 0 && temp[i + 1])
@@ -56,7 +56,7 @@ t_map	*get_map_data_mandatory(int fd, t_valid *is, char *line)
 		line = get_next_line(fd);
 	}
 	close(fd);
-	mapdata->tex = get_mlx_tex(mapdata->tex_path, TEX_SIZE);
+	mapdata->walls.w_tex = get_mlx_tex(mapdata->walls.w_path, TEX_SIZE);
 	if (!mapdata->raw_data)
 		return (cbd_error(ERR_INVALID_MAP), NULL);
 	return (mapdata);

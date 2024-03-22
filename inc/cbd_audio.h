@@ -12,6 +12,9 @@ typedef enum s_sounds {
 	SND_MUSIC,
 	SND_PUNCH,
 	SND_TICK,
+	SND_WALL1,
+	SND_WALL2,
+	SND_WALL3,
 	SND_SIZE,
 } t_sounds;
 
@@ -23,7 +26,7 @@ typedef struct s_audio {
 
 t_audio	*cbd_init_audio(void);
 void	cbd_uninit_audio(t_audio *audio);
-void	play_sound(t_audio *audio, uint8_t type);
+void	play_sound(t_audio *audio, uint8_t type, float volume);
 void	loop_sound(t_audio *audio, uint8_t type);
 void	stop_sound(t_audio *audio, uint8_t type);
 
