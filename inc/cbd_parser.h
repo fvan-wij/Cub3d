@@ -71,10 +71,11 @@ typedef struct s_entity {
 	enum e_entity_type	type;
 	t_vec2d				pos;
 	t_vec2d				dir;
-	t_vec2d				*positions;
+	t_vec2d				*destinations;
 	int					health;
 	int					damage;
-	int					current_position;
+	int					current_dest;
+	int					n_dest;
 	float				speed;
 	float				audio_timer;
 	mlx_texture_t		*texture;

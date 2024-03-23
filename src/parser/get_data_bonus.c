@@ -93,19 +93,20 @@ t_entity *append_entity(t_entity *entities, char *line, uint8_t type)
 		new_entity->type = ENTITY_ENEMY;
 		i = 5;
 		const size_t n = ft_arrlen(&temp[5]);
-		new_entity->positions = ft_calloc(n + 1, sizeof(t_vec2d));
+		new_entity->destinations = ft_calloc(n + 1, sizeof(t_vec2d));
+		new_entity->n_dest = n;
 		j = 0;
 		while (temp[i] && j < n)
 		{
 			char **temp2 = ft_split(temp[i], ',');
-			new_entity->positions[j].x = ft_atoi(temp2[0]);
-			new_entity->positions[j].y = ft_atoi(temp2[1]);
+			new_entity->destinations[j].x = ft_atoi(temp2[0]);
+			new_entity->destinations[j].y = ft_atoi(temp2[1]);
 			ft_del_2d(temp2);
 			i++;
 			j++;
 		}
-		new_entity->pos.x = new_entity->positions[0].x;
-		new_entity->pos.y = new_entity->positions[0].y;
+		new_entity->pos.x = new_entity->destinations[0].x;
+		new_entity->pos.y = new_entity->destinations[0].y;
 	}
 	else if (type == CONT_OBJECT || type == CONT_ITEM)
 	{

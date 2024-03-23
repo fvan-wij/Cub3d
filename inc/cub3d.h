@@ -59,6 +59,7 @@ bool	cbd_main(t_app *cbd);
 bool	cbd_init(t_app *cbd);
 void	cbd_loop(void *param);
 void	update_entities(t_app *cbd);
+void	move_entities(t_entity *ent, t_app *cbd);
 void	cbd_init_input(t_app *cbd);
 void	cbd_input(mlx_key_data_t keydata, void *param);
 

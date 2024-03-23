@@ -77,5 +77,3 @@ t_map	*cbd_parse_map(const char *file)
 	mapdata->current_map = set_current_map(file);
 	return (mapdata);
 }
-
-

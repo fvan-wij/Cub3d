@@ -74,9 +74,9 @@ void	print_entities(t_entity *head)
 			printf("Damage(%d)\n", curr->damage);
 			size_t j = 0;
 			printf("Patrol points: ");
-			while ((int)curr->positions[j].x != 0 || (int)curr->positions[j].y != 0)
+			while ((int)curr->destinations[j].x != 0 || (int)curr->destinations[j].y != 0)
 			{
-				printf("->(%d, %d) ", (int)curr->positions[j].x, (int)curr->positions[j].y);
+				printf("->(%d, %d) ", (int)curr->destinations[j].x, (int)curr->destinations[j].y);
 				j++;
 			}
 			printf("\n");

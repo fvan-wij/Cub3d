@@ -14,7 +14,7 @@ W= ./data/textures/cracked.png
 W- ./data/textures/cracked2.png
 W_ ./data/textures/cracked3.png
 
-e enemy ./data/textures/sprites/chainsaw.png 1 10 6,4 6,5 8,5 8,4
+e enemy ./data/textures/sprites/chainsaw.png 1 10 6,3 6,4 8,4 8,3
 o decor ./data/textures/sprites/chainsaw.png 50,20
 i item ./data/textures/sprites/chainsaw.png 14,08
 
