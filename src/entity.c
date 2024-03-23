@@ -1,5 +1,10 @@
 #include <cub3d.h>\
 
+void	move_entities(t_entity *ent, t_app *cbd)
+{
+
+}
+
 void	update_entity(t_entity *ent, t_app *cbd)
 {
 	if (ent->type == ENTITY_ENEMY)
