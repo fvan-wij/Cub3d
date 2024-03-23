@@ -26,7 +26,7 @@ void	destroy_wall(t_map *mapdata, t_player *player, t_audio *audio, t_render *re
 	{
 		mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)] = '0';
 		play_sound(audio, SND_WALL3, 0.5f);
-		render->b_timer = false;
+		render->b_timer = true;
 		render->fx.b_timer = true;
 	}
 }
