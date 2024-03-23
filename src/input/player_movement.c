@@ -56,7 +56,6 @@ static t_vec2d strafe_player(t_app *cbd, float speed, int8_t direction)
 	potential_pos.x = cbd->playerdata.pos.x + dir.x * speed;
 	potential_pos.y = cbd->playerdata.pos.y + dir.y * speed;
 	potential_pos = resolve_collision(cbd->mapdata->cbd_map, cbd->playerdata.pos, cbd->playerdata.dir, potential_pos);
-	headbob(&cbd->render.headbob, speed * 7);
 	return (potential_pos);
 }
 
@@ -65,7 +64,7 @@ void	move_player(t_app *cbd)
 	t_vec2d	potential_pos;
 	float 	move_speed;
 
-	move_speed = cbd->mlx->delta_time * 2;
+	move_speed = cbd->mlx->delta_time * 1.25;
 	potential_pos = cbd->playerdata.pos;
 
 	//Shift multiplier
@@ -89,9 +88,9 @@ void	move_player(t_app *cbd)
 
 	//Player rotation
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_RIGHT) && cbd->playerdata.pos.x <= cbd->mapdata->width)
-		rotate_player(&cbd->playerdata, cbd->particles, cbd->mlx->delta_time * 3, -1);
+		rotate_player(&cbd->playerdata, cbd->particles, cbd->mlx->delta_time * 2, -1);
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_LEFT) && cbd->playerdata.pos.x >= 0)
-		rotate_player(&cbd->playerdata, cbd->particles, -cbd->mlx->delta_time * 3, 1);
+		rotate_player(&cbd->playerdata, cbd->particles, -cbd->mlx->delta_time * 2, 1);
 
 	//Resolve movement
 	peek_map(cbd->playerdata.inv, &cbd->render, cbd->render.hud->img[HUD_OVERLAY], cbd->mlx);

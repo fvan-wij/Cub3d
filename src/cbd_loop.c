@@ -2,9 +2,6 @@
 #include <cbd_error.h>
 #include <libft.h>
 #include <MLX42.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
 
 void	cbd_loop(void *param)
 {

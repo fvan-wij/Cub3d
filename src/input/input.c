@@ -64,15 +64,17 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 		&& !mlx_is_key_down(cbd->mlx, MLX_KEY_A) 
 		&& !mlx_is_key_down(cbd->mlx, MLX_KEY_D)) 
 		cbd->playerdata.state = PLAYER_IDLE;
+
 	if ((keydata.key == MLX_KEY_DOWN 
 		|| keydata.key == MLX_KEY_UP 
 		|| keydata.key == MLX_KEY_W 
 		|| keydata.key == MLX_KEY_S 
 		|| keydata.key == MLX_KEY_A 
 		|| keydata.key == MLX_KEY_D) 
-		&& keydata.action == MLX_PRESS 
+		&& keydata.action == MLX_PRESS
 		&& cbd->menudata->state == OFF && keydata.key != MLX_KEY_LEFT_SHIFT)
 		cbd->playerdata.state = PLAYER_WALKING;
+
 	if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS)
 	{
 		if (cbd->menudata->state != OFF)
@@ -114,23 +116,34 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 	if (cbd->menudata->state != OFF)
 	{
 		stop_sound(audio, SND_MUSIC);
-		loop_sound(audio, SND_MENU);
+		loop_sound(audio, SND_MENU, false);
 	}
 	else if (cbd->menudata->state == OFF)
 	{
 		stop_sound(audio, SND_MENU);
-		loop_sound(audio, SND_MUSIC);
+		loop_sound(audio, SND_MUSIC, false);
 	}
 	if (cbd->playerdata.state == PLAYER_RUNNING && cbd->menudata->state == OFF)
 	{
-		ma_sound_set_pitch(audio->sound[SND_WALK], 1.2f);
-		loop_sound(audio, SND_WALK);
+		ma_sound_set_pitch(audio->sound[SND_WALK_SOLID], 1.2f);
+		if (cbd->mapdata->current_map == LVL_DARK_SECRET)
+			loop_sound(audio, SND_WALK_GRASS, true);
+		else
+			loop_sound(audio, SND_WALK_SOLID, true);
 	}
 	if (cbd->playerdata.state == PLAYER_WALKING && cbd->menudata->state == OFF)
 	{
-		ma_sound_set_pitch(audio->sound[SND_WALK], 1.0f);
-		loop_sound(audio, SND_WALK);
+		ma_sound_set_pitch(audio->sound[SND_WALK_SOLID], 1.0f);
+		if (cbd->mapdata->current_map == LVL_DARK_SECRET)
+			loop_sound(audio, SND_WALK_GRASS, true);
+		else
+			loop_sound(audio, SND_WALK_SOLID, true);
 	}
 	if (cbd->playerdata.state == PLAYER_IDLE && cbd->menudata->state == OFF)
-		stop_sound(audio, SND_WALK);
+	{
+		if (cbd->mapdata->current_map == LVL_DARK_SECRET)
+			stop_sound(audio, SND_WALK_GRASS);
+		else
+			stop_sound(audio, SND_WALK_SOLID);
+	}
 }
