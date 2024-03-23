@@ -29,6 +29,7 @@ t_map	*alloc_map_bonus(void)
 	mapdata = ft_calloc(1, sizeof(t_map));
 	mapdata->start_pos.x 	= -1;
 	mapdata->start_pos.y 	= -1;
+	mapdata->raw_data 		= NULL;
 	mapdata->valid 			= false;
 	mapdata->is_bonus		= true;
 	if (!mapdata)

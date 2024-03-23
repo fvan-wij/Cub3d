@@ -10,9 +10,9 @@ W7 ./data/textures/east_tex.png
 W8 ./data/textures/east_tex.png
 W9 ./data/textures/east_tex.png
 
-W= ./data/textures/cracked.png
-W- ./data/textures/cracked2.png
-W_ ./data/textures/cracked3.png
+W= ./data/textures/cracked2.png
+W- ./data/textures/cracked4.png
+W_ ./data/textures/cracked5.png
 
 e enemy ./data/textures/sprites/chainsaw.png 1 10 6,4 6,5 8,5 8,4
 o decor ./data/textures/sprites/chainsaw.png 50,20

@@ -11,7 +11,7 @@ static t_vec2d	move_forward(t_app *cbd, float speed, char **map)
 	potential_pos.x = cbd->playerdata.pos.x + cbd->playerdata.dir.x * speed;
 	potential_pos.y = cbd->playerdata.pos.y + cbd->playerdata.dir.y * speed;
 	potential_pos = resolve_collision(map, cbd->playerdata.pos, cbd->playerdata.dir, potential_pos);
-	resolve_particles(cbd->particles, 3);
+	resolve_particles(cbd->particles, -3);
 	headbob(&cbd->render.headbob, speed * 7);
 	return (potential_pos);
 }

@@ -145,14 +145,15 @@ t_map	*get_map_data_bonus(int fd, char *line)
 	mapdata = alloc_map_bonus();
 	if (!mapdata)
 		return (NULL);
+	free(line);
 	line = get_next_line(fd);
 	while (line)
 	{
 		type = identify_element(line);
 		if (type == CONT_WALL)
-			mapdata->walls.w_path = ft_add_2d(mapdata->walls.w_path, get_texpath(&line[3]));
+			mapdata->walls.w_path = ft_add_2d(mapdata->walls.w_path, &line[3]);
 		else if (type == CONT_CWALL)
-			mapdata->walls.cw_path = ft_add_2d(mapdata->walls.cw_path, get_texpath(&line[3]));
+			mapdata->walls.cw_path = ft_add_2d(mapdata->walls.cw_path, &line[3]);
 		else if (type == CONT_MAP)
 			mapdata->raw_data = ft_add_2d(mapdata->raw_data, line);
 		else if (type == CONT_COLC)

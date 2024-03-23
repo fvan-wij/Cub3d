@@ -111,8 +111,11 @@ bool	wall_is_valid(t_map *mapdata, int i, int j)
 bool	wall_is_valid_bonus(t_map *mapdata, int i, int j)
 {
 	bool		err;
-	const int 	lenW = ft_strlen(mapdata->raw_data[i]);
-	const int 	lenH = ft_arrlen(mapdata->raw_data);
+	
+	printf("width: %d\n, height: %d\n", mapdata->width, mapdata->height);
+
+	const int 	lenW = mapdata->width;
+	const int 	lenH = mapdata->height;
 
 	err = true;
 	if ((i < 0 || j < 0 || i >= lenH - 1 || j >= lenW - 1))
