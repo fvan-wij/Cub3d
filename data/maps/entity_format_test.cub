@@ -11,8 +11,8 @@ e enemy ./data/textures/sprites/chainsaw.png 1 10 10,20 15,20 20,20 20,15 20,10
 e decor ./data/textures/sprites/chainsaw.png 10,20
 e item ./data/textures/sprites/chainsaw.png 10,20
 
-F 220,100,0
-C 225,30,0
+F 9,45,56
+C 0,0,0
 1111111111111111
 1111111111111111
 1111000000000011
