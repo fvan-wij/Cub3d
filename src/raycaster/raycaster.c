@@ -65,7 +65,7 @@ t_ray	raycast(char **map, t_vec2d pos, t_vec2d dir)
 			vec_map.y += step.y;
 			ray.side = 1;
 		}
-		if (vec_map.x >= 0 && vec_map.x < 16 && vec_map.y >= 0 && vec_map.y < 16 && (is_wall_bonus(map[vec_map.y][vec_map.x])))
+		if (map[vec_map.y][vec_map.x] && vec_map.x >= 0 && vec_map.y >= 0 && (is_wall_bonus(map[vec_map.y][vec_map.x])))
 			hit = true;
 	}
 	if (ray.side == 0)

@@ -1,10 +1,7 @@
 #include <libft.h>
 #include <MLX42.h>
-#include <stdlib.h>
 #include <cub3d.h>
 #include <cbd_error.h>
-#include <math.h>
-#include <stdio.h>
 #include <cbd_audio.h>
 
 void	destroy_wall(t_map *mapdata, t_player *player, t_audio *audio, t_render *render)
@@ -29,7 +26,7 @@ void	destroy_wall(t_map *mapdata, t_player *player, t_audio *audio, t_render *re
 	{
 		mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)] = '0';
 		play_sound(audio, SND_WALL3, 0.5f);
-		render->b_timer = false;
+		render->b_timer = true;
 		render->fx.b_timer = true;
 	}
 }
@@ -53,8 +50,6 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 	}
 	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
 	{
-		if (cbd->menudata->state == OFF)
-			loop_sound(audio, SND_WALK);
 		if (cbd->menudata->state != OFF)
 		{
 			ma_sound_set_pitch(audio->sound[SND_TICK], 3.0f);
@@ -62,12 +57,22 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 			menu_move_cursor(cbd->menudata, -1);
 		}
 	}
-	if (keydata.modifier == MLX_SHIFT)
-		ma_sound_set_pitch(audio->sound[SND_WALK], 1.2f);
-	else
-		ma_sound_set_pitch(audio->sound[SND_WALK], 1.0f);
-	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_RELEASE)
-		stop_sound(audio, SND_WALK);
+	if (!mlx_is_key_down(cbd->mlx, MLX_KEY_UP) 
+		&& !mlx_is_key_down(cbd->mlx, MLX_KEY_DOWN)
+		&& !mlx_is_key_down(cbd->mlx, MLX_KEY_W) 
+		&& !mlx_is_key_down(cbd->mlx, MLX_KEY_S)
+		&& !mlx_is_key_down(cbd->mlx, MLX_KEY_A) 
+		&& !mlx_is_key_down(cbd->mlx, MLX_KEY_D)) 
+		cbd->playerdata.state = PLAYER_IDLE;
+	if ((keydata.key == MLX_KEY_DOWN 
+		|| keydata.key == MLX_KEY_UP 
+		|| keydata.key == MLX_KEY_W 
+		|| keydata.key == MLX_KEY_S 
+		|| keydata.key == MLX_KEY_A 
+		|| keydata.key == MLX_KEY_D) 
+		&& keydata.action == MLX_PRESS 
+		&& cbd->menudata->state == OFF && keydata.key != MLX_KEY_LEFT_SHIFT)
+		cbd->playerdata.state = PLAYER_WALKING;
 	if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS)
 	{
 		if (cbd->menudata->state != OFF)
@@ -93,11 +98,6 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 			menu_enter(cbd->menudata);
 		}
 	}
-	if (keydata.key == MLX_KEY_ENTER && keydata.action == MLX_RELEASE && cbd->menudata->state == OFF)
-	{
-		stop_sound(audio, SND_MENU);
-		play_sound(audio, SND_MUSIC, 2.0f);
-	}
 	if (!cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].fire_animation->loop)
 	{
 		int current_wpn = cbd->playerdata.inv->equipped;
@@ -110,4 +110,27 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 		if (current_wpn != cbd->playerdata.inv->equipped)
 			play_sound(audio, SND_SEARCH, 3.5f);
 	}
+
+	if (cbd->menudata->state != OFF)
+	{
+		stop_sound(audio, SND_MUSIC);
+		loop_sound(audio, SND_MENU);
+	}
+	else if (cbd->menudata->state == OFF)
+	{
+		stop_sound(audio, SND_MENU);
+		loop_sound(audio, SND_MUSIC);
+	}
+	if (cbd->playerdata.state == PLAYER_RUNNING && cbd->menudata->state == OFF)
+	{
+		ma_sound_set_pitch(audio->sound[SND_WALK], 1.2f);
+		loop_sound(audio, SND_WALK);
+	}
+	if (cbd->playerdata.state == PLAYER_WALKING && cbd->menudata->state == OFF)
+	{
+		ma_sound_set_pitch(audio->sound[SND_WALK], 1.0f);
+		loop_sound(audio, SND_WALK);
+	}
+	if (cbd->playerdata.state == PLAYER_IDLE && cbd->menudata->state == OFF)
+		stop_sound(audio, SND_WALK);
 }

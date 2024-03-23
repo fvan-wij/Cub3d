@@ -17,14 +17,21 @@ typedef enum e_state {
 } t_state;
 
 typedef struct s_player {
-	t_vec2d 	pos;
-	t_vec2d		dir;
-	t_vec2d		plane;
-	float		scalar;
-	float		headbob;
-	float		map_peak;
-	t_ray		rays[WIDTH];
-	t_inventory	*inv;
+	enum e_player_state {
+		PLAYER_IDLE,
+		PLAYER_WALKING,
+		PLAYER_RUNNING,
+		PLAYER_ATTACKING,
+	} t_player_state;
+	t_vec2d 			pos;
+	t_vec2d				dir;
+	t_vec2d				plane;
+	float				scalar;
+	float				headbob;
+	float				map_peak;
+	t_ray				rays[WIDTH];
+	t_inventory			*inv;
+	enum e_player_state state;
 }	t_player;
 
 typedef struct s_app {
@@ -70,4 +77,4 @@ void	change_map(t_app *cbd);
 mlx_image_t *cbd_init_texture_img(mlx_t *mlx, char *path);
 void	init_playerdata(t_player *playerdata, t_map *map);
 
-#endif //CUB3D_H
+#endif //CUBER3D_H

@@ -82,7 +82,5 @@ void main()
 		outColor.b = 0.20;
 	else
 		outColor.b = 0.7;
-
-	outColor = vec4(1.0, 0.0, 0.0, 1.0);
 	FragColor = outColor;
 }
