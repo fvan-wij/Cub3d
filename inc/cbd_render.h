@@ -21,7 +21,7 @@
 # define TILESIZE 		64
 # define MINIMAP_WIDTH	184
 # define MINIMAP_HEIGHT	118
-# define N_PARTICLES	30
+# define N_PARTICLES	100
 
 typedef struct s_bresenham
 {

@@ -75,5 +75,5 @@ void	cbd_render(t_app *cbd)
 	draw_particles(cbd->render.img, cbd->particles);
 	resolve_fx(cbd->render.img, cbd->render.fx.particles, &cbd->render.fx);
 	cbd->render.img = dither_image(cbd->render.img);
-	screenshake(&cbd->render);
+	// screenshake(&cbd->render);
 }

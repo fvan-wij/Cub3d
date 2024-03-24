@@ -64,7 +64,7 @@ void	move_player(t_app *cbd)
 	t_vec2d	potential_pos;
 	float 	move_speed;
 
-	move_speed = cbd->mlx->delta_time * 1.25;
+	move_speed = cbd->mlx->delta_time * 1.5;
 	potential_pos = cbd->playerdata.pos;
 
 	//Shift multiplier
@@ -93,7 +93,7 @@ void	move_player(t_app *cbd)
 		rotate_player(&cbd->playerdata, cbd->particles, -cbd->mlx->delta_time * 2, 1);
 
 	//Resolve movement
-	peek_map(cbd->playerdata.inv, &cbd->render, cbd->render.hud->img[HUD_OVERLAY], cbd->mlx);
+	peek_map(cbd->playerdata.inv, &cbd->render, cbd->render.hud->img[HUD_MAP], cbd->mlx);
 	cbd->playerdata.pos = potential_pos;
 	cbd->render.y_offset = (sin(cbd->render.headbob) * 10) + cbd->render.map_peak;
 }
