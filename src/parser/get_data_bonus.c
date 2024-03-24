@@ -115,9 +115,9 @@ t_entity *append_entity(t_entity *entities, char *line, uint8_t type)
 			new_entity->type = ENTITY_ITEM;
 		i = 3;
 		ft_strlcpy(p, temp[i], 3);
-		new_entity->pos.x = (float) ft_atoi(p);
+		new_entity->pos.x = (float) ft_atoi(p) + 0.5;
 		ft_strlcpy(p, &temp[i][3], 3);
-		new_entity->pos.y = (float) ft_atoi(p);
+		new_entity->pos.y = (float) ft_atoi(p) + 0.5;
 	}
 	if (!entities)
 		return (ft_del_2d(temp), new_entity);
