@@ -7,6 +7,8 @@ void	move_entities(t_entity *ent, t_app *cbd)
 
 	if (ent->type == ENTITY_ENEMY)
 	{
+		if (vec_distance(cbd->playerdata.pos, ent->pos) < 0.5)
+			return;
 		new_pos = ent->pos;
 		new_pos = vec_add(new_pos, vec_mult(ent->dir, ent->speed * cbd->mlx->delta_time));
 		new_pos = resolve_collision(cbd->mapdata->cbd_map, ent->pos, ent->dir, new_pos);
@@ -28,9 +30,10 @@ void	update_entity(t_entity *ent, t_app *cbd)
 		}
 		if (vec_distance(cbd->playerdata.pos, ent->pos) < 2)
 		{
+			ent->state = ENTITY_AGROED;
 			ent->dir = vec_sub(cbd->playerdata.pos, ent->pos);
 		}
-		else
+		else if (vec_distance(ent->destinations[ent->current_dest], ent->pos) > 0.05)
 		{
 			ent->dir = vec_sub(ent->destinations[ent->current_dest], ent->pos);
 		}

@@ -30,18 +30,24 @@ void	render_entities(t_render *render, t_entity *entities, t_player *player)
 		double transformX = invDet * (player->dir.y * ent_x - player->dir.x * ent_y);
 		double transformY = invDet * (-player->plane.y * ent_x + player->plane.x * ent_y); //this is actually the depth inside the screen, that what Z is in 3D
 
+		//parameters for scaling and moving the sprites
+		float	uDiv = 1;
+		float	vDiv = 1;
+		float	vMove = 0.0;
+		int vMoveScreen = (int)(vMove / transformY);
+
 		int spriteScreenX = (int)((WIDTH / 2) * (1.0 + transformX / transformY));
 
 		//calculate height of the sprite on screen
-		int spriteHeight = abs((int)(HEIGHT / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
+		int spriteHeight = abs((int)(HEIGHT / (transformY))) / vDiv; //using 'transformY' instead of the real distance prevents fisheye
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = -spriteHeight / 2 + HEIGHT / 2;
+		int drawStartY = -spriteHeight / 2 + HEIGHT / 2 + vMoveScreen;
 		if(drawStartY < 0) drawStartY = 0;
-		int drawEndY = spriteHeight / 2 + HEIGHT / 2;
+		int drawEndY = spriteHeight / 2 + HEIGHT / 2 + vMoveScreen;
 		if(drawEndY >= HEIGHT) drawEndY = HEIGHT - 1;
 
 		//calculate width of the sprite
-		int spriteWidth = abs((int)(HEIGHT / (transformY)));
+		int spriteWidth = abs((int)(HEIGHT / (transformY))) / uDiv;
 		int drawStartX = -spriteWidth / 2 + spriteScreenX;
 		if(drawStartX < 0) drawStartX = 0;
 		int drawEndX = spriteWidth / 2 + spriteScreenX;
@@ -61,7 +67,7 @@ void	render_entities(t_render *render, t_entity *entities, t_player *player)
 		if(transformY > 0 && stripe > 0 && stripe < WIDTH && transformY < render->rays[stripe].wall_dist)
 			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 			{
-				int d = (y) * 256 - HEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+				int d = (y - vMoveScreen) * 256 - HEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 				int texY = ((d * texHeight) / spriteHeight) / 256;
 				t_rgba color = get_color_from_tex(ent->texture, texX, texY); //get current color from the texture
 				color = color_darken(color, transformY * 30); //make the color darker if it's further away
