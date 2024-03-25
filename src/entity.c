@@ -3,9 +3,14 @@
 
 void	move_entities(t_entity *ent, t_app *cbd)
 {
+	t_vec2d new_pos;
+
 	if (ent->type == ENTITY_ENEMY)
 	{
-		ent->pos = vec_add(ent->pos, vec_mult(ent->dir, ent->speed * cbd->mlx->delta_time));
+		new_pos = ent->pos;
+		new_pos = vec_add(new_pos, vec_mult(ent->dir, ent->speed * cbd->mlx->delta_time));
+		new_pos = resolve_collision(cbd->mapdata->cbd_map, ent->pos, ent->dir, new_pos);
+		ent->pos = new_pos;
 	}
 }
 
@@ -20,8 +25,6 @@ void	update_entity(t_entity *ent, t_app *cbd)
 			{
 				ent->current_dest = 0;
 			}
-			printf("Changing current position to: %i\n", ent->current_dest);
-			printf("New position: x:%f y:%f\n", ent->destinations[ent->current_dest].x, ent->destinations[ent->current_dest].y);
 		}
 		if (vec_distance(cbd->playerdata.pos, ent->pos) < 2)
 		{
@@ -32,7 +35,6 @@ void	update_entity(t_entity *ent, t_app *cbd)
 			ent->dir = vec_sub(ent->destinations[ent->current_dest], ent->pos);
 		}
 		vec_normalize(&ent->dir);
-		printf("Current position: x:%f y:%f\n Dir: x:%f y:%f\n", ent->pos.x, ent->pos.y, ent->dir.x, ent->dir.y);
 	}
 }
 
