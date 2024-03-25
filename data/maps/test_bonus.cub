@@ -10,16 +10,16 @@ W7 ./data/textures/east_tex.png
 W8 ./data/textures/east_tex.png
 W9 ./data/textures/east_tex.png
 
-W= ./data/textures/cracked.png
-W- ./data/textures/cracked2.png
-W_ ./data/textures/cracked3.png
+W= ./data/textures/cracked2.png
+W- ./data/textures/cracked4.png
+W_ ./data/textures/cracked5.png
 
 e enemy ./data/textures/sprites/chainsaw.png 1 10 6,3 6,4 8,4 8,3
 o decor ./data/textures/sprites/chainsaw.png 50,20
 i item ./data/textures/sprites/chainsaw.png 14,08
 
-F 220,100,0
-C 225,30,0
+F 9,45,56
+C 0,0,0
 
 1111111111111111
 1111123454111111
@@ -28,11 +28,11 @@ C 225,30,0
 1111001111191111
 1111001111111111
 1101001111111111
-1101001115111111
-1101000000000011
-11010000S0000011
-1101000000000011
-11011111=1111111
+110100111511111111111111111111
+11010000000000=========0000001
+11010000S00000=========0000001
+11010000000000=========0000001
+11011111=111111111111111111111
 11=1111101111111
 1100000=0=000011
 1111111101111111

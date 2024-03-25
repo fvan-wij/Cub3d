@@ -64,17 +64,16 @@ void	screenshake(t_render *render)
 */
 void	cbd_render(t_app *cbd)
 {
-	// draw_background(cbd->render.img, color_rgba(9, 45, 56, 255), cbd->render.map_peak);
-	draw_gradient_bg(cbd->render.img,color_rgba(9, 45, 56, 255), color_rgba(0, 0, 0, 255));
+	// draw_background(cbd->render.img, cbd->mapdata->floor.color, cbd->render.map_peak);
+	draw_gradient_bg(cbd->render.img, cbd->mapdata->floor.color, cbd->mapdata->ceiling.color);
 	cast_rays(cbd->mapdata->cbd_map, &cbd->render, &cbd->playerdata);
 	draw_walls(cbd->render, cbd->mapdata);
 	render_entities(&cbd->render, cbd->mapdata->entities, &cbd->playerdata);
-	// draw_sprites(&cbd->render, cbd->mapdata, &cbd->playerdata);
 	draw_minimap(cbd->hud->img[HUD_MAP], cbd->playerdata.pos, cbd->mapdata->cbd_map, cbd->mapdata->width, cbd->mapdata->height);
 	draw_hud(cbd->hud, cbd->playerdata.inv);
 	draw_equipped_weapon(cbd->playerdata.inv);
 	draw_particles(cbd->render.img, cbd->particles);
 	resolve_fx(cbd->render.img, cbd->render.fx.particles, &cbd->render.fx);
 	cbd->render.img = dither_image(cbd->render.img);
-	screenshake(&cbd->render);
+	// screenshake(&cbd->render);
 }

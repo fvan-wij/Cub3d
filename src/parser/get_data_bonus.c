@@ -116,9 +116,9 @@ t_entity *append_entity(t_entity *entities, char *line, uint8_t type)
 			new_entity->type = ENTITY_ITEM;
 		i = 3;
 		ft_strlcpy(p, temp[i], 3);
-		new_entity->pos.x = (float) ft_atoi(p);
+		new_entity->pos.x = (float) ft_atoi(p) + 0.5;
 		ft_strlcpy(p, &temp[i][3], 3);
-		new_entity->pos.y = (float) ft_atoi(p);
+		new_entity->pos.y = (float) ft_atoi(p) + 0.5;
 	}
 	if (!entities)
 		return (ft_del_2d(temp), new_entity);
@@ -146,14 +146,15 @@ t_map	*get_map_data_bonus(int fd, char *line)
 	mapdata = alloc_map_bonus();
 	if (!mapdata)
 		return (NULL);
+	free(line);
 	line = get_next_line(fd);
 	while (line)
 	{
 		type = identify_element(line);
 		if (type == CONT_WALL)
-			mapdata->walls.w_path = ft_add_2d(mapdata->walls.w_path, get_texpath(&line[3]));
+			mapdata->walls.w_path = ft_add_2d(mapdata->walls.w_path, &line[3]);
 		else if (type == CONT_CWALL)
-			mapdata->walls.cw_path = ft_add_2d(mapdata->walls.cw_path, get_texpath(&line[3]));
+			mapdata->walls.cw_path = ft_add_2d(mapdata->walls.cw_path, &line[3]);
 		else if (type == CONT_MAP)
 			mapdata->raw_data = ft_add_2d(mapdata->raw_data, line);
 		else if (type == CONT_COLC)

@@ -43,17 +43,18 @@ void	draw_background(mlx_image_t *img, int32_t color, int peek)
 
 void	draw_player(mlx_image_t *img)
 {
-	const float r = (TILESIZE)>>4;
-	draw_circle(img, color(255, 255, 255), vec2i_assign((float) (img->width>>1), (float)(img->height>>1)), r);
+	const float r = (TILESIZE)>>5;
+	draw_circle(img, color(100, 255, 100), vec2i_assign((float) (img->width>>1), (float)(img->height>>1)), r);
 }
 
 void	draw_minimap(mlx_image_t *hud_map, t_vec2d pos, char **map, int width, int height)
 {
-	draw_noise_square(hud_map, vec2i_assign(0, 0), vec2i_assign(hud_map->width, hud_map->height));
+	// draw_noise_square(hud_map, vec2i_assign(0, 0), vec2i_assign(hud_map->width, hud_map->height));
+	draw_square(hud_map, color_rgba(200, 200, 200, 200), vec2i_assign(0, 0), vec2i_assign(hud_map->width, hud_map->height));
 	t_vec2d	offset;
 	t_vec2i loc;
 
-	float tileH = (float) MINIMAP_HEIGHT / 16;
+	float tileH = (float) (MINIMAP_HEIGHT>>3);
 	t_vec2i size;
 	int y;
 	int	x;
@@ -72,6 +73,8 @@ void	draw_minimap(mlx_image_t *hud_map, t_vec2d pos, char **map, int width, int 
 			size.y = tileH + 1;
 			if (map[y][x] == '0' && loc.x < MINIMAP_WIDTH && loc.y < MINIMAP_HEIGHT && loc.x > 0 && loc.y > 0)
 				draw_square(hud_map, color_rgba(0, 0, 0, 50), loc, size);
+			else if ((map[y][x] == '=' || map[y][x] == '-' || map[y][x] == '_') && loc.x < MINIMAP_WIDTH && loc.y < MINIMAP_HEIGHT && loc.x > 0 && loc.y > 0)
+				draw_square(hud_map, color_rgba(5, 200, 45, 100), loc, size);
 			x++;
 		}
 		y++;
