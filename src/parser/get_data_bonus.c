@@ -65,7 +65,7 @@ uint8_t	identify_element(char *line)
 	 	return (CONT_UNKNOWN);
 }
 
-t_animation	load_animation(mlx_image_t *texture, int frame_width, int frame_height)
+t_animation	load_animation(mlx_texture_t *texture, int frame_width, int frame_height)
 {
 	t_animation	animation;
 
@@ -76,6 +76,7 @@ t_animation	load_animation(mlx_image_t *texture, int frame_width, int frame_heig
 	animation.timer = 0;
 	animation.duration = 0.1;
 	animation.loop = true;
+	// printf("Loaded animation with %d frames and %d animations\n", animation.n_frames, animation.n_animations);
 	return (animation);
 }
 
@@ -108,22 +109,22 @@ t_entity *append_entity(t_entity *entities, char *line, uint8_t type)
 		new_entity->health = (float) ft_atoi(temp[6]);
 		new_entity->damage = (float) ft_atoi(temp[7]);
 		new_entity->type = ENTITY_ENEMY;
-		i = 5;
-		const size_t n = ft_arrlen(&temp[7]);
+		const size_t n = ft_arrlen(&temp[8]);
 		new_entity->destinations = ft_calloc(n + 1, sizeof(t_vec2d));
 		new_entity->n_dest = n;
+		i = 8;
 		j = 0;
 		while (temp[i] && j < n)
 		{
 			char **temp2 = ft_split(temp[i], ',');
-			new_entity->destinations[j].x = ft_atoi(temp2[0]);
-			new_entity->destinations[j].y = ft_atoi(temp2[1]);
+			new_entity->destinations[j].x = ft_atoi(temp2[0]) + .5;
+			new_entity->destinations[j].y = ft_atoi(temp2[1]) + .5;
 			ft_del_2d(temp2);
 			i++;
 			j++;
 		}
-		new_entity->pos.x = new_entity->destinations[0].x;
-		new_entity->pos.y = new_entity->destinations[0].y;
+		new_entity->pos.x = new_entity->destinations[0].x + .5;
+		new_entity->pos.y = new_entity->destinations[0].y + .5;
 	}
 	else if (type == CONT_OBJECT || type == CONT_ITEM)
 	{

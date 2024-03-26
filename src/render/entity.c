@@ -1,16 +1,19 @@
 #include <cub3d.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 t_rgba	get_animated_pixel(t_animation ani, mlx_texture_t *tex, int texX, int texY)
 {
 	t_rgba	color;
-	uint8_t	*dst;
 	int		frameX;
 	int		frameY;
+	int		frame_width;
+	int		frame_height;
 
-	frameX = texX * ani.current_frame;
-	frameY = texY * ani.current_animation;
-	color = get_color_from_tex(tex, texX, texY);
+	frame_width = tex->width / ani.n_frames;
+	frameX = texX + frame_width * ani.current_frame;
+	frameY = texY + frame_width * ani.current_animation;
+	color = get_color_from_tex(tex, frameX, frameY);
 	return (color);
 }
 
@@ -77,6 +80,11 @@ void	render_entities(t_render *render, t_entity *entities, t_player *player)
 		//2) it's on the screen (left)
 		//3) it's on the screen (right)
 		//4) ZBuffer, with perpendicular distance
+		// if (ent->type == ENTITY_ENEMY)
+		// {
+		// 	// update_entity(ent, render->cbd);
+		// 	printf("current_frame:%zu\n", ent->animation.current_frame);
+		// }
 		if(transformY > 0 && stripe > 0 && stripe < WIDTH && transformY < render->rays[stripe].wall_dist)
 			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 			{
