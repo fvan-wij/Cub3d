@@ -34,15 +34,23 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [x] cast vertical and horizontal ray and determine distance between player and wall
 - [x] implement circle-wall collision detection
 - [ ] fix bug where circle-wall collision doesn't work for 45 degree angle at corner and refactor collision
+- [ ] fix overlapping sprites
 
 *Gameplay*
-- [ ] Add jumpscares
-- [ ] Add patrolling Nooo-nooo's
+- [ ] Add jumpscares, when entering shack
+- [ ] Add Foreshadowing jumpscare po
+- [ ] Add jumpscare, tree or shrub
+- [ ] Lion roar
+- [ ] Po dismemberment mechanic
+- [ ] Gasoline / fuel for chainsaw
+- [ ] chase soundtrack (danger)
+- [ ] Jumpscare sounds
+- [ ] Add patrolling BEAR
 - [ ] Add Po miniboss
-- [ ] Add Dipsy miniboss
-- [ ] Add Laa-Laa miniboss
-- [ ] Add Tinky-Winky miniboss
-- [ ] Add the most cursed sun baby endboss ever
+- [ ] Item pickups / Items ( Fuel, Chainsaw)
+- [ ] Death mechanic
+- [ ] Health stuff
+- [ ] Hit stuff
 - [x] Add destructible walls
 
 *Features*
@@ -55,7 +63,7 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [x] Add menu soundtrack
 - [x] Add event triggered sound
 - [x] Add saw and smashing animations
-- [ ] Add continuous animation for saw.
+- [ ] Add continuous animation for saw + sound.
 - [x] Implement textures
 - [x] Slither some dither in
 - [ ] Minimap should play buzzing sound
