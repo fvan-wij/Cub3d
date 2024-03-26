@@ -8,8 +8,8 @@ void	update_animation(mlx_t *mlx, t_weapon *weapon)
 {
 	int current_frame;
 
-	current_frame = (int) (weapon->fire_animation->total_time / weapon->fire_animation->frames[0].duration);
-	weapon->fire_animation->total_time += mlx->delta_time * 25;
+	current_frame = (int) (weapon->fire_animation->timer / weapon->fire_animation->frames[0].duration);
+	weapon->fire_animation->timer += mlx->delta_time * 25;
 	if (current_frame == 1)
 		weapon->fire_animation->frames[0].img->enabled = true;
 	else
@@ -27,7 +27,7 @@ void	update_animation(mlx_t *mlx, t_weapon *weapon)
 		weapon->fire_animation->frames[0].img->enabled = false;
 		weapon->fire_animation->frames[1].img->enabled = false;
 		weapon->fire_animation->frames[2].img->enabled = false;
-		weapon->fire_animation->total_time = 0;
+		weapon->fire_animation->timer = 0;
 		weapon->fire_animation->loop = false;
 	}
 }

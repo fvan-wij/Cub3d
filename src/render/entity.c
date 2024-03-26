@@ -1,6 +1,19 @@
 #include <cub3d.h>
 #include <stdlib.h>
 
+t_rgba	get_animated_pixel(t_animation ani, mlx_texture_t *tex, int texX, int texY)
+{
+	t_rgba	color;
+	uint8_t	*dst;
+	int		frameX;
+	int		frameY;
+
+	frameX = texX * ani.current_frame;
+	frameY = texY * ani.current_animation;
+	color = get_color_from_tex(tex, texX, texY);
+	return (color);
+}
+
 void	render_entities(t_render *render, t_entity *entities, t_player *player)
 {
 	t_entity	*ent;
@@ -53,8 +66,8 @@ void	render_entities(t_render *render, t_entity *entities, t_player *player)
 		int drawEndX = spriteWidth / 2 + spriteScreenX;
 		if(drawEndX >= WIDTH) drawEndX = WIDTH - 1;
 
-		int texWidth = ent->texture->width;
-		int texHeight = ent->texture->height;
+		int texWidth = ent->frame_width;
+		int texHeight = ent->frame_height;
 		//loop through every vertical stripe of the sprite on screen
 		for(int stripe = drawStartX; stripe < drawEndX; stripe++)
 		{
@@ -69,7 +82,7 @@ void	render_entities(t_render *render, t_entity *entities, t_player *player)
 			{
 				int d = (y - vMoveScreen) * 256 - HEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 				int texY = ((d * texHeight) / spriteHeight) / 256;
-				t_rgba color = get_color_from_tex(ent->texture, texX, texY); //get current color from the texture
+				t_rgba color = get_animated_pixel(ent->animation, ent->texture, texX, texY); //get current color from the texture
 				color = color_darken(color, transformY * 30); //make the color darker if it's further away
 				if (y + render->y_offset >= 0 && y + render->y_offset < HEIGHT)
 				{

@@ -1,6 +1,25 @@
 #include <cub3d.h>
 #include <stdio.h>
 
+void	animate_entity(t_entity *ent, t_app *cbd)
+{
+	if (ent->type == ENTITY_ENEMY)
+	{
+		if (ent->state == ENTITY_AGROED)
+		{
+			if (ent->animation.timer < 0)
+			{
+				ent->animation.current_frame++;
+				if (ent->animation.current_frame == ent->animation.n_frames)
+					ent->animation.current_frame = 0;
+				ent->animation.timer = ent->animation.duration;
+			}
+			else
+				ent->animation.timer -= cbd->mlx->delta_time;
+		}
+	}
+}
+
 void	move_entities(t_entity *ent, t_app *cbd)
 {
 	t_vec2d new_pos;

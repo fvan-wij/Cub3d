@@ -65,6 +65,20 @@ uint8_t	identify_element(char *line)
 	 	return (CONT_UNKNOWN);
 }
 
+t_animation	load_animation(mlx_image_t *texture, int frame_width, int frame_height)
+{
+	t_animation	animation;
+
+	animation.n_frames = texture->width / frame_width;
+	animation.current_frame = 0;
+	animation.n_animations = texture->height / frame_height;
+	animation.current_animation = 0;
+	animation.timer = 0;
+	animation.duration = 0.1;
+	animation.loop = true;
+	return (animation);
+}
+
 /*
 ** Extracts entity data from the given line and stores it in the t_entity list
 **
@@ -85,14 +99,17 @@ t_entity *append_entity(t_entity *entities, char *line, uint8_t type)
 	if (!temp)
 		return (cbd_error(ERR_ALLOC), NULL);
 	new_entity->texture = mlx_load_png(temp[2]);
+	new_entity->frame_width = ft_atoi(temp[3]);
+	new_entity->frame_height = ft_atoi(temp[4]);
+	new_entity->animation = load_animation(new_entity->texture, new_entity->frame_width, new_entity->frame_height);
 	if (type == CONT_ENEMY)
 	{
-		new_entity->speed = (float) ft_atoi(temp[3]);
-		new_entity->health = (float) ft_atoi(temp[4]);
-		new_entity->damage = (float) ft_atoi(temp[5]);
+		new_entity->speed = (float) ft_atoi(temp[5]);
+		new_entity->health = (float) ft_atoi(temp[6]);
+		new_entity->damage = (float) ft_atoi(temp[7]);
 		new_entity->type = ENTITY_ENEMY;
 		i = 5;
-		const size_t n = ft_arrlen(&temp[5]);
+		const size_t n = ft_arrlen(&temp[7]);
 		new_entity->destinations = ft_calloc(n + 1, sizeof(t_vec2d));
 		new_entity->n_dest = n;
 		j = 0;
@@ -114,7 +131,7 @@ t_entity *append_entity(t_entity *entities, char *line, uint8_t type)
 			new_entity->type = ENTITY_DECOR;
 		else
 			new_entity->type = ENTITY_ITEM;
-		i = 3;
+		i = 5;
 		ft_strlcpy(p, temp[i], 3);
 		new_entity->pos.x = (float) ft_atoi(p) + 0.5;
 		ft_strlcpy(p, &temp[i][3], 3);

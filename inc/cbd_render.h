@@ -84,8 +84,10 @@ typedef struct s_animation {
 	t_animation_frame		frames[MAX_FRAMES];
 	uint8_t					n_frames;
 	size_t					current_frame;
-	size_t					frame_count;
-	float					total_time;
+	uint8_t					n_animations;
+	size_t					current_animation;
+	float					timer;
+	float					duration;
 	bool					loop;
 }	t_animation;
 
