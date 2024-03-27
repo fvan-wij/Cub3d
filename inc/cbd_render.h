@@ -172,7 +172,7 @@ typedef struct s_entity t_entity;
 int32_t			color(uint8_t r, uint8_t g, uint8_t b);
 t_rgba			color32(uint32_t color);
 int32_t			color_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
-t_rgba			get_color_from_tex(mlx_texture_t *tex, int x, int y);
+t_rgba			get_color_from_tex(mlx_texture_t *tex, uint32_t x, uint32_t y);
 t_rgba			color_darken(t_rgba color, int amount);
 
 //				Draw

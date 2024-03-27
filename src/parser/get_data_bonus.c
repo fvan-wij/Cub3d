@@ -99,6 +99,7 @@ t_entity *append_entity(t_entity *entities, char *line, uint8_t type)
 	temp = ft_split(line, ' ');
 	if (!temp)
 		return (cbd_error(ERR_ALLOC), NULL);
+	new_entity->name = ft_strdup(temp[1]);
 	new_entity->texture = mlx_load_png(temp[2]);
 	new_entity->frame_width = ft_atoi(temp[3]);
 	new_entity->frame_height = ft_atoi(temp[4]);

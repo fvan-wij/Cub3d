@@ -58,6 +58,8 @@ void	render_entities(t_render *render, t_entity *entities, t_player *player)
 	double	entity_zbuffer[WIDTH * HEIGHT];
 
 	ent = entities;
+	player->target_distance = 0;
+	player->target_entity = NULL;
 	ft_memset(render->sprite_img->pixels, 0, WIDTH * HEIGHT * 4);
 	int i;
 	i = 0;
@@ -140,6 +142,11 @@ void	render_entities(t_render *render, t_entity *entities, t_player *player)
 						// color = color_depth(color, transformY); //depth effect
 						if (color.a != 0 && transformY < entity_zbuffer[stripe + ((y + render->y_offset) * WIDTH)]) //apply zbuffer
 						{
+							if (stripe == WIDTH / 2 && y == HEIGHT / 2)
+							{
+								player->target_distance = transformY;
+								player->target_entity = ent;
+							}
 							mlx_put_pixel(render->sprite_img, stripe, y + render->y_offset, color.color); //paint pixel if the alpha isn't 0
 							entity_zbuffer[stripe + ((y + render->y_offset) * WIDTH)] = transformY;
 						}

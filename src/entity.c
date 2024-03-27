@@ -84,6 +84,11 @@ void	update_entities(t_app *cbd)
 {
 	t_entity *ent;
 
+	// if (cbd->playerdata.target_entity)
+	// {
+	// 	printf("Looking at: %s\n", cbd->playerdata.target_entity->name);
+	// 	printf("distance: %f\n", cbd->playerdata.target_distance);
+	// }
 	ent = cbd->mapdata->entities;
 	while (ent)
 	{

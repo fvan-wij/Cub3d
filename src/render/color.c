@@ -21,12 +21,12 @@ t_rgba	color_darken(t_rgba color, int amount)
 	return (new_color);
 }
 
-t_rgba	get_color_from_tex(mlx_texture_t *tex, int x, int y)
+t_rgba	get_color_from_tex(mlx_texture_t *tex, uint32_t x, uint32_t y)
 {
 	t_rgba	color;
 	uint8_t	*dst;
 
-	if (x < 0 || y < 0 || x >= tex->width || y >= tex->height)
+	if (x >= tex->width || y >= tex->height)
 	{
 		color.r = 0;
 		color.g = 0;

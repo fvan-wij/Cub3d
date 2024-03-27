@@ -69,6 +69,7 @@ typedef struct s_entity {
 	ENTITY_DEATH,
 	} t_entity_state;
 	enum e_entity_type	type;
+	char				*name;
 	t_vec2d				pos;
 	t_vec2d				dir;
 	t_vec2d				*destinations;

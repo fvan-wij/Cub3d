@@ -167,6 +167,8 @@ void	init_playerdata(t_player *playerdata, t_map *mapdata)
 	printf("Plane: %f, %f\n", playerdata->plane.x, playerdata->plane.y);
 	printf("Dir: %f, %f\n", playerdata->dir.x, playerdata->dir.y);
 	playerdata->map_peak = 0;
+	playerdata->target_distance = 0;
+	playerdata->target_entity = NULL;
 }
 
 void	init_particles(t_particle *particles)

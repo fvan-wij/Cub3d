@@ -30,6 +30,8 @@ typedef struct s_player {
 	float				headbob;
 	float				map_peak;
 	t_ray				rays[WIDTH];
+	double				target_distance;
+	t_entity			*target_entity;
 	t_inventory			*inv;
 	enum e_player_state state;
 }	t_player;
