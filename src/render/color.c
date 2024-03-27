@@ -42,6 +42,14 @@ t_rgba	get_color_from_tex(mlx_texture_t *tex, int x, int y)
 	return (color);
 }
 
+t_rgba	color32(uint32_t color)
+{
+	t_rgba rgba;
+
+	rgba.color = color;
+	return (rgba);
+}
+
 int32_t	color(uint8_t r, uint8_t g, uint8_t b)
 {
 	t_rgba color;

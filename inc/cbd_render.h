@@ -140,6 +140,7 @@ typedef struct s_render {
 	t_hud		*hud;
 	t_inventory	*inv;
 	t_ray		rays[WIDTH];
+	double		z_buffer[WIDTH];
 	t_wall_destruction fx;
 	t_sprite	*sprite;
 	float		headbob;
@@ -169,6 +170,7 @@ typedef struct s_entity t_entity;
 
 //				Color
 int32_t			color(uint8_t r, uint8_t g, uint8_t b);
+t_rgba			color32(uint32_t color);
 int32_t			color_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 t_rgba			get_color_from_tex(mlx_texture_t *tex, int x, int y);
 t_rgba			color_darken(t_rgba color, int amount);

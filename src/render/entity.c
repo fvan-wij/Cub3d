@@ -2,6 +2,22 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+t_rgba	color_depth(t_rgba color, double depth)
+{
+	t_rgba	new_color;
+	double	depth_factor;
+
+	if (depth > 10)
+		depth = 10;
+	depth_factor = depth / 10;
+	depth_factor = 1 - depth_factor;
+	new_color.r = 255 * depth_factor;
+	new_color.g = 255 * depth_factor;
+	new_color.b = 255 * depth_factor;
+	new_color.a = color.a;
+	return (new_color);
+}
+
 t_rgba	get_animated_pixel(t_animation ani, mlx_texture_t *tex, int texX, int texY)
 {
 	t_rgba	color;
@@ -17,27 +33,52 @@ t_rgba	get_animated_pixel(t_animation ani, mlx_texture_t *tex, int texX, int tex
 	return (color);
 }
 
+// t_rgba	transparent_color(t_rgba color1, t_rgba color2)
+// {
+// 	t_rgba	new_color;
+// 	double	alpha;
+
+// 	alpha = (double)color1.a / 255;
+// 	new_color.r = (1 - alpha) * color2.r + alpha * color1.r;
+// 	new_color.g = (1 - alpha) * color2.g + alpha * color1.g;
+// 	new_color.b = (1 - alpha) * color2.b + alpha * color1.b;
+// 	new_color.a = 255;
+// 	return (new_color);
+// }
+
+// t_entity	**distance_sort_entities(t_entity *entities)
+// {
+
+// }
+
 void	render_entities(t_render *render, t_entity *entities, t_player *player)
 {
 	t_entity	*ent;
 	double	entity_distance;
-	int		entity_zbuffer[WIDTH];
+	double	entity_zbuffer[WIDTH * HEIGHT];
 
 	ent = entities;
 	ft_memset(render->sprite_img->pixels, 0, WIDTH * HEIGHT * 4);
-	// ft_memset(entity_zbuffer, INT32_MAX, WIDTH * sizeof(int));
+	int i;
+	i = 0;
+	while (i < WIDTH * HEIGHT)
+	{
+		entity_zbuffer[i] = 1000000;
+		i++;
+	}
 	//ENTITY CASTING
 	//Start drawing entities
 	while (ent)
 	{
 		entity_distance = ((player->pos.x - ent->pos.x) * (player->pos.x - ent->pos.x) + (player->pos.y - ent->pos.y) * (player->pos.y - ent->pos.y));
+		// printf("entity_distance:%f\n", entity_distance);
 
 		//translate entity position to relative to camera
 		double ent_x = ent->pos.x - player->pos.x;
 		double ent_y = ent->pos.y - player->pos.y;
 
 		//transform sprite with the inverse camera matrix
-		// [ player->plane.x   player->dir.y ] -1                                       [ dirY      -dirX ]
+		// [ player->plane.x   player->dir.y ] -1                     [ dirY      -dirX ]
 		// [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
 		// [ planeY   dirY ]                                          [ -planeY  planeX ]
 
@@ -74,29 +115,36 @@ void	render_entities(t_render *render, t_entity *entities, t_player *player)
 		//loop through every vertical stripe of the sprite on screen
 		for(int stripe = drawStartX; stripe < drawEndX; stripe++)
 		{
-		int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256;
-		//the conditions in the if are:
-		//1) it's in front of camera plane so you don't see things behind you
-		//2) it's on the screen (left)
-		//3) it's on the screen (right)
-		//4) ZBuffer, with perpendicular distance
-		// if (ent->type == ENTITY_ENEMY)
-		// {
-		// 	// update_entity(ent, render->cbd);
-		// 	printf("current_frame:%zu\n", ent->animation.current_frame);
-		// }
-		if(transformY > 0 && stripe > 0 && stripe < WIDTH && transformY < render->rays[stripe].wall_dist)
-			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256;
+			//the conditions in the if are:
+			//1) it's in front of camera plane so you don't see things behind you
+			//2) it's on the screen (left)
+			//3) it's on the screen (right)
+			//4) ZBuffer, with perpendicular distance
+			// if (ent->type == ENTITY_ENEMY)
+			// {
+			// 	// update_entity(ent, render->cbd);
+			// 	printf("current_frame:%zu\n", ent->animation.current_frame);
+			// }
+			if(transformY > 0 && stripe > 0 && stripe < WIDTH && transformY < render->rays[stripe].wall_dist)
 			{
-				int d = (y - vMoveScreen) * 256 - HEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
-				int texY = ((d * texHeight) / spriteHeight) / 256;
-				t_rgba color = get_animated_pixel(ent->animation, ent->texture, texX, texY); //get current color from the texture
-				color = color_darken(color, transformY * 30); //make the color darker if it's further away
-				if (y + render->y_offset >= 0 && y + render->y_offset < HEIGHT)
+				int y = drawStartY;
+				while (y < drawEndY) //for every pixel of the current stripe
 				{
-					mlx_put_pixel(render->sprite_img, stripe, y + render->y_offset, color.color); //paint pixel if it isn't black, black is the invisible color
-					entity_zbuffer[stripe] = entity_distance;
-
+					int d = (y - vMoveScreen) * 256 - HEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+					int texY = ((d * texHeight) / spriteHeight) / 256;
+					if (y + render->y_offset >= 0 && y + render->y_offset < HEIGHT)
+					{
+						t_rgba color = get_animated_pixel(ent->animation, ent->texture, texX, texY); //get current color from the texture
+						color = color_darken(color, transformY * 30); //make the color darker if it's further away
+						// color = color_depth(color, transformY); //depth effect
+						if (color.a != 0 && transformY < entity_zbuffer[stripe + ((y + render->y_offset) * WIDTH)]) //apply zbuffer
+						{
+							mlx_put_pixel(render->sprite_img, stripe, y + render->y_offset, color.color); //paint pixel if the alpha isn't 0
+							entity_zbuffer[stripe + ((y + render->y_offset) * WIDTH)] = transformY;
+						}
+					}
+					y++;
 				}
 			}
 		}
