@@ -34,7 +34,7 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [x] cast vertical and horizontal ray and determine distance between player and wall
 - [x] implement circle-wall collision detection
 - [ ] fix bug where circle-wall collision doesn't work for 45 degree angle at corner and refactor collision
-- [ ] fix overlapping sprites
+- [x] fix overlapping sprites
 
 *Gameplay*
 - [ ] Add jumpscares, when entering shack
