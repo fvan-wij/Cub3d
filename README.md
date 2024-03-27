@@ -67,4 +67,4 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [x] Implement textures
 - [x] Slither some dither in
 - [ ] Minimap should play buzzing sound
-- [ ] Add sprites
+- [x] Add sprites
