@@ -97,6 +97,7 @@ t_audio	*cbd_init_audio(void)
 	game_audio->sound[SND_MENU] = init_sound(game_audio->engine, "./data/audio/menu.wav");
 	game_audio->sound[SND_SEARCH] = init_sound(game_audio->engine, "./data/audio/search.mp3");
 	game_audio->sound[SND_PUNCH] = init_sound(game_audio->engine, "./data/audio/punch.mp3");
+	game_audio->sound[SND_GUTS] = init_sound(game_audio->engine, "./data/audio/guts.mp3");
 	game_audio->sound[SND_TICK] = init_sound(game_audio->engine, "./data/audio/tick.mp3");
 
 	game_audio->sound[SND_WALL1] = init_sound(game_audio->engine, "./data/audio/wall_destruction/wall2.mp3");

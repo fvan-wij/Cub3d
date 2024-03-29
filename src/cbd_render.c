@@ -18,7 +18,7 @@ void	resolve_fx(mlx_image_t *img, t_particle *particles, t_wall_destruction *con
 			particles[i].p.y = particles[i].p.y + (particles[i].dir.y) * 60;
 			if (particles[i].size.x <= 0 || particles[i].size.y <= 0)
 				j++;
-			draw_square_centered(img, color_rgba(255, 5, 20, 255), vec_to_int(particles[i].p), vec_to_int(particles[i].size));
+			draw_square_centered(img, color_rgba(50, 0, 0, 255), vec_to_int(particles[i].p), vec_to_int(particles[i].size));
 		}
 		else if (!config->b_timer)
 			init_wall_destruction_fx(config);
@@ -65,6 +65,7 @@ void	screenshake(t_render *render)
 void	cbd_render(t_app *cbd)
 {
 	// draw_background(cbd->render.img, cbd->mapdata->floor.color, cbd->render.map_peak);
+	draw_background(cbd->hud->img[HUD_OVERLAY], color_rgba(255, 0, 0, 0), cbd->render.map_peak);
 	draw_gradient_bg(cbd->render.img, cbd->mapdata->floor.color, cbd->mapdata->ceiling.color);
 	cast_rays(cbd->mapdata->cbd_map, &cbd->render, &cbd->playerdata);
 	draw_walls(cbd->render, cbd->mapdata);
@@ -73,7 +74,7 @@ void	cbd_render(t_app *cbd)
 	draw_hud(cbd->hud, cbd->playerdata.inv);
 	draw_equipped_weapon(cbd->playerdata.inv);
 	draw_particles(cbd->render.img, cbd->particles);
-	resolve_fx(cbd->render.img, cbd->render.fx.particles, &cbd->render.fx);
+	resolve_fx(cbd->render.hud->img[HUD_OVERLAY], cbd->render.fx.particles, &cbd->render.fx);
 	cbd->render.img = dither_image(cbd->render.img);
 	// screenshake(&cbd->render);
 }

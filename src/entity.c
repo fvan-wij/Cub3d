@@ -3,9 +3,9 @@
 
 void	animate_entity(t_entity *ent, t_app *cbd)
 {
-	if (ent->type == ENTITY_ENEMY)
+	if (ent->type == ENTITY_ENEMY || ent->type == ENTITY_DECOR)
 	{
-		if (ent->state != ENTITY_IDLE)
+		if (ent->state != ENTITY_IDLE || ent->type == ENTITY_DECOR)
 		{
 			if (ent->animation.timer <= 0)
 			{
@@ -43,7 +43,8 @@ void	move_entities(t_entity *ent, t_app *cbd)
 
 void	update_entity(t_entity *ent, t_app *cbd)
 {
-	animate_entity(ent, cbd);
+	if (ent->animation.current_animation <= 6)
+		animate_entity(ent, cbd);
 	if (ent->type == ENTITY_ENEMY)
 	{
 		if (vec_distance(ent->pos, ent->destinations[ent->current_dest]) < 0.1)
@@ -67,15 +68,17 @@ void	update_entity(t_entity *ent, t_app *cbd)
 			ent->state = ENTITY_PATROL;
 		}
 		vec_normalize(&ent->dir);
+		int front = ent->animation.current_animation;
+		int back = ent->animation.current_animation + 1;
 		// Determine if the entity is moving away from the player
 		if (vec_dot(ent->dir, vec_sub(cbd->playerdata.pos, ent->pos)) < 0)
 		{
 			// ent->dir = vec_mult(ent->dir, -1);
-			ent->animation.current_animation = 1;
+			ent->animation.current_animation = front;
 		}
 		else
 		{
-			ent->animation.current_animation = 0;
+			ent->animation.current_animation = front;
 		}
 	}
 }

@@ -31,6 +31,23 @@ void	destroy_wall(t_map *mapdata, t_player *player, t_audio *audio, t_render *re
 	}
 }
 
+void	dismember_enemy(t_app *cbd)
+{
+	t_entity *target;
+
+	target = cbd->playerdata.target_entity;
+	if (ft_strncmp(target->name, "po", 2) == 0)
+	{
+		target->animation.current_animation+=2;
+		target->speed-= 0.25;
+		if (target->animation.current_animation >= 8)
+		{
+			target->animation.current_animation = 8;
+			target->speed = 0;
+		}
+		cbd->render.fx.b_timer = true;
+	}
+}
 
 void	cbd_input(mlx_key_data_t keydata, void *param)
 {
@@ -45,6 +62,14 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 		{
 			play_sound(audio, SND_PUNCH, 0.5f);
 			destroy_wall(cbd->mapdata, &cbd->playerdata, cbd->audio, &cbd->render);
+		}
+		if (cbd->playerdata.inv->equipped == WPN_CHAINSAW)
+		{
+			if (cbd->playerdata.target_entity != NULL)
+			{
+				dismember_enemy(cbd);
+				play_sound(audio, SND_GUTS, 0.5f);
+			}
 		}
 		cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].fire_animation->loop = true;
 	}
@@ -64,7 +89,6 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 		&& !mlx_is_key_down(cbd->mlx, MLX_KEY_A) 
 		&& !mlx_is_key_down(cbd->mlx, MLX_KEY_D)) 
 		cbd->playerdata.state = PLAYER_IDLE;
-
 	if ((keydata.key == MLX_KEY_DOWN 
 		|| keydata.key == MLX_KEY_UP 
 		|| keydata.key == MLX_KEY_W 
