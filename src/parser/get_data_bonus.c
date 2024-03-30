@@ -65,13 +65,20 @@ uint8_t	identify_element(char *line)
 	 	return (CONT_UNKNOWN);
 }
 
-t_animation	load_animation(mlx_texture_t *texture, int frame_width, int frame_height)
+t_animation	load_animation(mlx_texture_t *texture, uint32_t frame_width, uint32_t frame_height)
 {
 	t_animation	animation;
 
-	animation.n_frames = texture->width / frame_width;
+	if (frame_width != texture->width)
+		animation.n_frames = texture->width / frame_width;
+	else
+	 	animation.n_frames = 1;
+	if (frame_height != texture->height)
+		animation.n_animations = texture->height / frame_height;
+	else
+	 	animation.n_animations = 1;
+
 	animation.current_frame = 0;
-	animation.n_animations = texture->height / frame_height;
 	animation.current_animation = 0;
 	animation.timer = 0;
 	animation.duration = 0.1;

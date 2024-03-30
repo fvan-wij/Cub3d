@@ -111,6 +111,7 @@ t_inventory *cbd_init_inventory(mlx_t *mlx)
 	if (!inv->weapons[WPN_MAP].fire_animation)
 		return (NULL);
 
+	inv->weapons[WPN_CHAINSAW].in_inventory = false;
 	return (inv);
 }
 

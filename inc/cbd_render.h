@@ -95,6 +95,7 @@ typedef struct s_weapon {
 	t_animation	*fire_animation;
 	mlx_image_t	*img;
 	uint8_t		type;
+	bool		in_inventory;
 } t_weapon;
 
 typedef struct s_inventory {

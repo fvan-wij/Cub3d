@@ -38,11 +38,11 @@ void	dismember_enemy(t_app *cbd)
 	target = cbd->playerdata.target_entity;
 	if (ft_strncmp(target->name, "po", 2) == 0)
 	{
-		target->animation.current_animation+=2;
+		target->health-=2;
 		target->speed-= 0.25;
-		if (target->animation.current_animation >= 8)
+		if (target->health < 1)
 		{
-			target->animation.current_animation = 8;
+			target->health = 1;
 			target->speed = 0;
 		}
 		cbd->render.fx.b_timer = true;
@@ -129,7 +129,7 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 		int current_wpn = cbd->playerdata.inv->equipped;
 		if (mlx_is_key_down(cbd->mlx, MLX_KEY_1))
 			cbd->playerdata.inv->equipped = WPN_FIST;
-		if (mlx_is_key_down(cbd->mlx, MLX_KEY_2))
+		if (mlx_is_key_down(cbd->mlx, MLX_KEY_2) && cbd->playerdata.inv->weapons[WPN_CHAINSAW].in_inventory)
 			cbd->playerdata.inv->equipped = WPN_CHAINSAW;
 		if (mlx_is_key_down(cbd->mlx, MLX_KEY_M))
 			cbd->playerdata.inv->equipped = WPN_MAP;

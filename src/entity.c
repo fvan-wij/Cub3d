@@ -1,5 +1,6 @@
 #include <cub3d.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 void	animate_entity(t_entity *ent, t_app *cbd)
 {
@@ -43,7 +44,7 @@ void	move_entities(t_entity *ent, t_app *cbd)
 
 void	update_entity(t_entity *ent, t_app *cbd)
 {
-	if (ent->animation.current_animation <= 6)
+	if (ent->health >= 1 || ent->type == ENTITY_DECOR)
 		animate_entity(ent, cbd);
 	if (ent->type == ENTITY_ENEMY)
 	{
@@ -51,11 +52,8 @@ void	update_entity(t_entity *ent, t_app *cbd)
 		{
 			ent->state = ENTITY_IDLE;
 			ent->current_dest++;
-			// printf("ndest: %d\n", ent->n_dest);
 			if (ent->current_dest == ent->n_dest)
-			{
 				ent->current_dest = 0;
-			}
 		}
 		if (vec_distance(cbd->playerdata.pos, ent->pos) < 2)
 		{
@@ -68,17 +66,22 @@ void	update_entity(t_entity *ent, t_app *cbd)
 			ent->state = ENTITY_PATROL;
 		}
 		vec_normalize(&ent->dir);
-		int front = ent->animation.current_animation;
-		int back = ent->animation.current_animation + 1;
 		// Determine if the entity is moving away from the player
 		if (vec_dot(ent->dir, vec_sub(cbd->playerdata.pos, ent->pos)) < 0)
-		{
-			// ent->dir = vec_mult(ent->dir, -1);
-			ent->animation.current_animation = front;
-		}
+			ent->animation.current_animation = (9 - ent->health + 1);
 		else
+			ent->animation.current_animation = (9 - ent->health);
+	}
+	if (ent->type == ENTITY_ITEM)
+	{
+		if (vec_distance(ent->pos, cbd->playerdata.pos) < 0.5 && !cbd->playerdata.inv->weapons[WPN_CHAINSAW].in_inventory)
 		{
-			ent->animation.current_animation = front;
+			if (ft_strncmp("chainsaw", ent->name, 8) == 0)
+			{
+				printf("Picked up chainsaw\n");
+				cbd->playerdata.inv->weapons[WPN_CHAINSAW].in_inventory = true;
+				cbd->playerdata.inv->equipped = WPN_CHAINSAW;
+			}
 		}
 	}
 }
@@ -87,11 +90,6 @@ void	update_entities(t_app *cbd)
 {
 	t_entity *ent;
 
-	// if (cbd->playerdata.target_entity)
-	// {
-	// 	printf("Looking at: %s\n", cbd->playerdata.target_entity->name);
-	// 	printf("distance: %f\n", cbd->playerdata.target_distance);
-	// }
 	ent = cbd->mapdata->entities;
 	while (ent)
 	{
