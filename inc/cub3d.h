@@ -33,6 +33,7 @@ typedef struct s_player {
 	double				target_distance;
 	t_entity			*target_entity;
 	t_inventory			*inv;
+	double				i_time; //Invincibility timer
 	enum e_player_state state;
 }	t_player;
 

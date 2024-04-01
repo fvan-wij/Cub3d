@@ -170,6 +170,7 @@ void	init_playerdata(t_player *playerdata, t_map *mapdata)
 	playerdata->map_peak = 0;
 	playerdata->target_distance = 0;
 	playerdata->target_entity = NULL;
+	playerdata->i_time = 0;
 }
 
 void	init_particles(t_particle *particles)
