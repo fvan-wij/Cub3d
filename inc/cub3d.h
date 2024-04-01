@@ -48,6 +48,7 @@ typedef struct s_app {
 	t_state		state;
 	mlx_t		*mlx;
 	void		*audio;
+	double		elapsed_time;
 }	t_app;
 
 

@@ -33,7 +33,7 @@ void	screenshake(t_render *render)
 	if (render->b_timer)
 	{
 		render->hud->img[HUD_OVERLAY]->enabled = true;
-		draw_radial_overlay(render->hud->img[HUD_OVERLAY]);
+		// draw_radial_overlay(render->hud->img[HUD_OVERLAY], );
 	}
 	else
 		render->hud->img[HUD_OVERLAY]->enabled = false;
@@ -74,7 +74,9 @@ void	cbd_render(t_app *cbd)
 	draw_hud(cbd->hud, cbd->playerdata.inv);
 	draw_equipped_weapon(cbd->playerdata.inv);
 	draw_particles(cbd->render.img, cbd->particles);
+	draw_radial_overlay(cbd->render.hud->img[HUD_OVERLAY], cbd);
 	resolve_fx(cbd->render.hud->img[HUD_OVERLAY], cbd->render.fx.particles, &cbd->render.fx);
 	cbd->render.img = dither_image(cbd->render.img);
+	cbd->render.hud->img[HUD_OVERLAY] = dither_image(cbd->render.hud->img[HUD_OVERLAY]);
 	// screenshake(&cbd->render);
 }
