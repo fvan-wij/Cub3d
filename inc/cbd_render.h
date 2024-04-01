@@ -89,6 +89,7 @@ typedef struct s_animation {
 	float					timer;
 	float					duration;
 	bool					loop;
+	bool					enabled;
 }	t_animation;
 
 typedef struct s_weapon {

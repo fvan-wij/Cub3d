@@ -77,7 +77,7 @@ t_animation	load_animation(mlx_texture_t *texture, uint32_t frame_width, uint32_
 		animation.n_animations = texture->height / frame_height;
 	else
 	 	animation.n_animations = 1;
-
+	animation.enabled = true;
 	animation.current_frame = 0;
 	animation.current_animation = 0;
 	animation.timer = 0;
