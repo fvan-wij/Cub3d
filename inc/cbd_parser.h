@@ -83,6 +83,7 @@ typedef struct s_entity {
 	int					frame_width;
 	int					frame_height;
 	t_animation			animation;
+	bool				enabled;
 	enum e_entity_state	state;
 	struct s_entity		*next;
 }	t_entity;

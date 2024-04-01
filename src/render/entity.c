@@ -72,6 +72,11 @@ void	render_entities(t_render *render, t_entity *entities, t_player *player)
 	//Start drawing entities
 	while (ent)
 	{
+		if (ent->enabled == false)
+		{
+			ent = ent->next;
+			continue;
+		}
 		entity_distance = ((player->pos.x - ent->pos.x) * (player->pos.x - ent->pos.x) + (player->pos.y - ent->pos.y) * (player->pos.y - ent->pos.y));
 		// printf("entity_distance:%f\n", entity_distance);
 
