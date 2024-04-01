@@ -90,6 +90,7 @@ typedef struct s_animation {
 	float					duration;
 	bool					loop;
 	bool					enabled;
+	float					reset_x;
 }	t_animation;
 
 typedef struct s_weapon {
@@ -205,6 +206,7 @@ mlx_texture_t	*dither_texture(mlx_texture_t *tex);
 mlx_image_t		*dither_image(mlx_image_t *img);
 void			draw_scanlines_bg(mlx_image_t *img);
 void			init_wall_destruction_fx(t_wall_destruction *fx);
+void			screenshake(t_render *render);
 
 //				Particles
 void			rotate_particles(t_particle *particles, float dir);

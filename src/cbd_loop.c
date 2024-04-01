@@ -27,11 +27,10 @@ void	cbd_loop(void *param)
 	if (cbd->render.b_timer)
 	{
 		cbd->render.timer -= cbd->mlx->delta_time * 1000;
-		cbd->render.headbob *= cbd->mlx->delta_time * 100;
 	}
 	if (cbd->render.timer < 0)
 	{
-		cbd->render.timer = 100;
+		cbd->render.timer = 75;
 		cbd->render.b_timer = false;
 	}
 }

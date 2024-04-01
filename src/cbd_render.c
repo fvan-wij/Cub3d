@@ -28,17 +28,6 @@ void	resolve_fx(mlx_image_t *img, t_particle *particles, t_wall_destruction *con
 		config->b_timer = false;
 }
 
-void	screenshake(t_render *render)
-{
-	if (render->b_timer)
-	{
-		render->hud->img[HUD_OVERLAY]->enabled = true;
-		draw_radial_overlay(render->hud->img[HUD_OVERLAY]);
-	}
-	else
-		render->hud->img[HUD_OVERLAY]->enabled = false;
-}
-
 /*
 ** Renders the game
 	Needs:
@@ -76,5 +65,5 @@ void	cbd_render(t_app *cbd)
 	draw_particles(cbd->render.img, cbd->particles);
 	resolve_fx(cbd->render.hud->img[HUD_OVERLAY], cbd->render.fx.particles, &cbd->render.fx);
 	cbd->render.img = dither_image(cbd->render.img);
-	// screenshake(&cbd->render);
+	screenshake(&cbd->render);
 }

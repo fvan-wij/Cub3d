@@ -146,3 +146,15 @@ void draw_gradient_bg(mlx_image_t *img, int32_t c1, int32_t c2)
 	draw_gradient_top(img, c1, c2, 0);
 	draw_gradient_bot(img, c2, c1, 0);
 }
+
+void	screenshake(t_render *render)
+{
+	if (render->b_timer || render->fx.b_timer)
+	{
+		render->hud->img[HUD_OVERLAY]->enabled = true;
+		render->headbob += 10;
+		draw_radial_overlay(render->hud->img[HUD_OVERLAY]);
+	}
+	else
+		render->hud->img[HUD_OVERLAY]->enabled = false;
+}

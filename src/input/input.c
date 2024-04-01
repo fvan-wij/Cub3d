@@ -10,16 +10,16 @@ void	destroy_wall(t_map *mapdata, t_player *player, t_audio *audio, t_render *re
 
 	if (target == '=')
 	{
-		render->b_timer = true;
 		mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)] = '-';
 		play_sound(audio, SND_WALL1, 0.5f);
+		render->b_timer = true;
 		render->fx.b_timer = true;
 	}
 	else if (target == '-')
 	{
-		render->b_timer = true;
 		mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)] = '_';
 		play_sound(audio, SND_WALL2, 0.5f);
+		render->b_timer = true;
 		render->fx.b_timer = true;
 	}
 	else if (target == '_')
@@ -31,19 +31,53 @@ void	destroy_wall(t_map *mapdata, t_player *player, t_audio *audio, t_render *re
 	}
 }
 
+t_entity *spawn_blood(t_entity *head, t_player *player, uint8_t limb)
+{
+	t_entity *node;
+	t_entity *curr;
+
+	node = ft_calloc(1, sizeof(t_entity));
+	if (!node)
+		return (cbd_error(ERR_ALLOC), head);
+	curr = head;
+	while (curr->next != NULL)
+		curr = curr->next;
+	curr->next = node;
+	node->next = NULL;
+	node->name = ft_strdup("blood");
+	node->pos = vec_assign(player->pos.x + player->dir.x, player->pos.y + player->dir.y);
+	node->type = ENTITY_DECOR;
+	node->texture = mlx_load_png("./data/textures/sprites/limbs2.png");
+	node->frame_width = 128;
+	node->frame_height = 128;
+	node->enabled = true;
+	node->animation = load_animation(node->texture, node->frame_width, node->frame_height);
+	node->animation.current_animation = limb;
+	return (head);
+}
+
+#include <stdio.h>
 void	dismember_enemy(t_app *cbd)
 {
-	t_entity *target;
+	static int	limb;
+	t_entity	*target;
 
 	target = cbd->playerdata.target_entity;
 	if (ft_strncmp(target->name, "po", 2) == 0)
 	{
-		target->health-=2;
-		target->speed-= 0.25;
+		if (!cbd->render.fx.b_timer)
+		{
+			target->health-=2;
+			target->speed-= 0.25;
+			if (limb < 3)
+				spawn_blood(cbd->mapdata->entities, &cbd->playerdata, limb);
+			limb++;
+		}
 		if (target->health < 1)
 		{
 			target->health = 1;
 			target->speed = 0;
+			limb = 3;
 		}
 		cbd->render.fx.b_timer = true;
 	}
@@ -63,16 +97,18 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 			play_sound(audio, SND_PUNCH, 0.5f);
 			destroy_wall(cbd->mapdata, &cbd->playerdata, cbd->audio, &cbd->render);
 		}
-		if (cbd->playerdata.inv->equipped == WPN_CHAINSAW)
-		{
-			if (cbd->playerdata.target_entity != NULL)
-			{
-				dismember_enemy(cbd);
-				play_sound(audio, SND_GUTS, 0.5f);
-			}
-		}
 		cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].fire_animation->loop = true;
 	}
+	if (cbd->playerdata.inv->equipped == WPN_CHAINSAW)
+	{
+		if (cbd->playerdata.target_entity != NULL && mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE))
+		{
+			dismember_enemy(cbd);
+			play_sound(audio, SND_GUTS, 0.5f);
+		}
+	}
+	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_RELEASE && cbd->playerdata.inv->equipped == WPN_CHAINSAW)
+		cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].fire_animation->loop = false;
 	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
 	{
 		if (cbd->menudata->state != OFF)

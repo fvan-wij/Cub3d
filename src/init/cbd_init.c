@@ -107,6 +107,9 @@ t_inventory *cbd_init_inventory(mlx_t *mlx)
 	inv->weapons[WPN_CHAINSAW].fire_animation = init_weapon_animation(mlx, "./data/textures/player/animation/chainsaw/frame_0.png");
 	if (!inv->weapons[WPN_CHAINSAW].fire_animation)
 		return (NULL);
+	inv->weapons[WPN_CHAINSAW].fire_animation->frames[1].img->instances->x +=150;
+	inv->weapons[WPN_CHAINSAW].fire_animation->frames[1].img->instances->y -=100;
+	inv->weapons[WPN_CHAINSAW].fire_animation->reset_x = inv->weapons[WPN_CHAINSAW].fire_animation->frames[1].img->instances->x;
 	inv->weapons[WPN_MAP].fire_animation = init_weapon_animation(mlx, NULL);
 	if (!inv->weapons[WPN_MAP].fire_animation)
 		return (NULL);

@@ -91,8 +91,6 @@ typedef struct s_entity {
 typedef struct s_map {
 	char			**raw_data;
 	char			**cbd_map;
-	// char			**tex_path;
-	// mlx_texture_t	**tex;
 	t_wall			walls;
 	t_entity		*entities;
 	t_rgba			floor;
@@ -137,5 +135,7 @@ bool	tex_exists(char *path);
 char			*get_texpath(char *temp);
 t_rgba			get_col(char *temp);
 mlx_texture_t	**get_mlx_tex(char **tex_path, uint8_t n);
+
+t_animation	load_animation(mlx_texture_t *texture, uint32_t frame_width, uint32_t frame_height);
 
 #endif

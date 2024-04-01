@@ -98,9 +98,9 @@ void	update_enemy(t_entity *ent, t_app *cbd)
 	vec_normalize(&ent->dir);
 	// Determine if the entity is moving away from the player
 	if (vec_dot(ent->dir, vec_sub(cbd->playerdata.pos, ent->pos)) < 0)
-		ent->animation.current_animation = (9 - ent->health + 1);
+		ent->animation.current_animation = (9 - (int)ent->health + 1);
 	else
-		ent->animation.current_animation = (9 - ent->health);
+		ent->animation.current_animation = (9 - (int)ent->health);
 	if (ent->health == 0)
 		ent->animation.enabled = false;
 }
@@ -109,7 +109,7 @@ void	update_item(t_entity *item, t_app *cbd)
 {
 	if (ft_strncmp(item->name, "chainsaw", 9) == 0 && item->enabled)
 	{
-		printf("item->name: %s\n", item->name);
+		// printf("item->name: %s\n", item->name);
 		if (vec_distance(item->pos, cbd->playerdata.pos) < 0.5 && !cbd->playerdata.inv->weapons[WPN_CHAINSAW].in_inventory)
 		{
 			printf("Picked up chainsaw\n");
