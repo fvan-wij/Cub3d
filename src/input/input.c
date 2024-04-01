@@ -36,7 +36,6 @@ void	dismember_enemy(t_app *cbd)
 	t_entity	*target;
 	double		target_distance;
 
-
 	target = cbd->playerdata.target_entity;
 	target_distance = cbd->playerdata.target_distance;
 	if (ft_strncmp(target->name, "po", 2) == 0 && target_distance < 1)

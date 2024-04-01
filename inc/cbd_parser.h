@@ -66,6 +66,7 @@ typedef struct s_entity {
 	ENTITY_IDLE,
 	ENTITY_PATROL,
 	ENTITY_AGROED,
+	ENTITY_ATTACK,
 	ENTITY_DEATH,
 	} t_entity_state;
 	enum e_entity_type	type;

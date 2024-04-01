@@ -58,7 +58,15 @@ void	update_enemy(t_entity *ent, t_app *cbd)
 		ent->state = ENTITY_AGROED;
 		ent->dir = vec_sub(cbd->playerdata.pos, ent->pos);
 		if (vec_distance(cbd->playerdata.pos, ent->pos) < 0.5)
+		{
+			if (cbd->playerdata.i_time <= 0)
+			{
+				ent->state = ENTITY_ATTACK;
+				attack_player(ent, &cbd->playerdata);
+				printf("attack player\n");
+			}
 			ent->state = ENTITY_IDLE;
+		}
 	}
 	else if (vec_distance(ent->destinations[ent->current_dest], ent->pos) > 0.05)
 	{

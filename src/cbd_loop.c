@@ -12,6 +12,7 @@ void	cbd_loop(void *param)
 	{
 		cbd->render.img->instances->enabled = true;
 		cbd->render.sprite_img->instances->enabled = true;
+		update_player(&cbd->playerdata, cbd);
 		move_player(cbd);
 		update_entities(cbd);
 		move_entities(cbd->mapdata->entities, cbd);
