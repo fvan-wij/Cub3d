@@ -77,6 +77,6 @@ void	cbd_render(t_app *cbd)
 	draw_radial_overlay(cbd->render.hud->img[HUD_OVERLAY], cbd);
 	resolve_fx(cbd->render.hud->img[HUD_OVERLAY], cbd->render.fx.particles, &cbd->render.fx);
 	cbd->render.img = dither_image(cbd->render.img);
-	cbd->render.hud->img[HUD_OVERLAY] = dither_image(cbd->render.hud->img[HUD_OVERLAY]);
+	// cbd->render.hud->img[HUD_OVERLAY] = dither_image(cbd->render.hud->img[HUD_OVERLAY]);
 	// screenshake(&cbd->render);
 }

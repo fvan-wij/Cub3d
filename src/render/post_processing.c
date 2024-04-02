@@ -56,7 +56,7 @@ void	draw_radial_overlay(mlx_image_t *img, t_app *cbd)
 	else if (cbd->playerdata.health == 1)
 	{
 		col2_mult = sin(cbd->render.headache_timer) + 2;
-		color2.color = color(fabs(col2_mult) * 15, 0, 0);
+		color2.color = color(fabs(col2_mult) * 50, 0, 0);
 	}
 
 	y = 0;
