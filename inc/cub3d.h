@@ -33,6 +33,8 @@ typedef struct s_player {
 	double				target_distance;
 	t_entity			*target_entity;
 	t_inventory			*inv;
+	double				i_time; //Invincibility timer
+	int					health;
 	enum e_player_state state;
 }	t_player;
 
@@ -46,6 +48,7 @@ typedef struct s_app {
 	t_state		state;
 	mlx_t		*mlx;
 	void		*audio;
+	double		elapsed_time;
 }	t_app;
 
 
@@ -75,6 +78,10 @@ void	cbd_input(mlx_key_data_t keydata, void *param);
 //		Interaction
 void	move_player(t_app *cbd);
 void	change_map(t_app *cbd);
+
+//		Player
+void	attack_player(t_entity *ent, t_player *playerdata);
+void	update_player(t_player *playerdata, t_app *cbd);
 
 //		Init
 mlx_image_t *cbd_init_texture_img(mlx_t *mlx, char *path);

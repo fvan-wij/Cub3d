@@ -11,8 +11,10 @@ void	cbd_loop(void *param)
 	cbd = param;
 	if (cbd->menudata->state == OFF)
 	{
+		cbd->elapsed_time += cbd->mlx->delta_time;
 		cbd->render.img->instances->enabled = true;
 		cbd->render.sprite_img->instances->enabled = true;
+		update_player(&cbd->playerdata, cbd);
 		move_player(cbd);
 		update_entities(cbd);
 		move_entities(cbd->mapdata->entities, cbd);
@@ -40,5 +42,10 @@ void	cbd_loop(void *param)
 	{
 		cbd->render.particles.timer = 10000;
 		cbd->render.particles.b_timer = false;
+	}
+	cbd->render.headache_timer -= cbd->mlx->delta_time * 2;
+	if (cbd->render.headache_timer < 0)
+	{
+		cbd->render.headache_timer = 1000;
 	}
 }

@@ -56,9 +56,11 @@ void	dismember_enemy(t_app *cbd)
 {
 	static int	limb;
 	t_entity	*target;
+	double		target_distance;
 
 	target = cbd->playerdata.target_entity;
-	if (ft_strncmp(target->name, "po", 2) == 0)
+	target_distance = cbd->playerdata.target_distance;
+	if (ft_strncmp(target->name, "po", 2) == 0 && target_distance < 1)
 	{
 		if (!cbd->render.particles.b_timer)
 		{
@@ -114,19 +116,19 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 			menu_move_cursor(cbd->menudata, -1);
 		}
 	}
-	if (!mlx_is_key_down(cbd->mlx, MLX_KEY_UP) 
+	if (!mlx_is_key_down(cbd->mlx, MLX_KEY_UP)
 		&& !mlx_is_key_down(cbd->mlx, MLX_KEY_DOWN)
-		&& !mlx_is_key_down(cbd->mlx, MLX_KEY_W) 
+		&& !mlx_is_key_down(cbd->mlx, MLX_KEY_W)
 		&& !mlx_is_key_down(cbd->mlx, MLX_KEY_S)
-		&& !mlx_is_key_down(cbd->mlx, MLX_KEY_A) 
-		&& !mlx_is_key_down(cbd->mlx, MLX_KEY_D)) 
+		&& !mlx_is_key_down(cbd->mlx, MLX_KEY_A)
+		&& !mlx_is_key_down(cbd->mlx, MLX_KEY_D))
 		cbd->playerdata.state = PLAYER_IDLE;
-	if ((keydata.key == MLX_KEY_DOWN 
-		|| keydata.key == MLX_KEY_UP 
-		|| keydata.key == MLX_KEY_W 
-		|| keydata.key == MLX_KEY_S 
-		|| keydata.key == MLX_KEY_A 
-		|| keydata.key == MLX_KEY_D) 
+	if ((keydata.key == MLX_KEY_DOWN
+		|| keydata.key == MLX_KEY_UP
+		|| keydata.key == MLX_KEY_W
+		|| keydata.key == MLX_KEY_S
+		|| keydata.key == MLX_KEY_A
+		|| keydata.key == MLX_KEY_D)
 		&& keydata.action == MLX_PRESS
 		&& cbd->menudata->state == OFF && keydata.key != MLX_KEY_LEFT_SHIFT)
 		cbd->playerdata.state = PLAYER_WALKING;

@@ -151,6 +151,7 @@ typedef struct s_render {
 	int			y_offset;
 	float		timer;
 	bool		b_timer;
+	float		headache_timer;
 } t_render;
 
 typedef struct s_wall t_wall;
@@ -170,6 +171,7 @@ typedef struct s_wall {
 typedef struct s_map t_map;
 typedef struct s_player t_player;
 typedef struct s_entity t_entity;
+typedef struct s_app t_app;
 
 //				Color
 int32_t			color(uint8_t r, uint8_t g, uint8_t b);
@@ -201,7 +203,7 @@ void			draw_dust_particles(mlx_image_t *game, t_particle *particles);
 
 //				Post processing
 void 			draw_gradient_bg(mlx_image_t *img, int32_t c1, int32_t c2);
-void			draw_radial_overlay(mlx_image_t *img);
+void			draw_radial_overlay(mlx_image_t *img, t_app *cbd);
 mlx_texture_t	*dither_texture(mlx_texture_t *tex);
 mlx_image_t		*dither_image(mlx_image_t *img);
 void			draw_scanlines_bg(mlx_image_t *img);

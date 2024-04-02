@@ -199,6 +199,8 @@ void	init_playerdata(t_player *playerdata, t_map *mapdata)
 	playerdata->map_peak = 0;
 	playerdata->target_distance = 0;
 	playerdata->target_entity = NULL;
+	playerdata->i_time = 0;
+	playerdata->health = 2;
 }
 
 void	init_particles(t_particle *particles)
@@ -280,6 +282,7 @@ bool cbd_init(t_app *cbd)
 	cbd->playerdata.inv->weapons[WPN_MAP].img->enabled = false;
 	cbd->playerdata.inv->weapons[WPN_FIST].img->enabled = false;
 	cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->enabled = false;
+	cbd->elapsed_time = 0;
 
 	cbd->menudata = cbd_init_menu(cbd->mlx, cbd->mapdata);
 	if (!cbd->menudata)

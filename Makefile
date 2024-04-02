@@ -17,6 +17,7 @@ SRCS	:= \
 		   miniaudio.c 			\
 		   error/error.c 		\
 		   entity.c				\
+		   player.c				\
 		   init/cbd_init.c		\
 		   parser/parser.c 		\
 		   parser/init.c 		\
