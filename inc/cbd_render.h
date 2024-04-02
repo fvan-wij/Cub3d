@@ -117,6 +117,7 @@ typedef struct s_hud {
 		HUD_MAP,
 		HUD_OVERLAY,
 		HUD_CRT,
+		HUD_PULSE,
 		HUD_SIZE,
 	} t_hud_items;
 	mlx_image_t	*img[HUD_SIZE];
@@ -209,7 +210,7 @@ mlx_image_t		*dither_image(mlx_image_t *img);
 void			draw_scanlines_bg(mlx_image_t *img);
 void			init_blood_splat(t_blood *splat);
 void			init_blood_particles(t_blood *particles);
-void			screenshake(t_render *render);
+void			screenshake(t_render *render, t_app *cbd);
 
 //				Particles
 void			rotate_particles(t_particle *particles, float dir);

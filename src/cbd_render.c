@@ -121,7 +121,9 @@ void	cbd_render(t_app *cbd)
 	draw_equipped_weapon(cbd->playerdata.inv);
 	draw_dust_particles(cbd->render.img, cbd->particles);
 	cbd->render.img = dither_image(cbd->render.img);
-	screenshake(&cbd->render);
+	screenshake(&cbd->render, cbd);
 	draw_blood_splat(cbd->render.hud->img[HUD_OVERLAY], &cbd->render.splat);
 	draw_blood_particles(cbd->render.hud->img[HUD_CRT], &cbd->render.particles);
+	draw_radial_overlay(cbd->render.hud->img[HUD_PULSE], cbd);
+	cbd->render.hud->img[HUD_PULSE] = dither_image(cbd->render.hud->img[HUD_PULSE]);
 }

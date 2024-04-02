@@ -245,6 +245,7 @@ t_hud	*cbd_init_hud(mlx_t *mlx)
 	hud->img[HUD_MAP] = mlx_new_image(mlx, MINIMAP_WIDTH, MINIMAP_HEIGHT);
 	hud->img[HUD_OVERLAY] = mlx_new_image(mlx, WIDTH, HEIGHT);
 	hud->img[HUD_CRT] = mlx_new_image(mlx, WIDTH, HEIGHT);
+	hud->img[HUD_PULSE] = mlx_new_image(mlx, WIDTH, HEIGHT);
 	return (hud);
 }
 
@@ -279,6 +280,7 @@ bool cbd_init(t_app *cbd)
 	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_FIST].img, (WIDTH>>1) - (cbd->playerdata.inv->weapons[WPN_FIST].img->width / 2), HEIGHT - (cbd->playerdata.inv->weapons[WPN_FIST].img->height>>1));
 	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_CHAINSAW].img, (WIDTH>>1) - (cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->width / 2), HEIGHT - (cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->height * 0.8));
 	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_CRT], 0, 0);
+	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_PULSE], 0, 0);
 	cbd->playerdata.inv->weapons[WPN_MAP].img->enabled = false;
 	cbd->playerdata.inv->weapons[WPN_FIST].img->enabled = false;
 	cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->enabled = false;

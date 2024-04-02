@@ -47,16 +47,16 @@ void	draw_radial_overlay(mlx_image_t *img, t_app *cbd)
 	const float centerY = height>>1;
 	double col2_mult = 0;
 
-	color1.color = color(0, 0, 0);
-	color2.color = color(0, 0, 0);
+	color1.color = color_rgba(0, 0, 0, 0);
+	color2.color = color_rgba(0, 0, 0, 0);
 	if (cbd->playerdata.health == 2)
 	{
-		color2.color = color(0, 0, 0);
+		color2.color = color_rgba(0, 0, 0, 0);
 	}
 	else if (cbd->playerdata.health == 1)
 	{
 		col2_mult = sin(cbd->render.headache_timer) + 2;
-		color2.color = color(fabs(col2_mult) * 50, 0, 0);
+		color2.color = color_rgba(fabs(col2_mult) * 40, 0, 0, 100);
 	}
 
 	y = 0;
@@ -72,7 +72,7 @@ void	draw_radial_overlay(mlx_image_t *img, t_app *cbd)
 				current_col.r = color1.r + ratio * (color2.r - color1.r);
 				current_col.g = color1.g + ratio * (color2.g - color1.g);
 				current_col.b = color1.b + ratio * (color2.b - color1.b);
-				current_col.a = 100;
+				current_col.a = color1.a + ratio * (color2.a - color1.a);
 				if (x < width && y < height)
 					mlx_put_pixel(img, x, y, current_col.color);
 			}
@@ -158,14 +158,12 @@ void draw_gradient_bg(mlx_image_t *img, int32_t c1, int32_t c2)
 	draw_gradient_bot(img, c2, c1, 0);
 }
 
-void	screenshake(t_render *render)
+void	screenshake(t_render *render, t_app *cbd)
 {
 	if (render->splat.b_timer)
 	{
 		render->hud->img[HUD_OVERLAY]->enabled = true;
 		render->headbob += 1;
-		draw_radial_overlay(render->hud->img[HUD_CRT]);
+		draw_radial_overlay(render->hud->img[HUD_CRT], cbd);
 	}
-	// else
-	// 	render->hud->img[HUD_OVERLAY]->enabled = false;
 }
