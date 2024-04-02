@@ -12,22 +12,22 @@ void	destroy_wall(t_map *mapdata, t_player *player, t_audio *audio, t_render *re
 	{
 		mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)] = '-';
 		play_sound(audio, SND_WALL1, 0.5f);
-		render->b_timer = true;
-		render->fx.b_timer = true;
+		// render->b_timer = true;
+		render->blood_particles.b_timer = true;
 	}
 	else if (target == '-')
 	{
 		mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)] = '_';
 		play_sound(audio, SND_WALL2, 0.5f);
-		render->b_timer = true;
-		render->fx.b_timer = true;
+		// render->b_timer = true;
+		render->blood_particles.b_timer = true;
 	}
 	else if (target == '_')
 	{
 		mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)] = '0';
 		play_sound(audio, SND_WALL3, 0.5f);
-		render->b_timer = true;
-		render->fx.b_timer = true;
+		// render->b_timer = true;
+		render->blood_particles.b_timer = true;
 	}
 }
 
@@ -65,7 +65,7 @@ void	dismember_enemy(t_app *cbd)
 	target = cbd->playerdata.target_entity;
 	if (ft_strncmp(target->name, "po", 2) == 0)
 	{
-		if (!cbd->render.fx.b_timer)
+		if (!cbd->render.blood_particles.b_timer)
 		{
 			target->health-=2;
 			target->speed-= 0.25;
@@ -79,7 +79,7 @@ void	dismember_enemy(t_app *cbd)
 			target->speed = 0;
 			limb = 3;
 		}
-		cbd->render.fx.b_timer = true;
+		cbd->render.blood_particles.b_timer = true;
 	}
 }
 

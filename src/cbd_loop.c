@@ -2,6 +2,7 @@
 #include <cbd_error.h>
 #include <libft.h>
 #include <MLX42.h>
+#include <stdio.h>
 
 void	cbd_loop(void *param)
 {
@@ -21,16 +22,15 @@ void	cbd_loop(void *param)
 	else if (cbd->menudata->state == MAP_SELECT)
 		display_preview(cbd->menudata, cbd->mapdata);
 	else if (cbd->menudata->state == MAP_LOAD)
-	{
 		change_map(cbd);
-	}
-	if (cbd->render.b_timer)
+
+	if (cbd->render.blood_particles.b_timer)
 	{
-		cbd->render.timer -= cbd->mlx->delta_time * 1000;
+		cbd->render.blood_particles.timer -= cbd->mlx->delta_time * 1000;
 	}
-	if (cbd->render.timer < 0)
+	if (cbd->render.blood_particles.timer < 0)
 	{
-		cbd->render.timer = 75;
-		cbd->render.b_timer = false;
+		cbd->render.blood_particles.timer = 200;
+		cbd->render.blood_particles.b_timer = false;
 	}
 }

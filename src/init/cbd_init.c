@@ -118,25 +118,25 @@ t_inventory *cbd_init_inventory(mlx_t *mlx)
 	return (inv);
 }
 
-void	init_wall_destruction_fx(t_wall_destruction *fx)
+void	init_wall_destruction_fx(t_blood *fx)
 {
 	int i;
 
 	i = 0;
-	while (i < MAX_WALL_PARTICLES)
+	while (i < MAX_BLOOD_PARTICLES)
 	{
 		float dice = (rand() / (float) RAND_MAX);
-		float rvalx = (rand() / (float) RAND_MAX);
-		float rvaly = (rand() / (float) RAND_MAX);
-		if (dice < 0.6)
+		float rvalx = cos(rand());
+		float rvaly = sin(rand());
+		if (dice < 0.5)
 			rvalx = -rvalx;
-		if (dice < 0.2)
+		if (dice < 0.3)
 			rvaly = -rvaly;
 		fx->particles[i].dir.x = rvalx;
 		fx->particles[i].dir.y = rvaly;
-		fx->particles[i].p.x = (WIDTH>>1) + (rvalx * 50);
-		fx->particles[i].p.y = (HEIGHT>>1) + (rvaly * 50);
-		fx->particles[i].size.x = dice * 20;
+		fx->particles[i].p.x = (WIDTH>>1) + (rvalx * 750);
+		fx->particles[i].p.y = (HEIGHT>>1) + (rvaly * 750);
+		fx->particles[i].size.x = dice * 10;
 		fx->particles[i].size.y = fx->particles[i].size.x;
 		fx->particles[i].reset = fx->particles[i].size;
 		fx->particles[i].rp = fx->particles[i].p;
@@ -154,9 +154,7 @@ void	init_render(t_render *render, t_hud *hud, t_inventory *inv)
 	render->sprite[0].pos.y = 9;
 	render->sprite[0].tex = mlx_load_png("./data/textures/sprites/chainsaw.png");
 	render->timer = 100;
-
-	init_wall_destruction_fx(&render->fx);
-
+	init_wall_destruction_fx(&render->blood_particles);
 }
 
 void	init_playerdata(t_player *playerdata, t_map *mapdata)

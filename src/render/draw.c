@@ -171,33 +171,7 @@ void	draw_walls(t_render render, t_map *map)
 
 	x = 0;
 	if (map->is_bonus)
-	{
 		draw_walls_bonus(render, map);
-		// while (x < WIDTH)
-		// {
-		// 	if (render.rays[x].tile == '1')
-		// 		draw_wall_strip(render, x, map->tex[0], render.rays[x].wall_dist * 30);
-		// 	else if (render.rays[x].tile == '2')
-		// 		draw_wall_strip(render, x, map->tex[1], render.rays[x].wall_dist * 30);
-		// 	else if (render.rays[x].tile == '3')
-		// 		draw_wall_strip(render, x, map->tex[2], render.rays[x].wall_dist * 30);
-		// 	else if (render.rays[x].tile == '4')
-		// 		draw_wall_strip(render, x, map->tex[3], render.rays[x].wall_dist * 30);
-		// 	else if (render.rays[x].tile == '5')
-		// 		draw_wall_strip(render, x, map->tex[4], render.rays[x].wall_dist * 30);
-		// 	else if (render.rays[x].tile == '6')
-		// 		draw_wall_strip(render, x, map->tex[5], render.rays[x].wall_dist * 30);
-		// 	else if (render.rays[x].tile == '7')
-		// 		draw_wall_strip(render, x, map->tex[6], render.rays[x].wall_dist * 30);
-		// 	else if (render.rays[x].tile == '8')
-		// 		draw_wall_strip(render, x, map->tex[7], render.rays[x].wall_dist * 30);
-		// 	else if (render.rays[x].tile == '9')
-		// 		draw_wall_strip(render, x, map->tex[8], render.rays[x].wall_dist * 30);
-		// 	else
-		// 		draw_wall_strip(render, x, map->tex[0], render.rays[x].wall_dist * 30);
-		// 	x++;
-		// }
-	}
 	else
 	{
 		while (x < WIDTH)
@@ -221,7 +195,7 @@ void	draw_walls(t_render render, t_map *map)
 	}
 }
 
-void	draw_particles(mlx_image_t *game, t_particle *particles)
+void	draw_dust_particles(mlx_image_t *game, t_particle *particles)
 {
 	int i;
 

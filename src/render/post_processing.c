@@ -149,12 +149,12 @@ void draw_gradient_bg(mlx_image_t *img, int32_t c1, int32_t c2)
 
 void	screenshake(t_render *render)
 {
-	if (render->b_timer || render->fx.b_timer)
+	if (render->blood_particles.b_timer)
 	{
-		render->hud->img[HUD_OVERLAY]->enabled = true;
+		// render->hud->img[HUD_OVERLAY]->enabled = true;
 		render->headbob += 10;
-		draw_radial_overlay(render->hud->img[HUD_OVERLAY]);
+		// draw_radial_overlay(render->hud->img[HUD_OVERLAY]);
 	}
-	else
-		render->hud->img[HUD_OVERLAY]->enabled = false;
+	// else
+		// render->hud->img[HUD_OVERLAY]->enabled = false;
 }
