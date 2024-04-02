@@ -158,12 +158,13 @@ void draw_gradient_bg(mlx_image_t *img, int32_t c1, int32_t c2)
 	draw_gradient_bot(img, c2, c1, 0);
 }
 
-void	screenshake(t_render *render, t_app *cbd)
+void	screenshake(t_render *render)
 {
-	if (render->splat.b_timer)
+	if (render->fx.crt)
 	{
-		render->hud->img[HUD_OVERLAY]->enabled = true;
-		render->headbob += 1;
-		draw_radial_overlay(render->hud->img[HUD_CRT], cbd);
+		render->headbob += 10;
+		draw_scanlines_bg(render->img);
 	}
+	else
+		render->hud->img[HUD_CRT]->enabled = false;
 }

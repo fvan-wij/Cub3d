@@ -35,17 +35,29 @@ void	cbd_loop(void *param)
 		cbd->render.splat.b_timer = false;
 	}
 
-	//Blood particles timer
-	if (cbd->render.particles.b_timer)
-		cbd->render.particles.timer -= cbd->mlx->delta_time * 1000;
-	if (cbd->render.particles.timer < 0)
-	{
-		cbd->render.particles.timer = 10000;
-		cbd->render.particles.b_timer = false;
-	}
 	cbd->render.headache_timer -= cbd->mlx->delta_time * 2;
 	if (cbd->render.headache_timer < 0)
 	{
 		cbd->render.headache_timer = 1000;
 	}
+
+	if (cbd->playerdata.inv->equipped == WPN_CHAINSAW && cbd->playerdata.target_entity != NULL)
+	{
+		if ( mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE) && cbd->playerdata.target_distance < 0.5)
+		{
+			cbd->render.fx.crt = true;
+			cbd->render.particles.b_timer = true;
+		}
+	}
+
+	//CRT timer
+	if (cbd->render.fx.crt)
+		cbd->render.fx.crt_timer -= cbd->mlx->delta_time * 1000;
+	if (cbd->render.fx.crt_timer < 0)
+	{
+		cbd->render.fx.crt_timer = 100;
+		cbd->render.fx.crt = false;
+		// cbd->render.headbob = 0;
+	}
+
 }

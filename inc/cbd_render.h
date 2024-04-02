@@ -137,6 +137,15 @@ typedef struct s_blood {
 	bool		b_timer;
 } t_blood;
 
+typedef struct t_fx {
+	float	splat_timer;
+	float	blood_timer;
+	float	crt_timer;
+	bool	crt;
+	bool	splat;
+	bool	blood;
+} t_fx;
+
 typedef struct s_render {
 	mlx_image_t	*img;
 	mlx_image_t	*sprite_img;
@@ -146,6 +155,7 @@ typedef struct s_render {
 	double		z_buffer[WIDTH];
 	t_blood 	splat;
 	t_blood 	particles;
+	t_fx		fx;
 	t_sprite	*sprite;
 	float		headbob;
 	float		map_peak;
@@ -210,7 +220,7 @@ mlx_image_t		*dither_image(mlx_image_t *img);
 void			draw_scanlines_bg(mlx_image_t *img);
 void			init_blood_splat(t_blood *splat);
 void			init_blood_particles(t_blood *particles);
-void			screenshake(t_render *render, t_app *cbd);
+void			screenshake(t_render *render);
 
 //				Particles
 void			rotate_particles(t_particle *particles, float dir);

@@ -154,16 +154,16 @@ void	init_blood_particles(t_blood *splat)
 	{
 		float dice = (rand() / (float) RAND_MAX);
 		float rvalx = cos(rand());
-		float rvaly = sin(rand());
+		float rvaly = sin(rand()) + 1;
 		if (dice < 0.5)
 			rvalx = -rvalx;
 		if (dice < 0.2)
 			rvaly = -rvaly;
-		splat->particles[i].dir.x = rvalx;
-		splat->particles[i].dir.y = rvaly;
+		splat->particles[i].dir.x = rvalx * 10;
+		splat->particles[i].dir.y = rvaly * 10;
 		splat->particles[i].p.x = (WIDTH>>1) + (rvalx * 150);
 		splat->particles[i].p.y = (HEIGHT>>1) + (rvaly * 150);
-		splat->particles[i].size.x = dice * 20;
+		splat->particles[i].size.x = dice * 75;
 		splat->particles[i].size.y = splat->particles[i].size.x;
 		splat->particles[i].reset = splat->particles[i].size;
 		splat->particles[i].rp = splat->particles[i].p;

@@ -3,8 +3,9 @@
 #include <cub3d.h>
 #include <cbd_error.h>
 #include <cbd_audio.h>
+#include <stdio.h>
 
-void	destroy_wall(t_map *mapdata, t_player *player, t_audio *audio, t_render *render)
+void	destroy_wall(t_map *mapdata, t_player *player, t_audio *audio)
 {
 	const char target = mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)];
 
@@ -22,7 +23,6 @@ void	destroy_wall(t_map *mapdata, t_player *player, t_audio *audio, t_render *re
 	{
 		mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)] = '0';
 		play_sound(audio, SND_WALL3, 0.5f);
-		render->particles.b_timer = true;
 	}
 }
 
@@ -51,18 +51,18 @@ t_entity *spawn_blood(t_entity *head, t_player *player, uint8_t limb)
 	return (head);
 }
 
-#include <stdio.h>
 void	dismember_enemy(t_app *cbd)
 {
 	static int	limb;
+	static int	i;
 	t_entity	*target;
 	double		target_distance;
 
 	target = cbd->playerdata.target_entity;
 	target_distance = cbd->playerdata.target_distance;
-	if (ft_strncmp(target->name, "po", 2) == 0 && target_distance < 1)
+	if (ft_strncmp(target->name, "po", 2) == 0 && target_distance < 0.5)
 	{
-		if (!cbd->render.particles.b_timer)
+		if (i % 25 == 0)
 		{
 			target->health-=2;
 			target->speed-= 0.25;
@@ -76,8 +76,8 @@ void	dismember_enemy(t_app *cbd)
 			target->speed = 0;
 			limb = 3;
 		}
-		cbd->render.particles.b_timer = true;
 		cbd->render.splat.b_timer = true;
+		i++;
 	}
 }
 
@@ -93,7 +93,7 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 		if (cbd->playerdata.inv->equipped == WPN_FIST)
 		{
 			play_sound(audio, SND_PUNCH, 0.5f);
-			destroy_wall(cbd->mapdata, &cbd->playerdata, cbd->audio, &cbd->render);
+			destroy_wall(cbd->mapdata, &cbd->playerdata, cbd->audio);
 		}
 		cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].fire_animation->loop = true;
 	}
