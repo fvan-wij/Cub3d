@@ -143,7 +143,8 @@ typedef struct s_render {
 	t_inventory	*inv;
 	t_ray		rays[WIDTH];
 	double		z_buffer[WIDTH];
-	t_blood 	blood_particles;
+	t_blood 	splat;
+	t_blood 	particles;
 	t_sprite	*sprite;
 	float		headbob;
 	float		map_peak;
@@ -204,7 +205,8 @@ void			draw_radial_overlay(mlx_image_t *img);
 mlx_texture_t	*dither_texture(mlx_texture_t *tex);
 mlx_image_t		*dither_image(mlx_image_t *img);
 void			draw_scanlines_bg(mlx_image_t *img);
-void			init_wall_destruction_fx(t_blood *fx);
+void			init_blood_splat(t_blood *splat);
+void			init_blood_particles(t_blood *particles);
 void			screenshake(t_render *render);
 
 //				Particles

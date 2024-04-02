@@ -24,13 +24,21 @@ void	cbd_loop(void *param)
 	else if (cbd->menudata->state == MAP_LOAD)
 		change_map(cbd);
 
-	if (cbd->render.blood_particles.b_timer)
+	//Blood splat timer
+	if (cbd->render.splat.b_timer)
+		cbd->render.splat.timer -= cbd->mlx->delta_time * 1000;
+	if (cbd->render.splat.timer < 0)
 	{
-		cbd->render.blood_particles.timer -= cbd->mlx->delta_time * 1000;
+		cbd->render.splat.timer = 100;
+		cbd->render.splat.b_timer = false;
 	}
-	if (cbd->render.blood_particles.timer < 0)
+
+	//Blood particles timer
+	if (cbd->render.particles.b_timer)
+		cbd->render.particles.timer -= cbd->mlx->delta_time * 1000;
+	if (cbd->render.particles.timer < 0)
 	{
-		cbd->render.blood_particles.timer = 200;
-		cbd->render.blood_particles.b_timer = false;
+		cbd->render.particles.timer = 10000;
+		cbd->render.particles.b_timer = false;
 	}
 }
