@@ -21,7 +21,7 @@ void	draw_scanlines_bg(mlx_image_t *img)
 				c.r = v1;
 				c.g = v1;
 				c.b = v1;
-				c.a = 10;
+				c.a = 80;
 				if (x < img->width && y < img->height)
 						mlx_put_pixel(img, x, y, c.color);
 				x++;
@@ -156,4 +156,16 @@ void draw_gradient_bg(mlx_image_t *img, int32_t c1, int32_t c2)
 {
 	draw_gradient_top(img, c1, c2, 0);
 	draw_gradient_bot(img, c2, c1, 0);
+}
+
+void	screenshake(t_render *render)
+{
+	if (render->splat.b_timer)
+	{
+		render->hud->img[HUD_OVERLAY]->enabled = true;
+		render->headbob += 1;
+		draw_radial_overlay(render->hud->img[HUD_CRT]);
+	}
+	// else
+	// 	render->hud->img[HUD_OVERLAY]->enabled = false;
 }

@@ -3,40 +3,87 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void	resolve_fx(mlx_image_t *img, t_particle *particles, t_wall_destruction *config)
+void	fade_blood(mlx_image_t *img)
+{
+	uint32_t x;
+	uint32_t y;
+	y = 0;
+	while (y < img->height)
+	{
+		x = 0;
+		while (x < img->width)
+		{
+			int index = (x + y * img->width) * 4;
+				if (img->pixels[index + 3] >= 10)
+					img->pixels[index + 3] -= 0.5;
+			x++;
+		}
+		y++;
+	}
+}
+
+void	draw_blood_splat(mlx_image_t *img, t_blood *splat)
 {
 	int i = 0;
 	int j = 0;
 
-	while (i < MAX_WALL_PARTICLES)
+	if (!splat->b_timer)
 	{
-		if (config->b_timer)
+		fade_blood(img);
+		return (init_blood_splat(splat));
+	}
+	while (i < MAX_BLOOD_PARTICLES)
+	{
+		t_particle *particle = &splat->particles[i];
+		if (splat->b_timer)
 		{
-			particles[i].size.x -= 1.50;
-			particles[i].size.y -= 1.50;
-			particles[i].p.x = particles[i].p.x + (particles[i].dir.x) * 5;
-			particles[i].p.y = particles[i].p.y + (particles[i].dir.y) * 60;
-			if (particles[i].size.x <= 0 || particles[i].size.y <= 0)
+			particle->size.x -= 1.25;
+			particle->size.y -= 1.25;
+			particle->p.x = particle->p.x + (particle->dir.x) * 5;
+			particle->p.y = particle->p.y + (particle->dir.y) * 20;
+			if (particle->size.x <= 0 || particle->size.y <= 0)
 				j++;
-			draw_square_centered(img, color_rgba(50, 0, 0, 255), vec_to_int(particles[i].p), vec_to_int(particles[i].size));
+			draw_square_centered(img, color_rgba(125, 0, 0, 255), vec_to_int(particle->p), vec_to_int(particle->size));
 		}
-		else if (!config->b_timer)
-			init_wall_destruction_fx(config);
 		i++;
 	}
-	if (j == MAX_WALL_PARTICLES)
-		config->b_timer = false;
+	if (j == MAX_BLOOD_PARTICLES)
+	{
+		splat->b_timer = false;
+	}
 }
 
-void	screenshake(t_render *render)
+void	draw_blood_particles(mlx_image_t *img, t_blood *particles)
 {
-	if (render->b_timer)
+	int i = 0;
+	int j = 0;
+
+	if (!particles->b_timer)
 	{
-		render->hud->img[HUD_OVERLAY]->enabled = true;
-		// draw_radial_overlay(render->hud->img[HUD_OVERLAY], );
+		return (init_blood_particles(particles));
 	}
-	else
-		render->hud->img[HUD_OVERLAY]->enabled = false;
+	while (i < MAX_BLOOD_PARTICLES)
+	{
+		t_particle *particle = &particles->particles[i];
+		if (particles->b_timer)
+		{
+			particle->size.x -= 1.25;
+			particle->size.y -= 1.25;
+			particle->p.x = particle->p.x + (particle->dir.x) * 10;
+			particle->p.y = particle->p.y + (particle->dir.y) * 10;
+			if (particle->size.x <= 0 || particle->size.y <= 0)
+				j++;
+			draw_square_centered(img, color_rgba(90, 0, 0, 255), vec_to_int(particle->p), vec_to_int(particle->size));
+		}
+		i++;
+	}
+	// if (j == MAX_BLOOD_PARTICLES)
+	// 	particles->b_timer = false;
+	// if (particles->timer < 0)
+	// {
+	// 	particles->b_timer = false;
+	// 	particles->timer = 300;
+	// }
 }
 
 /*
@@ -64,8 +111,7 @@ void	screenshake(t_render *render)
 */
 void	cbd_render(t_app *cbd)
 {
-	// draw_background(cbd->render.img, cbd->mapdata->floor.color, cbd->render.map_peak);
-	draw_background(cbd->hud->img[HUD_OVERLAY], color_rgba(255, 0, 0, 0), cbd->render.map_peak);
+	draw_background(cbd->render.hud->img[HUD_CRT], color_rgba(125, 0, 0, 0), 0);
 	draw_gradient_bg(cbd->render.img, cbd->mapdata->floor.color, cbd->mapdata->ceiling.color);
 	cast_rays(cbd->mapdata->cbd_map, &cbd->render, &cbd->playerdata);
 	draw_walls(cbd->render, cbd->mapdata);
@@ -73,10 +119,9 @@ void	cbd_render(t_app *cbd)
 	draw_minimap(cbd->hud->img[HUD_MAP], cbd->playerdata.pos, cbd->mapdata->cbd_map, cbd->mapdata->width, cbd->mapdata->height);
 	draw_hud(cbd->hud, cbd->playerdata.inv);
 	draw_equipped_weapon(cbd->playerdata.inv);
-	draw_particles(cbd->render.img, cbd->particles);
-	draw_radial_overlay(cbd->render.hud->img[HUD_OVERLAY], cbd);
-	resolve_fx(cbd->render.hud->img[HUD_OVERLAY], cbd->render.fx.particles, &cbd->render.fx);
+	draw_dust_particles(cbd->render.img, cbd->particles);
 	cbd->render.img = dither_image(cbd->render.img);
-	// cbd->render.hud->img[HUD_OVERLAY] = dither_image(cbd->render.hud->img[HUD_OVERLAY]);
-	// screenshake(&cbd->render);
+	screenshake(&cbd->render);
+	draw_blood_splat(cbd->render.hud->img[HUD_OVERLAY], &cbd->render.splat);
+	draw_blood_particles(cbd->render.hud->img[HUD_CRT], &cbd->render.particles);
 }

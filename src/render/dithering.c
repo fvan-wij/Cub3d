@@ -80,12 +80,6 @@ mlx_image_t	*dither_image(mlx_image_t *img)
 			uint8_t g = img->pixels[index + 1];
 			uint8_t b = img->pixels[index + 2];
 
-			// uint32_t total = (r + g + b)/3 * 255;
-			//
-			// img->pixels[index] = total;
-			// img->pixels[index + 1] = total;
-			// img->pixels[index + 2] = total;
-
 			int factor = 2;
 
 			uint8_t new_r = round(((factor * r>>8)) * ((255>>1)));

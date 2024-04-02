@@ -90,6 +90,7 @@ typedef struct s_animation {
 	float					duration;
 	bool					loop;
 	bool					enabled;
+	float					reset_x;
 }	t_animation;
 
 typedef struct s_weapon {
@@ -125,16 +126,15 @@ typedef struct s_hud {
 typedef struct s_sprite {
 	t_vec2d			pos;
 	mlx_texture_t	*tex;
-	// t_vec2d		size;
 } t_sprite;
 
-#define MAX_WALL_PARTICLES 25
+#define MAX_BLOOD_PARTICLES 25
 
-typedef struct s_wall_destruction {
-	t_particle	particles[MAX_WALL_PARTICLES];
+typedef struct s_blood {
+	t_particle	particles[MAX_BLOOD_PARTICLES];
 	float		timer;
 	bool		b_timer;
-} t_wall_destruction;
+} t_blood;
 
 typedef struct s_render {
 	mlx_image_t	*img;
@@ -143,7 +143,8 @@ typedef struct s_render {
 	t_inventory	*inv;
 	t_ray		rays[WIDTH];
 	double		z_buffer[WIDTH];
-	t_wall_destruction fx;
+	t_blood 	splat;
+	t_blood 	particles;
 	t_sprite	*sprite;
 	float		headbob;
 	float		map_peak;
@@ -198,7 +199,7 @@ void			draw_square(mlx_image_t *image, uint32_t color, t_vec2i pos, t_vec2i dime
 void			draw_square_centered(mlx_image_t *image, uint32_t color, t_vec2i pos, t_vec2i dimension);
 void			draw_noise_square(mlx_image_t *image, t_vec2i pos, t_vec2i dimension);
 void			draw_circle(mlx_image_t *image, uint32_t color, t_vec2i pos, float r);
-void			draw_particles(mlx_image_t *game, t_particle *particles);
+void			draw_dust_particles(mlx_image_t *game, t_particle *particles);
 
 //				Post processing
 void 			draw_gradient_bg(mlx_image_t *img, int32_t c1, int32_t c2);
@@ -206,7 +207,9 @@ void			draw_radial_overlay(mlx_image_t *img, t_app *cbd);
 mlx_texture_t	*dither_texture(mlx_texture_t *tex);
 mlx_image_t		*dither_image(mlx_image_t *img);
 void			draw_scanlines_bg(mlx_image_t *img);
-void			init_wall_destruction_fx(t_wall_destruction *fx);
+void			init_blood_splat(t_blood *splat);
+void			init_blood_particles(t_blood *particles);
+void			screenshake(t_render *render);
 
 //				Particles
 void			rotate_particles(t_particle *particles, float dir);
