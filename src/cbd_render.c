@@ -22,20 +22,20 @@ void	fade_blood(mlx_image_t *img)
 	}
 }
 
-void	draw_blood_splat(mlx_image_t *img, t_blood *splat)
+void	draw_blood_splat(mlx_image_t *img, t_particle *splat, t_fx *fx)
 {
 	int i = 0;
 	int j = 0;
 
-	if (!splat->b_timer)
+	if (!fx->splat)
 	{
 		fade_blood(img);
 		return (init_blood_splat(splat));
 	}
 	while (i < MAX_BLOOD_PARTICLES)
 	{
-		t_particle *particle = &splat->particles[i];
-		if (splat->b_timer)
+		t_particle *particle = &splat[i];
+		if (fx->splat)
 		{
 			particle->size.x -= 1.25;
 			particle->size.y -= 1.25;
@@ -45,23 +45,23 @@ void	draw_blood_splat(mlx_image_t *img, t_blood *splat)
 				j++;
 			draw_square_centered(img, color_rgba(125, 0, 0, 255), vec_to_int(particle->p), vec_to_int(particle->size));
 		}
+		else
+			break ;
 		i++;
 	}
 	if (j == MAX_BLOOD_PARTICLES)
-	{
-		splat->b_timer = false;
-	}
+		fx->splat = false;
 }
 
-void	draw_blood_particles(mlx_image_t *img, t_blood *particles)
+void	draw_blood_particles(mlx_image_t *img, t_particle *blood_particle, t_fx *fx)
 {
 	int i = 0;
 	int j = 0;
 
 	while (i < MAX_BLOOD_PARTICLES)
 	{
-		t_particle *particle = &particles->particles[i];
-		if (particles->b_timer)
+		t_particle *particle = &blood_particle[i];
+		if (fx->blood)
 		{
 			particle->size.x -= 10.0;
 			particle->size.y -= 10.0;
@@ -71,12 +71,14 @@ void	draw_blood_particles(mlx_image_t *img, t_blood *particles)
 				j++;
 			draw_square_centered(img, color_rgba(rand(), 0, 0, 255), vec_to_int(particle->p), vec_to_int(particle->size));
 		}
+		else
+			break ;
 		i++;
 	}
 	if (j == MAX_BLOOD_PARTICLES)
 	{
-		particles->b_timer = false;
-		init_blood_particles(particles);
+		fx->blood = false;
+		init_blood_particles(blood_particle);
 	}
 }
 
@@ -114,8 +116,8 @@ void	cbd_render(t_app *cbd)
 	draw_equipped_weapon(cbd->playerdata.inv);
 	draw_dust_particles(cbd->render.img, cbd->particles);
 	cbd->render.img = dither_image(cbd->render.img);
-	draw_blood_splat(cbd->render.hud->img[HUD_OVERLAY], &cbd->render.splat);
-	draw_blood_particles(cbd->render.sprite_img, &cbd->render.particles);
+	draw_blood_splat(cbd->render.hud->img[HUD_OVERLAY], cbd->render.splat, &cbd->render.fx);
+	draw_blood_particles(cbd->render.sprite_img, cbd->render.blood, &cbd->render.fx);
 	screenshake(&cbd->render);
 
 	//Disabled the pulse due to performance impact

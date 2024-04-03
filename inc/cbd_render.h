@@ -131,19 +131,15 @@ typedef struct s_sprite {
 
 #define MAX_BLOOD_PARTICLES 25
 
-typedef struct s_blood {
-	t_particle	particles[MAX_BLOOD_PARTICLES];
-	float		timer;
-	bool		b_timer;
-} t_blood;
-
 typedef struct t_fx {
 	float	splat_timer;
 	float	blood_timer;
 	float	crt_timer;
+	float	pulse_timer;
 	bool	crt;
 	bool	splat;
 	bool	blood;
+	bool	pulse;
 } t_fx;
 
 typedef struct s_render {
@@ -153,8 +149,10 @@ typedef struct s_render {
 	t_inventory	*inv;
 	t_ray		rays[WIDTH];
 	double		z_buffer[WIDTH];
-	t_blood 	splat;
-	t_blood 	particles;
+	// t_blood 	splat;
+	// t_blood 	particles;
+	t_particle	splat[MAX_BLOOD_PARTICLES];
+	t_particle	blood[MAX_BLOOD_PARTICLES];
 	t_fx		fx;
 	t_sprite	*sprite;
 	float		headbob;
@@ -218,11 +216,11 @@ void			draw_radial_overlay(mlx_image_t *img, t_app *cbd);
 mlx_texture_t	*dither_texture(mlx_texture_t *tex);
 mlx_image_t		*dither_image(mlx_image_t *img);
 void			draw_scanlines_bg(mlx_image_t *img);
-void			init_blood_splat(t_blood *splat);
-void			init_blood_particles(t_blood *particles);
 void			screenshake(t_render *render);
 
 //				Particles
+void			init_blood_splat(t_particle *splat_particle);
+void			init_blood_particles(t_particle *blood_particle);
 void			rotate_particles(t_particle *particles, float dir);
 void			resolve_particles(t_particle *particles, int8_t dir);
 

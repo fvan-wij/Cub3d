@@ -67,7 +67,10 @@ void	play_weapon_animation(mlx_t	*mlx, t_inventory *inv)
 
 	weapon = &inv->weapons[inv->equipped];
 	if (inv->equipped == WPN_MAP)
+	{
+		reset_animation(&inv->weapons[WPN_CHAINSAW]);
 		return ;
+	}
 	if (weapon->fire_animation->loop)
 	{
 		inv->weapons[inv->equipped].img->enabled = false;

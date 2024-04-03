@@ -115,10 +115,11 @@ t_inventory *cbd_init_inventory(mlx_t *mlx)
 		return (NULL);
 
 	inv->weapons[WPN_CHAINSAW].in_inventory = false;
+	inv->weapons[WPN_MAP].in_inventory = false;
 	return (inv);
 }
 
-void	init_blood_splat(t_blood *splat)
+void	init_blood_splat(t_particle *splat_particle)
 {
 	int i;
 
@@ -132,20 +133,19 @@ void	init_blood_splat(t_blood *splat)
 			rvalx = -rvalx;
 		if (dice < 0.3)
 			rvaly = -rvaly;
-		splat->particles[i].dir.x = rvalx;
-		splat->particles[i].dir.y = rvaly;
-		splat->particles[i].p.x = (WIDTH>>1) + (rvalx * 750);
-		splat->particles[i].p.y = (HEIGHT>>1) + (rvaly * 750);
-		splat->particles[i].size.x = dice * 10;
-		splat->particles[i].size.y = splat->particles[i].size.x;
-		splat->particles[i].reset = splat->particles[i].size;
-		splat->particles[i].rp = splat->particles[i].p;
+		splat_particle[i].dir.x = rvalx;
+		splat_particle[i].dir.y = rvaly;
+		splat_particle[i].p.x = (WIDTH>>1) + (rvalx * 750);
+		splat_particle[i].p.y = (HEIGHT>>1) + (rvaly * 750);
+		splat_particle[i].size.x = dice * 10;
+		splat_particle[i].size.y = splat_particle[i].size.x;
+		splat_particle[i].reset = splat_particle[i].size;
+		splat_particle[i].rp = splat_particle[i].p;
 		i++;
 	}
-	splat->b_timer = false;
 }
 
-void	init_blood_particles(t_blood *splat)
+void	init_blood_particles(t_particle *blood_particle)
 {
 	int i;
 
@@ -159,17 +159,16 @@ void	init_blood_particles(t_blood *splat)
 			rvalx = -rvalx;
 		if (dice < 0.2)
 			rvaly = -rvaly;
-		splat->particles[i].dir.x = rvalx * 10;
-		splat->particles[i].dir.y = rvaly * 10;
-		splat->particles[i].p.x = (WIDTH>>1) + (rvalx * 150);
-		splat->particles[i].p.y = (HEIGHT>>1) + (rvaly * 150);
-		splat->particles[i].size.x = dice * 75;
-		splat->particles[i].size.y = splat->particles[i].size.x;
-		splat->particles[i].reset = splat->particles[i].size;
-		splat->particles[i].rp = splat->particles[i].p;
+		blood_particle[i].dir.x = rvalx * 10;
+		blood_particle[i].dir.y = rvaly * 10;
+		blood_particle[i].p.x = (WIDTH>>1) + (rvalx * 150);
+		blood_particle[i].p.y = (HEIGHT>>1) + (rvaly * 150);
+		blood_particle[i].size.x = dice * 75;
+		blood_particle[i].size.y = blood_particle[i].size.x;
+		blood_particle[i].reset = blood_particle[i].size;
+		blood_particle[i].rp = blood_particle[i].p;
 		i++;
 	}
-	splat->b_timer = false;
 }
 
 void	init_render(t_render *render, t_hud *hud, t_inventory *inv)
@@ -181,8 +180,8 @@ void	init_render(t_render *render, t_hud *hud, t_inventory *inv)
 	render->sprite[0].pos.y = 9;
 	render->sprite[0].tex = mlx_load_png("./data/textures/sprites/chainsaw.png");
 	render->timer = 100;
-	init_blood_splat(&render->splat);
-	init_blood_particles(&render->particles);
+	init_blood_splat(render->splat);
+	init_blood_particles(render->blood);
 }
 
 void	init_playerdata(t_player *playerdata, t_map *mapdata)

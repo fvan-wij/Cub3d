@@ -17,6 +17,8 @@ typedef enum s_sounds {
 	SND_WALL2,
 	SND_WALL3,
 	SND_GUTS,
+	SND_SAW,
+	SND_SAW_IDLE,
 	SND_SIZE,
 } t_sounds;
 

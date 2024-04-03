@@ -75,7 +75,7 @@ void	dismember_enemy(t_app *cbd)
 			target->health = 0;
 			target->speed = 0;
 		}
-		cbd->render.splat.b_timer = true;
+		cbd->render.fx.splat = true;
 		i++;
 	}
 }
@@ -101,11 +101,23 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 		if (cbd->playerdata.target_entity != NULL && mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE))
 		{
 			dismember_enemy(cbd);
-			play_sound(audio, SND_GUTS, 0.5f);
+			// play_sound(audio, SND_GUTS, 0.5f);
 		}
 	}
+	if (cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].fire_animation->loop && cbd->playerdata.inv->equipped == WPN_CHAINSAW)
+		loop_sound(audio, SND_SAW, false);
+	else
+		stop_sound(audio, SND_SAW);
+	if (cbd->playerdata.inv->equipped == WPN_CHAINSAW && cbd->playerdata.inv->weapons[WPN_CHAINSAW].fire_animation->loop == false)
+		loop_sound(audio, SND_SAW_IDLE, false);
+	else
+		stop_sound(audio, SND_SAW_IDLE);
+
 	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_RELEASE && cbd->playerdata.inv->equipped == WPN_CHAINSAW)
-		cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].fire_animation->loop = false;
+	{
+		cbd->playerdata.inv->weapons[WPN_CHAINSAW].fire_animation->loop = false;
+		stop_sound(audio, SND_SAW);
+	}
 	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
 	{
 		if (cbd->menudata->state != OFF)
@@ -164,7 +176,7 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 			cbd->playerdata.inv->equipped = WPN_FIST;
 		if (mlx_is_key_down(cbd->mlx, MLX_KEY_2) && cbd->playerdata.inv->weapons[WPN_CHAINSAW].in_inventory)
 			cbd->playerdata.inv->equipped = WPN_CHAINSAW;
-		if (mlx_is_key_down(cbd->mlx, MLX_KEY_M))
+		if (mlx_is_key_down(cbd->mlx, MLX_KEY_M) && cbd->playerdata.inv->weapons[WPN_MAP].in_inventory)
 			cbd->playerdata.inv->equipped = WPN_MAP;
 		if (current_wpn != cbd->playerdata.inv->equipped)
 			play_sound(audio, SND_SEARCH, 3.5f);
