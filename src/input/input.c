@@ -42,7 +42,7 @@ t_entity *spawn_blood(t_entity *head, t_player *player, uint8_t limb)
 	node->name = ft_strdup("blood");
 	node->pos = vec_assign(player->pos.x + player->dir.x, player->pos.y + player->dir.y);
 	node->type = ENTITY_DECOR;
-	node->texture = mlx_load_png("./data/textures/sprites/limbs2.png");
+	node->texture = mlx_load_png("./data/textures/sprites/limbs3.png");
 	node->frame_width = 128;
 	node->frame_height = 128;
 	node->enabled = true;
@@ -65,16 +65,15 @@ void	dismember_enemy(t_app *cbd)
 		if (i % 25 == 0)
 		{
 			target->health-=2;
-			target->speed-= 0.25;
-			if (limb < 3)
+			target->speed-=0.2;
+			if (limb <= 4)
 				spawn_blood(cbd->mapdata->entities, &cbd->playerdata, limb);
 			limb++;
 		}
-		if (target->health < 1)
+		if (target->health <= 0)
 		{
-			target->health = 1;
+			target->health = 0;
 			target->speed = 0;
-			limb = 3;
 		}
 		cbd->render.splat.b_timer = true;
 		i++;

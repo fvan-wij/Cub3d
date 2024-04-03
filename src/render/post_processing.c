@@ -164,6 +164,7 @@ void	screenshake(t_render *render)
 	{
 		render->headbob += 10;
 		draw_scanlines_bg(render->img);
+		// render->hud->img[HUD_CRT]->enabled = true;
 	}
 	else
 		render->hud->img[HUD_CRT]->enabled = false;
