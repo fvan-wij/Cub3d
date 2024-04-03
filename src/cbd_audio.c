@@ -101,6 +101,7 @@ t_audio	*cbd_init_audio(void)
 	game_audio->sound[SND_TICK] = init_sound(game_audio->engine, "./data/audio/tick.mp3");
 
 	game_audio->sound[SND_SAW] = init_sound(game_audio->engine, "./data/audio/saw_loop.mp3");
+	ma_sound_set_volume(game_audio->sound[SND_SAW], 0.4f);
 	game_audio->sound[SND_SAW_IDLE] = init_sound(game_audio->engine, "./data/audio/saw_idle.mp3");
 
 	game_audio->sound[SND_WALL1] = init_sound(game_audio->engine, "./data/audio/wall_destruction/wall2.mp3");

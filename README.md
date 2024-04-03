@@ -41,7 +41,7 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [ ] Add Foreshadowing jumpscare po
 - [ ] Add jumpscare, tree or shrub
 - [ ] Lion roar
-- [ ] Po dismemberment mechanic
+- [x] Po dismemberment mechanic
 - [ ] Gasoline / fuel for chainsaw
 - [ ] chase soundtrack (danger)
 - [ ] Jumpscare sounds
@@ -63,7 +63,7 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [x] Add menu soundtrack
 - [x] Add event triggered sound
 - [x] Add saw and smashing animations
-- [ ] Add continuous animation for saw + sound.
+- [x] Add continuous animation for saw + sound.
 - [x] Implement textures
 - [x] Slither some dither in
 - [ ] Minimap should play buzzing sound

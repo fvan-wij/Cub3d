@@ -21,7 +21,8 @@
 # define TILESIZE 		64
 # define MINIMAP_WIDTH	184
 # define MINIMAP_HEIGHT	118
-# define N_PARTICLES	100
+# define N_PARTICLES	25
+# define MAX_BLOOD_PARTICLES 25
 
 typedef struct s_bresenham
 {
@@ -129,7 +130,6 @@ typedef struct s_sprite {
 	mlx_texture_t	*tex;
 } t_sprite;
 
-#define MAX_BLOOD_PARTICLES 25
 
 typedef struct t_fx {
 	float	splat_timer;
@@ -223,6 +223,8 @@ void			init_blood_splat(t_particle *splat_particle);
 void			init_blood_particles(t_particle *blood_particle);
 void			rotate_particles(t_particle *particles, float dir);
 void			resolve_particles(t_particle *particles, int8_t dir);
+void			draw_blood_splat(mlx_image_t *img, t_particle *splat, t_fx *fx);
+void			draw_blood_particles(mlx_image_t *img, t_particle *blood_particle, t_fx *fx);
 
 //				Animation
 void			play_weapon_animation(mlx_t	*mlx, t_inventory *inv);

@@ -79,6 +79,9 @@ void	cbd_input(mlx_key_data_t keydata, void *param);
 void	move_player(t_app *cbd);
 void	change_map(t_app *cbd);
 
+//		Combat
+void	dismember_enemy(t_app *cbd);
+
 //		Player
 void	attack_player(t_entity *ent, t_player *playerdata);
 void	update_player(t_player *playerdata, t_app *cbd);

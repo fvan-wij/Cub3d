@@ -3,8 +3,19 @@
 #include <libft.h>
 #include <MLX42.h>
 #include <stdio.h>
+static void loop_chainsaw(t_app *cbd)
+{
+	if (cbd->playerdata.inv->equipped == WPN_CHAINSAW && cbd->playerdata.target_entity != NULL)
+	{
+		if (mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE) && cbd->playerdata.target_distance < 0.5)
+		{
+			cbd->render.fx.crt = true;
+			cbd->render.fx.blood = true;
+		}
+	}
+}
 
-void	update_timers(t_fx *fx, float dt)
+static void	update_timers(t_fx *fx, float dt)
 {
 	// Screen blood splatter timer
 	if (fx->splat)
@@ -43,14 +54,7 @@ void	cbd_loop(void *param)
 		move_player(cbd);
 		update_entities(cbd);
 		move_entities(cbd->mapdata->entities, cbd);
-		if (cbd->playerdata.inv->equipped == WPN_CHAINSAW && cbd->playerdata.target_entity != NULL)
-		{
-			if (mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE) && cbd->playerdata.target_distance < 0.5)
-			{
-				cbd->render.fx.crt = true;
-				cbd->render.fx.blood = true;
-			}
-		}
+		loop_chainsaw(cbd);
 		update_timers(&cbd->render.fx, cbd->mlx->delta_time);
 		play_weapon_animation(cbd->mlx, cbd->playerdata.inv);
 		cbd_render(cbd);

@@ -49,7 +49,6 @@ void	draw_player(mlx_image_t *img)
 
 void	draw_minimap(mlx_image_t *hud_map, t_vec2d pos, char **map, int width, int height)
 {
-	// draw_noise_square(hud_map, vec2i_assign(0, 0), vec2i_assign(hud_map->width, hud_map->height));
 	draw_square(hud_map, color_rgba(200, 200, 200, 200), vec2i_assign(0, 0), vec2i_assign(hud_map->width, hud_map->height));
 	t_vec2d	offset;
 	t_vec2i loc;
@@ -86,8 +85,8 @@ void	draw_minimap(mlx_image_t *hud_map, t_vec2d pos, char **map, int width, int 
 void	draw_map(char **map, t_hud *hud, int width, int height)
 {
 	t_vec2i p;
-	int	i;
-	int	j;
+	uint16_t	i;
+	uint16_t	j;
 
 	i = 0;
 	while (i < height)
@@ -97,7 +96,7 @@ void	draw_map(char **map, t_hud *hud, int width, int height)
 		{
 			p.x = (j * TILESIZE);
 			p.y = (i * TILESIZE);
-			if (p.x <= WIDTH && p.x >= 0 && p.y <= HEIGHT && p.y >= 0)
+			if (p.x <= WIDTH && p.y <= HEIGHT)
 			{
 				t_vec2i size = {TILESIZE, TILESIZE};
 				if (map[i][j] == '1' || map[i][j] == '2')

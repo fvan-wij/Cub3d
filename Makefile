@@ -40,9 +40,11 @@ SRCS	:= \
 		   render/entity.c		\
 		   render/dithering.c	\
 		   render/walls.c		\
+		   render/particles.c	\
 		   utility/printing.c	\
 		   utility/cleanup.c	\
 		   input/input.c		\
+		   input/combat.c		\
 		   input/player_movement.c		\
 		   input/player_animation.c		\
 		   input/particle_movement.c		\

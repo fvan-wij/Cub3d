@@ -23,7 +23,7 @@ mlx_texture_t	*dither_texture(mlx_texture_t *tex)
 			uint8_t g = tex->pixels[index + 1];
 			uint8_t b = tex->pixels[index + 2];
 
-			//Convert to grayscales
+			// Convert to grayscales
 			// uint32_t total = (r + g + b)/3 * 255;
 			// tex->pixels[index] = total;
 			// tex->pixels[index + 1] = total;
@@ -70,10 +70,10 @@ mlx_image_t	*dither_image(mlx_image_t *img)
 	uint32_t y;
 
 	y = 1;
-	while (y < img->height - 1)
+	while (y < img->height)
 	{
 		x = 1;
-		while (x < img->width - 1)
+		while (x < img->width)
 		{
 			int index = (x + y * img->width) * 4;
 			uint8_t r = img->pixels[index];
@@ -93,6 +93,7 @@ mlx_image_t	*dither_image(mlx_image_t *img)
 			img->pixels[index	 ]	= new_r;
 			img->pixels[index + 1]	= new_g;
 			img->pixels[index + 2] 	= new_b;
+
 
 			img->pixels[index_at(x + 1, y    , img->width, 4)] = img->pixels[index_at(x + 1, y, img->width, 4)] 				+ q_r * 7 / 16;
 			img->pixels[index_at(x - 1, y + 1, img->width, 4)] = img->pixels[index_at(x - 1, y + 1, img->width, 4)] 			+ q_r * 3 / 16;
