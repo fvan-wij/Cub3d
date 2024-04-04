@@ -1,6 +1,7 @@
 #ifndef CBD_AUDIO_H
 # define CBD_AUDIO_H
 
+#include "cbd_render.h"
 # include "miniaudio.h"
 # include <stdbool.h>
 # include <stdint.h>
@@ -19,6 +20,10 @@ typedef enum s_sounds {
 	SND_GUTS,
 	SND_SAW,
 	SND_SAW_IDLE,
+	SND_TV_NOISE,
+	SND_AMBIENT_LAUGH,
+	SND_IMPACT,
+	SND_IMPACT2,
 	SND_SIZE,
 } t_sounds;
 
@@ -26,7 +31,9 @@ typedef struct s_audio {
 	ma_sound	*sound[SND_SIZE];
 	ma_engine	*engine;
 	bool		is_initialized;
-	uint8_t		walking_index;
+	t_entity	*tv;
+	t_entity	*trigger1;
+	bool		t1;
 }	t_audio;
 
 t_audio	*cbd_init_audio(void);

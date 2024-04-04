@@ -8,6 +8,7 @@ void	draw_sprites(t_render *render, t_map *map, t_player *player)
 	t_sprite	*sprite;
 	double		spriteDistance[numSprites];
 	int			spriteOrder[numSprites];
+	(void) 		map;
 
 	ft_memset(render->sprite_img->pixels, 0, WIDTH * HEIGHT * 4);
 	sprite = render->sprite;

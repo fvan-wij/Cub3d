@@ -23,6 +23,7 @@ static void	destroy_wall(t_map *mapdata, t_player *player, t_audio *audio)
 	{
 		mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)] = '0';
 		play_sound(audio, SND_WALL3, 0.5f);
+		play_sound(audio, SND_IMPACT2, 0.2f);
 	}
 }
 
@@ -129,15 +130,23 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 			play_sound(audio, SND_SEARCH, 3.5f);
 	}
 
+	if (audio->trigger1 && audio->trigger1->distance < 0.05 && !audio->t1)
+	{
+		play_sound(audio, SND_IMPACT, 1.0f);
+		audio->t1 = true;
+	}
 	if (cbd->menudata->state != OFF)
 	{
 		stop_sound(audio, SND_MUSIC);
+		stop_sound(audio, SND_AMBIENT_LAUGH);
 		loop_sound(audio, SND_MENU, false);
 	}
 	else if (cbd->menudata->state == OFF)
 	{
 		stop_sound(audio, SND_MENU);
 		loop_sound(audio, SND_MUSIC, false);
+		loop_sound(audio, SND_TV_NOISE, false);
+		loop_sound(audio, SND_AMBIENT_LAUGH, false);
 	}
 	if (cbd->playerdata.state == PLAYER_RUNNING && cbd->menudata->state == OFF)
 	{

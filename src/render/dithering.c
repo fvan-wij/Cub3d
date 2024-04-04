@@ -70,10 +70,10 @@ mlx_image_t	*dither_image(mlx_image_t *img)
 	uint32_t y;
 
 	y = 1;
-	while (y < img->height)
+	while (y < img->height - 1)
 	{
 		x = 1;
-		while (x < img->width)
+		while (x < img->width - 1)
 		{
 			int index = (x + y * img->width) * 4;
 			uint8_t r = img->pixels[index];

@@ -24,7 +24,7 @@ t_rgba	get_animated_pixel(t_animation ani, mlx_texture_t *tex, int texX, int tex
 	int		frameX;
 	int		frameY;
 	int		frame_width;
-	int		frame_height;
+	// int		frame_height;
 
 	frame_width = tex->width / ani.n_frames;
 	frameX = texX + frame_width * ani.current_frame;
@@ -54,7 +54,6 @@ t_rgba	get_animated_pixel(t_animation ani, mlx_texture_t *tex, int texX, int tex
 void	render_entities(t_render *render, t_entity *entities, t_player *player)
 {
 	t_entity	*ent;
-	double	entity_distance;
 	double	entity_zbuffer[WIDTH * HEIGHT];
 
 	ent = entities;
@@ -77,8 +76,12 @@ void	render_entities(t_render *render, t_entity *entities, t_player *player)
 			ent = ent->next;
 			continue;
 		}
-		entity_distance = ((player->pos.x - ent->pos.x) * (player->pos.x - ent->pos.x) + (player->pos.y - ent->pos.y) * (player->pos.y - ent->pos.y));
-		// printf("entity_distance:%f\n", entity_distance);
+		ent->distance = ((player->pos.x - ent->pos.x) * (player->pos.x - ent->pos.x) + (player->pos.y - ent->pos.y) * (player->pos.y - ent->pos.y));
+
+		if (ent->distance < 100.0)
+			ent->distance /= 100;
+		// if (ft_strncmp("tv", ent->name, 2) == 0)
+		// 	printf("entity_distance:%f\n", ent->distance);
 
 		//translate entity position to relative to camera
 		double ent_x = ent->pos.x - player->pos.x;

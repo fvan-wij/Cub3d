@@ -1,5 +1,6 @@
 #include <cbd_audio.h>
 #include <stdlib.h>
+#include <libft.h>
 
 void	play_sound(t_audio *audio, uint8_t type, float volume)
 {
@@ -78,7 +79,7 @@ t_audio	*cbd_init_audio(void)
 	t_audio 	*game_audio;
 	ma_result 	result;
 
-	game_audio = malloc(sizeof(t_audio));
+	game_audio = ft_calloc(1, sizeof(t_audio));
 	if (!game_audio)
 		return (NULL);
 	game_audio->engine = malloc(sizeof(ma_engine));
@@ -107,6 +108,12 @@ t_audio	*cbd_init_audio(void)
 	game_audio->sound[SND_WALL1] = init_sound(game_audio->engine, "./data/audio/wall_destruction/wall2.mp3");
 	game_audio->sound[SND_WALL2] = init_sound(game_audio->engine, "./data/audio/wall_destruction/wall3.mp3");
 	game_audio->sound[SND_WALL3] = init_sound(game_audio->engine, "./data/audio/wall_destruction/wall1.mp3");
+
+	game_audio->sound[SND_TV_NOISE] = init_sound(game_audio->engine, "./data/audio/tv_noise.mp3");
+	game_audio->sound[SND_AMBIENT_LAUGH] = init_sound(game_audio->engine, "./data/audio/ambient_laugh.mp3");
+	game_audio->sound[SND_IMPACT] = init_sound(game_audio->engine, "./data/audio/impact.mp3");
+	game_audio->sound[SND_IMPACT2] = init_sound(game_audio->engine, "./data/audio/impact2.mp3");
+
 	game_audio->is_initialized = true;
 	return (game_audio);
 }

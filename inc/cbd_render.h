@@ -149,8 +149,6 @@ typedef struct s_render {
 	t_inventory	*inv;
 	t_ray		rays[WIDTH];
 	double		z_buffer[WIDTH];
-	// t_blood 	splat;
-	// t_blood 	particles;
 	t_particle	splat[MAX_BLOOD_PARTICLES];
 	t_particle	blood[MAX_BLOOD_PARTICLES];
 	t_fx		fx;

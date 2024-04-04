@@ -208,7 +208,6 @@ bool	tex_size_is_valid(t_map *mapdata)
 	int	i;
 
 	i = 0;
-	return (true);
 	while (i < TEX_SIZE)
 	{
 		if (mapdata->walls.w_tex[i]->width != 64 && mapdata->walls.w_tex[i]->height != 64)
@@ -241,7 +240,7 @@ bool	validate_map_data(t_map *mapdata, t_valid *is)
 		return (cbd_error(ERR_INVALID_WALL), ft_del_2d(mapdata->raw_data), false);
 	else if (!wall_is_valid(mapdata, mapdata->start_pos.y, mapdata->start_pos.x))
 		return (cbd_error(ERR_INVALID_WALL), ft_del_2d(mapdata->raw_data), false);
-	if (!tex_size_is_valid(mapdata))
-		return (cbd_error(ERR_TEX_SIZE), ft_del_2d(mapdata->raw_data), false);
+	// if (!tex_size_is_valid(mapdata))
+	// 	return (cbd_error(ERR_TEX_SIZE), ft_del_2d(mapdata->raw_data), false);
 	return (true);
 }

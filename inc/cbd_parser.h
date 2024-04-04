@@ -85,6 +85,7 @@ typedef struct s_entity {
 	int					frame_height;
 	t_animation			animation;
 	bool				enabled;
+	float				distance;
 	enum e_entity_state	state;
 	struct s_entity		*next;
 }	t_entity;

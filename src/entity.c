@@ -1,3 +1,4 @@
+#include "cbd_audio.h"
 #include <cub3d.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -112,7 +113,6 @@ void	update_item(t_entity *item, t_app *cbd)
 void	update_entity(t_entity *ent, t_app *cbd)
 {
 	animate_entity(ent, cbd);
-	// printf("ent->name: %s\n", ent->name);
 	if (ent->type == ENTITY_ENEMY)
 	{
 		update_enemy(ent, cbd);
@@ -125,12 +125,18 @@ void	update_entity(t_entity *ent, t_app *cbd)
 
 void	update_entities(t_app *cbd)
 {
-	t_entity *ent;
+	t_entity 	*ent;
+	t_audio		*audio;
 
 	ent = cbd->mapdata->entities;
+	audio = cbd->audio;
 	while (ent)
 	{
 		update_entity(ent, cbd);
+		if (ft_strncmp("tv", ent->name, 2) == 0)
+			audio->tv = ent;
+		if (ft_strncmp("trigger1", ent->name, 8) == 0)
+			audio->trigger1 = ent;
 		ent = ent->next;
 	}
 }

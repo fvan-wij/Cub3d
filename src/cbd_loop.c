@@ -3,6 +3,8 @@
 #include <libft.h>
 #include <MLX42.h>
 #include <stdio.h>
+#include <cbd_audio.h>
+
 static void loop_chainsaw(t_app *cbd)
 {
 	if (cbd->playerdata.inv->equipped == WPN_CHAINSAW && cbd->playerdata.target_entity != NULL)
@@ -40,11 +42,33 @@ static void	update_timers(t_fx *fx, float dt)
 	}
 }
 
+static void	loop_dynamic_audio(t_audio *audio)
+{
+	float 		vol;
+	t_entity 	*tv;
+
+	tv = audio->tv;
+	if (!tv || tv->distance > 1.0)
+	{
+		ma_sound_set_volume(audio->sound[SND_TV_NOISE], 0.0f);
+		// ma_sound_set_volume(audio->sound[SND_AMBIENT_LAUGH], 0.0f);
+		return ;
+	}
+	// printf("Hai\n");
+	vol = 0.2f - tv->distance;
+	if (vol < 0.0)
+		vol = 0.0f;
+	ma_sound_set_volume(audio->sound[SND_TV_NOISE], vol);
+	// ma_sound_set_volume(audio->sound[SND_AMBIENT_LAUGH], vol + 0.5f);
+}
+
 void	cbd_loop(void *param)
 {
-	t_app *cbd;
+	t_app 	*cbd;
+	t_audio *audio;
 
 	cbd = param;
+	audio = cbd->audio;
 	if (cbd->menudata->state == OFF)
 	{
 		cbd->elapsed_time += cbd->mlx->delta_time;
@@ -57,6 +81,7 @@ void	cbd_loop(void *param)
 		loop_chainsaw(cbd);
 		update_timers(&cbd->render.fx, cbd->mlx->delta_time);
 		play_weapon_animation(cbd->mlx, cbd->playerdata.inv);
+		loop_dynamic_audio(audio);
 		cbd_render(cbd);
 	}
 	else if (cbd->menudata->state == MAP_SELECT)
