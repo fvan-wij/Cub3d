@@ -94,18 +94,15 @@ void	game_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 		stop_sound(audio, SND_SAW_IDLE);
 	// Player movement input
 	cbd->playerdata.state = PLAYER_IDLE;
-	if (cbd->menudata->state == OFF)
-	{
-		if (mlx_is_key_down(cbd->mlx, MLX_KEY_UP)
-			|| mlx_is_key_down(cbd->mlx, MLX_KEY_DOWN)
-			|| mlx_is_key_down(cbd->mlx, MLX_KEY_W)
-			|| mlx_is_key_down(cbd->mlx, MLX_KEY_S)
-			|| mlx_is_key_down(cbd->mlx, MLX_KEY_A)
-			|| mlx_is_key_down(cbd->mlx, MLX_KEY_D))
-			cbd->playerdata.state = PLAYER_WALKING;
-		if (cbd->playerdata.state != PLAYER_IDLE && mlx_is_key_down(cbd->mlx, MLX_KEY_LEFT_SHIFT))
-			cbd->playerdata.state = PLAYER_RUNNING;
-	}
+	if (mlx_is_key_down(cbd->mlx, MLX_KEY_UP)
+		|| mlx_is_key_down(cbd->mlx, MLX_KEY_DOWN)
+		|| mlx_is_key_down(cbd->mlx, MLX_KEY_W)
+		|| mlx_is_key_down(cbd->mlx, MLX_KEY_S)
+		|| mlx_is_key_down(cbd->mlx, MLX_KEY_A)
+		|| mlx_is_key_down(cbd->mlx, MLX_KEY_D))
+		cbd->playerdata.state = PLAYER_WALKING;
+	if (cbd->playerdata.state != PLAYER_IDLE && mlx_is_key_down(cbd->mlx, MLX_KEY_LEFT_SHIFT))
+		cbd->playerdata.state = PLAYER_RUNNING;
 	// If animation loop is false, check if player selects new item
 	if (!cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].fire_animation->loop)
 	{

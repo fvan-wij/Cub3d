@@ -36,7 +36,7 @@ t_menu	*cbd_init_menu(mlx_t *mlx, t_map *map)
 	menu->select_menu.cursor = menu->main_menu.cursor;
 
 	// Game over
-	menu->game_over.bg = cbd_init_texture_img(mlx, "./data/menu/game_over2.png");
+	menu->game_over.bg = cbd_init_texture_img(mlx, "./data/menu/game_over.png");
 	menu->game_over.cursor = menu->main_menu.cursor;
 
 	menu->select_menu.preview_img = cbd_init_texture_img(mlx, "./data/textures/map_preview.png");
