@@ -42,24 +42,19 @@ static void	update_timers(t_fx *fx, float dt)
 	}
 }
 
-static void	loop_dynamic_audio(t_audio *audio)
+static void	loop_dynamic_audio(t_audio *audio, t_entity *ent, uint8_t sound, float volume)
 {
 	float 		vol;
-	t_entity 	*tv;
 
-	tv = audio->tv;
-	if (!tv || tv->distance > 1.0)
+	if (!ent || ent->distance > 1.0 || !ent || ent->distance > 1.0)
 	{
-		ma_sound_set_volume(audio->sound[SND_TV_NOISE], 0.0f);
-		// ma_sound_set_volume(audio->sound[SND_AMBIENT_LAUGH], 0.0f);
+		ma_sound_set_volume(audio->sound[sound], 0.0f);
 		return ;
 	}
-	// printf("Hai\n");
-	vol = 0.2f - tv->distance;
+	vol = volume - ent->distance;
 	if (vol < 0.0)
 		vol = 0.0f;
-	ma_sound_set_volume(audio->sound[SND_TV_NOISE], vol);
-	// ma_sound_set_volume(audio->sound[SND_AMBIENT_LAUGH], vol + 0.5f);
+	ma_sound_set_volume(audio->sound[sound], vol);
 }
 
 void	cbd_loop(void *param)
@@ -81,7 +76,8 @@ void	cbd_loop(void *param)
 		loop_chainsaw(cbd);
 		update_timers(&cbd->render.fx, cbd->mlx->delta_time);
 		play_weapon_animation(cbd->mlx, cbd->playerdata.inv);
-		loop_dynamic_audio(audio);
+		loop_dynamic_audio(audio, audio->tv, SND_TV_NOISE, 0.2f);
+		loop_dynamic_audio(audio, audio->enemy, SND_LAUGH, 2.5f);
 		cbd_render(cbd);
 	}
 	else if (cbd->menudata->state == MAP_SELECT)

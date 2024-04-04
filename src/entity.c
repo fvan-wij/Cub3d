@@ -54,7 +54,7 @@ void	update_enemy(t_entity *ent, t_app *cbd)
 		if (ent->current_dest == ent->n_dest)
 			ent->current_dest = 0;
 	}
-	if (vec_distance(cbd->playerdata.pos, ent->pos) < 2)
+	if (vec_distance(cbd->playerdata.pos, ent->pos) < 10)
 	{
 		ent->state = ENTITY_AGROED;
 		ent->dir = vec_sub(cbd->playerdata.pos, ent->pos);
@@ -137,6 +137,8 @@ void	update_entities(t_app *cbd)
 			audio->tv = ent;
 		if (ft_strncmp("trigger1", ent->name, 8) == 0)
 			audio->trigger1 = ent;
+		if (ft_strncmp("po", ent->name, 2) == 0)
+			audio->enemy = ent;
 		ent = ent->next;
 	}
 }
