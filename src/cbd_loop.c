@@ -88,6 +88,4 @@ void	cbd_loop(void *param)
 		display_preview(cbd->menudata, cbd->mapdata);
 	else if (cbd->menudata->state == MAP_LOAD)
 		change_map(cbd);
-
-
 }

@@ -20,6 +20,7 @@ void	set_menu_state(t_menu *menu, t_menu_state state)
 		menu->main_menu.bg->instances->enabled = true;
 		menu->main_menu.cursor->instances->enabled = true;
 		menu->select_menu.bg->instances->enabled = false;
+		menu->game_over.bg->instances->enabled = false;
 		menu->main_menu.preview_img->instances->enabled = true;
 	}
 	if (state == MAP_SELECT)
@@ -28,6 +29,7 @@ void	set_menu_state(t_menu *menu, t_menu_state state)
 		menu->state = MAP_SELECT;
 		menu->select_menu.current_item = BTN_DARK_SECRET;
 		menu->main_menu.bg->instances->enabled = false;
+		menu->game_over.bg->instances->enabled = false;
 		menu->main_menu.cursor->instances->enabled = true;
 		menu->select_menu.bg->instances->enabled = true;
 		menu->main_menu.preview_img->instances->enabled = true;
@@ -39,11 +41,26 @@ void	set_menu_state(t_menu *menu, t_menu_state state)
 		menu->select_menu.bg->instances->enabled = false;
 		menu->select_menu.cursor->instances->enabled = false;
 		menu->main_menu.preview_img->instances->enabled = false;
+		menu->game_over.bg->instances->enabled = false;
 		menu->state = OFF;
 	}
 	if (state == MAP_LOAD)
 	{
 		menu->state = MAP_LOAD;
+	}
+	if (state == GAME_OVER)
+	{
+		set_cursor(menu->game_over.cursor, menu->game_over.cursor_pos);
+		// Turn on correct elements
+		menu->game_over.bg->instances->enabled = true;
+		menu->main_menu.cursor->instances->enabled = true;
+		// Turn off other menu elements
+		menu->main_menu.bg->instances->enabled = false;
+		menu->main_menu.cursor->instances->enabled = false;
+		menu->select_menu.bg->instances->enabled = false;
+		menu->select_menu.cursor->instances->enabled = false;
+		menu->main_menu.preview_img->instances->enabled = false;
+		menu->state = GAME_OVER;
 	}
 }
 
@@ -77,7 +94,7 @@ void	set_map_preview_positions(t_menu *menu)
 {
 	const int x_step = 993 / 3;
 	const int y_step = 228;
-	const t_vec2i positions[6] = {{195, 362}, 
+	const t_vec2i positions[6] = {{195, 362},
 								{195 - x_step, 362},
 								{195 - (x_step * 2), 362},
 								{195, 362 - y_step},
