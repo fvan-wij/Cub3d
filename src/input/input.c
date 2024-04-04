@@ -27,6 +27,16 @@ static void	destroy_wall(t_map *mapdata, t_player *player, t_audio *audio)
 	}
 }
 
+static void	update_chase_audio(t_audio *audio)
+{
+	if (audio->enemy && audio->enemy->enabled && audio->enemy->state == ENTITY_AGROED && !ma_sound_is_playing(audio->sound[SND_CHASE]))
+	{
+		loop_sound(audio, SND_CHASE, false);
+		loop_sound(audio, SND_LAUGH, false);
+	}
+}
+
+
 
 void	cbd_input(mlx_key_data_t keydata, void *param)
 {
@@ -135,6 +145,7 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 		play_sound(audio, SND_IMPACT, 1.0f);
 		audio->t1 = true;
 	}
+	update_chase_audio(audio);
 	if (cbd->menudata->state != OFF)
 	{
 		stop_sound(audio, SND_MUSIC);
