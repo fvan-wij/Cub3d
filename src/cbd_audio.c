@@ -113,6 +113,8 @@ t_audio	*cbd_init_audio(void)
 	game_audio->sound[SND_AMBIENT_LAUGH] = init_sound(game_audio->engine, "./data/audio/ambient_laugh.mp3");
 	game_audio->sound[SND_IMPACT] = init_sound(game_audio->engine, "./data/audio/impact.mp3");
 	game_audio->sound[SND_IMPACT2] = init_sound(game_audio->engine, "./data/audio/impact2.mp3");
+	game_audio->sound[SND_CHASE] = init_sound(game_audio->engine, "./data/audio/chase.mp3");
+	game_audio->sound[SND_LAUGH] = init_sound(game_audio->engine, "./data/audio/laugh.mp3");
 
 	game_audio->is_initialized = true;
 	return (game_audio);
