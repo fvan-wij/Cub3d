@@ -1,3 +1,4 @@
+#include "cbd_audio.h"
 #include <cub3d.h>
 #include <cbd_error.h>
 #include <cbd_parser.h>
@@ -28,6 +29,11 @@ t_map	*load_map(t_map *curr_map, uint8_t	map_id)
 
 void	change_map(t_app *cbd)
 {
+	t_audio	*audio;
+
+	audio = cbd->audio;
+	audio->trigger1 = NULL;
+	audio->tv = NULL;
 	cbd->mapdata = load_map(cbd->mapdata, cbd->menudata->select_menu.current_item);
 	if (!cbd->mapdata)
 	{

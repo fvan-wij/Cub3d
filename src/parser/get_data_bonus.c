@@ -169,6 +169,7 @@ t_map	*get_map_data_bonus(int fd, char *line)
 {
 	uint8_t		type;
 	t_map		*mapdata;
+	size_t		i;
 
 	mapdata = alloc_map_bonus();
 	if (!mapdata)
@@ -179,9 +180,9 @@ t_map	*get_map_data_bonus(int fd, char *line)
 	{
 		type = identify_element(line);
 		if (type == CONT_WALL)
-			mapdata->walls.w_path = ft_add_2d(mapdata->walls.w_path, &line[3]);
+			mapdata->walls.w_path[(unsigned char)line[1]] = ft_strtrim(&line[3], "\n");
 		else if (type == CONT_CWALL)
-			mapdata->walls.cw_path = ft_add_2d(mapdata->walls.cw_path, &line[3]);
+			mapdata->walls.w_path[(unsigned char)line[1]] = ft_strtrim(&line[3], "\n");
 		else if (type == CONT_MAP)
 			mapdata->raw_data = ft_add_2d(mapdata->raw_data, line);
 		else if (type == CONT_COLC)
@@ -193,20 +194,17 @@ t_map	*get_map_data_bonus(int fd, char *line)
 		free(line);
 		line = get_next_line(fd);
 	}
-
-	if (mapdata->walls.w_path)
+	// i loops over the characters inside of the path jump table, if any of the characters (indexes) have a path string, load the corresponding texture and put it in the same index in the wall texture jump table
+	i = 0;
+	while (i < 255)
 	{
-		mapdata->walls.n_w = ft_arrlen(mapdata->walls.w_path);
-		mapdata->walls.w_tex = get_mlx_tex(mapdata->walls.w_path, mapdata->walls.n_w);
-		if (!mapdata->walls.w_tex)
-			return (NULL);
-	}
-	if (mapdata->walls.cw_path)
-	{
-		mapdata->walls.n_cw = ft_arrlen(mapdata->walls.cw_path);
-		mapdata->walls.cw_tex = get_mlx_tex(mapdata->walls.cw_path, mapdata->walls.n_cw);
-		if (!mapdata->walls.cw_tex)
-			return (NULL);
+		if (mapdata->walls.w_path[(unsigned char)i])
+		{
+			mapdata->walls.w_tex[(unsigned char)i] = mlx_load_png(mapdata->walls.w_path[(unsigned char)i]);
+			if (!mapdata->walls.w_tex[(unsigned char)i])
+				return (NULL);
+		}
+		i++;
 	}
 	return (mapdata);
 }

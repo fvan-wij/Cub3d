@@ -4,7 +4,8 @@
         "cub3d.h": "c",
         "cbd_render.h": "c",
         "stdlib.h": "c",
-        "compare": "c"
+        "compare": "c",
+        "cbd_parser.h": "c"
     },
     "workbench.iconTheme": "vs-seti"
 }

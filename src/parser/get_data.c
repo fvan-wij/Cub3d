@@ -6,7 +6,7 @@
 
 /*
 ** Checks the given line and stores texture path or color in mapdata
-**	
+**
 ** Needs:
 **	a line of the .cub file
 */
@@ -38,7 +38,8 @@ static void	retrieve_element(char *line, t_map *mapdata)
 
 t_map	*get_map_data_mandatory(int fd, t_valid *is, char *line)
 {
-	t_map *mapdata;
+	t_map	*mapdata;
+	size_t	i;
 	ft_printf("MAndATORY!!!\n");
 
 	mapdata = alloc_map();
@@ -56,7 +57,12 @@ t_map	*get_map_data_mandatory(int fd, t_valid *is, char *line)
 		line = get_next_line(fd);
 	}
 	close(fd);
-	mapdata->walls.w_tex = get_mlx_tex(mapdata->walls.w_path, TEX_SIZE);
+	i = 0;
+	while (i < 4)
+	{
+		mapdata->walls.w_tex[i] = get_mlx_tex(mapdata->walls.w_path, TEX_SIZE);
+		i++;
+	}
 	if (!mapdata->raw_data)
 		return (cbd_error(ERR_INVALID_MAP), NULL);
 	return (mapdata);
@@ -68,12 +74,12 @@ t_map	*get_map_data_mandatory(int fd, t_valid *is, char *line)
 ** 	Path to NO, EA, SO, WE textures
 ** 	Map content
 ** 	Ceiling and floor colors
-**	
+**
 ** Needs:
 **	Open filedescriptor to the .cub file
 **	Pointer to mapdata struct
 **	Pointer to validation struct
-** 		
+**
 ** Returns:
 **		t_map *mapdata
 */

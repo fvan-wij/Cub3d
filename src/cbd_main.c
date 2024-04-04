@@ -18,7 +18,7 @@ bool	cbd_main(t_app *cbd)
 
 	mlx_loop(cbd->mlx);
 	mlx_terminate(cbd->mlx);
-	cleanup(cbd);
+	// cleanup(cbd);
 
 	cbd_uninit_audio(cbd->audio);
 	cleanup(cbd);

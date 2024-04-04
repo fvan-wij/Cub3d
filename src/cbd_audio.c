@@ -28,7 +28,6 @@ static void	alternate_pitch(t_audio *audio, uint8_t type)
 		alternate = 0;
 }
 
-
 void	loop_sound(t_audio *audio, uint8_t type, bool alternate)
 {
 	ma_bool32 is_looping;

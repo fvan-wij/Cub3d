@@ -22,17 +22,18 @@ void	print_debug_info(t_app *cub3d)
 	{
 		printf("[TEXTURES]\n");
 		size_t i = 0;
-		while (i < cub3d->mapdata->walls.n_w && cub3d->mapdata->walls.w_path[i])
+		while (i < 255)
 		{
-			printf("W%zu: %s\n",i + 1, cub3d->mapdata->walls.w_path[i]);
+			if (cub3d->mapdata->walls.w_path[i])
+				printf("W%zu: %s\n",i + 1, cub3d->mapdata->walls.w_path[i]);
 			i++;
 		}
 		i = 0;
-		while (i < cub3d->mapdata->walls.n_cw && cub3d->mapdata->walls.cw_path[i])
-		{
-			printf("W%zu: %s\n",i + 1, cub3d->mapdata->walls.cw_path[i]);
-			i++;
-		}
+		// while (i < cub3d->mapdata->walls.n_cw && cub3d->mapdata->walls.cw_path[i])
+		// {
+		// 	printf("W%zu: %s\n",i + 1, cub3d->mapdata->walls.cw_path[i]);
+		// 	i++;
+		// }
 	}
 	else
 		ft_printf("[TEXTURES]\ntex_path[NO]: %s\ntex_path[SO]: %s\ntex_path[WE]: %s\ntex_path[EA]: %s\n", cub3d->mapdata->walls.w_path[NO],cub3d-> mapdata->walls.w_path[SO],cub3d->mapdata->walls.w_path[WE], cub3d->mapdata->walls.w_path[EA]);

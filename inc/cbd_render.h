@@ -167,10 +167,8 @@ typedef void (*wall_strip_func)(t_render render, int x, t_wall *walls, float wal
 
 typedef struct s_wall {
 	wall_strip_func jump_table[256];
-	char			**w_path;
-	char			**cw_path;
-	mlx_texture_t	**w_tex;
-	mlx_texture_t	**cw_tex;
+	char			*w_path[256];
+	mlx_texture_t	*w_tex[256];
 	uint8_t			n_w;
 	uint8_t			n_cw;
 } t_wall;
@@ -232,6 +230,6 @@ void			reset_player_animation(t_render *render, mlx_t *mlx);
 void			peek_map(t_inventory *inv, t_render *render, mlx_image_t *img, mlx_t *mlx);
 
 //				Jump table
-void			initialize_jump_table(wall_strip_func jump_table[256]);
+// void			initialize_jump_table(wall_strip_func jump_table[256]);
 
 #endif //CBD_RENDER_H

@@ -295,7 +295,7 @@ bool cbd_init(t_app *cbd)
 	if (!cbd->menudata)
 		return (cbd_error(ERR_ALLOC), FAILURE);
 
-	initialize_jump_table(cbd->mapdata->walls.jump_table);
+	// initialize_jump_table(cbd->mapdata->walls.jump_table);
 	init_playerdata(&cbd->playerdata, cbd->mapdata);
 	init_render(&cbd->render, cbd->hud, cbd->playerdata.inv);
 	init_particles(cbd->particles);

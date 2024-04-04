@@ -8,8 +8,9 @@ t_map	*alloc_map(void)
 	t_map	*mapdata;
 
 	mapdata = malloc(sizeof(t_map));
-	mapdata->walls.w_path 	= ft_calloc(sizeof(char *), TEX_SIZE + 1);
-	mapdata->walls.w_tex	= NULL;
+	ft_bzero(mapdata->walls.w_path, 256 * sizeof(char *));
+	ft_bzero(mapdata->walls.w_tex, 256 * sizeof(mlx_texture_t *));
+	// mapdata->walls.w_tex	= NULL;
 	mapdata->cbd_map 		= NULL;
 	mapdata->raw_data 		= NULL;
 	mapdata->start_pos.x 	= -1;
