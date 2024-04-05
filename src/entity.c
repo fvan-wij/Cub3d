@@ -87,6 +87,9 @@ void	update_enemy(t_entity *ent, t_app *cbd)
 
 void	update_item(t_entity *item, t_app *cbd)
 {
+	t_audio *audio;
+
+	audio = cbd->audio;
 	if (ft_strncmp(item->name, "chainsaw", 9) == 0 && item->enabled)
 	{
 		if (vec_distance(item->pos, cbd->playerdata.pos) < 0.5 && !cbd->playerdata.inv->weapons[WPN_CHAINSAW].in_inventory)
@@ -95,6 +98,17 @@ void	update_item(t_entity *item, t_app *cbd)
 			cbd->playerdata.inv->weapons[WPN_CHAINSAW].in_inventory = true;
 			cbd->playerdata.inv->equipped = WPN_CHAINSAW;
 			item->enabled = false;
+			audio->pickup = true;
+		}
+	}
+	if (ft_strncmp(item->name, "fuel", 4) == 0 && item->enabled)
+	{
+		if (vec_distance(item->pos, cbd->playerdata.pos) < 0.5)
+		{
+			// Add [pickup sound]
+			cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo+=100;
+			item->enabled = false;
+			audio->pickup = true;
 		}
 	}
 	if (ft_strncmp(item->name, "po", 2) == 0 && item->enabled && item->health == 0)
@@ -106,6 +120,7 @@ void	update_item(t_entity *item, t_app *cbd)
 			cbd->playerdata.inv->weapons[WPN_MAP].in_inventory = true;
 			cbd->playerdata.inv->equipped = WPN_MAP;
 			item->enabled = false;
+			audio->pickup = true;
 		}
 	}
 }

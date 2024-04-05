@@ -48,7 +48,12 @@ void	update_animation(mlx_t *mlx, t_weapon *weapon)
 	if (weapon->type == WPN_FIST)
 		play_single_animation(mlx->delta_time, weapon);
 	else if (weapon->type == WPN_CHAINSAW)
-		play_loop_animation(weapon);
+	{
+		if (weapon->ammo > 0)
+			play_loop_animation(weapon);
+		else if (weapon->ammo <= 0)
+			play_single_animation(mlx->delta_time, weapon);
+	}
 }
 
 void	reset_animation(t_weapon *current_weapon)
@@ -66,10 +71,12 @@ void	play_weapon_animation(mlx_t	*mlx, t_inventory *inv)
 	t_weapon *weapon;
 
 	weapon = &inv->weapons[inv->equipped];
+	if (!weapon)
+		return ;
 	if (inv->equipped == WPN_MAP)
 	{
 		reset_animation(&inv->weapons[WPN_CHAINSAW]);
-		return ;
+		// return ;
 	}
 	if (weapon->fire_animation->loop)
 	{

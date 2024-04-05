@@ -27,6 +27,15 @@ t_map	*load_map(t_map *curr_map, uint8_t	map_id)
 	return (new_map);
 }
 
+void	reset_inventory(t_inventory *inv)
+{
+	inv->equipped = WPN_FIST;
+	inv->weapons[WPN_CHAINSAW].fire_animation->loop = false;
+	inv->weapons[WPN_MAP].in_inventory = false;
+	inv->weapons[WPN_CHAINSAW].in_inventory = false;
+	inv->weapons[WPN_CHAINSAW].ammo = 0;
+}
+
 void	change_map(t_app *cbd)
 {
 	t_audio	*audio;
@@ -34,6 +43,7 @@ void	change_map(t_app *cbd)
 	audio = cbd->audio;
 	audio->trigger1 = NULL;
 	audio->tv = NULL;
+	audio->enemy = NULL;
 	cbd->mapdata = load_map(cbd->mapdata, cbd->menudata->select_menu.current_item);
 	if (!cbd->mapdata)
 	{
@@ -42,6 +52,7 @@ void	change_map(t_app *cbd)
 	}
 	printf("Map Loaded succesfully!\n");
 	cbd->menudata->state = MAIN;
+	reset_inventory(cbd->playerdata.inv);
 	init_playerdata(&cbd->playerdata, cbd->mapdata);
 	set_menu_state(cbd->menudata, MAIN);
 }

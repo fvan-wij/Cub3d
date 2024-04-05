@@ -68,3 +68,13 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [x] Slither some dither in
 - [ ] Minimap should play buzzing sound
 - [x] Add sprites
+
+
+### Credits
+Music and sounddesign produced and composed by Flip van Wijk
+
+Chainsaw Sound:
+Sound Effect by <a href="https://pixabay.com/users/u_zpj3vbdres-31862813/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=128369">u_zpj3vbdres</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=128369">Pixabay</a>
+
+Pickup Sound:
+Sound Effect from <a href="https://pixabay.com/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=37089">Pixabay</a>
