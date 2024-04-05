@@ -133,6 +133,9 @@ t_audio	*cbd_init_audio(void)
 	game_audio->sound[SND_NO_FUEL2] = init_sound(game_audio->engine, "./data/audio/no_fuel2.mp3");
 
 	game_audio->sound[SND_PICKUP] = init_sound(game_audio->engine, "./data/audio/item_pickup.mp3");
+	game_audio->sound[SND_TV_JAZZ] = init_sound(game_audio->engine, "./data/audio/tv_jazz.mp3");
+	game_audio->sound[SND_TV_RICKROLL] = init_sound(game_audio->engine, "./data/audio/tv_rickroll.mp3");
+	game_audio->sound[SND_TV_SURREAL] = init_sound(game_audio->engine, "./data/audio/tv_surreal.mp3");
 
 	game_audio->is_initialized = true;
 	return (game_audio);
