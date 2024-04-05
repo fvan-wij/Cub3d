@@ -1,6 +1,6 @@
 #ifndef CBD_RENDER_H
 # define CBD_RENDER_H
-#include <stdbool.h>
+# include <stdbool.h>
 # include <stdint.h>
 # include <cbd_vec.h>
 # include <MLX42.h>
@@ -99,6 +99,7 @@ typedef struct s_weapon {
 	mlx_image_t	*img;
 	uint8_t		type;
 	bool		in_inventory;
+	float		ammo;
 } t_weapon;
 
 typedef struct s_inventory {

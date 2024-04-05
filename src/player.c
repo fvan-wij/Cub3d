@@ -1,4 +1,5 @@
 #include <cub3d.h>
+#include <cbd_audio.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -10,6 +11,9 @@ void	attack_player(t_entity *ent, t_player *playerdata)
 
 void	update_player(t_player *playerdata, t_app *cbd)
 {
+	t_audio *audio;
+
+	audio = cbd->audio;
 	if (playerdata->i_time > 0)
 	{
 		playerdata->i_time -= cbd->mlx->delta_time;
@@ -17,5 +21,6 @@ void	update_player(t_player *playerdata, t_app *cbd)
 	if (playerdata->health < 1)
 	{
 		set_menu_state(cbd->menudata, GAME_OVER);
+		reset_sounds(audio);
 	}
 }

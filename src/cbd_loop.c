@@ -5,15 +5,20 @@
 #include <stdio.h>
 #include <cbd_audio.h>
 
-static void loop_chainsaw(t_app *cbd)
-{
-	if (cbd->playerdata.inv->equipped == WPN_CHAINSAW && cbd->playerdata.target_entity != NULL)
+static void loop_chainsaw(t_app *cbd) {
+	if (cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo <= 0)
+		return ;
+	if (mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE) && cbd->playerdata.inv->equipped == WPN_CHAINSAW)
 	{
-		if (mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE) && cbd->playerdata.target_distance < 0.5)
+		if (cbd->playerdata.target_entity != NULL && cbd->playerdata.target_distance < 0.5)
 		{
 			cbd->render.fx.crt = true;
 			cbd->render.fx.blood = true;
+			cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo-=0.5;
 		}
+		else
+			cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo-=0.5;
+		printf("Ammo: %f\n", cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo);
 	}
 }
 
@@ -77,7 +82,7 @@ void	cbd_loop(void *param)
 		update_timers(&cbd->render.fx, cbd->mlx->delta_time);
 		play_weapon_animation(cbd->mlx, cbd->playerdata.inv);
 		loop_dynamic_audio(audio, audio->tv, SND_TV_NOISE, 0.2f);
-		loop_dynamic_audio(audio, audio->enemy, SND_LAUGH, 2.5f);
+		loop_dynamic_audio(audio, audio->enemy, SND_LAUGH, 1.0f);
 		cbd_render(cbd);
 	}
 	else if (cbd->menudata->state == MAP_SELECT)

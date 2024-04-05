@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <libft.h>
 
-void	play_sound(t_audio *audio, uint8_t type, float volume)
+void	play_sound(t_audio *audio, uint8_t type, float volume, float pitch)
 {
 	ma_sound_seek_to_pcm_frame(audio->sound[type], 0);
+	ma_sound_set_pitch(audio->sound[type], pitch);
 	ma_sound_set_volume(audio->sound[type], volume);
 	ma_sound_start(audio->sound[type]);
 }
@@ -43,6 +44,19 @@ void	stop_sound(t_audio *audio, uint8_t type)
 {
 	ma_sound_stop(audio->sound[type]);
 	ma_sound_seek_to_pcm_frame(audio->sound[type], 0);
+}
+
+void	reset_sounds(t_audio *audio)
+{
+	size_t i;
+
+	i = 0;
+	while (i < SND_SIZE)
+	{
+		ma_sound_stop(audio->sound[i]);
+		ma_sound_seek_to_pcm_frame(audio->sound[i], 0);
+		i++;
+	}
 }
 
 static ma_sound	*init_sound(ma_engine *engine, const char *path)
@@ -114,6 +128,11 @@ t_audio	*cbd_init_audio(void)
 	game_audio->sound[SND_IMPACT2] = init_sound(game_audio->engine, "./data/audio/impact2.mp3");
 	game_audio->sound[SND_CHASE] = init_sound(game_audio->engine, "./data/audio/chase.mp3");
 	game_audio->sound[SND_LAUGH] = init_sound(game_audio->engine, "./data/audio/laugh.mp3");
+
+	game_audio->sound[SND_NO_FUEL] = init_sound(game_audio->engine, "./data/audio/no_fuel.mp3");
+	game_audio->sound[SND_NO_FUEL2] = init_sound(game_audio->engine, "./data/audio/no_fuel2.mp3");
+
+	game_audio->sound[SND_PICKUP] = init_sound(game_audio->engine, "./data/audio/item_pickup.mp3");
 
 	game_audio->is_initialized = true;
 	return (game_audio);
