@@ -66,6 +66,8 @@ void	cbd_loop(void *param)
 	audio = cbd->audio;
 	if (cbd->menudata->state == OFF)
 	{
+		if (cbd->state == STATE_BEHEAD)
+			behead(cbd);
 		cbd->elapsed_time += cbd->mlx->delta_time;
 		cbd->render.img->instances->enabled = true;
 		cbd->render.sprite_img->instances->enabled = true;

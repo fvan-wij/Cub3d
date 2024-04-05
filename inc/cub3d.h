@@ -14,7 +14,16 @@
 typedef enum e_state {
 	STATE_MENU,
 	STATE_GAME,
+	STATE_BEHEAD,
 } t_state;
+
+typedef struct s_beheading {
+	double	timer;
+	bool	active;
+	bool	sawing;
+	t_vec2d	chainsaw_pos;
+	t_vec2d	target_pos;
+}	t_beheading;
 
 typedef struct s_player {
 	enum e_player_state {
@@ -46,6 +55,7 @@ typedef struct s_app {
 	t_map		*mapdata;
 	t_hud		*hud;
 	t_state		state;
+	t_beheading	beheading;
 	mlx_t		*mlx;
 	void		*audio;
 	double		elapsed_time;
@@ -74,6 +84,9 @@ void	update_entities(t_app *cbd);
 void	move_entities(t_entity *ent, t_app *cbd);
 void	cbd_init_input(t_app *cbd);
 void	cbd_input(mlx_key_data_t keydata, void *param);
+
+// Beheading
+void	behead(t_app *cbd);
 
 //		Interaction
 void	move_player(t_app *cbd);

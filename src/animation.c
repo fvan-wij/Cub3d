@@ -34,7 +34,7 @@ void	play_single_animation(float dt, t_weapon *weapon)
 
 void	play_loop_animation(t_weapon *weapon)
 {
-	const int shake = weapon->fire_animation->frames[1].img->instances->x + (sin(rand()) * 3);
+	const int shake = weapon->fire_animation->current_x + (sin(rand()) * 3);
 
 	if (weapon->fire_animation->loop)
 	{
@@ -59,6 +59,7 @@ void	reset_animation(t_weapon *current_weapon)
 		current_weapon->fire_animation->frames[2].img->enabled = false;
 		current_weapon->img->enabled = true;
 		current_weapon->fire_animation->frames[1].img->instances->x = current_weapon->fire_animation->reset_x;
+		current_weapon->fire_animation->current_x = current_weapon->fire_animation->reset_x;
 }
 
 void	play_weapon_animation(mlx_t	*mlx, t_inventory *inv)

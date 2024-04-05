@@ -63,7 +63,7 @@ void	update_enemy(t_entity *ent, t_app *cbd)
 			if (cbd->playerdata.i_time <= 0)
 			{
 				ent->state = ENTITY_ATTACK;
-				attack_player(ent, &cbd->playerdata);
+				// attack_player(ent, &cbd->playerdata);
 				printf("attack player\n");
 			}
 			ent->state = ENTITY_IDLE;

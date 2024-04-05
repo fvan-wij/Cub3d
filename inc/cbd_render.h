@@ -92,6 +92,7 @@ typedef struct s_animation {
 	bool					loop;
 	bool					enabled;
 	float					reset_x;
+	float					current_x;
 }	t_animation;
 
 typedef struct s_weapon {
@@ -145,6 +146,7 @@ typedef struct t_fx {
 typedef struct s_render {
 	mlx_image_t	*img;
 	mlx_image_t	*sprite_img;
+	mlx_image_t	*po_head;
 	t_hud		*hud;
 	t_inventory	*inv;
 	t_ray		rays[WIDTH];

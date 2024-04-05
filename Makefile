@@ -15,6 +15,7 @@ SRCS	:= \
 		   cbd_render.c			\
 		   cbd_loop.c			\
 		   miniaudio.c 			\
+		   beheading.c			\
 		   error/error.c 		\
 		   entity.c				\
 		   player.c				\
