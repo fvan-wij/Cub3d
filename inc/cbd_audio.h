@@ -21,6 +21,9 @@ typedef enum s_sounds {
 	SND_SAW,
 	SND_SAW_IDLE,
 	SND_TV_NOISE,
+	SND_TV_JAZZ,
+	SND_TV_RICKROLL,
+	SND_TV_SURREAL,
 	SND_AMBIENT_LAUGH,
 	SND_IMPACT,
 	SND_IMPACT2,
@@ -41,6 +44,7 @@ typedef struct s_audio {
 	t_entity	*enemy;
 	bool		t1;
 	bool		pickup;
+	uint8_t		channel;
 }	t_audio;
 
 t_audio	*cbd_init_audio(void);

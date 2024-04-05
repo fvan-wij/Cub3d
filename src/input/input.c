@@ -185,6 +185,15 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 		play_sound(audio, SND_PICKUP, 1.0f, 1.0f);
 		audio->pickup = false;
 	}
+	if (audio->tv && audio->tv->distance < 1 && keydata.key == MLX_KEY_E && keydata.action == MLX_PRESS)
+	{
+		printf("channel: %d\n", audio->channel);
+		stop_sound(audio, (SND_TV_NOISE + audio->channel));
+		audio->tv->animation.current_animation++;
+		if (audio->tv->animation.current_animation >= audio->tv->animation.n_animations)
+			audio->tv->animation.current_animation = 0;
+		audio->channel = audio->tv->animation.current_animation;
+	}
 	update_chase_audio(audio);
 	if (cbd->menudata->state != OFF)
 	{
@@ -196,7 +205,7 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 	{
 		stop_sound(audio, SND_MENU);
 		loop_sound(audio, SND_MUSIC, false);
-		loop_sound(audio, SND_TV_NOISE, false);
+		loop_sound(audio, SND_TV_NOISE + audio->channel, false);
 		loop_sound(audio, SND_AMBIENT_LAUGH, false);
 	}
 	if (cbd->playerdata.state == PLAYER_RUNNING && cbd->menudata->state == OFF)

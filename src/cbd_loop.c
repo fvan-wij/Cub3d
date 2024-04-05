@@ -81,7 +81,7 @@ void	cbd_loop(void *param)
 		loop_chainsaw(cbd);
 		update_timers(&cbd->render.fx, cbd->mlx->delta_time);
 		play_weapon_animation(cbd->mlx, cbd->playerdata.inv);
-		loop_dynamic_audio(audio, audio->tv, SND_TV_NOISE, 0.2f);
+		loop_dynamic_audio(audio, audio->tv, SND_TV_NOISE + audio->channel, 0.2f);
 		loop_dynamic_audio(audio, audio->enemy, SND_LAUGH, 1.0f);
 		cbd_render(cbd);
 	}
