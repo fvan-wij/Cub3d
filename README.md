@@ -36,21 +36,26 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [ ] fix bug where circle-wall collision doesn't work for 45 degree angle at corner and refactor collision
 - [x] fix overlapping sprites
 
-*Gameplay*
+*Gameplay* (Dark_Secret)
 - [ ] Add jumpscares, when entering shack
 - [ ] Add Foreshadowing jumpscare po
-- [ ] Add jumpscare, tree or shrub
+- [x] Add jumpscare, tree or shrub
 - [ ] Lion roar
 - [x] Po dismemberment mechanic
-- [ ] Gasoline / fuel for chainsaw
-- [ ] chase soundtrack (danger)
-- [ ] Jumpscare sounds
+- [x] Gasoline / fuel for chainsaw
+- [x] chase soundtrack (danger)
+- [x] Jumpscare sounds
 - [ ] Add patrolling BEAR
-- [ ] Add Po miniboss
-- [ ] Item pickups / Items ( Fuel, Chainsaw)
-- [ ] Death mechanic
-- [ ] Health stuff
-- [ ] Hit stuff
+- [ ] Add finishing move on Po
+- [ ] Add exit on Dome entrance
+- [ ] Add kick
+- [ ] Add near death overlay
+- [ ] Add end screen
+- [x] Add Po miniboss
+- [x] Item pickups / Items ( Fuel, Chainsaw)
+- [x] Death mechanic
+- [x] Health stuff
+- [x] Hit stuff
 - [x] Add destructible walls
 
 *Features*
