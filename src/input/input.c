@@ -27,37 +27,16 @@ static void	destroy_wall(t_map *mapdata, t_player *player, t_audio *audio)
 	}
 }
 
-static void	update_chase_audio(t_audio *audio)
+static void change_tv_channel(t_audio *audio, mlx_key_data_t keydata)
 {
-	if (audio->enemy && audio->enemy->enabled && audio->enemy->state == ENTITY_AGROED && !ma_sound_is_playing(audio->sound[SND_CHASE]))
+	if (audio->tv && audio->tv->distance < 1 && keydata.key == MLX_KEY_E && keydata.action == MLX_PRESS)
 	{
-		loop_sound(audio, SND_CHASE, false);
-		loop_sound(audio, SND_LAUGH, false);
+		stop_sound(audio, (SND_TV_BYE + audio->channel));
+		audio->tv->animation.current_animation++;
+		if (audio->tv->animation.current_animation >= audio->tv->animation.n_animations)
+			audio->tv->animation.current_animation = 0;
+		audio->channel = audio->tv->animation.current_animation;
 	}
-}
-
-void	handle_chainsaw_sound(t_audio *audio, t_inventory *inv)
-{
-	if (ma_sound_is_playing(audio->sound[SND_SAW]) && inv->weapons[WPN_CHAINSAW].ammo <= 0)
-	{
-		stop_sound(audio, SND_SAW);
-		play_sound(audio, SND_NO_FUEL2, 1.0f, 1.0f);
-	}
-	if (inv->weapons[WPN_CHAINSAW].ammo <= 0)
-	{
-		stop_sound(audio, SND_SAW);
-		stop_sound(audio, SND_SAW_IDLE);
-		return ;
-	}
-	// Set chainsaw sound state
-	if (inv->weapons[inv->equipped].fire_animation->loop && inv->equipped == WPN_CHAINSAW)
-		loop_sound(audio, SND_SAW, false);
-	else
-		stop_sound(audio, SND_SAW);
-	if (inv->equipped == WPN_CHAINSAW && inv->weapons[WPN_CHAINSAW].fire_animation->loop == false && inv->weapons[WPN_CHAINSAW].ammo > 0)
-		loop_sound(audio, SND_SAW_IDLE, false);
-	else
-		stop_sound(audio, SND_SAW_IDLE);
 }
 
 // Menu input handling
@@ -92,20 +71,10 @@ void	game_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 		{
 			if (cbd->playerdata.inv->equipped == WPN_FIST)
 			{
-				cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].fire_animation->loop = true;
 				play_sound(audio, SND_PUNCH, 0.5f, 1.0f);
 				destroy_wall(cbd->mapdata, &cbd->playerdata, cbd->audio);
 			}
-			if (cbd->playerdata.inv->equipped == WPN_CHAINSAW && cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo > 0)
-			{
-				if (cbd->playerdata.target_entity != NULL && cbd->playerdata.target_entity->type == ENTITY_ENEMY)
-				{
-					dismember_enemy(cbd);
-					play_sound(audio, SND_GUTS, 0.8f, 0.85f);
-				}
-				// cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].fire_animation->loop = true;
-			}
-			else if (cbd->playerdata.inv->equipped == WPN_CHAINSAW && cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo <= 0)
+			if (cbd->playerdata.inv->equipped == WPN_CHAINSAW && cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo <= 0)
 				play_sound(audio, SND_NO_FUEL, 1.0f, 1.0f);
 			cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].fire_animation->loop = true;
 		}
@@ -116,8 +85,8 @@ void	game_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 		}
 	}
 
-	//Chainsaw sounds
-	handle_chainsaw_sound(audio, cbd->playerdata.inv);
+	if (cbd->render.fx.blood)
+		play_sound(audio, SND_GUTS, 1.5f, 1.0f);
 
 	// Player movement input
 	cbd->playerdata.state = PLAYER_IDLE;
@@ -130,7 +99,8 @@ void	game_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 		cbd->playerdata.state = PLAYER_WALKING;
 	if (cbd->playerdata.state != PLAYER_IDLE && mlx_is_key_down(cbd->mlx, MLX_KEY_LEFT_SHIFT))
 		cbd->playerdata.state = PLAYER_RUNNING;
-	// If animation loop is false, check if player selects new item
+
+	//Item select sound
 	if (!cbd->playerdata.inv->weapons[cbd->playerdata.inv->equipped].fire_animation->loop)
 	{
 		int current_wpn = cbd->playerdata.inv->equipped;
@@ -144,6 +114,7 @@ void	game_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 			play_sound(audio, SND_SEARCH, 3.5f, 1.0f);
 	}
 }
+
 // Global input handling
 void	app_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 {
@@ -167,68 +138,6 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 		game_input(keydata, cbd, audio);
 	else
 		menu_input(keydata, cbd, audio);
+	change_tv_channel(audio, keydata);
 	app_input(keydata, cbd, audio);
-
-	if (cbd->menudata->state == GAME_OVER)
-	{
-		reset_sounds(audio);
-		return ;
-	}
-	// Update sound based on state
-	if (audio->trigger1 && audio->trigger1->distance < 0.05 && !audio->t1)
-	{
-		play_sound(audio, SND_IMPACT, 1.3f, 1.0f);
-		audio->t1 = true;
-	}
-	if (audio->pickup)
-	{
-		play_sound(audio, SND_PICKUP, 1.0f, 1.0f);
-		audio->pickup = false;
-	}
-	if (audio->tv && audio->tv->distance < 1 && keydata.key == MLX_KEY_E && keydata.action == MLX_PRESS)
-	{
-		printf("channel: %d\n", audio->channel);
-		stop_sound(audio, (SND_TV_NOISE + audio->channel));
-		audio->tv->animation.current_animation++;
-		if (audio->tv->animation.current_animation >= audio->tv->animation.n_animations)
-			audio->tv->animation.current_animation = 0;
-		audio->channel = audio->tv->animation.current_animation;
-	}
-	update_chase_audio(audio);
-	if (cbd->menudata->state != OFF)
-	{
-		stop_sound(audio, SND_MUSIC);
-		stop_sound(audio, SND_AMBIENT_LAUGH);
-		loop_sound(audio, SND_MENU, false);
-	}
-	else if (cbd->menudata->state == OFF)
-	{
-		stop_sound(audio, SND_MENU);
-		loop_sound(audio, SND_MUSIC, false);
-		loop_sound(audio, SND_TV_NOISE + audio->channel, false);
-		loop_sound(audio, SND_AMBIENT_LAUGH, false);
-	}
-	if (cbd->playerdata.state == PLAYER_RUNNING && cbd->menudata->state == OFF)
-	{
-		ma_sound_set_pitch(audio->sound[SND_WALK_SOLID], 1.2f);
-		if (cbd->mapdata->current_map == LVL_DARK_SECRET)
-			loop_sound(audio, SND_WALK_GRASS, true);
-		else
-			loop_sound(audio, SND_WALK_SOLID, true);
-	}
-	if (cbd->playerdata.state == PLAYER_WALKING && cbd->menudata->state == OFF)
-	{
-		ma_sound_set_pitch(audio->sound[SND_WALK_SOLID], 1.0f);
-		if (cbd->mapdata->current_map == LVL_DARK_SECRET)
-			loop_sound(audio, SND_WALK_GRASS, true);
-		else
-			loop_sound(audio, SND_WALK_SOLID, true);
-	}
-	if (cbd->playerdata.state == PLAYER_IDLE && cbd->menudata->state == OFF)
-	{
-		if (cbd->mapdata->current_map == LVL_DARK_SECRET)
-			stop_sound(audio, SND_WALK_GRASS);
-		else
-			stop_sound(audio, SND_WALK_SOLID);
-	}
 }

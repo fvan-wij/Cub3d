@@ -11,14 +11,16 @@ SRCS	:= \
 		   main.c 				\
 		   animation.c			\
 		   cbd_main.c			\
-		   cbd_audio.c 			\
 		   cbd_render.c			\
 		   cbd_loop.c			\
-		   miniaudio.c 			\
 		   error/error.c 		\
 		   entity.c				\
 		   player.c				\
 		   init/cbd_init.c		\
+		   audio/game_audio.c	\
+		   audio/menu_audio.c	\
+		   audio/cbd_audio.c 	\
+		   audio/miniaudio.c 	\
 		   parser/parser.c 		\
 		   parser/init.c 		\
 		   parser/get_data.c 	\

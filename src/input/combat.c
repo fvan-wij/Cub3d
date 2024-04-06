@@ -2,6 +2,52 @@
 #include <cbd_audio.h>
 #include <cbd_error.h>
 
+void deal_damage(t_app *cbd)
+{
+	if (cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo <= 0)
+		return ;
+	if (mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE) && cbd->playerdata.inv->equipped == WPN_CHAINSAW)
+	{
+		if (cbd->playerdata.target_entity != NULL && cbd->playerdata.target_distance < 0.5)
+		{
+			cbd->render.fx.crt = true;
+			cbd->render.fx.blood = true;
+			cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo-=0.5;
+			cbd->playerdata.target_entity->health--;
+			if (cbd->playerdata.target_entity->enabled)
+				dismember_enemy(cbd);
+		}
+		else
+			cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo-=0.5;
+	}
+}
+
+void	update_timers(t_fx *fx, float dt)
+{
+	// Screen blood splatter timer
+	if (fx->splat)
+		fx->splat_timer -= dt * 1000;
+	if (fx->splat_timer < 0)
+	{
+		fx->splat_timer = 75;
+		fx->splat_timer = false;
+	}
+
+	//Pulse timer
+	fx->pulse_timer -= dt * 2;
+	if (fx->pulse_timer < 0)
+		fx->pulse_timer = 1000;
+	//Screenshake
+	if (fx->crt)
+		fx->crt_timer -= dt * 1000;
+	if (fx->crt_timer < 0)
+	{
+		fx->crt_timer = 100;
+		fx->crt = false;
+	}
+}
+
+
 static t_entity *spawn_blood(t_entity *head, t_player *player, uint8_t limb)
 {
 	t_entity *node;
@@ -27,10 +73,10 @@ static t_entity *spawn_blood(t_entity *head, t_player *player, uint8_t limb)
 	return (head);
 }
 
+#include <stdio.h>
 void	dismember_enemy(t_app *cbd)
 {
 	static int	limb;
-	static int	i;
 	t_entity	*target;
 	double		target_distance;
 
@@ -38,21 +84,24 @@ void	dismember_enemy(t_app *cbd)
 	target_distance = cbd->playerdata.target_distance;
 	if (ft_strncmp(target->name, "po", 2) == 0 && target_distance < 0.5)
 	{
-		if (i % 25 == 0)
+		if (!target->enabled)
+			return ;
+		if (target->health % 20 == 0)
 		{
-			target->health-=2;
-			target->speed-=0.2;
+			target->speed-=0.15;
 			if (limb <= 4)
 				spawn_blood(cbd->mapdata->entities, &cbd->playerdata, limb);
+			printf("spawn limb!\n");
 			limb++;
+			target->animation.current_animation = (limb * 2);
 		}
 		if (target->health <= 0)
 		{
 			target->health = 0;
 			target->speed = 0;
 		}
+
 		cbd->render.fx.splat = true;
-		i++;
 	}
 }
 

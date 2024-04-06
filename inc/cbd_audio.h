@@ -1,8 +1,8 @@
 #ifndef CBD_AUDIO_H
 # define CBD_AUDIO_H
 
-#include "cbd_render.h"
 # include "miniaudio.h"
+# include "cbd_render.h"
 # include <stdbool.h>
 # include <stdint.h>
 
@@ -18,9 +18,12 @@ typedef enum s_sounds {
 	SND_WALL2,
 	SND_WALL3,
 	SND_GUTS,
+	SND_TAKE_DAMAGE,
+	SND_NEAR_DEATH,
 	SND_SAW,
 	SND_SAW_IDLE,
 	SND_TV_NOISE,
+	SND_TV_BYE,
 	SND_TV_JAZZ,
 	SND_TV_RICKROLL,
 	SND_TV_SURREAL,
@@ -32,8 +35,11 @@ typedef enum s_sounds {
 	SND_NO_FUEL,
 	SND_NO_FUEL2,
 	SND_PICKUP,
+	SND_GAME_OVER,
 	SND_SIZE,
 } t_sounds;
+
+enum e_player_state;
 
 typedef struct s_audio {
 	ma_sound	*sound[SND_SIZE];
@@ -44,6 +50,9 @@ typedef struct s_audio {
 	t_entity	*enemy;
 	bool		t1;
 	bool		pickup;
+	bool		damage;
+	bool		is_dead;
+	bool		chase;
 	uint8_t		channel;
 }	t_audio;
 
@@ -54,5 +63,6 @@ void	play_walk_sound(t_audio *audio, float dt);
 void	loop_sound(t_audio *audio, uint8_t type, bool alternate);
 void	stop_sound(t_audio *audio, uint8_t type);
 void	reset_sounds(t_audio *audio);
-
+void	update_game_audio(t_audio *audio, t_inventory *inv, enum e_player_state state);
+void	update_menu_audio(t_audio *audio, t_app *cbd);
 #endif

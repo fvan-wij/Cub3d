@@ -5,63 +5,6 @@
 #include <stdio.h>
 #include <cbd_audio.h>
 
-static void loop_chainsaw(t_app *cbd) {
-	if (cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo <= 0)
-		return ;
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE) && cbd->playerdata.inv->equipped == WPN_CHAINSAW)
-	{
-		if (cbd->playerdata.target_entity != NULL && cbd->playerdata.target_distance < 0.5)
-		{
-			cbd->render.fx.crt = true;
-			cbd->render.fx.blood = true;
-			cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo-=0.5;
-		}
-		else
-			cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo-=0.5;
-		printf("Ammo: %f\n", cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo);
-	}
-}
-
-static void	update_timers(t_fx *fx, float dt)
-{
-	// Screen blood splatter timer
-	if (fx->splat)
-		fx->splat_timer -= dt * 1000;
-	if (fx->splat_timer < 0)
-	{
-		fx->splat_timer = 100;
-		fx->splat_timer = false;
-	}
-
-	//Pulse timer
-	fx->pulse_timer -= dt * 2;
-	if (fx->pulse_timer < 0)
-		fx->pulse_timer = 1000;
-	//Screenshake
-	if (fx->crt)
-		fx->crt_timer -= dt * 1000;
-	if (fx->crt_timer < 0)
-	{
-		fx->crt_timer = 100;
-		fx->crt = false;
-	}
-}
-
-static void	loop_dynamic_audio(t_audio *audio, t_entity *ent, uint8_t sound, float volume)
-{
-	float 		vol;
-
-	if (!ent || ent->distance > 1.0 || !ent || ent->distance > 1.0)
-	{
-		ma_sound_set_volume(audio->sound[sound], 0.0f);
-		return ;
-	}
-	vol = volume - ent->distance;
-	if (vol < 0.0)
-		vol = 0.0f;
-	ma_sound_set_volume(audio->sound[sound], vol);
-}
-
 void	cbd_loop(void *param)
 {
 	t_app 	*cbd;
@@ -78,15 +21,15 @@ void	cbd_loop(void *param)
 		move_player(cbd);
 		update_entities(cbd);
 		move_entities(cbd->mapdata->entities, cbd);
-		loop_chainsaw(cbd);
+		deal_damage(cbd);
 		update_timers(&cbd->render.fx, cbd->mlx->delta_time);
 		play_weapon_animation(cbd->mlx, cbd->playerdata.inv);
-		loop_dynamic_audio(audio, audio->tv, SND_TV_NOISE + audio->channel, 0.2f);
-		loop_dynamic_audio(audio, audio->enemy, SND_LAUGH, 1.0f);
+		update_game_audio(audio, cbd->playerdata.inv, cbd->playerdata.state);
 		cbd_render(cbd);
 	}
-	else if (cbd->menudata->state == MAP_SELECT)
+	if (cbd->menudata->state == MAP_SELECT)
 		display_preview(cbd->menudata, cbd->mapdata);
 	else if (cbd->menudata->state == MAP_LOAD)
 		change_map(cbd);
+	update_menu_audio(audio, cbd);
 }

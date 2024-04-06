@@ -70,6 +70,7 @@ void	cast_rays(char **map, t_render *render, t_player *p);
 bool	cbd_main(t_app *cbd);
 bool	cbd_init(t_app *cbd);
 void	cbd_loop(void *param);
+void	update_timers(t_fx *fx, float dt);
 void	update_entities(t_app *cbd);
 void	move_entities(t_entity *ent, t_app *cbd);
 void	cbd_init_input(t_app *cbd);
@@ -81,9 +82,10 @@ void	change_map(t_app *cbd);
 
 //		Combat
 void	dismember_enemy(t_app *cbd);
+void 	deal_damage(t_app *cbd);
 
 //		Player
-void	attack_player(t_entity *ent, t_player *playerdata);
+void	attack_player(t_entity *ent, t_player *playerdata, t_fx *fx);
 void	update_player(t_player *playerdata, t_app *cbd);
 
 //		Init
