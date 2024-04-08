@@ -3,7 +3,7 @@
 
 void	update_menu_audio(t_audio *audio, t_app *cbd)
 {
-	if (cbd->menudata->state == GAME_OVER)
+	if (cbd->menudata->state == GAME_OVER || cbd->menudata->state == GAME_WON)
 	{
 		stop_sound(audio, SND_SAW_IDLE);
 		stop_sound(audio, SND_SAW);

@@ -10,6 +10,7 @@ typedef enum e_menu_state {
 	MAP_SELECT,
 	MAP_LOAD,
 	GAME_OVER,
+	GAME_WON,
 } t_menu_state;
 
 typedef struct s_main_menu {
@@ -53,10 +54,18 @@ typedef struct s_game_over {
 	t_vec2i				cursor_pos;
 } t_game_over;
 
+
+typedef struct s_game_won {
+	mlx_image_t			*bg;
+	mlx_image_t			*cursor;
+	t_vec2i				cursor_pos;
+} t_game_won;
+
 typedef struct s_menu {
 	t_main_menu		main_menu;
 	t_select_menu	select_menu;
 	t_game_over		game_over;
+	t_game_won		game_won;
 	t_menu_state	state;
 	t_vec2i			preview_positions[6];
 	t_vec2i			current_position;

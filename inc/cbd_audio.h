@@ -53,6 +53,7 @@ typedef struct s_audio {
 	bool		damage;
 	bool		is_dead;
 	bool		chase;
+	bool		checkpoint;
 	uint8_t		channel;
 }	t_audio;
 

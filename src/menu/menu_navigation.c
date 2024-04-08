@@ -58,6 +58,10 @@ void	menu_enter(t_menu *menu)
 	{
 		set_menu_state(menu, MAIN);
 	}
+	else if (menu->state == GAME_WON)
+	{
+		set_menu_state(menu, MAIN);
+	}
 }
 
 void	display_preview(t_menu *menu, t_map *mapdata)

@@ -4,6 +4,7 @@
 #include <cbd_parser.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 t_map	*load_map(t_map *curr_map, uint8_t	map_id)
 {
@@ -50,9 +51,16 @@ void	change_map(t_app *cbd)
 		cbd_error(ERR_LOAD_MAP);
 		exit(1);
 	}
-	printf("Map Loaded succesfully!\n");
+	printf("Map Loaded successfully!\n");
 	cbd->menudata->state = MAIN;
 	reset_inventory(cbd->playerdata.inv);
 	init_playerdata(&cbd->playerdata, cbd->mapdata);
+	if (audio->checkpoint)
+	{
+		cbd->playerdata.pos = vec_assign(13.5, 2.5);
+		cbd->playerdata.dir = vec_assign(-1.0, 0.0);
+		cbd->playerdata.plane = vec_rotate(cbd->playerdata.dir, M_PI / 2);
+		cbd->mapdata->cbd_map[13][2] = '4';
+	}
 	set_menu_state(cbd->menudata, MAIN);
 }

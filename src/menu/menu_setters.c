@@ -21,6 +21,7 @@ void	set_menu_state(t_menu *menu, t_menu_state state)
 		menu->main_menu.cursor->instances->enabled = true;
 		menu->select_menu.bg->instances->enabled = false;
 		menu->game_over.bg->instances->enabled = false;
+		menu->game_won.bg->instances->enabled = false;
 		menu->main_menu.preview_img->instances->enabled = true;
 	}
 	if (state == MAP_SELECT)
@@ -61,6 +62,20 @@ void	set_menu_state(t_menu *menu, t_menu_state state)
 		menu->select_menu.cursor->instances->enabled = false;
 		menu->main_menu.preview_img->instances->enabled = false;
 		menu->state = GAME_OVER;
+	}
+	if (state == GAME_WON)
+	{
+		set_cursor(menu->game_won.cursor, menu->game_won.cursor_pos);
+		// Turn on correct elements
+		menu->game_won.bg->instances->enabled = true;
+		menu->main_menu.cursor->instances->enabled = true;
+		// Turn off other menu elements
+		menu->main_menu.bg->instances->enabled = false;
+		menu->main_menu.cursor->instances->enabled = false;
+		menu->select_menu.bg->instances->enabled = false;
+		menu->select_menu.cursor->instances->enabled = false;
+		menu->main_menu.preview_img->instances->enabled = false;
+		menu->state = GAME_WON;
 	}
 }
 

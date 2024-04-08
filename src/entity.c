@@ -1,7 +1,6 @@
 #include "cbd_audio.h"
 #include <cub3d.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 void	animate_entity(t_entity *ent, t_app *cbd)
 {
@@ -129,6 +128,25 @@ void	update_item(t_entity *item, t_app *cbd)
 	}
 }
 
+void	update_checkpoint(t_entity *ent, t_app *cbd)
+{
+	t_audio *audio;
+
+	audio = cbd->audio;
+	if (audio->checkpoint)
+		return ;
+	if (ft_strncmp(ent->name, "checkpoint", 10) == 0)
+	{
+		if (vec_distance(ent->pos, cbd->playerdata.pos) < 0.5)
+		{
+			// Add [checkpoint sound]
+			audio->checkpoint = true;
+			cbd->mapdata->cbd_map[2][14] = '4';
+			printf("Triggered checkpoint");
+		}
+	}
+}
+
 void	update_entity(t_entity *ent, t_app *cbd)
 {
 	if (!ent->enabled)
@@ -141,6 +159,10 @@ void	update_entity(t_entity *ent, t_app *cbd)
 	if (ent->type == ENTITY_ITEM || ent->type == ENTITY_ENEMY)
 	{
 		update_item(ent, cbd);
+	}
+	if (ent->type == ENTITY_DECOR)
+	{
+		update_checkpoint(ent, cbd);
 	}
 }
 
