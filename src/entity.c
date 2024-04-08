@@ -59,6 +59,8 @@ void	update_enemy(t_entity *ent, t_app *cbd)
 	if (vec_distance(cbd->playerdata.pos, ent->pos) < 10)
 	{
 		ent->state = ENTITY_AGROED;
+		cbd->mapdata->cbd_map[2][14] = '4';
+		cbd->checkpoint = true;
 		audio->chase = true;
 		ent->dir = vec_sub(cbd->playerdata.pos, ent->pos);
 		if (vec_distance(cbd->playerdata.pos, ent->pos) < 0.25)
@@ -79,7 +81,7 @@ void	update_enemy(t_entity *ent, t_app *cbd)
 	}
 	vec_normalize(&ent->dir);
 	// Determine if the entity is moving away from the player
-	if (ent->health == 0)
+	if (ent->health < 0)
 		ent->enabled = false;
 	// else if (vec_dot(ent->dir, vec_sub(cbd->playerdata.pos, ent->pos)) < 0)
 	// 	ent->animation.current_animation = (11 - (int)ent->health + 1);
@@ -133,7 +135,7 @@ void	update_checkpoint(t_entity *ent, t_app *cbd)
 	t_audio *audio;
 
 	audio = cbd->audio;
-	if (audio->checkpoint)
+	if (cbd->checkpoint)
 		return ;
 	if (ft_strncmp(ent->name, "checkpoint", 10) == 0)
 	{
@@ -152,7 +154,7 @@ void	update_entity(t_entity *ent, t_app *cbd)
 	if (!ent->enabled)
 		return ;
 	animate_entity(ent, cbd);
-	if (ent->type == ENTITY_ENEMY)
+	if (ent->type == ENTITY_ENEMY && ent->enabled)
 	{
 		update_enemy(ent, cbd);
 	}
@@ -160,10 +162,10 @@ void	update_entity(t_entity *ent, t_app *cbd)
 	{
 		update_item(ent, cbd);
 	}
-	if (ent->type == ENTITY_DECOR)
-	{
-		update_checkpoint(ent, cbd);
-	}
+	// if (ent->type == ENTITY_DECOR)
+	// {
+	// 	update_checkpoint(ent, cbd);
+	// }
 }
 
 void	update_entities(t_app *cbd)

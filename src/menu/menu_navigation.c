@@ -54,13 +54,13 @@ void	menu_enter(t_menu *menu)
 			menu->current_position = menu->preview_positions[menu->select_menu.current_item];
 		}
 	}
-	else if (menu->state == GAME_OVER)
-	{
-		set_menu_state(menu, MAIN);
-	}
 	else if (menu->state == GAME_WON)
 	{
 		set_menu_state(menu, MAIN);
+	}
+	else if (menu->state == GAME_OVER)
+	{
+		set_menu_state(menu, OFF);
 	}
 }
 

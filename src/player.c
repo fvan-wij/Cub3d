@@ -17,7 +17,10 @@ void	update_player(t_player *playerdata, t_app *cbd)
 		playerdata->i_time -= cbd->mlx->delta_time;
 	}
 	if (playerdata->health < 1)
+	{
 		set_menu_state(cbd->menudata, GAME_OVER);
+		respawn(cbd);
+	}
 }
 
 void	escape_player(t_vec2d pos, t_vec2d dir, t_app *cbd)

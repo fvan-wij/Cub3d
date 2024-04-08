@@ -37,6 +37,35 @@ void	reset_inventory(t_inventory *inv)
 	inv->weapons[WPN_CHAINSAW].ammo = 0;
 }
 
+void	respawn(t_app *cbd)
+{
+	t_audio		*audio;
+	t_entity	*curr;
+
+	audio = cbd->audio;
+	if (cbd->checkpoint)
+	{
+		cbd->playerdata.pos = vec_assign(13.5, 2.5);
+		cbd->playerdata.dir = vec_assign(-1.0, 0.0);
+		cbd->playerdata.plane = vec_rotate(cbd->playerdata.dir, M_PI / 2);
+		cbd->mapdata->cbd_map[13][2] = '4';
+		cbd->playerdata.health = 2;
+		audio->enemy->health = 100;
+		cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo = 50;
+		audio->enemy->animation.current_animation = 0;
+		audio->enemy->pos = audio->enemy->destinations[0];
+		audio->enemy->limb = 0;
+		audio->enemy->speed = 1.5;
+		curr = cbd->mapdata->entities;
+		while (curr->next != NULL)
+		{
+			if (curr->type == ENTITY_ITEM && ft_strncmp(curr->name, "chainsaw", 8) != 0)
+				curr->enabled = true;
+			curr = curr->next;
+		}
+	}
+}
+
 void	change_map(t_app *cbd)
 {
 	t_audio	*audio;
@@ -55,7 +84,7 @@ void	change_map(t_app *cbd)
 	cbd->menudata->state = MAIN;
 	reset_inventory(cbd->playerdata.inv);
 	init_playerdata(&cbd->playerdata, cbd->mapdata);
-	if (audio->checkpoint)
+	if (cbd->checkpoint)
 	{
 		cbd->playerdata.pos = vec_assign(13.5, 2.5);
 		cbd->playerdata.dir = vec_assign(-1.0, 0.0);
