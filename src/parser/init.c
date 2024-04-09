@@ -18,7 +18,7 @@ t_map	*alloc_map(void)
 	mapdata->valid 			= false;
 	mapdata->is_bonus		= false;
 	mapdata->n_tex			= TEX_SIZE;
-	if (!mapdata || !mapdata->walls.w_path)
+	if (!mapdata)
 		return (cbd_error(ERR_ALLOC), NULL);
 	return (mapdata);
 }

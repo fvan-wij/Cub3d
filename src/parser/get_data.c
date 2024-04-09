@@ -39,7 +39,6 @@ static void	retrieve_element(char *line, t_map *mapdata)
 t_map	*get_map_data_mandatory(int fd, t_valid *is, char *line)
 {
 	t_map	*mapdata;
-	size_t	i;
 	ft_printf("MAndATORY!!!\n");
 
 	mapdata = alloc_map();
@@ -57,12 +56,7 @@ t_map	*get_map_data_mandatory(int fd, t_valid *is, char *line)
 		line = get_next_line(fd);
 	}
 	close(fd);
-	i = 0;
-	while (i < 4)
-	{
-		mapdata->walls.w_tex[i] = get_mlx_tex(mapdata->walls.w_path, TEX_SIZE);
-		i++;
-	}
+	get_mlx_tex(mapdata, TEX_SIZE);
 	if (!mapdata->raw_data)
 		return (cbd_error(ERR_INVALID_MAP), NULL);
 	return (mapdata);
