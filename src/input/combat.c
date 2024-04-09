@@ -76,7 +76,6 @@ static t_entity *spawn_blood(t_entity *head, t_player *player, uint8_t limb)
 #include <stdio.h>
 void	dismember_enemy(t_app *cbd)
 {
-	static int	limb;
 	t_entity	*target;
 	double		target_distance;
 
@@ -89,11 +88,11 @@ void	dismember_enemy(t_app *cbd)
 		if (target->health % 20 == 0)
 		{
 			target->speed-=0.15;
-			if (limb <= 4)
-				spawn_blood(cbd->mapdata->entities, &cbd->playerdata, limb);
-			printf("spawn limb!\n");
-			limb++;
-			target->animation.current_animation = (limb * 2);
+			if (target->limb <= 4)
+				spawn_blood(cbd->mapdata->entities, &cbd->playerdata, target->limb);
+			// printf("limb: %d, spawn limb!\n", target->limb);
+			target->limb++;
+			target->animation.current_animation = (target->limb * 2);
 		}
 		if (target->health <= 0)
 		{

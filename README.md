@@ -51,6 +51,7 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [ ] Add kick
 - [ ] Add near death overlay
 - [ ] Add end screen
+- [ ] Add destructibles
 - [x] Add Po miniboss
 - [x] Item pickups / Items ( Fuel, Chainsaw)
 - [x] Death mechanic

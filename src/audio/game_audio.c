@@ -20,7 +20,7 @@ static void	take_damage(t_audio *audio)
 {
 	if (audio->damage)
 	{
-		play_sound(audio, SND_NEAR_DEATH, 0.15f, 0.95f);
+		play_sound(audio, SND_NEAR_DEATH, 0.75f, 0.95f);
 		audio->damage = false;
 	}
 }
@@ -102,6 +102,7 @@ static void	handle_chainsaw_sound(t_audio *audio, t_inventory *inv)
 void	update_game_audio(t_audio *audio, t_inventory *inv, enum e_player_state state)
 {
 	stop_sound(audio, SND_MENU);
+	stop_sound(audio, SND_GAME_OVER);
 	loop_sound(audio, SND_AMBIENT_LAUGH, false);
 	loop_sound(audio, SND_TV_NOISE, false);
 	loop_sound(audio, SND_TV_BYE + audio->channel, false);

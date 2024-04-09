@@ -2,7 +2,6 @@
 #include <cbd_error.h>
 #include <libft.h>
 #include <MLX42.h>
-#include <stdio.h>
 #include <cbd_audio.h>
 
 void	cbd_loop(void *param)
@@ -18,6 +17,7 @@ void	cbd_loop(void *param)
 		cbd->render.img->instances->enabled = true;
 		cbd->render.sprite_img->instances->enabled = true;
 		update_player(&cbd->playerdata, cbd);
+		escape_player(cbd->playerdata.pos, cbd->playerdata.dir, cbd);
 		move_player(cbd);
 		update_entities(cbd);
 		move_entities(cbd->mapdata->entities, cbd);

@@ -49,6 +49,7 @@ typedef struct s_app {
 	mlx_t		*mlx;
 	void		*audio;
 	double		elapsed_time;
+	bool		checkpoint;
 }	t_app;
 
 
@@ -75,6 +76,7 @@ void	update_entities(t_app *cbd);
 void	move_entities(t_entity *ent, t_app *cbd);
 void	cbd_init_input(t_app *cbd);
 void	cbd_input(mlx_key_data_t keydata, void *param);
+void	reset_inventory(t_inventory *inv);
 
 //		Interaction
 void	move_player(t_app *cbd);
@@ -84,9 +86,10 @@ void	change_map(t_app *cbd);
 void	dismember_enemy(t_app *cbd);
 void 	deal_damage(t_app *cbd);
 
-//		Player
+//		Player.c
 void	attack_player(t_entity *ent, t_player *playerdata, t_fx *fx);
 void	update_player(t_player *playerdata, t_app *cbd);
+void	escape_player(t_vec2d pos, t_vec2d dir, t_app *cbd);
 
 //		Init
 mlx_image_t *cbd_init_texture_img(mlx_t *mlx, char *path);
