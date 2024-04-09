@@ -48,15 +48,23 @@ void	update_animation(mlx_t *mlx, t_weapon *weapon)
 	if (weapon->type == WPN_FIST)
 		play_single_animation(mlx->delta_time, weapon);
 	else if (weapon->type == WPN_CHAINSAW)
-		play_loop_animation(weapon);
+	{
+		if (weapon->ammo > 0)
+			play_loop_animation(weapon);
+		else if (weapon->ammo <= 0)
+			play_single_animation(mlx->delta_time, weapon);
+	}
 }
 
 void	reset_animation(t_weapon *current_weapon)
 {
 		current_weapon->fire_animation->loop = false;
-		current_weapon->fire_animation->frames[0].img->enabled = false;
-		current_weapon->fire_animation->frames[1].img->enabled = false;
-		current_weapon->fire_animation->frames[2].img->enabled = false;
+		if (current_weapon->fire_animation->frames[0].img)
+			current_weapon->fire_animation->frames[0].img->enabled = false;
+		if (current_weapon->fire_animation->frames[1].img)
+			current_weapon->fire_animation->frames[1].img->enabled = false;
+		if (current_weapon->fire_animation->frames[2].img)
+			current_weapon->fire_animation->frames[2].img->enabled = false;
 		current_weapon->img->enabled = true;
 		current_weapon->fire_animation->frames[1].img->instances->x = current_weapon->fire_animation->reset_x;
 		current_weapon->fire_animation->current_x = current_weapon->fire_animation->reset_x;
@@ -67,11 +75,10 @@ void	play_weapon_animation(mlx_t	*mlx, t_inventory *inv)
 	t_weapon *weapon;
 
 	weapon = &inv->weapons[inv->equipped];
-	if (inv->equipped == WPN_MAP)
-	{
-		reset_animation(&inv->weapons[WPN_CHAINSAW]);
+	if (!weapon)
 		return ;
-	}
+	if (inv->equipped == WPN_MAP)
+		reset_animation(&inv->weapons[WPN_CHAINSAW]);
 	if (weapon->fire_animation->loop)
 	{
 		inv->weapons[inv->equipped].img->enabled = false;

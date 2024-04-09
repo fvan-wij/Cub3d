@@ -59,6 +59,7 @@ typedef struct s_app {
 	mlx_t		*mlx;
 	void		*audio;
 	double		elapsed_time;
+	bool		checkpoint;
 }	t_app;
 
 
@@ -80,10 +81,12 @@ void	cast_rays(char **map, t_render *render, t_player *p);
 bool	cbd_main(t_app *cbd);
 bool	cbd_init(t_app *cbd);
 void	cbd_loop(void *param);
+void	update_timers(t_fx *fx, float dt);
 void	update_entities(t_app *cbd);
 void	move_entities(t_entity *ent, t_app *cbd);
 void	cbd_init_input(t_app *cbd);
 void	cbd_input(mlx_key_data_t keydata, void *param);
+void	reset_inventory(t_inventory *inv);
 
 // Beheading
 void	behead(t_app *cbd);
@@ -94,10 +97,12 @@ void	change_map(t_app *cbd);
 
 //		Combat
 void	dismember_enemy(t_app *cbd);
+void 	deal_damage(t_app *cbd);
 
-//		Player
-void	attack_player(t_entity *ent, t_player *playerdata);
+//		Player.c
+void	attack_player(t_entity *ent, t_player *playerdata, t_fx *fx);
 void	update_player(t_player *playerdata, t_app *cbd);
+void	escape_player(t_vec2d pos, t_vec2d dir, t_app *cbd);
 
 //		Init
 mlx_image_t *cbd_init_texture_img(mlx_t *mlx, char *path);

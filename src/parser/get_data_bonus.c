@@ -114,7 +114,7 @@ t_entity *append_entity(t_entity *entities, char *line, uint8_t type)
 	new_entity->animation = load_animation(new_entity->texture, new_entity->frame_width, new_entity->frame_height);
 	if (type == CONT_ENEMY)
 	{
-		new_entity->speed = (float) ft_atoi(temp[5]);
+		new_entity->speed = (float) ft_atoi(temp[5]) + 0.5f;
 		new_entity->health = (float) ft_atoi(temp[6]);
 		new_entity->damage = (float) ft_atoi(temp[7]);
 		new_entity->type = ENTITY_ENEMY;

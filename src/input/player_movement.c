@@ -88,9 +88,9 @@ void	move_player(t_app *cbd)
 
 	//Player rotation
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_RIGHT) && cbd->playerdata.pos.x <= cbd->mapdata->width)
-		rotate_player(&cbd->playerdata, cbd->particles, cbd->mlx->delta_time * 2, -1);
+		rotate_player(&cbd->playerdata, cbd->particles, cbd->mlx->delta_time * 3.5, -1);
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_LEFT) && cbd->playerdata.pos.x >= 0)
-		rotate_player(&cbd->playerdata, cbd->particles, -cbd->mlx->delta_time * 2, 1);
+		rotate_player(&cbd->playerdata, cbd->particles, -cbd->mlx->delta_time * 3.5, 1);
 
 	//Resolve movement
 	peek_map(cbd->playerdata.inv, &cbd->render, cbd->render.hud->img[HUD_MAP], cbd->mlx);

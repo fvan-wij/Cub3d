@@ -85,7 +85,9 @@ typedef struct s_entity {
 	int					frame_height;
 	t_animation			animation;
 	bool				enabled;
+	bool				dead;
 	float				distance;
+	int					limb;
 	enum e_entity_state	state;
 	struct s_entity		*next;
 }	t_entity;
@@ -122,6 +124,7 @@ t_map	*alloc_map_bonus(void);
 //		Map select
 t_map	*load_map(t_map *curr_map, uint8_t	map_id);
 uint8_t	set_current_map(const char *file);
+void	respawn(t_app *cbd);
 
 //		Bools.c
 bool	is_tex(char *line, t_valid *is);

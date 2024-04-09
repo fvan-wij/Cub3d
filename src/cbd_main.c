@@ -14,7 +14,7 @@ bool	cbd_main(t_app *cbd)
 		return (FAILURE);
 
 	cbd->audio = cbd_init_audio();
-	play_sound(cbd->audio, SND_MENU, 0.6f);
+	play_sound(cbd->audio, SND_MENU, 0.6f, 1.0f);
 
 	mlx_loop(cbd->mlx);
 	mlx_terminate(cbd->mlx);

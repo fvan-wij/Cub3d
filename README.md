@@ -36,21 +36,27 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [ ] fix bug where circle-wall collision doesn't work for 45 degree angle at corner and refactor collision
 - [x] fix overlapping sprites
 
-*Gameplay*
+*Gameplay* (Dark_Secret)
 - [ ] Add jumpscares, when entering shack
 - [ ] Add Foreshadowing jumpscare po
-- [ ] Add jumpscare, tree or shrub
+- [x] Add jumpscare, tree or shrub
 - [ ] Lion roar
 - [x] Po dismemberment mechanic
-- [ ] Gasoline / fuel for chainsaw
-- [ ] chase soundtrack (danger)
-- [ ] Jumpscare sounds
+- [x] Gasoline / fuel for chainsaw
+- [x] chase soundtrack (danger)
+- [x] Jumpscare sounds
 - [ ] Add patrolling BEAR
-- [ ] Add Po miniboss
-- [ ] Item pickups / Items ( Fuel, Chainsaw)
-- [ ] Death mechanic
-- [ ] Health stuff
-- [ ] Hit stuff
+- [ ] Add finishing move on Po
+- [ ] Add exit on Dome entrance
+- [ ] Add kick
+- [ ] Add near death overlay
+- [ ] Add end screen
+- [ ] Add destructibles
+- [x] Add Po miniboss
+- [x] Item pickups / Items ( Fuel, Chainsaw)
+- [x] Death mechanic
+- [x] Health stuff
+- [x] Hit stuff
 - [x] Add destructible walls
 
 *Features*
@@ -68,3 +74,13 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [x] Slither some dither in
 - [ ] Minimap should play buzzing sound
 - [x] Add sprites
+
+
+### Credits
+Music and sounddesign produced and composed by Flip van Wijk
+
+Chainsaw Sound:
+Sound Effect by <a href="https://pixabay.com/users/u_zpj3vbdres-31862813/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=128369">u_zpj3vbdres</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=128369">Pixabay</a>
+
+Pickup Sound:
+Sound Effect from <a href="https://pixabay.com/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=37089">Pixabay</a>
