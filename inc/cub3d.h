@@ -76,6 +76,7 @@ void	update_entities(t_app *cbd);
 void	move_entities(t_entity *ent, t_app *cbd);
 void	cbd_init_input(t_app *cbd);
 void	cbd_input(mlx_key_data_t keydata, void *param);
+void	reset_inventory(t_inventory *inv);
 
 //		Interaction
 void	move_player(t_app *cbd);

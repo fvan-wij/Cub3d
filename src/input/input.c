@@ -137,7 +137,10 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 	if (cbd->menudata->state == OFF)
 		game_input(keydata, cbd, audio);
 	else
+	{
 		menu_input(keydata, cbd, audio);
+		// printf("Ga hier in!!!!\n");
+	}
 	change_tv_channel(audio, keydata);
 	app_input(keydata, cbd, audio);
 }

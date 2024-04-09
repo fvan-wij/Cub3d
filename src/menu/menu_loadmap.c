@@ -84,12 +84,5 @@ void	change_map(t_app *cbd)
 	cbd->menudata->state = MAIN;
 	reset_inventory(cbd->playerdata.inv);
 	init_playerdata(&cbd->playerdata, cbd->mapdata);
-	if (cbd->checkpoint)
-	{
-		cbd->playerdata.pos = vec_assign(13.5, 2.5);
-		cbd->playerdata.dir = vec_assign(-1.0, 0.0);
-		cbd->playerdata.plane = vec_rotate(cbd->playerdata.dir, M_PI / 2);
-		cbd->mapdata->cbd_map[13][2] = '4';
-	}
 	set_menu_state(cbd->menudata, MAIN);
 }
