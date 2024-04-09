@@ -1,6 +1,6 @@
 NAME	:= cub3d
 # CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast
-CFLAGS	:= -Wextra -Wall -Wunreachable-code -Ofast
+CFLAGS	:= -Wextra -Wall -Wunreachable-code -O2
 LIBMLX	:= ./lib/MLX42
 LIBFT	:= ./lib/libft
 MAUDIO	:= ./lib/miniaudio
@@ -13,7 +13,6 @@ SRCS	:= \
 		   cbd_main.c			\
 		   cbd_render.c			\
 		   cbd_loop.c			\
-		   miniaudio.c 			\
 		   beheading.c			\
 		   error/error.c 		\
 		   entity.c				\

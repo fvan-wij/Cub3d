@@ -4,6 +4,41 @@
 #include <MLX42.h>
 #include <cbd_audio.h>
 
+static void	loop_behead(t_app *cbd, t_audio *audio)
+{
+	behead(cbd);
+	cbd->elapsed_time += cbd->mlx->delta_time;
+	cbd->render.img->instances->enabled = true;
+	cbd->render.sprite_img->instances->enabled = true;
+	update_player(&cbd->playerdata, cbd);
+	// move_player(cbd);
+	update_entities(cbd);
+	// move_entities(cbd->mapdata->entities, cbd);
+	// deal_damage(cbd);
+	update_timers(&cbd->render.fx, cbd->mlx->delta_time);
+	play_weapon_animation(cbd->mlx, cbd->playerdata.inv);
+	update_game_audio(audio, cbd->playerdata.inv, cbd->playerdata.state);
+	cbd_render(cbd);
+}
+
+static void	loop_game(t_app *cbd, t_audio *audio)
+{
+	cbd->elapsed_time += cbd->mlx->delta_time;
+	cbd->render.img->instances->enabled = true;
+	cbd->render.sprite_img->instances->enabled = true;
+	update_player(&cbd->playerdata, cbd);
+	escape_player(cbd->playerdata.pos, cbd->playerdata.dir, cbd);
+	move_player(cbd);
+	update_entities(cbd);
+	move_entities(cbd->mapdata->entities, cbd);
+	deal_damage(cbd);
+	update_timers(&cbd->render.fx, cbd->mlx->delta_time);
+	play_weapon_animation(cbd->mlx, cbd->playerdata.inv);
+	update_game_audio(audio, cbd->playerdata.inv, cbd->playerdata.state);
+	cbd_render(cbd);
+}
+
+
 void	cbd_loop(void *param)
 {
 	t_app 	*cbd;
@@ -14,20 +49,22 @@ void	cbd_loop(void *param)
 	if (cbd->menudata->state == OFF)
 	{
 		if (cbd->state == STATE_BEHEAD)
-			behead(cbd);
-		cbd->elapsed_time += cbd->mlx->delta_time;
-		cbd->render.img->instances->enabled = true;
-		cbd->render.sprite_img->instances->enabled = true;
-		update_player(&cbd->playerdata, cbd);
-		escape_player(cbd->playerdata.pos, cbd->playerdata.dir, cbd);
-		move_player(cbd);
-		update_entities(cbd);
-		move_entities(cbd->mapdata->entities, cbd);
-		deal_damage(cbd);
-		update_timers(&cbd->render.fx, cbd->mlx->delta_time);
-		play_weapon_animation(cbd->mlx, cbd->playerdata.inv);
-		update_game_audio(audio, cbd->playerdata.inv, cbd->playerdata.state);
-		cbd_render(cbd);
+			loop_behead(cbd, audio);
+		else
+			loop_game(cbd, audio);
+		// cbd->elapsed_time += cbd->mlx->delta_time;
+		// cbd->render.img->instances->enabled = true;
+		// cbd->render.sprite_img->instances->enabled = true;
+		// update_player(&cbd->playerdata, cbd);
+		// escape_player(cbd->playerdata.pos, cbd->playerdata.dir, cbd);
+		// move_player(cbd);
+		// update_entities(cbd);
+		// move_entities(cbd->mapdata->entities, cbd);
+		// deal_damage(cbd);
+		// update_timers(&cbd->render.fx, cbd->mlx->delta_time);
+		// play_weapon_animation(cbd->mlx, cbd->playerdata.inv);
+		// update_game_audio(audio, cbd->playerdata.inv, cbd->playerdata.state);
+		// cbd_render(cbd);
 	}
 	if (cbd->menudata->state == MAP_SELECT)
 		display_preview(cbd->menudata, cbd->mapdata);

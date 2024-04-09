@@ -65,8 +65,11 @@ void	reset_animation(t_weapon *current_weapon)
 			current_weapon->fire_animation->frames[1].img->enabled = false;
 		if (current_weapon->fire_animation->frames[2].img)
 			current_weapon->fire_animation->frames[2].img->enabled = false;
-		current_weapon->img->enabled = true;
-		current_weapon->fire_animation->frames[1].img->instances->x = current_weapon->fire_animation->reset_x;
+		if( current_weapon->img->enabled)
+			current_weapon->img->enabled = true;
+		if (current_weapon->fire_animation->frames[1].img)
+			current_weapon->fire_animation->frames[1].img->instances->x = current_weapon->fire_animation->reset_x;
+		// if ()
 		current_weapon->fire_animation->current_x = current_weapon->fire_animation->reset_x;
 }
 

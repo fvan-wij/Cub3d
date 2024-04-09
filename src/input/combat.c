@@ -81,6 +81,8 @@ void	dismember_enemy(t_app *cbd)
 
 	target = cbd->playerdata.target_entity;
 	target_distance = cbd->playerdata.target_distance;
+	if (target->health <= 0)
+		return ;
 	if (ft_strncmp(target->name, "po", 2) == 0 && target_distance < 0.5)
 	{
 		if (!target->enabled)
@@ -90,10 +92,11 @@ void	dismember_enemy(t_app *cbd)
 			target->speed-=0.15;
 			if (target->limb <= 4)
 				spawn_blood(cbd->mapdata->entities, &cbd->playerdata, target->limb);
-			// printf("limb: %d, spawn limb!\n", target->limb);
 			target->limb++;
 			target->animation.current_animation = (target->limb * 2);
 		}
+		if (target->health < 20 && target->health > 0)
+			cbd->state = STATE_BEHEAD;
 		if (target->health <= 0)
 		{
 			target->health = 0;

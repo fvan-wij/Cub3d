@@ -9,6 +9,7 @@ void	start_beheading(t_app *cbd)
 	cbd->beheading.timer = 10.0f;
 	cbd->playerdata.inv->weapons[WPN_CHAINSAW].fire_animation->loop = true;
 	cbd->playerdata.inv->weapons[WPN_CHAINSAW].fire_animation->current_x = cbd->beheading.chainsaw_pos.x;
+	cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo = 50000;
 	cbd->render.po_head->enabled = true;
 	if (cbd->playerdata.target_entity != NULL)
 	{
@@ -34,6 +35,7 @@ void	stop_beheading(t_app *cbd)
 	cbd->beheading.timer = 0;
 	cbd->beheading.chainsaw_pos.x = WIDTH / 3 - 100;
 	cbd->state = STATE_GAME;
+	cbd->playerdata.target_entity->health = 0;
 	stop_sound(audio, SND_SAW);
 	stop_sound(audio, SND_GUTS);
 	loop_sound(audio, SND_SAW_IDLE, false);
