@@ -71,7 +71,7 @@ void	move_player(t_app *cbd)
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_LEFT_SHIFT))
 	{
 		cbd->playerdata.state = PLAYER_RUNNING;
-		move_speed *= 1.25;
+		move_speed *= 1.35;
 	}
 
 	//Player movement
