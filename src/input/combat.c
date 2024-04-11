@@ -2,6 +2,7 @@
 #include <cbd_audio.h>
 #include <cbd_error.h>
 
+#include <stdio.h>
 void deal_damage(t_app *cbd)
 {
 	if (cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo <= 0)
@@ -12,13 +13,14 @@ void deal_damage(t_app *cbd)
 		{
 			cbd->render.fx.crt = true;
 			cbd->render.fx.blood = true;
-			cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo-=0.5;
-			cbd->playerdata.target_entity->health--;
+			cbd->render.fx.splat = true;
+			cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo-=cbd->mlx->delta_time * 10;
+			cbd->playerdata.target_entity->health-=cbd->mlx->delta_time;
 			if (cbd->playerdata.target_entity->enabled)
 				dismember_enemy(cbd);
 		}
 		else
-			cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo-=0.5;
+			cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo-=cbd->mlx->delta_time * 10;
 	}
 }
 
@@ -29,8 +31,8 @@ void	update_timers(t_fx *fx, float dt)
 		fx->splat_timer -= dt * 1000;
 	if (fx->splat_timer < 0)
 	{
-		fx->splat_timer = 75;
-		fx->splat_timer = false;
+		fx->splat_timer = 150;
+		fx->splat = false;
 	}
 
 	//Pulse timer
@@ -48,7 +50,7 @@ void	update_timers(t_fx *fx, float dt)
 }
 
 
-static t_entity *spawn_blood(t_entity *head, t_player *player, uint8_t limb)
+t_entity *spawn_blood(t_entity *head, t_player *player, uint8_t limb)
 {
 	t_entity *node;
 	t_entity *curr;
@@ -73,7 +75,6 @@ static t_entity *spawn_blood(t_entity *head, t_player *player, uint8_t limb)
 	return (head);
 }
 
-#include <stdio.h>
 void	dismember_enemy(t_app *cbd)
 {
 	t_entity	*target;
@@ -81,6 +82,8 @@ void	dismember_enemy(t_app *cbd)
 
 	target = cbd->playerdata.target_entity;
 	target_distance = cbd->playerdata.target_distance;
+	if (target->health <= 0)
+		return ;
 	if (ft_strncmp(target->name, "po", 2) == 0 && target_distance < 0.5)
 	{
 		if (!target->enabled)
@@ -90,17 +93,16 @@ void	dismember_enemy(t_app *cbd)
 			target->speed-=0.15;
 			if (target->limb <= 4)
 				spawn_blood(cbd->mapdata->entities, &cbd->playerdata, target->limb);
-			// printf("limb: %d, spawn limb!\n", target->limb);
 			target->limb++;
 			target->animation.current_animation = (target->limb * 2);
 		}
+		if (target->health < 20 && target->health > 0)
+			cbd->state = STATE_BEHEAD;
 		if (target->health <= 0)
 		{
 			target->health = 0;
 			target->speed = 0;
 		}
-
-		cbd->render.fx.splat = true;
 	}
 }
 

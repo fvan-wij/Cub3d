@@ -20,6 +20,7 @@ static void	fade_blood(mlx_image_t *img)
 	}
 }
 
+#include <stdio.h>
 void	draw_blood_splat(mlx_image_t *img, t_particle *splat, t_fx *fx)
 {
 	int i = 0;

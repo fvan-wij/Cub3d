@@ -66,22 +66,18 @@ t_rgba	get_col(char *temp)
 ** Returns:
 **	mlx_texture_t **textures
 */
-mlx_texture_t	**get_mlx_tex(char **tex_path, uint8_t n)
+bool	get_mlx_tex(t_map *mapdata, uint8_t n)
 {
-	int				i;
-	mlx_texture_t 	**textures;
+	size_t	i;
 
 	i = 0;
-	textures = malloc(sizeof(mlx_texture_t *) * n);
-	while (tex_path[i] && i < n)
+	while (mapdata->walls.w_path[i] && i < n)
 	{
-		if (tex_exists(tex_path[i]))
-			textures[i] = mlx_load_png(tex_path[i]);
+		if (tex_exists(mapdata->walls.w_path[i]))
+			mapdata->walls.w_tex[i] = mlx_load_png(mapdata->walls.w_path[i]);
 		else
-			return (cbd_error(ERR_FILE_INEXISTS), NULL);
-		if (!textures)
-			return (cbd_error(ERR_ALLOC), NULL);
+			return (cbd_error(ERR_FILE_INEXISTS), false);
 		i++;
 	}
-	return (textures);
+	return (true);
 }

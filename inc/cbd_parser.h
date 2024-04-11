@@ -139,7 +139,7 @@ bool	tex_exists(char *path);
 //				Getters.c
 char			*get_texpath(char *temp);
 t_rgba			get_col(char *temp);
-mlx_texture_t	**get_mlx_tex(char **tex_path, uint8_t n);
+bool			get_mlx_tex(t_map *mapdata, uint8_t n);
 
 t_animation	load_animation(mlx_texture_t *texture, uint32_t frame_width, uint32_t frame_height);
 

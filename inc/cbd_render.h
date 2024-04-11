@@ -20,7 +20,7 @@
 //Dimensions
 # define TILESIZE 		64
 # define MINIMAP_WIDTH	184
-# define MINIMAP_HEIGHT	118
+# define MINIMAP_HEIGHT	160
 # define N_PARTICLES	25
 # define MAX_BLOOD_PARTICLES 25
 
@@ -92,6 +92,7 @@ typedef struct s_animation {
 	bool					loop;
 	bool					enabled;
 	float					reset_x;
+	float					current_x;
 }	t_animation;
 
 typedef struct s_weapon {
@@ -146,6 +147,7 @@ typedef struct t_fx {
 typedef struct s_render {
 	mlx_image_t	*img;
 	mlx_image_t	*sprite_img;
+	mlx_image_t	*po_head;
 	t_hud		*hud;
 	t_inventory	*inv;
 	t_ray		rays[WIDTH];
@@ -198,6 +200,7 @@ void			draw_walls_bonus(t_render render, t_map *map);
 void			draw_sprites(t_render *render, t_map *map, t_player *player);
 void			render_entities(t_render *render, t_entity *entities, t_player *player);
 void			draw_equipped_weapon(t_inventory *inv);
+t_entity 		*spawn_blood(t_entity *head, t_player *player, uint8_t limb);
 
 //				Draw shapes
 void			draw_line(mlx_image_t *image, uint32_t color, t_vec2i p1, t_vec2i p2);

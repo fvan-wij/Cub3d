@@ -37,7 +37,6 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [x] fix overlapping sprites
 
 *Gameplay* (Dark_Secret)
-- [ ] Add jumpscares, when entering shack
 - [ ] Add Foreshadowing jumpscare po
 - [x] Add jumpscare, tree or shrub
 - [ ] Lion roar
@@ -46,12 +45,15 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [x] chase soundtrack (danger)
 - [x] Jumpscare sounds
 - [ ] Add patrolling BEAR
-- [ ] Add finishing move on Po
-- [ ] Add exit on Dome entrance
+- [x] Add finishing move on Po
+- [x] Add exit on Dome entrance
 - [ ] Add kick
 - [ ] Add near death overlay
-- [ ] Add end screen
+- [x] Add end screen
 - [ ] Add destructibles
+- [ ] Add health indicator
+- [ ] Door should be more obvious
+- [ ] Add sprite with controls
 - [x] Add Po miniboss
 - [x] Item pickups / Items ( Fuel, Chainsaw)
 - [x] Death mechanic

@@ -38,10 +38,10 @@ void	cbd_render(t_app *cbd)
 	cbd->render.img = dither_image(cbd->render.img);
 	draw_blood_splat(cbd->render.hud->img[HUD_OVERLAY], cbd->render.splat, &cbd->render.fx);
 	draw_blood_particles(cbd->render.sprite_img, cbd->render.blood, &cbd->render.fx);
+	if (cbd->state == STATE_BEHEAD)
+	{
+		draw_square(cbd->hud->img[HUD_OVERLAY], color(0, 0, 0), vec2i_assign(0, 0), vec2i_assign(WIDTH, HEIGHT>>3));
+		draw_square(cbd->hud->img[HUD_OVERLAY], color(0, 0, 0), vec2i_assign(0, HEIGHT - (HEIGHT>>3)), vec2i_assign(WIDTH, HEIGHT>>3));
+	}
 	screenshake(&cbd->render);
-
-	//Disabled the pulse due to performance impact
-
-	// draw_radial_overlay(cbd->render.hud->img[HUD_PULSE], cbd);
-	// cbd->render.hud->img[HUD_PULSE] = dither_image(cbd->render.hud->img[HUD_PULSE]);
 }

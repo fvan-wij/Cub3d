@@ -63,7 +63,7 @@ void	update_enemy(t_entity *ent, t_app *cbd)
 		cbd->checkpoint = true;
 		audio->chase = true;
 		ent->dir = vec_sub(cbd->playerdata.pos, ent->pos);
-		if (vec_distance(cbd->playerdata.pos, ent->pos) < 0.25)
+		if (vec_distance(cbd->playerdata.pos, ent->pos) < 0.6)
 		{
 			if (cbd->playerdata.i_time <= 0)
 			{
@@ -81,8 +81,8 @@ void	update_enemy(t_entity *ent, t_app *cbd)
 	}
 	vec_normalize(&ent->dir);
 	// Determine if the entity is moving away from the player
-	if (ent->health < 0)
-		ent->enabled = false;
+	// if (ent->health < 0)
+	// 	ent->enabled = false;
 	// else if (vec_dot(ent->dir, vec_sub(cbd->playerdata.pos, ent->pos)) < 0)
 	// 	ent->animation.current_animation = (11 - (int)ent->health + 1);
 	// else
@@ -116,14 +116,14 @@ void	update_item(t_entity *item, t_app *cbd)
 			audio->pickup = true;
 		}
 	}
-	if (ft_strncmp(item->name, "po", 2) == 0 && item->enabled && item->health == 0)
+	if (ft_strncmp(item->name, "po", 2) == 0 && item->enabled && item->dead)
 	{
 		if (vec_distance(item->pos, cbd->playerdata.pos) < 0.5 && !cbd->playerdata.inv->weapons[WPN_MAP].in_inventory)
 		{
 			// Add [pickup sound]
 			cbd->playerdata.inv->weapons[WPN_CHAINSAW].fire_animation->loop = false;
 			cbd->playerdata.inv->weapons[WPN_MAP].in_inventory = true;
-			cbd->playerdata.inv->equipped = WPN_MAP;
+			// cbd->playerdata.inv->equipped = WPN_MAP;
 			item->enabled = false;
 			audio->pickup = true;
 		}
@@ -154,7 +154,7 @@ void	update_entity(t_entity *ent, t_app *cbd)
 	if (!ent->enabled)
 		return ;
 	animate_entity(ent, cbd);
-	if (ent->type == ENTITY_ENEMY && ent->enabled)
+	if (ent->type == ENTITY_ENEMY && ent->enabled && ent->health > 20)
 	{
 		update_enemy(ent, cbd);
 	}
@@ -162,10 +162,6 @@ void	update_entity(t_entity *ent, t_app *cbd)
 	{
 		update_item(ent, cbd);
 	}
-	// if (ent->type == ENTITY_DECOR)
-	// {
-	// 	update_checkpoint(ent, cbd);
-	// }
 }
 
 void	update_entities(t_app *cbd)

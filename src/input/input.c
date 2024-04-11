@@ -59,11 +59,24 @@ void	menu_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 	{
 		play_sound(audio, SND_TICK, 1.0f, 1.0f);
 		menu_enter(cbd->menudata);
+		if (cbd->menudata->state == OFF)
+		{
+			cbd->state = STATE_GAME;
+			// cbd->render.img->instances[0].enabled = true;
+			// cbd->render.sprite_img->instances[0].enabled = true;
+			// loop_sound(audio, SND_MUSIC, false);
+			// loop_sound(audio, SND_AMBIENT_LAUGH, false);
+		}
 	}
 }
 // Game input handling
 void	game_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 {
+	// key B input (debug)
+	if (keydata.key == MLX_KEY_B && keydata.action == MLX_PRESS)
+	{
+		cbd->state = STATE_BEHEAD;
+	}
 	// Space key input
 	if (keydata.key == MLX_KEY_SPACE)
 	{
@@ -124,8 +137,21 @@ void	app_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 		play_sound(audio, SND_TICK, 1.0f, 1.0f);
 		menu_escape(cbd->menudata);
 		cbd->render.img->instances[0].enabled = false;
+		cbd->state = STATE_MENU;
 	}
 }
+
+// void	behead_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
+// {
+// 	if (keydata.key == MLX_KEY_SPACE)
+// 	{
+// 		if (cbd->playerdata.target_entity != NULL && cbd->playerdata.target_entity->type == ENTITY_ENEMY)
+// 		{
+// 			// dismember_enemy(cbd);
+// 			play_sound(audio, SND_GUTS, 0.8f);
+// 		}
+// 	}
+// }
 
 void	cbd_input(mlx_key_data_t keydata, void *param)
 {
