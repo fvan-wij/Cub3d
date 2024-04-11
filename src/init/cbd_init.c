@@ -109,7 +109,7 @@ t_inventory *cbd_init_inventory(mlx_t *mlx)
 	if (!inv)
 		return (NULL);
 	inv->weapons[WPN_FIST].img = cbd_init_texture_img(mlx, "./data/textures/player/hands2.png");
-	inv->weapons[WPN_MAP].img = cbd_init_texture_img(mlx, "./data/textures/player/radar3.png");
+	inv->weapons[WPN_MAP].img = cbd_init_texture_img(mlx, "./data/textures/player/radar4.png");
 	inv->weapons[WPN_CHAINSAW].img = cbd_init_texture_img(mlx, "./data/textures/player/chainsaw.png");
 
 	inv->weapons[WPN_FIST].type = WPN_FIST;
@@ -215,7 +215,7 @@ void	init_playerdata(t_player *playerdata, t_map *mapdata)
 	playerdata->target_distance = 0;
 	playerdata->target_entity = NULL;
 	playerdata->i_time = 0;
-	playerdata->health = 100;
+	playerdata->health = 10;
 }
 
 void	init_particles(t_particle *particles)
@@ -304,7 +304,7 @@ bool cbd_init(t_app *cbd)
 	if (!cbd->render.po_head)
 		return (cbd_error(ERR_ALLOC), FAILURE);
 
-	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_MAP], (WIDTH>>1) - (MINIMAP_WIDTH>>2) - 16, (HEIGHT>>1) + (MINIMAP_HEIGHT>>3) + 4);
+	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_MAP], (WIDTH>>1) - (MINIMAP_WIDTH>>2) - 16, (HEIGHT>>1) + (MINIMAP_HEIGHT>>3) - 8);
 	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_MAP].img, (WIDTH>>2), (HEIGHT>>3));
 	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_FIST].img, (WIDTH>>1) - (cbd->playerdata.inv->weapons[WPN_FIST].img->width / 2), HEIGHT - (cbd->playerdata.inv->weapons[WPN_FIST].img->height>>1));
 	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_CHAINSAW].img, (WIDTH>>1) - (cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->width / 2), HEIGHT - (cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->height * 0.8));

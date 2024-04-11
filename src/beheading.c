@@ -17,6 +17,7 @@ void	start_beheading(t_app *cbd)
 	// Rotate player to face target
 	cbd->playerdata.dir = vec_sub(cbd->playerdata.target_entity->pos, cbd->playerdata.pos);
 	vec_normalize(&cbd->playerdata.dir);
+	cbd->playerdata.target_entity->animation.current_animation = 11;
 	}
 	loop_sound(audio, SND_SAW_IDLE, false);
 }
@@ -36,8 +37,9 @@ void	stop_beheading(t_app *cbd)
 	cbd->beheading.chainsaw_pos.x = WIDTH / 3 - 100;
 	cbd->state = STATE_GAME;
 	cbd->playerdata.target_entity->health = 0;
+	cbd->playerdata.target_entity->state = ENTITY_IDLE;
+	cbd->playerdata.target_entity->dead = true;
 	stop_sound(audio, SND_SAW);
-	stop_sound(audio, SND_GUTS);
 	loop_sound(audio, SND_SAW_IDLE, false);
 }
 
@@ -47,7 +49,7 @@ void	start_sawing(t_app *cbd)
 
 	cbd->beheading.sawing = true;
 	stop_sound(audio, SND_SAW_IDLE);
-	loop_sound(audio, SND_GUTS, false);
+	play_sound(audio, SND_GUTS, 1.0f, 1.0f);
 	loop_sound(audio, SND_SAW, false);
 }
 
@@ -72,8 +74,8 @@ void	behead(t_app *cbd)
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE))
 	{
 		cbd->render.fx.blood = true;
+		cbd->render.fx.crt = true;
 		cbd->render.fx.splat = true;
-		// cbd->render.fx.crt = true;
 		cbd->beheading.timer -= cbd->mlx->delta_time;
 		cbd->beheading.chainsaw_pos.x += 30.0f * cbd->mlx->delta_time;
 	}
@@ -82,5 +84,6 @@ void	behead(t_app *cbd)
 	if (cbd->beheading.chainsaw_pos.x >= WIDTH / 2 - 100)
 	{
 		stop_beheading(cbd);
+		spawn_blood(cbd->mapdata->entities, &cbd->playerdata, 4);
 	}
 }

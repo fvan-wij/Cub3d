@@ -51,11 +51,11 @@ static void	play_chase(t_audio *audio)
 		loop_sound(audio, SND_LAUGH, false);
 		audio->chase = false;
 	}
-	if (audio->enemy && !audio->enemy->enabled && !audio->enemy->dead)
+	if (audio->enemy && audio->enemy->dead)
 	{
 		stop_sound(audio, SND_LAUGH);
-		stop_sound(audio, SND_CHASE);
-		audio->enemy->dead = true;
+		// stop_sound(audio, SND_CHASE);
+		// audio->enemy->dead = true;
 	}
 }
 
