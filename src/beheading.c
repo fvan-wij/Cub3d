@@ -34,11 +34,11 @@ void	stop_beheading(t_app *cbd)
 	cbd->playerdata.inv->weapons[WPN_CHAINSAW].fire_animation->current_x = cbd->playerdata.inv->weapons[WPN_CHAINSAW].fire_animation->reset_x;
 	cbd->render.po_head->enabled = false;
 	cbd->beheading.timer = 0;
-	cbd->beheading.chainsaw_pos.x = WIDTH / 3 - 100;
+	cbd->beheading.chainsaw_pos.x = (float) WIDTH / 3 - 100;
 	cbd->state = STATE_GAME;
-	cbd->playerdata.target_entity->health = 0;
-	cbd->playerdata.target_entity->state = ENTITY_IDLE;
-	cbd->playerdata.target_entity->dead = true;
+	audio->enemy->health = 0;
+	audio->enemy->state = ENTITY_IDLE;
+	audio->enemy->dead = true;
 	stop_sound(audio, SND_SAW);
 	loop_sound(audio, SND_SAW_IDLE, false);
 }
