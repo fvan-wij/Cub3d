@@ -37,7 +37,7 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [x] fix overlapping sprites
 
 *Gameplay* (Dark_Secret)
-- [ ] Add Foreshadowing jumpscare po
+- [x] Add Foreshadowing jumpscare po
 - [x] Add jumpscare, tree or shrub
 - [ ] Lion roar
 - [x] Po dismemberment mechanic
@@ -86,3 +86,7 @@ Sound Effect by <a href="https://pixabay.com/users/u_zpj3vbdres-31862813/?utm_so
 
 Pickup Sound:
 Sound Effect from <a href="https://pixabay.com/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=37089">Pixabay</a>
+
+Sound Effect by <a href="https://pixabay.com/users/soundreality-31074404/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=128320">Jurij</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=128320">Pixabay</a>
+
+Sound Effect by <a href="https://pixabay.com/users/soundsforyou-4861230/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=129073">Mikhail</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=129073">Pixabay</a>

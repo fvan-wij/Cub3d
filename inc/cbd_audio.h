@@ -30,12 +30,15 @@ typedef enum s_sounds {
 	SND_AMBIENT_LAUGH,
 	SND_IMPACT,
 	SND_IMPACT2,
+	SND_IMPACT3,
+	SND_CROWS,
 	SND_CHASE,
 	SND_LAUGH,
 	SND_NO_FUEL,
 	SND_NO_FUEL2,
 	SND_PICKUP,
 	SND_GAME_OVER,
+	SND_BUSH,
 	SND_SIZE,
 } t_sounds;
 
@@ -47,8 +50,10 @@ typedef struct s_audio {
 	bool		is_initialized;
 	t_entity	*tv;
 	t_entity	*trigger1;
+	t_entity	*trigger2;
 	t_entity	*enemy;
 	bool		t1;
+	bool		t2;
 	bool		pickup;
 	bool		damage;
 	bool		is_dead;

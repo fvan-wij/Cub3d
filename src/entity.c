@@ -44,11 +44,27 @@ void	move_entities(t_entity *ent, t_app *cbd)
 	}
 }
 
+void	update_foreshadowing(t_entity *ent, float dt)
+{
+	t_vec2d		new_pos;
+
+	new_pos = ent->pos;
+	ent->dir = vec_assign(-1.0, 0.0);
+	new_pos = vec_add(new_pos, vec_mult(ent->dir, ent->speed * dt));
+	ent->pos = new_pos;
+}
+
 void	update_enemy(t_entity *ent, t_app *cbd)
 {
 	t_audio *audio;
 
 	audio = cbd->audio;
+	if (audio->t2 && ft_strncmp("trigger2", ent->name, 8) == 0)
+	{
+		update_foreshadowing(ent, cbd->mlx->delta_time);
+		if ((int) ent->pos.x < 21)
+			ent->enabled = false;
+	}
 	if (vec_distance(ent->pos, ent->destinations[ent->current_dest]) < 0.1)
 	{
 		ent->state = ENTITY_IDLE;
@@ -56,7 +72,7 @@ void	update_enemy(t_entity *ent, t_app *cbd)
 		if (ent->current_dest == ent->n_dest)
 			ent->current_dest = 0;
 	}
-	if (vec_distance(cbd->playerdata.pos, ent->pos) < 10)
+	if (vec_distance(cbd->playerdata.pos, ent->pos) < 10 && ft_strncmp("trigger2", ent->name, 8) != 0)
 	{
 		ent->state = ENTITY_AGROED;
 		cbd->mapdata->cbd_map[2][14] = '4';
@@ -178,6 +194,8 @@ void	update_entities(t_app *cbd)
 			audio->tv = ent;
 		if (ft_strncmp("trigger1", ent->name, 8) == 0)
 			audio->trigger1 = ent;
+		if (ft_strncmp("trigger2", ent->name, 8) == 0)
+			audio->trigger2 = ent;
 		if (ft_strncmp("po", ent->name, 2) == 0)
 			audio->enemy = ent;
 		ent = ent->next;
