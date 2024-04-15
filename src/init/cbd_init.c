@@ -216,6 +216,7 @@ void	init_playerdata(t_player *playerdata, t_map *mapdata)
 	playerdata->target_entity = NULL;
 	playerdata->i_time = 0;
 	playerdata->health = 10;
+	playerdata->head_height = 0;
 }
 
 void	init_particles(t_particle *particles)
@@ -325,9 +326,10 @@ bool cbd_init(t_app *cbd)
 	init_particles(cbd->particles);
 	cbd_init_beheading(cbd);
 
-
 	//Setup mlx hooks
 	mlx_key_hook(cbd->mlx, cbd_input, cbd);
+	mlx_cursor_hook(cbd->mlx, cursor_hook, cbd);
+	mlx_mouse_hook(cbd->mlx, mouse_hook, cbd);
 	mlx_loop_hook(cbd->mlx, cbd_loop, cbd);
 	return (SUCCESS);
 }

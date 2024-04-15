@@ -44,9 +44,9 @@ void	draw_sprites(t_render *render, t_map *map, t_player *player)
 	  //calculate height of the sprite on screen
 	  int spriteHeight = abs((int)(HEIGHT / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
 	  //calculate lowest and highest pixel to fill in current stripe
-	  int drawStartY = -spriteHeight / 2 + HEIGHT / 2;
+	  int drawStartY = (-spriteHeight / 2) + (HEIGHT / 2) + render->y_offset;
 	  if(drawStartY < 0) drawStartY = 0;
-	  int drawEndY = spriteHeight / 2 + HEIGHT / 2;
+	  int drawEndY = (spriteHeight / 2) + (HEIGHT / 2) + render->y_offset;
 	  if(drawEndY >= HEIGHT) drawEndY = HEIGHT - 1;
 
 	  //calculate width of the sprite

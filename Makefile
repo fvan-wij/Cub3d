@@ -51,6 +51,9 @@ SRCS	:= \
 		   input/player_movement.c		\
 		   input/player_animation.c		\
 		   input/particle_movement.c		\
+		   input/cursor_hook.c		\
+		   input/mouse_input.c		\
+		   input/mouse_hook.c		\
 
 SRCDIR	:= ./src
 OBJDIR	:= ./obj

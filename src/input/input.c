@@ -5,7 +5,7 @@
 #include <cbd_audio.h>
 #include <stdio.h>
 
-static void	destroy_wall(t_map *mapdata, t_player *player, t_audio *audio)
+void	destroy_wall(t_map *mapdata, t_player *player, t_audio *audio)
 {
 	const char target = mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)];
 
@@ -62,10 +62,7 @@ void	menu_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 		if (cbd->menudata->state == OFF)
 		{
 			cbd->state = STATE_GAME;
-			// cbd->render.img->instances[0].enabled = true;
-			// cbd->render.sprite_img->instances[0].enabled = true;
-			// loop_sound(audio, SND_MUSIC, false);
-			// loop_sound(audio, SND_AMBIENT_LAUGH, false);
+			mlx_set_cursor_mode(cbd->mlx, MLX_MOUSE_DISABLED);
 		}
 	}
 }

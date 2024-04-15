@@ -108,9 +108,9 @@ void	render_entities(t_render *render, t_entity *entities, t_player *player)
 		//calculate height of the sprite on screen
 		int spriteHeight = abs((int)(HEIGHT / (transformY))) / vDiv; //using 'transformY' instead of the real distance prevents fisheye
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = -spriteHeight / 2 + HEIGHT / 2 + vMoveScreen;
+		int drawStartY = -spriteHeight / 2 + HEIGHT / 2 + vMoveScreen + render->y_offset;
 		if(drawStartY < 0) drawStartY = 0;
-		int drawEndY = spriteHeight / 2 + HEIGHT / 2 + vMoveScreen;
+		int drawEndY = spriteHeight / 2 + HEIGHT / 2 + vMoveScreen + render->y_offset;
 		if(drawEndY >= HEIGHT) drawEndY = HEIGHT - 1;
 
 		//calculate width of the sprite
@@ -141,22 +141,22 @@ void	render_entities(t_render *render, t_entity *entities, t_player *player)
 				int y = drawStartY;
 				while (y < drawEndY) //for every pixel of the current stripe
 				{
-					int d = (y - vMoveScreen) * 256 - HEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+					int d = (y - vMoveScreen - render->y_offset) * 256 - HEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 					int texY = ((d * texHeight) / spriteHeight) / 256;
-					if (y + render->y_offset >= 0 && y + render->y_offset < HEIGHT)
+					if (y >= 0 && y < HEIGHT)
 					{
 						t_rgba color = get_animated_pixel(ent->animation, ent->texture, texX, texY); //get current color from the texture
 						color = color_darken(color, transformY * 30); //make the color darker if it's further away
 						// color = color_depth(color, transformY); //depth effect
-						if (color.a != 0 && transformY < entity_zbuffer[stripe + ((y + render->y_offset) * WIDTH)]) //apply zbuffer
+						if (color.a != 0 && transformY < entity_zbuffer[stripe + ((y) * WIDTH)]) //apply zbuffer
 						{
 							if (stripe == WIDTH / 2 && y == HEIGHT / 2)
 							{
 								player->target_distance = transformY;
 								player->target_entity = ent;
 							}
-							mlx_put_pixel(render->sprite_img, stripe, y + render->y_offset, color.color); //paint pixel if the alpha isn't 0
-							entity_zbuffer[stripe + ((y + render->y_offset) * WIDTH)] = transformY;
+							mlx_put_pixel(render->sprite_img, stripe, y, color.color); //paint pixel if the alpha isn't 0
+							entity_zbuffer[stripe + ((y) * WIDTH)] = transformY;
 						}
 					}
 					y++;

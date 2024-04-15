@@ -37,6 +37,7 @@ typedef struct s_player {
 	t_vec2d				plane;
 	float				scalar;
 	float				headbob;
+	float				head_height;
 	float				map_peak;
 	t_ray				rays[WIDTH];
 	double				target_distance;
@@ -56,12 +57,15 @@ typedef struct s_app {
 	t_hud		*hud;
 	t_state		state;
 	t_beheading	beheading;
+	t_vec2d		mouse;
+	t_vec2d		prev_mouse;
 	mlx_t		*mlx;
 	void		*audio;
 	double		elapsed_time;
 	bool		checkpoint;
 }	t_app;
 
+typedef struct s_audio t_audio;
 
 //		Utility
 void	print_entities(t_entity *head);
@@ -86,6 +90,10 @@ void	update_entities(t_app *cbd);
 void	move_entities(t_entity *ent, t_app *cbd);
 void	cbd_init_input(t_app *cbd);
 void	cbd_input(mlx_key_data_t keydata, void *param);
+void	cursor_hook(double xpos, double ypos, void* param);
+void	mouse_input(t_app *cbd);
+void	mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods, void* param);
+void	destroy_wall(t_map *mapdata, t_player *player, t_audio *audio);
 void	reset_inventory(t_inventory *inv);
 
 // Beheading

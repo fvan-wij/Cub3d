@@ -95,5 +95,5 @@ void	move_player(t_app *cbd)
 	//Resolve movement
 	peek_map(cbd->playerdata.inv, &cbd->render, cbd->render.hud->img[HUD_MAP], cbd->mlx);
 	cbd->playerdata.pos = potential_pos;
-	cbd->render.y_offset = (sin(cbd->render.headbob) * 10) + cbd->render.map_peak;
+	cbd->render.y_offset += (sin(cbd->render.headbob) * 10) + cbd->render.map_peak;
 }
