@@ -32,5 +32,5 @@ void	mouse_input(t_app *cbd)
 	else if (cbd->playerdata.head_height < -200)
 		cbd->playerdata.head_height = -200;
 	cbd->render.y_offset += cbd->playerdata.head_height;
-	printf("Head height: %f\n", cbd->playerdata.head_height);
+	// printf("Head height: %f\n", cbd->playerdata.head_height);
 }

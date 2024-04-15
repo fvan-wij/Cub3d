@@ -39,7 +39,6 @@ SRCS	:= \
 		   render/shape.c		\
 		   render/color.c		\
 		   render/post_processing.c \
-		   render/sprite.c		\
 		   render/entity.c		\
 		   render/dithering.c	\
 		   render/walls.c		\
