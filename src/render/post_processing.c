@@ -134,16 +134,16 @@ static void	draw_gradient_bot(mlx_image_t *img, int32_t top, int32_t bot, int32_
 	uint32_t 	y;
 	uint32_t 	x;
 
-	y = (img->height>>1);
+	y = cap;
 	while (y < img->height)
 	{
 		x = 0;
 		while (x < img->width)
 		{
-			color.r = c1.r + step_r * (y - (img->height>>1) - end);
-			color.g = c1.g + step_g * (y - (img->height>>1) - end);
-			color.b = c1.b + step_b * (y - (img->height>>1) - end);
-			color.a = c1.a + step_a * (y - (img->height>>1) - end);
+			color.r = c1.r + step_r * (y - cap);
+			color.g = c1.g + step_g * (y - cap);
+			color.b = c1.b + step_b * (y - cap);
+			color.a = c1.a + step_a * (y - cap);
 			if (x < img->width && y < img->height)
 				mlx_put_pixel(img, x, y, color.color);
 			x++;
