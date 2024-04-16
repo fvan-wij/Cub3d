@@ -67,11 +67,11 @@ void	behead(t_app *cbd)
 {
 	if (cbd->beheading.active == false)
 		start_beheading(cbd);
-	if (cbd->beheading.sawing == false && mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE))
+	if (cbd->beheading.sawing == false && (mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE) || mlx_is_mouse_down(cbd->mlx, MLX_MOUSE_BUTTON_LEFT)))
 		start_sawing(cbd);
-	if (cbd->beheading.sawing == true && mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE) == false)
+	if (cbd->beheading.sawing == true && !mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE) && !mlx_is_mouse_down(cbd->mlx, MLX_MOUSE_BUTTON_LEFT))
 		stop_sawing(cbd);
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE))
+	if (mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE) || mlx_is_mouse_down(cbd->mlx, MLX_MOUSE_BUTTON_LEFT))
 	{
 		cbd->render.fx.blood = true;
 		cbd->render.fx.crt = true;

@@ -7,7 +7,7 @@ void deal_damage(t_app *cbd)
 {
 	if (cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo <= 0)
 		return ;
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE) && cbd->playerdata.inv->equipped == WPN_CHAINSAW)
+	if ((mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE) || mlx_is_mouse_down(cbd->mlx, MLX_MOUSE_BUTTON_LEFT))&& cbd->playerdata.inv->equipped == WPN_CHAINSAW)
 	{
 		if (cbd->playerdata.target_entity != NULL && cbd->playerdata.target_distance < 0.5)
 		{
@@ -105,4 +105,3 @@ void	dismember_enemy(t_app *cbd)
 		}
 	}
 }
-
