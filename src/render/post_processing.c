@@ -84,14 +84,14 @@ void	draw_radial_overlay(mlx_image_t *img, t_app *cbd)
 }
 
 
-static void	draw_gradient_top(mlx_image_t *img, int32_t top, int32_t bot, uint32_t start)
+static void	draw_gradient_top(mlx_image_t *img, int32_t top, int32_t bot, int32_t end)
 {
 	t_rgba c1;
 	t_rgba c2;
 	c1.color = top;
 	c2.color = bot;
 	uint32_t	cap;
-	cap = start + (img->height>>1);
+	cap = (img->height>>1) + end;
 	const float step_r = (float)(c2.r - c1.r) / cap;
 	const float step_g = (float)(c2.g - c1.g) / cap;
 	const float step_b = (float)(c2.b - c1.b) / cap;
@@ -100,7 +100,7 @@ static void	draw_gradient_top(mlx_image_t *img, int32_t top, int32_t bot, uint32
 	uint32_t 	y;
 	uint32_t 	x;
 
-	y = start;
+	y = 0;
 	while (y < cap)
 	{
 		x = 0;
@@ -118,14 +118,14 @@ static void	draw_gradient_top(mlx_image_t *img, int32_t top, int32_t bot, uint32
 	}
 }
 
-static void	draw_gradient_bot(mlx_image_t *img, int32_t top, int32_t bot, uint32_t start)
+static void	draw_gradient_bot(mlx_image_t *img, int32_t top, int32_t bot, int32_t end)
 {
 	t_rgba c1;
 	t_rgba c2;
 	c1.color = top;
 	c2.color = bot;
 	uint32_t	cap;
-	cap = start + (img->height>>1);
+	cap = (img->height>>1) + end;
 	const float step_r = (float)(c2.r - c1.r) / cap;
 	const float step_g = (float)(c2.g - c1.g) / cap;
 	const float step_b = (float)(c2.b - c1.b) / cap;
@@ -140,10 +140,10 @@ static void	draw_gradient_bot(mlx_image_t *img, int32_t top, int32_t bot, uint32
 		x = 0;
 		while (x < img->width)
 		{
-			color.r = c1.r + step_r * (y - (img->height>>1));
-			color.g = c1.g + step_g * (y - (img->height>>1));
-			color.b = c1.b + step_b * (y - (img->height>>1));
-			color.a = c1.a + step_a * (y - (img->height>>1));
+			color.r = c1.r + step_r * (y - (img->height>>1) - end);
+			color.g = c1.g + step_g * (y - (img->height>>1) - end);
+			color.b = c1.b + step_b * (y - (img->height>>1) - end);
+			color.a = c1.a + step_a * (y - (img->height>>1) - end);
 			if (x < img->width && y < img->height)
 				mlx_put_pixel(img, x, y, color.color);
 			x++;
@@ -152,10 +152,10 @@ static void	draw_gradient_bot(mlx_image_t *img, int32_t top, int32_t bot, uint32
 	}
 }
 
-void draw_gradient_bg(mlx_image_t *img, int32_t c1, int32_t c2)
+void draw_gradient_bg(mlx_image_t *img, int32_t c1, int32_t c2, int32_t offset)
 {
-	draw_gradient_top(img, c1, c2, 0);
-	draw_gradient_bot(img, c2, c1, 0);
+	draw_gradient_top(img, c1, c2, offset);
+	draw_gradient_bot(img, c2, c1, offset);
 }
 
 void	screenshake(t_render *render)

@@ -17,12 +17,6 @@ void	mouse_input(t_app *cbd)
 	delta_y = cbd->mouse.y - cbd->prev_mouse.y;
 	cbd->prev_mouse = cbd->mouse;
 
-	// cbd->mouse.x = cbd->mouse.x - cbd->mlx->width / 2;
-	// cbd->mouse.y = cbd->mouse.y - cbd->mlx->height / 2;
-	// mlx_set_mouse_pos(cbd->mlx, 0, 0);
-
-	// printf("Mouse x: %f\n", cbd->mouse.x);
-
 	cbd->playerdata.dir = vec_rotate(cbd->playerdata.dir, delta_x * 0.05 * delta_time);
 	cbd->playerdata.plane = vec_rotate(cbd->playerdata.plane, delta_x * 0.05 * delta_time);
 
@@ -32,5 +26,4 @@ void	mouse_input(t_app *cbd)
 	else if (cbd->playerdata.head_height < -200)
 		cbd->playerdata.head_height = -200;
 	cbd->render.y_offset += cbd->playerdata.head_height;
-	// printf("Head height: %f\n", cbd->playerdata.head_height);
 }
