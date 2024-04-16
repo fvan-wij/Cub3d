@@ -46,7 +46,6 @@ t_menu	*cbd_init_menu(mlx_t *mlx, t_map *map)
 	menu->select_menu.preview_img = cbd_init_texture_img(mlx, "./data/textures/map_preview.png");
 	menu->main_menu.preview_img = menu->select_menu.preview_img;
 	mlx_image_to_window(mlx, menu->main_menu.preview_img, 0, 0);
-	menu->main_menu.preview_img->instances->z = -1;
 	mlx_image_to_window(mlx, menu->main_menu.bg, 0, 0);
 	mlx_image_to_window(mlx, menu->select_menu.bg, 0, 0);
 	mlx_image_to_window(mlx, menu->game_over.bg, 0, 0);
