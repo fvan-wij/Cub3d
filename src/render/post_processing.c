@@ -83,8 +83,7 @@ void	draw_radial_overlay(mlx_image_t *img, t_app *cbd)
 	// draw_scanlines_bg(img);
 }
 
-
-static void	draw_gradient_top(mlx_image_t *img, int32_t top, int32_t bot, int32_t end)
+void	draw_gradient_top(mlx_image_t *img, int32_t top, int32_t bot, int32_t end)
 {
 	t_rgba c1;
 	t_rgba c2;
@@ -118,7 +117,7 @@ static void	draw_gradient_top(mlx_image_t *img, int32_t top, int32_t bot, int32_
 	}
 }
 
-static void	draw_gradient_bot(mlx_image_t *img, int32_t top, int32_t bot, int32_t end)
+void	draw_gradient_bot(mlx_image_t *img, int32_t top, int32_t bot, int32_t end)
 {
 	t_rgba c1;
 	t_rgba c2;
