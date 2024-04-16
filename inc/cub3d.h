@@ -99,9 +99,10 @@ void	reset_inventory(t_inventory *inv);
 // Beheading
 void	behead(t_app *cbd);
 
-//		Interaction
+//		Interaction / movement
 void	move_player(t_app *cbd);
 void	change_map(t_app *cbd);
+void	rotate_player(t_player *playerdata, t_particle *particles, float angle);
 
 //		Combat
 void	dismember_enemy(t_app *cbd);

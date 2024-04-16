@@ -221,6 +221,7 @@ void			screenshake(t_render *render);
 //				Particles
 void			init_blood_splat(t_particle *splat_particle);
 void			init_blood_particles(t_particle *blood_particle);
+void			move_particles(t_particle *particles, float x, float y);
 void			rotate_particles(t_particle *particles, float dir);
 void			resolve_particles(t_particle *particles, int8_t dir);
 void			draw_blood_splat(mlx_image_t *img, t_particle *splat, t_fx *fx);

@@ -5,6 +5,19 @@
 #include <cbd_audio.h>
 #include <stdlib.h>
 
+void	move_particles(t_particle *particles, float x, float y)
+{
+	int i;
+
+	i = 0;
+	while (i < N_PARTICLES)
+	{
+		particles[i].p.x += x;
+		particles[i].p.y += y;
+		i++;
+	}
+}
+
 void	rotate_particles(t_particle *particles, float dir)
 {
 	int i;

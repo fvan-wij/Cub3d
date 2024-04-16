@@ -4,7 +4,7 @@
 #include <MLX42.h>
 #include <math.h>
 
-static t_vec2d	move_forward(t_app *cbd, float speed, char **map)
+t_vec2d	move_forward(t_app *cbd, float speed, char **map)
 {
 	t_vec2d potential_pos;
 
@@ -16,7 +16,7 @@ static t_vec2d	move_forward(t_app *cbd, float speed, char **map)
 	return (potential_pos);
 }
 
-static t_vec2d	move_backwards(t_app *cbd, float speed, char **map)
+t_vec2d	move_backwards(t_app *cbd, float speed, char **map)
 {
 	t_vec2d potential_pos;
 
@@ -28,17 +28,14 @@ static t_vec2d	move_backwards(t_app *cbd, float speed, char **map)
 	return (potential_pos);
 }
 
-static void	rotate_player(t_player *playerdata, t_particle *particles, float angle, int8_t direction)
+void	rotate_player(t_player *playerdata, t_particle *particles, float angle)
 {
-	if (direction == -1)
-		rotate_particles(particles, -playerdata->pos.x);
-	else
-		rotate_particles(particles, playerdata->pos.x);
+	rotate_particles(particles, -angle * 160);
 	playerdata->dir = vec_rotate(playerdata->dir, angle);
 	playerdata->plane = vec_rotate(playerdata->plane, angle);
 }
 
-static t_vec2d strafe_player(t_app *cbd, float speed, int8_t direction)
+t_vec2d strafe_player(t_app *cbd, float speed, int8_t direction)
 {
 	t_vec2d	potential_pos;
 	t_vec2d dir;
@@ -68,13 +65,10 @@ void	move_player(t_app *cbd)
 	potential_pos = cbd->playerdata.pos;
 
 	//Shift multiplier
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_LEFT_SHIFT))
-	{
-		cbd->playerdata.state = PLAYER_RUNNING;
+	if (cbd->playerdata.state == PLAYER_RUNNING)
 		move_speed *= 1.35;
-	}
 
-	//Player movement
+	//Player movement input polling
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_UP) || mlx_is_key_down(cbd->mlx, MLX_KEY_W))
 		potential_pos = move_forward(cbd, move_speed, cbd->mapdata->cbd_map);
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_DOWN) || mlx_is_key_down(cbd->mlx, MLX_KEY_S))
@@ -88,9 +82,9 @@ void	move_player(t_app *cbd)
 
 	//Player rotation
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_RIGHT) && cbd->playerdata.pos.x <= cbd->mapdata->width)
-		rotate_player(&cbd->playerdata, cbd->particles, cbd->mlx->delta_time * 3.5, -1);
+		rotate_player(&cbd->playerdata, cbd->particles, cbd->mlx->delta_time * 3.5);
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_LEFT) && cbd->playerdata.pos.x >= 0)
-		rotate_player(&cbd->playerdata, cbd->particles, -cbd->mlx->delta_time * 3.5, 1);
+		rotate_player(&cbd->playerdata, cbd->particles, -cbd->mlx->delta_time * 3.5);
 
 	//Resolve movement
 	peek_map(cbd->playerdata.inv, &cbd->render, cbd->render.hud->img[HUD_MAP], cbd->mlx);
