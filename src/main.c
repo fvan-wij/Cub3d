@@ -10,10 +10,18 @@ int32_t	main(int argc, char *argv[])
 {
 	t_app cbd;
 
-	if (!arg_is_valid(argc, argv))
+	if (argc == 1)
+	{
+		ft_memset(&cbd, 0, sizeof(t_app));
+		cbd.mapdata = cbd_parse_map("./data/maps/dark_secret.cub");
+	}
+	else if (!arg_is_valid(argc, argv))
 		return (FAILURE);
-	ft_memset(&cbd, 0, sizeof(t_app));
-	cbd.mapdata = cbd_parse_map(argv[1]);
+	else
+	{
+		ft_memset(&cbd, 0, sizeof(t_app));
+		cbd.mapdata = cbd_parse_map(argv[1]);
+	}
 	if (!cbd.mapdata)
 		return (FAILURE);
 	print_debug_info(&cbd);

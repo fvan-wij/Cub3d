@@ -31,10 +31,15 @@ void	move_entities(t_entity *ent, t_app *cbd)
 	tmp_ent = ent;
 	while (tmp_ent)
 	{
-		if (ent->type == ENTITY_ENEMY)
+		if (tmp_ent->state == ENTITY_AGROED && ft_strncmp(tmp_ent->name, "vc", 2) == 0)
 		{
-			if (tmp_ent->state == ENTITY_IDLE)
-				return;
+			new_pos = tmp_ent->pos;
+			new_pos = vec_add(new_pos, vec_mult(tmp_ent->dir, tmp_ent->speed * cbd->mlx->delta_time));
+			new_pos = resolve_collision(cbd->mapdata->cbd_map, tmp_ent->pos, tmp_ent->dir, new_pos);
+			tmp_ent->pos = new_pos;
+		}
+		else if (cbd->checkpoint && tmp_ent->state == ENTITY_AGROED)
+		{
 			new_pos = tmp_ent->pos;
 			new_pos = vec_add(new_pos, vec_mult(tmp_ent->dir, tmp_ent->speed * cbd->mlx->delta_time));
 			new_pos = resolve_collision(cbd->mapdata->cbd_map, tmp_ent->pos, tmp_ent->dir, new_pos);
@@ -59,6 +64,8 @@ void	update_enemy(t_entity *ent, t_app *cbd)
 	t_audio *audio;
 
 	audio = cbd->audio;
+	// if (ft_strncmp(ent->name, "vc", 2) == 0)
+	// 	printf("(Update enemy) name: %s, state: %d, health: %d, dead: %d, enabled: %d\n", ent->name, ent->state, ent->health, ent->dead, ent->enabled);
 	if (audio->t2 && ft_strncmp("trigger2", ent->name, 8) == 0)
 	{
 		update_foreshadowing(ent, cbd->mlx->delta_time);
@@ -75,9 +82,12 @@ void	update_enemy(t_entity *ent, t_app *cbd)
 	if (vec_distance(cbd->playerdata.pos, ent->pos) < 10 && ft_strncmp("trigger2", ent->name, 8) != 0)
 	{
 		ent->state = ENTITY_AGROED;
-		cbd->mapdata->cbd_map[2][14] = '4';
-		cbd->checkpoint = true;
-		audio->chase = true;
+		if (ft_strncmp(ent->name, "po", 2) == 0)
+		{
+			cbd->mapdata->cbd_map[2][14] = '4';
+			cbd->checkpoint = true;
+			audio->chase = true;
+		}
 		ent->dir = vec_sub(cbd->playerdata.pos, ent->pos);
 		if (vec_distance(cbd->playerdata.pos, ent->pos) < 0.6)
 		{
@@ -96,14 +106,6 @@ void	update_enemy(t_entity *ent, t_app *cbd)
 		ent->state = ENTITY_PATROL;
 	}
 	vec_normalize(&ent->dir);
-	// Determine if the entity is moving away from the player
-	// if (ent->health < 0)
-	// 	ent->enabled = false;
-	// else if (vec_dot(ent->dir, vec_sub(cbd->playerdata.pos, ent->pos)) < 0)
-	// 	ent->animation.current_animation = (11 - (int)ent->health + 1);
-	// else
-	// 	ent->animation.current_animation = (11 - (int)ent->health);
-	// printf("health: %d\n", ent->health);
 }
 
 void	update_item(t_entity *item, t_app *cbd)
@@ -139,7 +141,6 @@ void	update_item(t_entity *item, t_app *cbd)
 			// Add [pickup sound]
 			cbd->playerdata.inv->weapons[WPN_CHAINSAW].fire_animation->loop = false;
 			cbd->playerdata.inv->weapons[WPN_MAP].in_inventory = true;
-			// cbd->playerdata.inv->equipped = WPN_MAP;
 			item->enabled = false;
 			audio->pickup = true;
 		}
@@ -189,6 +190,8 @@ void	update_entities(t_app *cbd)
 	audio = cbd->audio;
 	while (ent)
 	{
+		// if (ft_strncmp(ent->name, "vc", 2) == 0)
+		// 	printf("(Update entities) name: %s, state: %d, health: %d, dead: %d, enabled: %d\n", ent->name, ent->state, ent->health, ent->dead, ent->enabled);
 		update_entity(ent, cbd);
 		if (ft_strncmp("tv", ent->name, 2) == 0)
 			audio->tv = ent;

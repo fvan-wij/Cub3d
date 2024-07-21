@@ -214,7 +214,7 @@ void	init_playerdata(t_player *playerdata, t_map *mapdata)
 	playerdata->target_distance = 0;
 	playerdata->target_entity = NULL;
 	playerdata->i_time = 0;
-	playerdata->health = 10;
+	playerdata->health = 6;
 	playerdata->head_height = 0;
 }
 
@@ -276,7 +276,9 @@ void	cbd_init_beheading(t_app *cbd)
 bool cbd_init(t_app *cbd)
 {
 	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
+	// mlx_set_setting(MLX_FULLSCREEN, 1);
 	mlx_set_setting(MLX_MAXIMIZED, 1);
+
 	cbd->mlx = cbd_init_window();
 	if (!cbd->mlx)
 		return(cbd_error(ERR_ALLOC), FAILURE);

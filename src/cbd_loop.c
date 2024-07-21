@@ -24,7 +24,6 @@ static void	loop_game(t_app *cbd, t_audio *audio)
 	cbd->render.img->instances->enabled = true;
 	cbd->render.sprite_img->instances->enabled = true;
 	cbd->render.y_offset = 0;
-	mouse_input(cbd);
 	update_player(&cbd->playerdata, cbd);
 	escape_player(cbd->playerdata.pos, cbd->playerdata.dir, cbd);
 	move_player(cbd);

@@ -62,8 +62,8 @@ void	menu_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 		if (cbd->menudata->state == OFF)
 		{
 			cbd->state = STATE_GAME;
-			mlx_set_cursor_mode(cbd->mlx, MLX_MOUSE_DISABLED);
-			mlx_set_mouse_pos(cbd->mlx, cbd->prev_mouse.x, cbd->prev_mouse.y);
+			// mlx_set_cursor_mode(cbd->mlx, MLX_MOUSE_DISABLED);
+			// mlx_set_mouse_pos(cbd->mlx, cbd->prev_mouse.x, cbd->prev_mouse.y);
 		}
 	}
 }
@@ -80,6 +80,8 @@ void	game_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 	{
 		if (keydata.action == MLX_PRESS)
 		{
+			if (cbd->playerdata.inv->equipped == WPN_MAP)
+				return ;
 			if (cbd->playerdata.inv->equipped == WPN_FIST)
 			{
 				play_sound(audio, SND_PUNCH, 0.5f, 1.0f);
@@ -134,8 +136,8 @@ void	app_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 	{
 		play_sound(audio, SND_TICK, 1.0f, 1.0f);
 		menu_escape(cbd->menudata);
-		mlx_set_cursor_mode(cbd->mlx, MLX_MOUSE_NORMAL);
-		mlx_set_mouse_pos(cbd->mlx, cbd->mlx->width / 2, cbd->mlx->height / 2);
+		// mlx_set_cursor_mode(cbd->mlx, MLX_MOUSE_NORMAL);
+		// mlx_set_mouse_pos(cbd->mlx, cbd->mlx->width / 2, cbd->mlx->height / 2);
 		cbd->render.img->instances[0].enabled = false;
 		cbd->state = STATE_MENU;
 	}

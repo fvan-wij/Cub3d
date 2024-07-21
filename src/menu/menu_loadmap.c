@@ -49,7 +49,7 @@ void	respawn(t_app *cbd)
 		cbd->playerdata.dir = vec_assign(-1.0, 0.0);
 		cbd->playerdata.plane = vec_rotate(cbd->playerdata.dir, M_PI / 2);
 		cbd->mapdata->cbd_map[13][2] = '4';
-		cbd->playerdata.health = 2;
+		cbd->playerdata.health = 6;
 		audio->enemy->health = 100;
 		cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo = 50;
 		audio->enemy->animation.current_animation = 0;

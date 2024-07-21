@@ -149,8 +149,11 @@ void	draw_wall_strip(t_render render, int x, mlx_texture_t *tex, int color_offse
 	{
 		wall_y = (y / (double)wl_height);
 		color = get_texture_pixel(tex, wall_x, wall_y);
-		color = color_darken(color, color_offset);
-		mlx_put_pixel(render.img, x, y + draw_start, color.color);
+		if (color.a != 0)
+		{
+			color = color_darken(color, color_offset);
+			mlx_put_pixel(render.img, x, y + draw_start, color.color);
+		}
 		y++;
 	}
 }
