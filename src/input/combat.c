@@ -82,7 +82,9 @@ void	dismember_enemy(t_app *cbd)
 
 	target = cbd->playerdata.target_entity;
 	target_distance = cbd->playerdata.target_distance;
-	if (target->health <= 0)
+	if (target->health <= 20 && ft_strncmp(target->name, "vc", 2) == 0)
+		target->animation.current_animation = 1;
+	else if (target->health <= 0)
 		return ;
 	if (ft_strncmp(target->name, "po", 2) == 0 && target_distance < 1.0)
 	{
