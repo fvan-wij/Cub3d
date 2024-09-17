@@ -75,8 +75,8 @@ all:
 run: all
 
 libmlx:
-	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -s -C $(LIBMLX)/build -j4
 	@cp -f ./data/default.frag ./lib/MLX42/shaders/default.frag
+	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -s -C $(LIBMLX)/build -j4
 
 libft:
 	@make -s $(LIBFT_DEBUG) -C $(LIBFT)
