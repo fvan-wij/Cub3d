@@ -41,6 +41,7 @@ typedef enum s_sounds {
 	SND_BUSH,
 	SND_NOONOO,
 	SND_SUCK,
+	SND_PO_TRIGGER,
 	SND_SIZE,
 } t_sounds;
 
@@ -63,6 +64,7 @@ typedef struct s_audio {
 	bool		chase;
 	bool		checkpoint;
 	bool		damage_is_dealt;
+	bool		boss_trigger;
 	uint8_t		channel;
 }	t_audio;
 
@@ -73,6 +75,6 @@ void	play_walk_sound(t_audio *audio, float dt);
 void	loop_sound(t_audio *audio, uint8_t type, bool alternate);
 void	stop_sound(t_audio *audio, uint8_t type);
 void	reset_sounds(t_audio *audio);
-void	update_game_audio(t_audio *audio, t_inventory *inv, enum e_player_state state);
+void	update_game_audio(t_audio *audio, t_inventory *inv, enum e_player_state state, int health);
 void	update_menu_audio(t_audio *audio, t_app *cbd);
 #endif

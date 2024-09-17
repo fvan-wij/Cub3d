@@ -278,7 +278,6 @@ void	cbd_init_beheading(t_app *cbd)
 bool cbd_init(t_app *cbd)
 {
 	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
-	// mlx_set_setting(MLX_FULLSCREEN, 1);
 	mlx_set_setting(MLX_MAXIMIZED, 1);
 
 	cbd->mlx = cbd_init_window();
