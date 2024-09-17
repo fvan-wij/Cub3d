@@ -100,6 +100,8 @@ void	dismember_enemy(t_app *cbd)
 	{
 		target->animation.current_animation = 1;
 		target->dead = true;
+		target->speed = 0;
+		target->health = 0;
 	}
 	else if (target->health <= 0)
 		return ;
