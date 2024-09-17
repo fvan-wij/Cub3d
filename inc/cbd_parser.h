@@ -104,7 +104,7 @@ typedef struct s_map {
 	int				width;
 	int				height;
 	bool			valid;
-	uint8_t			current_map;
+	t_level			current_map;
 	uint8_t			n_tex;
 	bool			is_bonus;
 } 	t_map;
@@ -123,7 +123,7 @@ t_map	*alloc_map_bonus(void);
 
 //		Map select
 t_map	*load_map(t_map *curr_map, uint8_t	map_id);
-uint8_t	set_current_map(const char *file);
+uint8_t	set_current_map(const char *file, t_level *level);
 void	respawn(t_app *cbd);
 
 //		Bools.c

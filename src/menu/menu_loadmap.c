@@ -86,6 +86,7 @@ void	change_map(t_app *cbd)
 	audio->trigger1 = NULL;
 	audio->tv = NULL;
 	audio->enemy = NULL;
+	audio->vc = NULL;
 	cbd->mapdata = load_map(cbd->mapdata, cbd->menudata->select_menu.current_item);
 	if (!cbd->mapdata)
 	{

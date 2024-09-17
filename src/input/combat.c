@@ -18,8 +18,6 @@ void deal_damage(t_app *cbd)
 			t_audio *audio = cbd->audio;
 			audio->damage_is_dealt = true;
 		}
-		else
-			cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo-=cbd->mlx->delta_time * 10;
 	}
 	else if (cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo <= 0)
 		return ;

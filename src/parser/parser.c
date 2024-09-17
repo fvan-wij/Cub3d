@@ -32,23 +32,41 @@ static int	open_map(const char *file)
 ** Returns:
 **		enum LVL_...
 */
-uint8_t	set_current_map(const char *file)
+uint8_t	set_current_map(const char *file, t_level *level)
 {
 	char *temp;
 
 	temp = ft_strrchr(file, '/');
 	if (ft_strncmp(temp, "/dark_secret.cub", ft_strlen(temp)) == 0)
+	{
+		*level = LVL_DARK_SECRET;
 		return (LVL_DARK_SECRET);
+	}
 	if (ft_strncmp(temp, "/the_bunker.cub", ft_strlen(temp)) == 0)
+	{
+		*level = LVL_THE_BUNKER;
 		return (LVL_THE_BUNKER);
+	}
 	if (ft_strncmp(temp, "/rabbit_hole.cub", ft_strlen(temp)) == 0)
+	{
+		*level = LVL_RABBIT_HOLE;
 		return (LVL_RABBIT_HOLE);
+	}
 	if (ft_strncmp(temp, "/snow_crash.cub", ft_strlen(temp)) == 0)
+	{
+		*level = LVL_SNOW_CRASH;
 		return (LVL_SNOW_CRASH);
+	}
 	if (ft_strncmp(temp, "/confrontation.cub", ft_strlen(temp)) == 0)
+	{
+		*level = LVL_CONFRONTATION;
 		return (LVL_CONFRONTATION);
+	}
 	else
+	{
+		*level = LVL_UNKNOWN;
 		return (LVL_UNKNOWN);
+	}
 }
 
 /*
@@ -74,6 +92,6 @@ t_map	*cbd_parse_map(const char *file)
 	mapdata->valid = validate_map_data(mapdata, &is);
 	if (!mapdata->valid)
 		return (NULL);
-	mapdata->current_map = set_current_map(file);
+	mapdata->current_map = set_current_map(file, &mapdata->current_map);
 	return (mapdata);
 }
