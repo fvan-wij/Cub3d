@@ -122,19 +122,25 @@ static void	play_suck(t_audio *audio, t_entity *ent)
 		stop_sound(audio, SND_SUCK);
 }
 
+void	update_near_death_audio(t_audio *audio, int health)
+{
+	if (health <= 1 && !audio->near_death)
+	{
+		play_sound(audio, SND_NEAR_DEATH, 0.75f, 1.0f);
+		audio->near_death = true;
+	}
+}
+
 void	update_game_audio(t_audio *audio, t_inventory *inv, enum e_player_state state, int health)
 {
-	if (health <= 1)
-		ma_sound_set_volume(audio->sound[SND_NEAR_DEATH], 0.75f);
-	else
-		ma_sound_set_volume(audio->sound[SND_NEAR_DEATH], 0.0f);
+	update_near_death_audio(audio, health);
 	stop_sound(audio, SND_MENU);
 	stop_sound(audio, SND_GAME_OVER);
 	loop_sound(audio, SND_AMBIENT_LAUGH, false);
 	loop_sound(audio, SND_NEAR_DEATH, false);
 	if (audio->damage_is_dealt)
 	{
-		play_sound(audio, SND_WALL1, 0.85f, 1.5f);
+		play_sound(audio, SND_WALL1, 0.55f, 1.5f);
 		audio->damage_is_dealt = false;
 	}
 	take_damage(audio);
@@ -145,24 +151,20 @@ void	update_game_audio(t_audio *audio, t_inventory *inv, enum e_player_state sta
 
 void	update_game_audio_dark_secret(t_audio *audio, t_inventory *inv, enum e_player_state state, int health)
 {
-	if (health <= 1)
-		ma_sound_set_volume(audio->sound[SND_NEAR_DEATH], 0.75f);
-	else
-		ma_sound_set_volume(audio->sound[SND_NEAR_DEATH], 0.0f);
+	update_near_death_audio(audio, health);
 	stop_sound(audio, SND_MENU);
 	stop_sound(audio, SND_GAME_OVER);
 	loop_sound(audio, SND_AMBIENT_LAUGH, false);
 	loop_sound(audio, SND_TV_NOISE, false);
 	loop_sound(audio, SND_TV_BYE + audio->channel, false);
 	loop_sound(audio, SND_NOONOO, false);
-	loop_sound(audio, SND_NEAR_DEATH, false);
 	loop_dynamic_audio(audio, audio->tv, SND_TV_NOISE, 0.2f);
 	loop_dynamic_audio(audio, audio->tv, SND_TV_BYE + audio->channel, 0.35f);
 	loop_dynamic_audio(audio, audio->enemy, SND_LAUGH, 1.75f);
-	loop_dynamic_audio(audio, audio->vc, SND_NOONOO, 0.85f);
+	loop_dynamic_audio(audio, audio->vc, SND_NOONOO, 0.25f);
 	if (audio->damage_is_dealt)
 	{
-		play_sound(audio, SND_WALL1, 0.85f, 1.5f);
+		play_sound(audio, SND_WALL1, 0.45f, 1.5f);
 		audio->damage_is_dealt = false;
 	}
 	play_suck(audio, audio->vc);

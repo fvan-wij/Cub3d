@@ -154,9 +154,13 @@ t_audio	*cbd_init_audio(void)
 	game_audio->sound[SND_SUCK] = init_sound(game_audio->engine, "./data/audio/suck.mp3");
 	game_audio->sound[SND_PO_TRIGGER] = init_sound(game_audio->engine, "./data/audio/po_trigger.mp3");
 
-	ma_sound_set_volume(game_audio->sound[SND_SUCK], 0.70f);
-	game_audio->boss_trigger = false;
+	ma_sound_set_volume(game_audio->sound[SND_NEAR_DEATH], 0.65f);
+	ma_sound_set_volume(game_audio->sound[SND_SUCK], 0.30f);
 
 	game_audio->is_initialized = true;
+	game_audio->secret = false;
+	game_audio->damage_is_dealt = false;
+	game_audio->boss_trigger = false;
+	game_audio->near_death = false;
 	return (game_audio);
 }
