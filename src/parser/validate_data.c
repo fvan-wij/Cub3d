@@ -79,18 +79,18 @@ bool	is_duplicate(t_valid *is, t_map *mapdata)
 bool	wall_is_valid(t_map *mapdata, int i, int j)
 {
 	bool		err;
-	const int 	lenW = ft_strlen(mapdata->raw_data[i]);
-	const int 	lenH = ft_arrlen(mapdata->raw_data);
+	const int 	len_w = ft_strlen(mapdata->raw_data[i]);
+	const int 	len_h = ft_arrlen(mapdata->raw_data);
 
 	err = true;
-	if ((i < 0 || j < 0 || i >= lenH - 1 || j >= lenW - 1))
+	if ((i < 0 || j < 0 || i >= len_h - 1 || j >= len_w - 1))
 		return (false);
-	if ((i == 0 || j == 0 || i == (lenH - 1) || j == (lenW - 1)) && !is_wall(mapdata->raw_data[i][j]))
+	if ((i == 0 || j == 0 || i == (len_h - 1) || j == (len_w - 1)) && !is_wall(mapdata->raw_data[i][j]))
 		return (false);
 	mapdata->raw_data[i][j] = FILL;
-	if (err && (i + 1) <= (lenH - 1) && !is_wall(mapdata->raw_data[i + 1][j]) && mapdata->raw_data[i + 1][j] != FILL)
+	if (err && (i + 1) <= (len_h - 1) && !is_wall(mapdata->raw_data[i + 1][j]) && mapdata->raw_data[i + 1][j] != FILL)
 		err = wall_is_valid(mapdata, i + 1, j);
-	if (err && (j + 1) <= (lenW - 1) && !is_wall(mapdata->raw_data[i][j + 1]) && mapdata->raw_data[i][j + 1] != FILL)
+	if (err && (j + 1) <= (len_w - 1) && !is_wall(mapdata->raw_data[i][j + 1]) && mapdata->raw_data[i][j + 1] != FILL)
 		err = wall_is_valid(mapdata, i, j + 1);
 	if (err && (i - 1) >= 0 && !is_wall(mapdata->raw_data[i - 1][j]) && mapdata->raw_data[i - 1][j] != FILL)
 		err = wall_is_valid(mapdata, i - 1, j);
@@ -111,21 +111,18 @@ bool	wall_is_valid(t_map *mapdata, int i, int j)
 bool	wall_is_valid_bonus(t_map *mapdata, int i, int j)
 {
 	bool		err;
-	
-	printf("width: %d\n, height: %d\n", mapdata->width, mapdata->height);
-
-	const int 	lenW = mapdata->width;
-	const int 	lenH = mapdata->height;
+	const int 	len_w = mapdata->width;
+	const int 	len_h = mapdata->height;
 
 	err = true;
-	if ((i < 0 || j < 0 || i >= lenH - 1 || j >= lenW - 1))
+	if ((i < 0 || j < 0 || i >= len_h - 1 || j >= len_w - 1))
 		return (false);
-	if ((i == 0 || j == 0 || i == (lenH - 1) || j == (lenW - 1)) && !is_wall_bonus(mapdata->raw_data[i][j]))
+	if ((i == 0 || j == 0 || i == (len_h - 1) || j == (len_w - 1)) && !is_wall_bonus(mapdata->raw_data[i][j]))
 		return (false);
 	mapdata->raw_data[i][j] = FILL;
-	if (err && (i + 1) <= (lenH - 1) && !is_wall_bonus(mapdata->raw_data[i + 1][j]) && mapdata->raw_data[i + 1][j] != FILL)
+	if (err && (i + 1) <= (len_h - 1) && !is_wall_bonus(mapdata->raw_data[i + 1][j]) && mapdata->raw_data[i + 1][j] != FILL)
 		err = wall_is_valid(mapdata, i + 1, j);
-	if (err && (j + 1) <= (lenW - 1) && !is_wall_bonus(mapdata->raw_data[i][j + 1]) && mapdata->raw_data[i][j + 1] != FILL)
+	if (err && (j + 1) <= (len_w - 1) && !is_wall_bonus(mapdata->raw_data[i][j + 1]) && mapdata->raw_data[i][j + 1] != FILL)
 		err = wall_is_valid(mapdata, i, j + 1);
 	if (err && (i - 1) >= 0 && !is_wall_bonus(mapdata->raw_data[i - 1][j]) && mapdata->raw_data[i - 1][j] != FILL)
 		err = wall_is_valid(mapdata, i - 1, j);

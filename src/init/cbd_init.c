@@ -208,8 +208,6 @@ void	init_playerdata(t_player *playerdata, t_map *mapdata)
 	playerdata->pos.y += 0.5f;
 	playerdata->scalar = 1;
 	playerdata->plane = vec_rotate(playerdata->dir, M_PI / 2);
-	printf("Plane: %f, %f\n", playerdata->plane.x, playerdata->plane.y);
-	printf("Dir: %f, %f\n", playerdata->dir.x, playerdata->dir.y);
 	playerdata->map_peak = 0;
 	playerdata->target_distance = 0;
 	playerdata->target_entity = NULL;

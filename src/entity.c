@@ -58,16 +58,6 @@ void	update_foreshadowing(t_entity *ent, float dt)
 	new_pos = vec_add(new_pos, vec_mult(ent->dir, ent->speed * dt));
 	ent->pos = new_pos;
 }
-//
-// void	update_enemy_sound(t_entity *ent, t_app *cbd)
-// {
-// 		if (ent->state != ENTITY_IDLE)
-// 		{
-//
-//
-//
-// 		}
-// }
 
 void	update_enemy(t_entity *ent, t_app *cbd)
 {
@@ -173,8 +163,6 @@ void	update_checkpoint(t_entity *ent, t_app *cbd)
 			{
 				play_sound(audio, SND_PO_TRIGGER, 0.65f, 0.95f);
 				audio->boss_trigger = true;
-				printf("KANKER");
-
 			}
 			cbd->mapdata->cbd_map[2][14] = '4';
 			printf("Triggered checkpoint");
@@ -216,9 +204,7 @@ void	update_entities(t_app *cbd)
 		if (ft_strncmp("po", ent->name, 2) == 0)
 			audio->enemy = ent;
 		if (ft_strncmp("vc", ent->name, 2) == 0 && ent->distance < 20)
-		{
 			audio->vc = ent;
-		}
 		update_entity(ent, cbd);
 		ent = ent->next;
 	}

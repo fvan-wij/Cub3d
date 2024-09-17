@@ -9,6 +9,8 @@ void	update_menu_audio(t_audio *audio, t_app *cbd)
 		stop_sound(audio, SND_SAW);
 		stop_sound(audio, SND_NEAR_DEATH);
 		stop_sound(audio, SND_NO_FUEL2);
+		stop_sound(audio, SND_NOONOO);
+		stop_sound(audio, SND_SUCK);
 		stop_sound(audio, SND_MUSIC);
 		stop_sound(audio, SND_CHASE);
 		stop_sound(audio, SND_LAUGH);

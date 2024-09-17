@@ -14,7 +14,10 @@ static void	loop_behead(t_app *cbd, t_audio *audio)
 	update_entities(cbd);
 	update_timers(&cbd->render.fx, cbd->mlx->delta_time);
 	play_weapon_animation(cbd->mlx, cbd->playerdata.inv);
-	update_game_audio(audio, cbd->playerdata.inv, cbd->playerdata.state, cbd->playerdata.health);
+	if (cbd->mapdata->current_map == LVL_DARK_SECRET)
+		update_game_audio_dark_secret(audio, cbd->playerdata.inv, cbd->playerdata.state, cbd->playerdata.health);
+	else
+		update_game_audio(audio, cbd->playerdata.inv, cbd->playerdata.state, cbd->playerdata.health);
 	cbd_render(cbd);
 }
 
@@ -32,7 +35,10 @@ static void	loop_game(t_app *cbd, t_audio *audio)
 	deal_damage(cbd);
 	update_timers(&cbd->render.fx, cbd->mlx->delta_time);
 	play_weapon_animation(cbd->mlx, cbd->playerdata.inv);
-	update_game_audio(audio, cbd->playerdata.inv, cbd->playerdata.state, cbd->playerdata.health);
+	if (cbd->mapdata->current_map == LVL_DARK_SECRET)
+		update_game_audio_dark_secret(audio, cbd->playerdata.inv, cbd->playerdata.state, cbd->playerdata.health);
+	else
+		update_game_audio(audio, cbd->playerdata.inv, cbd->playerdata.state, cbd->playerdata.health);
 	cbd_render(cbd);
 }
 
