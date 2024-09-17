@@ -65,6 +65,8 @@ typedef struct s_audio {
 	bool		checkpoint;
 	bool		damage_is_dealt;
 	bool		boss_trigger;
+	bool		near_death;
+	bool		secret;
 	uint8_t		channel;
 }	t_audio;
 

@@ -72,6 +72,7 @@ void	respawn(t_app *cbd)
 			cbd_error(ERR_LOAD_MAP);
 			exit(1);
 		}
+		audio->near_death = false;
 		reset_inventory(cbd->playerdata.inv);
 		init_playerdata(&cbd->playerdata, cbd->mapdata);
 	}
@@ -87,6 +88,7 @@ void	change_map(t_app *cbd)
 	audio->tv = NULL;
 	audio->enemy = NULL;
 	audio->vc = NULL;
+	audio->near_death = false;
 	cbd->mapdata = load_map(cbd->mapdata, cbd->menudata->select_menu.current_item);
 	if (!cbd->mapdata)
 	{

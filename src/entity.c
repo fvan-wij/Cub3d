@@ -86,6 +86,11 @@ void	update_enemy(t_entity *ent, t_app *cbd)
 			cbd->mapdata->cbd_map[2][14] = '4';
 			cbd->checkpoint = true;
 			audio->chase = true;
+			if (!audio->boss_trigger)
+			{
+				play_sound(audio, SND_PO_TRIGGER, 0.25f, 1.0f);
+				audio->boss_trigger = true;
+			}
 		}
 		ent->dir = vec_sub(cbd->playerdata.pos, ent->pos);
 		if (vec_distance(cbd->playerdata.pos, ent->pos) < 0.6)
@@ -159,11 +164,6 @@ void	update_checkpoint(t_entity *ent, t_app *cbd)
 		{
 			// Add [checkpoint sound]
 			audio->checkpoint = true;
-			if (!audio->boss_trigger)
-			{
-				play_sound(audio, SND_PO_TRIGGER, 0.65f, 0.95f);
-				audio->boss_trigger = true;
-			}
 			cbd->mapdata->cbd_map[2][14] = '4';
 			printf("Triggered checkpoint");
 		}

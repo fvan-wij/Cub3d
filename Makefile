@@ -69,10 +69,13 @@ ifdef OPTIMIZE
 	CFLAGS += -Ofast
 endif
 
-all: 
+all: init-submodules
 	$(MAKE) libft libmlx $(NAME) -j4
 
 run: all
+
+init-submodules:
+	git submodule update --init --recursive
 
 libmlx:
 	@cp -f ./data/default.frag ./lib/MLX42/shaders/default.frag

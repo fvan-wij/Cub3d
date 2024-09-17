@@ -23,7 +23,11 @@ void	destroy_wall(t_map *mapdata, t_player *player, t_audio *audio)
 	{
 		mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)] = '0';
 		play_sound(audio, SND_WALL3, 0.3f, 1.0f);
-		play_sound(audio, SND_IMPACT2, 0.2f, 1.0f);
+		if (mapdata->cbd_map[29][25] == '0' && !audio->secret)
+		{
+			play_sound(audio, SND_IMPACT2, 0.2f, 1.0f);
+			audio->secret = true;
+		}
 	}
 }
 
