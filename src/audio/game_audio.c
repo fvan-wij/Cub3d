@@ -1,10 +1,16 @@
 #include <cbd_audio.h>
 #include <cub3d.h>
+#include <stdio.h>
 
 static void	loop_dynamic_audio(t_audio *audio, t_entity *ent, uint8_t sound, float volume)
 {
 	float 		vol;
 
+	if (ent->dead)
+	{
+		stop_sound(audio, sound);
+		return;
+	}
 	if (!ent || ent->distance > 1.0 || !ent || ent->distance > 1.0)
 	{
 		ma_sound_set_volume(audio->sound[sound], 0.0f);
@@ -104,6 +110,14 @@ static void	handle_chainsaw_sound(t_audio *audio, t_inventory *inv)
 	}
 }
 
+static void	play_suck(t_audio *audio, t_entity *ent)
+{
+	if (ent->distance < 0.05 && !ent->dead)
+		loop_sound(audio, SND_SUCK, true);
+	else
+		stop_sound(audio, SND_SUCK);
+}
+
 void	update_game_audio(t_audio *audio, t_inventory *inv, enum e_player_state state)
 {
 	stop_sound(audio, SND_MENU);
@@ -111,9 +125,17 @@ void	update_game_audio(t_audio *audio, t_inventory *inv, enum e_player_state sta
 	loop_sound(audio, SND_AMBIENT_LAUGH, false);
 	loop_sound(audio, SND_TV_NOISE, false);
 	loop_sound(audio, SND_TV_BYE + audio->channel, false);
+	loop_sound(audio, SND_NOONOO, false);
 	loop_dynamic_audio(audio, audio->tv, SND_TV_NOISE, 0.2f);
 	loop_dynamic_audio(audio, audio->tv, SND_TV_BYE + audio->channel, 0.2f);
 	loop_dynamic_audio(audio, audio->enemy, SND_LAUGH, 1.0f);
+	loop_dynamic_audio(audio, audio->vc, SND_NOONOO, 1.0f);
+	if (audio->damage_is_dealt)
+	{
+		play_sound(audio, SND_WALL1, 0.85f, 1.5f);
+		audio->damage_is_dealt = false;
+	}
+	play_suck(audio, audio->vc);
 	take_damage(audio);
 	play_jumpscare(audio);
 	play_pickup(audio);

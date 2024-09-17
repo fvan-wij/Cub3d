@@ -39,6 +39,8 @@ typedef enum s_sounds {
 	SND_PICKUP,
 	SND_GAME_OVER,
 	SND_BUSH,
+	SND_NOONOO,
+	SND_SUCK,
 	SND_SIZE,
 } t_sounds;
 
@@ -52,6 +54,7 @@ typedef struct s_audio {
 	t_entity	*trigger1;
 	t_entity	*trigger2;
 	t_entity	*enemy;
+	t_entity	*vc;
 	bool		t1;
 	bool		t2;
 	bool		pickup;
@@ -59,6 +62,7 @@ typedef struct s_audio {
 	bool		is_dead;
 	bool		chase;
 	bool		checkpoint;
+	bool		damage_is_dealt;
 	uint8_t		channel;
 }	t_audio;
 

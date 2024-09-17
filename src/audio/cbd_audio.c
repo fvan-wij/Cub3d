@@ -150,6 +150,8 @@ t_audio	*cbd_init_audio(void)
 	game_audio->sound[SND_IMPACT3] = init_sound(game_audio->engine, "./data/audio/impact3.mp3");
 	game_audio->sound[SND_CROWS] = init_sound(game_audio->engine, "./data/audio/crows.mp3");
 	game_audio->sound[SND_BUSH] = init_sound(game_audio->engine, "./data/audio/bush.mp3");
+	game_audio->sound[SND_NOONOO] = init_sound(game_audio->engine, "./data/audio/noonoo.mp3");
+	game_audio->sound[SND_SUCK] = init_sound(game_audio->engine, "./data/audio/suck.mp3");
 
 	game_audio->is_initialized = true;
 	return (game_audio);
