@@ -43,6 +43,7 @@ SRCS	:= \
 		   render/dithering.c	\
 		   render/walls.c		\
 		   render/particles.c	\
+		   render/gui.c			\
 		   utility/printing.c	\
 		   utility/cleanup.c	\
 		   input/input.c		\
@@ -68,7 +69,8 @@ ifdef OPTIMIZE
 	CFLAGS += -Ofast
 endif
 
-all: libft libmlx $(NAME)
+all: 
+	$(MAKE) libft libmlx $(NAME) -j4
 
 run: all
 

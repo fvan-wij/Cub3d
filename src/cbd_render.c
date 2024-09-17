@@ -40,6 +40,8 @@ void	cbd_render(t_app *cbd)
 	cbd->render.img = dither_image(cbd->render.img);
 	draw_blood_splat(cbd->render.hud->img[HUD_OVERLAY], cbd->render.splat, &cbd->render.fx);
 	draw_blood_particles(cbd->render.sprite_img, cbd->render.blood, &cbd->render.fx);
+	draw_healthbar(cbd->render.img, vec2i_assign(WIDTH - 250, 50), cbd->playerdata.health);
+	draw_fuelbar(cbd->render.img, vec2i_assign(WIDTH - 250, 100), cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo);
 	if (cbd->state == STATE_BEHEAD)
 	{
 		draw_square(cbd->hud->img[HUD_OVERLAY], color(0, 0, 0), vec2i_assign(0, 0), vec2i_assign(WIDTH, HEIGHT>>3));

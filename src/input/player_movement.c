@@ -66,7 +66,7 @@ void	move_player(t_app *cbd)
 
 	//Shift multiplier
 	if (cbd->playerdata.state == PLAYER_RUNNING)
-		move_speed *= 1.35;
+		move_speed *= 1.45;
 
 	//Player movement input polling
 	if (mlx_is_key_down(cbd->mlx, MLX_KEY_UP) || mlx_is_key_down(cbd->mlx, MLX_KEY_W))

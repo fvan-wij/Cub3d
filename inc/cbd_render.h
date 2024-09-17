@@ -121,6 +121,8 @@ typedef struct s_hud {
 		HUD_OVERLAY,
 		HUD_CRT,
 		HUD_PULSE,
+		HUD_FUEL,
+		HUD_HEALTH,
 		HUD_SIZE,
 	} t_hud_items;
 	mlx_image_t	*img[HUD_SIZE];
@@ -201,6 +203,8 @@ void			draw_sprites(t_render *render, t_map *map, t_player *player);
 void			render_entities(t_render *render, t_entity *entities, t_player *player);
 void			draw_equipped_weapon(t_inventory *inv);
 t_entity 		*spawn_blood(t_entity *head, t_player *player, uint8_t limb);
+void			draw_healthbar(mlx_image_t *img, t_vec2i pos, int health);
+void 			draw_fuelbar(mlx_image_t *img, t_vec2i pos, int fuel);
 
 //				Draw shapes
 void			draw_line(mlx_image_t *image, uint32_t color, t_vec2i p1, t_vec2i p2);

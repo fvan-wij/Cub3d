@@ -261,6 +261,8 @@ t_hud	*cbd_init_hud(mlx_t *mlx)
 	hud->img[HUD_OVERLAY] = mlx_new_image(mlx, WIDTH, HEIGHT);
 	hud->img[HUD_CRT] = mlx_new_image(mlx, WIDTH, HEIGHT);
 	hud->img[HUD_PULSE] = mlx_new_image(mlx, WIDTH, HEIGHT);
+	hud->img[HUD_FUEL] = mlx_new_image(mlx, 100, 100);
+	hud->img[HUD_HEALTH] = mlx_new_image(mlx, 10, 10);
 	return (hud);
 }
 
@@ -306,12 +308,18 @@ bool cbd_init(t_app *cbd)
 	if (!cbd->render.po_head)
 		return (cbd_error(ERR_ALLOC), FAILURE);
 
+
 	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_MAP], (WIDTH>>1) - (MINIMAP_WIDTH>>2) - 16, (HEIGHT>>1) + (MINIMAP_HEIGHT>>3) - 8);
 	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_MAP].img, (WIDTH>>2), (HEIGHT>>3));
 	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_FIST].img, (WIDTH>>1) - (cbd->playerdata.inv->weapons[WPN_FIST].img->width / 2), HEIGHT - (cbd->playerdata.inv->weapons[WPN_FIST].img->height>>1));
 	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_CHAINSAW].img, (WIDTH>>1) - (cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->width / 2), HEIGHT - (cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->height * 0.8));
 	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_CRT], 0, 0);
 	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_PULSE], 0, 0);
+
+	cbd->hud->img[HUD_FUEL] = cbd_init_texture_img(cbd->mlx, "./data/textures/sprites/fuel.png");
+	cbd->hud->img[HUD_HEALTH] = cbd_init_texture_img(cbd->mlx, "./data/textures/sprites/health.png");
+	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_FUEL], WIDTH - 350, -5);
+	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_HEALTH], WIDTH - 300, 45);
 	cbd->playerdata.inv->weapons[WPN_MAP].img->enabled = false;
 	cbd->playerdata.inv->weapons[WPN_FIST].img->enabled = false;
 	cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->enabled = false;

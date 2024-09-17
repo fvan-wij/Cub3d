@@ -58,14 +58,23 @@ void	update_foreshadowing(t_entity *ent, float dt)
 	new_pos = vec_add(new_pos, vec_mult(ent->dir, ent->speed * dt));
 	ent->pos = new_pos;
 }
+//
+// void	update_enemy_sound(t_entity *ent, t_app *cbd)
+// {
+// 		if (ent->state != ENTITY_IDLE)
+// 		{
+//
+//
+//
+// 		}
+// }
 
 void	update_enemy(t_entity *ent, t_app *cbd)
 {
 	t_audio *audio;
 
 	audio = cbd->audio;
-	// if (ft_strncmp(ent->name, "vc", 2) == 0)
-	// 	printf("(Update enemy) name: %s, state: %d, health: %d, dead: %d, enabled: %d\n", ent->name, ent->state, ent->health, ent->dead, ent->enabled);
+
 	if (audio->t2 && ft_strncmp("trigger2", ent->name, 8) == 0)
 	{
 		update_foreshadowing(ent, cbd->mlx->delta_time);
@@ -190,9 +199,6 @@ void	update_entities(t_app *cbd)
 	audio = cbd->audio;
 	while (ent)
 	{
-		// if (ft_strncmp(ent->name, "vc", 2) == 0)
-		// 	printf("(Update entities) name: %s, state: %d, health: %d, dead: %d, enabled: %d\n", ent->name, ent->state, ent->health, ent->dead, ent->enabled);
-		update_entity(ent, cbd);
 		if (ft_strncmp("tv", ent->name, 2) == 0)
 			audio->tv = ent;
 		if (ft_strncmp("trigger1", ent->name, 8) == 0)
@@ -201,6 +207,11 @@ void	update_entities(t_app *cbd)
 			audio->trigger2 = ent;
 		if (ft_strncmp("po", ent->name, 2) == 0)
 			audio->enemy = ent;
+		if (ft_strncmp("vc", ent->name, 2) == 0 && ent->distance < 20)
+		{
+			audio->vc = ent;
+		}
+		update_entity(ent, cbd);
 		ent = ent->next;
 	}
 }

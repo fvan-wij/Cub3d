@@ -5,7 +5,23 @@
 #include <stdio.h>
 void deal_damage(t_app *cbd)
 {
-	if (cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo <= 0)
+	if (mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE) && cbd->playerdata.inv->equipped == WPN_FIST)
+	{
+		if (cbd->playerdata.target_entity != NULL && cbd->playerdata.target_distance < 1.0)
+		{
+			cbd->render.fx.crt = true;
+			cbd->render.fx.blood = true;
+			cbd->playerdata.target_entity->health-=cbd->mlx->delta_time * 0.2;
+			if (cbd->playerdata.target_entity->enabled)
+				dismember_enemy(cbd);
+
+			t_audio *audio = cbd->audio;
+			audio->damage_is_dealt = true;
+		}
+		else
+			cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo-=cbd->mlx->delta_time * 10;
+	}
+	else if (cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo <= 0)
 		return ;
 	if ((mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE) || mlx_is_mouse_down(cbd->mlx, MLX_MOUSE_BUTTON_LEFT))&& cbd->playerdata.inv->equipped == WPN_CHAINSAW)
 	{
@@ -83,7 +99,10 @@ void	dismember_enemy(t_app *cbd)
 	target = cbd->playerdata.target_entity;
 	target_distance = cbd->playerdata.target_distance;
 	if (target->health <= 20 && ft_strncmp(target->name, "vc", 2) == 0)
+	{
 		target->animation.current_animation = 1;
+		target->dead = true;
+	}
 	else if (target->health <= 0)
 		return ;
 	if (ft_strncmp(target->name, "po", 2) == 0 && target_distance < 1.0)
