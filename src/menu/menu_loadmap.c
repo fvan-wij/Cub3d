@@ -64,6 +64,18 @@ void	respawn(t_app *cbd)
 			curr = curr->next;
 		}
 	}
+	else
+	{
+		cbd->mapdata = load_map(cbd->mapdata, LVL_DARK_SECRET);
+		if (!cbd->mapdata)
+		{
+			cbd_error(ERR_LOAD_MAP);
+			exit(1);
+		}
+		reset_inventory(cbd->playerdata.inv);
+		init_playerdata(&cbd->playerdata, cbd->mapdata);
+	}
+
 }
 
 void	change_map(t_app *cbd)

@@ -152,6 +152,10 @@ t_audio	*cbd_init_audio(void)
 	game_audio->sound[SND_BUSH] = init_sound(game_audio->engine, "./data/audio/bush.mp3");
 	game_audio->sound[SND_NOONOO] = init_sound(game_audio->engine, "./data/audio/noonoo.mp3");
 	game_audio->sound[SND_SUCK] = init_sound(game_audio->engine, "./data/audio/suck.mp3");
+	game_audio->sound[SND_PO_TRIGGER] = init_sound(game_audio->engine, "./data/audio/po_trigger.mp3");
+
+	ma_sound_set_volume(game_audio->sound[SND_SUCK], 0.70f);
+	game_audio->boss_trigger = false;
 
 	game_audio->is_initialized = true;
 	return (game_audio);

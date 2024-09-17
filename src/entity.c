@@ -169,6 +169,13 @@ void	update_checkpoint(t_entity *ent, t_app *cbd)
 		{
 			// Add [checkpoint sound]
 			audio->checkpoint = true;
+			if (!audio->boss_trigger)
+			{
+				play_sound(audio, SND_PO_TRIGGER, 0.65f, 0.95f);
+				audio->boss_trigger = true;
+				printf("KANKER");
+
+			}
 			cbd->mapdata->cbd_map[2][14] = '4';
 			printf("Triggered checkpoint");
 		}
@@ -188,6 +195,7 @@ void	update_entity(t_entity *ent, t_app *cbd)
 	{
 		update_item(ent, cbd);
 	}
+	update_checkpoint(ent, cbd);
 }
 
 void	update_entities(t_app *cbd)
