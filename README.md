@@ -34,8 +34,8 @@ _Combat/Inventory:_
 - Chainsaw: 2
 
 ### Resources
-Ray-casting tutorial
-https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
+Big thanks to lodev for his wonderful ray-casting tutorial:
+https://lodev.org/cgtutor/raycasting.html
 
 ### Features
 
