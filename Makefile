@@ -1,4 +1,4 @@
-NAME	:= cub3d
+NAME	:= telestein3d
 # CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast
 CFLAGS	:= -Wextra -Wall -Wunreachable-code -O2
 LIBMLX	:= ./lib/MLX42
@@ -79,7 +79,7 @@ init-submodules:
 
 libmlx:
 	@cp -f ./data/default.frag ./lib/MLX42/shaders/default.frag
-	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -s -C $(LIBMLX)/build -j4
+	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -s -C $(LIBMLX)/build -j2
 
 libft:
 	@make -s $(LIBFT_DEBUG) -C $(LIBFT)
@@ -91,7 +91,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 $(NAME): $(OBJS)
 	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
 	@printf "[Cub3d]\033[0;32m\033[1m Compiled succesfully ✅\033[0m\n"
-	@printf "[Cub3d]\033[0;32m\033[1m Run the cub3d executable to get started.\033[0m\n"
+	@printf "[Cub3d]\033[0;32m\033[1m Run the telestein3d executable './telestein3d' to get started.\033[0m\n"
 
 clean:
 	@rm -rf $(OBJDIR)
