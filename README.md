@@ -7,6 +7,8 @@ Further goals of this project:
 - Use of basic algorithms;
 - Custom sprites and sound-effects and music;
 - A basic game-loop;
+> [!NOTE]
+> A 42-evalled version can be found on the cub3d_eval branch
 
 ## About Telestein3D
 The Teletubbies have taken your children and your life turns into a literal nightmare. You're on a mission to take revange and discover some truly dark secrets...
@@ -16,19 +18,20 @@ The Teletubbies have taken your children and your life turns into a literal nigh
 2. Open up a terminal, CD into the root directory of Telestein3D and use the 'make' command
 3. Let it build...
 4. Run the game by booting the binary: './Telestein3D'
-5. No additional arguments are required
+> [!NOTE]
+> No additional arguments are required, however, you can supply custom maps by running it with a .cub map file. E.g. './telestein3d data/maps/confrontation.cub'
 
 ## Controls
 _Player movement:_
-Walk: W,A,S,D
-Turn around: LEFT-ARROW / RIGHT-ARROW
-Sprint: SHIFT
+- Walk: W,A,S,D
+- Turn around: LEFT-ARROW / RIGHT-ARROW
+- Sprint: SHIFT
 
 _Combat/Inventory:_
-Attack: SPACE
-Map: M
-Fists: 1
-Chainsaw: 2
+- Attack: SPACE
+- Map: M
+- Fists: 1
+- Chainsaw: 2
 
 ### Resources
 Ray-casting tutorial
