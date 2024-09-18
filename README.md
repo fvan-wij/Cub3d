@@ -27,11 +27,12 @@ _Player movement:_
 - Turn around: LEFT-ARROW / RIGHT-ARROW
 - Sprint: SHIFT
 
-_Combat/Inventory:_
+_Interaction/Combat/Inventory:_
 - Attack: SPACE
 - Map: M
 - Fists: 1
 - Chainsaw: 2
+- Interact TV: E
 
 ### Resources
 Big thanks to lodev for his wonderful ray-casting tutorial:
