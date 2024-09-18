@@ -4,7 +4,7 @@ void	draw_healthbar(mlx_image_t *img, t_vec2i pos, int health)
 {
 	//img col pos dim
 	t_rgba col = {0xEE0000FF};
-	int hp_modifier = 200 / 6;
+	int hp_modifier = 200 / 5;
 	t_vec2i size = {health * hp_modifier, 20};
 	draw_square(img, col.color, pos, size);
 }

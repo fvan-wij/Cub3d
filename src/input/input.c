@@ -12,17 +12,17 @@ void	destroy_wall(t_map *mapdata, t_player *player, t_audio *audio)
 	if (target == '=')
 	{
 		mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)] = '-';
-		play_sound(audio, SND_WALL2, 0.3f, 1.0f);
+		play_sound(audio, SND_WALL2, 0.25f, 1.0f);
 	}
 	else if (target == '-')
 	{
 		mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)] = '_';
-		play_sound(audio, SND_WALL1, 0.3f, 1.0f);
+		play_sound(audio, SND_WALL1, 0.25f, 1.0f);
 	}
 	else if (target == '_')
 	{
 		mapdata->cbd_map[(int)(player->pos.y + player->dir.y)][(int)(player->pos.x + player->dir.x)] = '0';
-		play_sound(audio, SND_WALL3, 0.3f, 1.0f);
+		play_sound(audio, SND_WALL3, 0.25f, 1.0f);
 		if (mapdata->cbd_map[29][25] == '0' && !audio->secret)
 		{
 			play_sound(audio, SND_IMPACT2, 0.2f, 1.0f);
@@ -74,11 +74,6 @@ void	menu_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 // Game input handling
 void	game_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 {
-	// key B input (debug)
-	if (keydata.key == MLX_KEY_B && keydata.action == MLX_PRESS)
-	{
-		cbd->state = STATE_BEHEAD;
-	}
 	// Space key input
 	if (keydata.key == MLX_KEY_SPACE)
 	{
@@ -90,6 +85,7 @@ void	game_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 			{
 				play_sound(audio, SND_PUNCH, 0.5f, 1.0f);
 				destroy_wall(cbd->mapdata, &cbd->playerdata, cbd->audio);
+				deal_fist_damage(cbd);
 			}
 			if (cbd->playerdata.inv->equipped == WPN_CHAINSAW && cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo <= 0)
 				play_sound(audio, SND_NO_FUEL, 1.0f, 1.0f);
@@ -147,18 +143,6 @@ void	app_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 	}
 }
 
-// void	behead_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
-// {
-// 	if (keydata.key == MLX_KEY_SPACE)
-// 	{
-// 		if (cbd->playerdata.target_entity != NULL && cbd->playerdata.target_entity->type == ENTITY_ENEMY)
-// 		{
-// 			// dismember_enemy(cbd);
-// 			play_sound(audio, SND_GUTS, 0.8f);
-// 		}
-// 	}
-// }
-
 void	cbd_input(mlx_key_data_t keydata, void *param)
 {
 	t_app		*cbd;
@@ -169,10 +153,7 @@ void	cbd_input(mlx_key_data_t keydata, void *param)
 	if (cbd->menudata->state == OFF)
 		game_input(keydata, cbd, audio);
 	else
-	{
 		menu_input(keydata, cbd, audio);
-		// printf("Ga hier in!!!!\n");
-	}
 	change_tv_channel(audio, keydata);
 	app_input(keydata, cbd, audio);
 }

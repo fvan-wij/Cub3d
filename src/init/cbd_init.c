@@ -212,7 +212,7 @@ void	init_playerdata(t_player *playerdata, t_map *mapdata)
 	playerdata->target_distance = 0;
 	playerdata->target_entity = NULL;
 	playerdata->i_time = 0;
-	playerdata->health = 6;
+	playerdata->health = 5;
 	playerdata->head_height = 0;
 }
 
@@ -335,7 +335,7 @@ bool cbd_init(t_app *cbd)
 	//Setup mlx hooks
 	mlx_key_hook(cbd->mlx, cbd_input, cbd);
 	mlx_cursor_hook(cbd->mlx, cursor_hook, cbd);
-	mlx_mouse_hook(cbd->mlx, mouse_hook, cbd);
+	// mlx_mouse_hook(cbd->mlx, mouse_hook, cbd);
 	mlx_loop_hook(cbd->mlx, cbd_loop, cbd);
 	return (SUCCESS);
 }

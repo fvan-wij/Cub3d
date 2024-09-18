@@ -16,12 +16,14 @@ void	update_menu_audio(t_audio *audio, t_app *cbd)
 		stop_sound(audio, SND_LAUGH);
 		stop_sound(audio, SND_WALK_GRASS);
 		stop_sound(audio, SND_AMBIENT_LAUGH);
+		stop_sound(audio, SND_AMBIENT_MUSIC);
 		loop_sound(audio, SND_GAME_OVER, false);
 	}
 	else if (cbd->menudata->state == MAIN)
 	{
 		stop_sound(audio, SND_MUSIC);
 		stop_sound(audio, SND_AMBIENT_LAUGH);
+		stop_sound(audio, SND_AMBIENT_MUSIC);
 		stop_sound(audio, SND_GAME_OVER);
 		loop_sound(audio, SND_MENU, false);
 	}
