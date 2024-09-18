@@ -12,11 +12,11 @@ Further goals of this project:
 The Teletubbies have taken your children and your life turns into a literal nightmare. You're on a mission to take revange and discover some truly dark secrets...
 
 ## Installation
-1 Download/clone this repository
-2 Open up a terminal, CD into the root directory of Telestein3D and use the 'make' command
-3 Let it build...
-4 Run the game by booting the binary: './Telestein3D'
-5 No additional arguments are required
+1. Download/clone this repository
+2. Open up a terminal, CD into the root directory of Telestein3D and use the 'make' command
+3. Let it build...
+4. Run the game by booting the binary: './Telestein3D'
+5. No additional arguments are required
 
 ## Controls
 _Player movement:_
