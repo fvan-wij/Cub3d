@@ -12,6 +12,7 @@ typedef enum s_sounds {
 	SND_MENU,
 	SND_SEARCH,
 	SND_MUSIC,
+	SND_AMBIENT_MUSIC,
 	SND_PUNCH,
 	SND_TICK,
 	SND_WALL1,
@@ -79,5 +80,6 @@ void	stop_sound(t_audio *audio, uint8_t type);
 void	reset_sounds(t_audio *audio);
 void	update_game_audio(t_audio *audio, t_inventory *inv, enum e_player_state state, int health);
 void	update_game_audio_dark_secret(t_audio *audio, t_inventory *inv, enum e_player_state state, int health);
+void	update_game_audio_behead(t_audio *audio, t_inventory *inv, enum e_player_state state, int health);
 void	update_menu_audio(t_audio *audio, t_app *cbd);
 #endif

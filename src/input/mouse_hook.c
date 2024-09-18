@@ -29,8 +29,4 @@ void	mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods, void* 
 			stop_sound(audio, SND_SAW);
 		}
 	}
-	else if (button == MLX_MOUSE_BUTTON_RIGHT && action == MLX_PRESS)
-	{
-		// change_tv_channel(cbd->audio, cbd->mlx->keydata);
-	}
 }

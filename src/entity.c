@@ -65,6 +65,7 @@ void	update_enemy(t_entity *ent, t_app *cbd)
 
 	audio = cbd->audio;
 
+
 	if (audio->t2 && ft_strncmp("trigger2", ent->name, 8) == 0)
 	{
 		update_foreshadowing(ent, cbd->mlx->delta_time);
@@ -98,8 +99,11 @@ void	update_enemy(t_entity *ent, t_app *cbd)
 			if (cbd->playerdata.i_time <= 0)
 			{
 				ent->state = ENTITY_ATTACK;
-				audio->damage = true;
-				attack_player(ent, &cbd->playerdata, &cbd->render.fx);
+				if (!ent->dead && cbd->state != STATE_BEHEAD)
+				{
+					audio->damage = true;
+					attack_player(ent, &cbd->playerdata, &cbd->render.fx);
+				}
 			}
 			ent->state = ENTITY_IDLE;
 		}
@@ -133,7 +137,7 @@ void	update_item(t_entity *item, t_app *cbd)
 		if (vec_distance(item->pos, cbd->playerdata.pos) < 0.5)
 		{
 			// Add [pickup sound]
-			cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo+=25;
+			cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo+=20;
 			item->enabled = false;
 			audio->pickup = true;
 		}
@@ -165,7 +169,8 @@ void	update_checkpoint(t_entity *ent, t_app *cbd)
 			// Add [checkpoint sound]
 			audio->checkpoint = true;
 			cbd->mapdata->cbd_map[2][14] = '4';
-			printf("Triggered checkpoint");
+			cbd->checkpoint_state.health = cbd->playerdata.health;
+			cbd->checkpoint_state.ammo = cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo;
 		}
 	}
 }
@@ -175,7 +180,7 @@ void	update_entity(t_entity *ent, t_app *cbd)
 	if (!ent->enabled)
 		return ;
 	animate_entity(ent, cbd);
-	if (ent->type == ENTITY_ENEMY && ent->enabled && ent->health > 20)
+	if (ent->type == ENTITY_ENEMY && ent->enabled)
 	{
 		update_enemy(ent, cbd);
 	}
@@ -204,7 +209,15 @@ void	update_entities(t_app *cbd)
 		if (ft_strncmp("po", ent->name, 2) == 0)
 			audio->enemy = ent;
 		if (ft_strncmp("vc", ent->name, 2) == 0 && ent->distance < 20)
+		{
 			audio->vc = ent;
+			if (ent->animation.current_animation == 2)
+			{
+				ent->dead = true;
+				ent->speed = 0;
+				ent->health = 0;
+			}
+		}
 		update_entity(ent, cbd);
 		ent = ent->next;
 	}

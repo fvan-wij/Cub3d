@@ -25,6 +25,12 @@ typedef struct s_beheading {
 	t_vec2d	target_pos;
 }	t_beheading;
 
+typedef struct s_checkpoint_state {
+	int			health;
+	int			ammo;
+	t_inventory inventory;
+} t_checkpoint_state;
+
 typedef struct s_player {
 	enum e_player_state {
 		PLAYER_IDLE,
@@ -59,6 +65,7 @@ typedef struct s_app {
 	t_beheading	beheading;
 	t_vec2d		mouse;
 	t_vec2d		prev_mouse;
+	t_checkpoint_state checkpoint_state;
 	mlx_t		*mlx;
 	void		*audio;
 	double		elapsed_time;
@@ -106,7 +113,8 @@ void	rotate_player(t_player *playerdata, t_particle *particles, float angle);
 
 //		Combat
 void	dismember_enemy(t_app *cbd);
-void 	deal_damage(t_app *cbd);
+void 	deal_chainsaw_damage(t_app *cbd);
+void 	deal_fist_damage(t_app *cbd);
 
 //		Player.c
 void	attack_player(t_entity *ent, t_player *playerdata, t_fx *fx);

@@ -33,7 +33,7 @@ void	cbd_render(t_app *cbd)
 	cast_rays(cbd->mapdata->cbd_map, &cbd->render, &cbd->playerdata);
 	draw_walls(cbd->render, cbd->mapdata);
 	render_entities(&cbd->render, cbd->mapdata->entities, &cbd->playerdata);
-	draw_minimap(cbd->hud->img[HUD_MAP], cbd->playerdata.pos, cbd->mapdata->cbd_map, cbd->mapdata->width, cbd->mapdata->height);
+	draw_minimap(cbd->hud->img[HUD_MAP], cbd->playerdata.pos, cbd->mapdata->cbd_map, vec2i_assign(cbd->mapdata->width, cbd->mapdata->height));
 	draw_hud(cbd->hud, cbd->playerdata.inv);
 	draw_equipped_weapon(cbd->playerdata.inv);
 	draw_dust_particles(cbd->render.img, cbd->particles);
@@ -51,7 +51,10 @@ void	cbd_render(t_app *cbd)
 	{
 		cbd->hud->img[HUD_HEALTH]->enabled = true;
 		cbd->hud->img[HUD_FUEL]->enabled = true;
-		draw_healthbar(cbd->render.img, vec2i_assign(WIDTH - 250, 50), cbd->playerdata.health);
+		if (cbd->playerdata.health <= 1 && (int)cbd->elapsed_time % 2 == 0)
+			draw_healthbar(cbd->render.img, vec2i_assign(WIDTH - 250, 50), cbd->playerdata.health);
+		else if (cbd->playerdata.health > 1)
+			draw_healthbar(cbd->render.img, vec2i_assign(WIDTH - 250, 50), cbd->playerdata.health);
 		draw_fuelbar(cbd->render.img, vec2i_assign(WIDTH - 250, 100), cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo);
 	}
 	screenshake(&cbd->render);

@@ -1,35 +1,44 @@
 #include <cub3d.h>
 #include <cbd_audio.h>
 #include <cbd_error.h>
-
 #include <stdio.h>
-void deal_damage(t_app *cbd)
+
+void deal_fist_damage(t_app *cbd)
 {
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE) && cbd->playerdata.inv->equipped == WPN_FIST)
+	t_audio *audio = cbd->audio;
+	if (cbd->state == STATE_BEHEAD)
 	{
-		if (cbd->playerdata.target_entity != NULL && cbd->playerdata.target_distance < 1.0)
+
+		t_audio *audio = cbd->audio;
+		audio->damage_is_dealt = true;
+	}
+	else if (cbd->playerdata.inv->equipped == WPN_FIST)
+	{
+		if ((cbd->playerdata.target_entity != NULL && cbd->playerdata.target_distance < 1.0))
 		{
 			cbd->render.fx.crt = true;
 			cbd->render.fx.blood = true;
-			cbd->playerdata.target_entity->health-=cbd->mlx->delta_time * 0.2;
+			cbd->playerdata.target_entity->health -= 4;
 			if (cbd->playerdata.target_entity->enabled)
 				dismember_enemy(cbd);
-
-			t_audio *audio = cbd->audio;
 			audio->damage_is_dealt = true;
 		}
-	}
-	else if (cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo <= 0)
-		return ;
-	if ((mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE) || mlx_is_mouse_down(cbd->mlx, MLX_MOUSE_BUTTON_LEFT))&& cbd->playerdata.inv->equipped == WPN_CHAINSAW)
+}
+}
+
+void deal_chainsaw_damage(t_app *cbd)
+{
+	if (cbd->playerdata.inv->equipped != WPN_CHAINSAW || cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo <= 0)
+		return;
+	else if (mlx_is_key_down(cbd->mlx, MLX_KEY_SPACE))
 	{
 		if (cbd->playerdata.target_entity != NULL && cbd->playerdata.target_distance < 1.0)
 		{
 			cbd->render.fx.crt = true;
 			cbd->render.fx.blood = true;
 			cbd->render.fx.splat = true;
-			cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo-=cbd->mlx->delta_time * 10;
-			cbd->playerdata.target_entity->health-=cbd->mlx->delta_time;
+			cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo -= cbd->mlx->delta_time * 5;
+			cbd->playerdata.target_entity->health -= cbd->mlx->delta_time * 0.65;
 			if (cbd->playerdata.target_entity->enabled)
 				dismember_enemy(cbd);
 		}
@@ -88,7 +97,6 @@ t_entity *spawn_blood(t_entity *head, t_player *player, uint8_t limb)
 	node->animation.current_animation = limb;
 	return (head);
 }
-
 void	dismember_enemy(t_app *cbd)
 {
 	t_entity	*target;
@@ -96,15 +104,24 @@ void	dismember_enemy(t_app *cbd)
 
 	target = cbd->playerdata.target_entity;
 	target_distance = cbd->playerdata.target_distance;
-	if (target->health <= 20 && ft_strncmp(target->name, "vc", 2) == 0)
-	{
-		target->animation.current_animation = 1;
-		target->dead = true;
-		target->speed = 0;
-		target->health = 0;
-	}
-	else if (target->health <= 0)
+	if (target->dead)
 		return ;
+	if (ft_strncmp(target->name, "vc", 2) == 0)
+	{
+		if (target->health % 10 == 0)
+		{
+			if (target->health <= 0)
+			{
+				target->animation.current_animation = 2;
+				target->dead = true;
+				target->speed = 0;
+				target->health = 0;
+				return;
+			}
+			target->animation.current_animation++;
+			target->speed -= 0.5;
+		}
+	}
 	if (ft_strncmp(target->name, "po", 2) == 0 && target_distance < 1.0)
 	{
 		if (!target->enabled)

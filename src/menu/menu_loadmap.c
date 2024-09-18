@@ -30,11 +30,14 @@ t_map	*load_map(t_map *curr_map, uint8_t	map_id)
 
 void	reset_inventory(t_inventory *inv)
 {
-	inv->equipped = WPN_FIST;
-	inv->weapons[WPN_CHAINSAW].fire_animation->loop = false;
+	reset_animation(&inv->weapons[WPN_CHAINSAW]);
+	// inv->weapons[WPN_CHAINSAW].fire_animation->loop = false;
+	// inv->weapons[WPN_CHAINSAW].fire_animation->enabled = false;
+	// inv->weapons[WPN_CHAINSAW].fire_animation->current_frame = 0;
 	inv->weapons[WPN_MAP].in_inventory = false;
 	inv->weapons[WPN_CHAINSAW].in_inventory = false;
 	inv->weapons[WPN_CHAINSAW].ammo = 0;
+	inv->equipped = WPN_FIST;
 }
 
 void	respawn(t_app *cbd)
@@ -49,9 +52,9 @@ void	respawn(t_app *cbd)
 		cbd->playerdata.dir = vec_assign(-1.0, 0.0);
 		cbd->playerdata.plane = vec_rotate(cbd->playerdata.dir, M_PI / 2);
 		cbd->mapdata->cbd_map[13][2] = '4';
-		cbd->playerdata.health = 6;
+		cbd->playerdata.health = 5;
 		audio->enemy->health = 100;
-		cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo = 50;
+		cbd->playerdata.inv->weapons[WPN_CHAINSAW].ammo = cbd->checkpoint_state.ammo;
 		audio->enemy->animation.current_animation = 0;
 		audio->enemy->pos = audio->enemy->destinations[0];
 		audio->enemy->limb = 0;

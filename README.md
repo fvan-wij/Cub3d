@@ -1,29 +1,47 @@
-# Cub3d (Raycaster in C)
-![](https://github.com/fvan-wij/Cub3d_Telestein3D/blob/main/telestein.gif)
-
-## Project description
-The aim of this project is to build a dynamic maze which can be explored in first-person similar to the game Wolfenstein 3D.
-
+# Telestein3D/Cub3d (Raycaster in C)
+Telestein3D or Cub3d (based of 42's project 'Cub3d') is a demo of a horror game that can be explored in first-person similar to the game Wolfenstein 3D.
+Additionally, this project has been turned into a fully fledged demo, including combat, audio and more.
 Further goals of this project:
-- Building a robust application with proper error handling, no memory leaks and a decent performance;
 - Building a ray-casting engine from scratch using mathematics;
 - Use of basic algorithms;
+- Custom sprites and sound-effects and music;
+- A basic game-loop;
+
+## About Telestein3D
+The Teletubbies have taken your children and your life turns into a literal nightmare. You're on a mission to take revange and discover some truly dark secrets...
+
+## Installation
+1 Download/clone this repository
+2 Open up a terminal, CD into the root directory of Telestein3D and use the 'make' command
+3 Let it build...
+4 Run the game by booting the binary: './Telestein3D'
+5 No additional arguments are required
+
+## Controls
+_Player movement:_
+Walk: W,A,S,D
+Turn around: LEFT-ARROW / RIGHT-ARROW
+Sprint: SHIFT
+
+_Combat/Inventory:_
+Attack: SPACE
+Map: M
+Fists: 1
+Chainsaw: 2
 
 ### Resources
-
 Ray-casting tutorial
 https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 
-### To dos
+### Features
 
 *Parsing*
-
 - [x] consider skipping non-valid lines while reading the .cub file, check for duplicate elements and decide on appropriate behaviour;
-- [ ] check if the colors are in a valid format
-- [ ] write a function where I pass an array of characters and check if they are present in a string;
+- [x] check if the colors are in a valid format
+- [x] write a function where I pass an array of characters and check if they are present in a string;
 - [x] write a floodfill algorithm to validate the map, decide on a method to check which index has already been checked;
 - [x] initialize mlx_textures in the parsing phase;
-- [ ] free and terminate the application in a clean way while parsing textures and colors
+- [x] free and terminate the application in a clean way while parsing textures and colors
 - [x] avoid passing the main struct to every function and seperate variables instead;
 - [x] create seperate vector header?
 
@@ -39,21 +57,14 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 *Gameplay* (Dark_Secret)
 - [x] Add Foreshadowing jumpscare po
 - [x] Add jumpscare, tree or shrub
-- [ ] Lion roar
 - [x] Po dismemberment mechanic
 - [x] Gasoline / fuel for chainsaw
 - [x] chase soundtrack (danger)
 - [x] Jumpscare sounds
-- [ ] Add patrolling BEAR
 - [x] Add finishing move on Po
 - [x] Add exit on Dome entrance
-- [ ] Add kick
-- [ ] Add near death overlay
 - [x] Add end screen
-- [ ] Add destructibles
-- [ ] Add health indicator
-- [ ] Door should be more obvious
-- [ ] Add sprite with controls
+- [x] Add health indicator
 - [x] Add Po miniboss
 - [x] Item pickups / Items ( Fuel, Chainsaw)
 - [x] Death mechanic
@@ -74,13 +85,13 @@ https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 - [x] Add continuous animation for saw + sound.
 - [x] Implement textures
 - [x] Slither some dither in
-- [ ] Minimap should play buzzing sound
 - [x] Add sprites
 
-
 ### Credits
-Music and sounddesign produced and composed by Flip van Wijk
+Music, sounddesign and art by Flip van Wijk
+Technical lead: Duco Ritsema
 
+### Other sounds I did not create
 Chainsaw Sound:
 Sound Effect by <a href="https://pixabay.com/users/u_zpj3vbdres-31862813/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=128369">u_zpj3vbdres</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=128369">Pixabay</a>
 

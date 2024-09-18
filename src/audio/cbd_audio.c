@@ -104,7 +104,7 @@ t_audio	*cbd_init_audio(void)
 	if (result != MA_SUCCESS)
 		(free(game_audio), free(game_audio->engine), (void) NULL);
 	game_audio->sound[SND_MUSIC] = init_sound(game_audio->engine, "./data/audio/ambient_music2.mp3");
-	ma_sound_set_volume(game_audio->sound[SND_MUSIC], 0.0f);
+	ma_sound_set_volume(game_audio->sound[SND_MUSIC], 0.65f);
 
 	game_audio->sound[SND_WALK_GRASS] = init_sound(game_audio->engine, "./data/audio/step_grass.mp3");
 	game_audio->sound[SND_WALK_SOLID] = init_sound(game_audio->engine, "./data/audio/step_solid.mp3");
@@ -123,13 +123,15 @@ t_audio	*cbd_init_audio(void)
 	game_audio->sound[SND_SAW] = init_sound(game_audio->engine, "./data/audio/saw_loop2.mp3");
 	game_audio->sound[SND_SAW_IDLE] = init_sound(game_audio->engine, "./data/audio/saw_idle2.mp3");
 	ma_sound_set_volume(game_audio->sound[SND_SAW], 3.0f);
-	ma_sound_set_volume(game_audio->sound[SND_SAW_IDLE], 0.6f);
+	ma_sound_set_volume(game_audio->sound[SND_SAW_IDLE], 0.3f);
 
 	game_audio->sound[SND_WALL1] = init_sound(game_audio->engine, "./data/audio/wall_destruction/wall2.mp3");
 	game_audio->sound[SND_WALL2] = init_sound(game_audio->engine, "./data/audio/wall_destruction/wall3.mp3");
 	game_audio->sound[SND_WALL3] = init_sound(game_audio->engine, "./data/audio/wall_destruction/wall1.mp3");
 
 	game_audio->sound[SND_AMBIENT_LAUGH] = init_sound(game_audio->engine, "./data/audio/ambient_laugh.mp3");
+	game_audio->sound[SND_AMBIENT_MUSIC] = init_sound(game_audio->engine, "./data/audio/ambient_music.mp3");
+	ma_sound_set_volume(game_audio->sound[SND_AMBIENT_MUSIC], 1.0f);
 	game_audio->sound[SND_IMPACT] = init_sound(game_audio->engine, "./data/audio/impact.mp3");
 	game_audio->sound[SND_IMPACT2] = init_sound(game_audio->engine, "./data/audio/impact2.mp3");
 	game_audio->sound[SND_CHASE] = init_sound(game_audio->engine, "./data/audio/chase.mp3");

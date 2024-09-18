@@ -28,7 +28,7 @@ static void	take_damage(t_audio *audio)
 {
 	if (audio->damage)
 	{
-		play_sound(audio, SND_TAKE_DAMAGE, 0.75f, 0.95f);
+		play_sound(audio, SND_TAKE_DAMAGE, 0.45f, 0.95f);
 		audio->damage = false;
 	}
 }
@@ -37,7 +37,7 @@ static void play_jumpscare(t_audio *audio)
 {
 	if (audio->trigger1 && audio->trigger1->distance < 0.03 && !audio->t1 && audio->trigger1->distance != 0.0f)
 	{
-		play_sound(audio, SND_IMPACT, 1.3f, 1.0f);
+		play_sound(audio, SND_IMPACT, 1.45f, 1.0f);
 		audio->t1 = true;
 	}
 	else if (audio->trigger2 && audio->trigger2->distance < 0.15 && !audio->t2 && audio->trigger2->distance != 0.0f)
@@ -69,6 +69,9 @@ static void	play_chase(t_audio *audio)
 	if (audio->enemy && audio->enemy->dead)
 	{
 		stop_sound(audio, SND_LAUGH);
+		stop_sound(audio, SND_CHASE);
+		stop_sound(audio, SND_AMBIENT_LAUGH);
+		stop_sound(audio, SND_MUSIC);
 	}
 }
 
@@ -126,21 +129,19 @@ void	update_near_death_audio(t_audio *audio, int health)
 {
 	if (health <= 1 && !audio->near_death)
 	{
-		play_sound(audio, SND_NEAR_DEATH, 0.75f, 1.0f);
+		play_sound(audio, SND_NEAR_DEATH, 0.45f, 1.0f);
 		audio->near_death = true;
 	}
 }
 
 void	update_game_audio(t_audio *audio, t_inventory *inv, enum e_player_state state, int health)
 {
-	update_near_death_audio(audio, health);
 	stop_sound(audio, SND_MENU);
 	stop_sound(audio, SND_GAME_OVER);
 	loop_sound(audio, SND_AMBIENT_LAUGH, false);
-	loop_sound(audio, SND_NEAR_DEATH, false);
 	if (audio->damage_is_dealt)
 	{
-		play_sound(audio, SND_WALL1, 0.55f, 1.5f);
+		play_sound(audio, SND_WALL1, 0.35f, 1.5f);
 		audio->damage_is_dealt = false;
 	}
 	take_damage(audio);
@@ -153,8 +154,9 @@ void	update_game_audio_dark_secret(t_audio *audio, t_inventory *inv, enum e_play
 {
 	update_near_death_audio(audio, health);
 	stop_sound(audio, SND_MENU);
-	stop_sound(audio, SND_GAME_OVER);
 	loop_sound(audio, SND_AMBIENT_LAUGH, false);
+	loop_sound(audio, SND_AMBIENT_MUSIC, false);
+	loop_sound(audio, SND_MUSIC, false);
 	loop_sound(audio, SND_TV_NOISE, false);
 	loop_sound(audio, SND_TV_BYE + audio->channel, false);
 	loop_sound(audio, SND_NOONOO, false);
@@ -164,7 +166,7 @@ void	update_game_audio_dark_secret(t_audio *audio, t_inventory *inv, enum e_play
 	loop_dynamic_audio(audio, audio->vc, SND_NOONOO, 0.25f);
 	if (audio->damage_is_dealt)
 	{
-		play_sound(audio, SND_WALL1, 0.45f, 1.5f);
+		play_sound(audio, SND_WALL1, 0.25f, 1.5f);
 		audio->damage_is_dealt = false;
 	}
 	play_suck(audio, audio->vc);
@@ -173,5 +175,22 @@ void	update_game_audio_dark_secret(t_audio *audio, t_inventory *inv, enum e_play
 	play_pickup(audio);
 	play_chase(audio);
 	update_walking_sounds(audio, state);
+	handle_chainsaw_sound(audio, inv);
+}
+void	update_game_audio_behead(t_audio *audio, t_inventory *inv, enum e_player_state state, int health)
+{
+	stop_sound(audio, SND_NEAR_DEATH);
+	stop_sound(audio, SND_GAME_OVER);
+	stop_sound(audio, SND_AMBIENT_LAUGH);
+	stop_sound(audio, SND_MUSIC);
+	stop_sound(audio, SND_NOONOO);
+	stop_sound(audio, SND_SUCK);
+	stop_sound(audio, SND_LAUGH);
+	stop_sound(audio, SND_CHASE);
+	if (audio->damage_is_dealt)
+	{
+		play_sound(audio, SND_WALL1, 0.35f, 1.5f);
+		audio->damage_is_dealt = false;
+	}
 	handle_chainsaw_sound(audio, inv);
 }
