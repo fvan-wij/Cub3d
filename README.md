@@ -15,13 +15,16 @@ _Features:_
 ## About Telestein3D
 The Teletubbies have taken your children and your life turns into a literal nightmare. You're on a mission to take revenge and discover some truly dark secrets...
 
-## Installation
+## Installation Linux
 1. Download/clone this repository
 2. Open up a terminal, CD into the root directory of Telestein3D and use the 'make' command
 3. Let it build...
 4. Run the game by booting the binary: './telestein3d'
 > [!NOTE]
 > No additional arguments are required, however, you can supply custom maps by running it with a .cub map file. E.g. './telestein3d data/maps/confrontation.cub'
+
+## Installation Windows
+Currently not available, but working towards a solution...
 
 ## Controls
 _Player movement:_
