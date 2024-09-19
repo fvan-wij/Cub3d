@@ -1,13 +1,14 @@
 # Telestein3D/Cub3d (Raycaster in C)
 ![](https://github.com/fvan-wij/Cub3d_Telestein3D/blob/main/telestein.gif)
 Telestein3D (based on 42's project 'Cub3d') is a demo of a horror game that can be explored in first-person similar to the game Wolfenstein 3D.
-Features:
+
+_Features:_
 - A ray-casting engine from scratch using mathematics;
 - Custom post-processing algorithms + custom shaders (for render distance, dithering, custom pallette, etc.);
-- Melee combat, interactive TV, jumpscares, bossfight;
+- 1 demo level 'Dark Secret' featuring melee combat, interactive TV, jumpscares, bossfight, and more;
 - Custom sprites, sound-effects and music;
 - A basic game-loop;
-- In-game menu;
+- In-game menu, with map-selection;
 > [!NOTE]
 > A 42-evalled version (score 125) can be found on the cub3d_eval branch
 
