@@ -7,10 +7,9 @@ _Features:_
 - Custom post-processing algorithms + custom shaders (for render distance, dithering, custom pallette, etc.);
 - 1 demo level 'Dark Secret' featuring melee combat, interactive TV, jumpscares, bossfight, and more;
 - Custom sprites, sound-effects and music;
-- A basic game-loop;
 - In-game menu, with map-selection;
 > [!NOTE]
-> A 42-evalled version (score 125) can be found on the cub3d_eval branch
+> The evaluated version (score 125) can be found on the cub3d_eval branch
 
 ## About Telestein3D
 The Teletubbies have taken your children and your life turns into a literal nightmare. You're on a mission to take revenge and discover some truly dark secrets...
