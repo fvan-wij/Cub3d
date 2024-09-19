@@ -1,23 +1,24 @@
 # Telestein3D/Cub3d (Raycaster in C)
 ![](https://github.com/fvan-wij/Cub3d_Telestein3D/blob/main/telestein.gif)
-Telestein3D or Cub3d (based of 42's project 'Cub3d') is a demo of a horror game that can be explored in first-person similar to the game Wolfenstein 3D.
-Additionally, this project has been turned into a fully fledged demo, including combat, audio and more.
-Further goals of this project:
-- Building a ray-casting engine from scratch using mathematics;
-- Use of basic algorithms;
-- Custom sprites and sound-effects and music;
+Telestein3D (based on 42's project 'Cub3d') is a demo of a horror game that can be explored in first-person similar to the game Wolfenstein 3D.
+Features:
+- A ray-casting engine from scratch using mathematics;
+- Custom post-processing algorithms + custom shaders (for render distance, dithering, custom pallette, etc.);
+- Melee combat, interactive TV, jumpscares, bossfight;
+- Custom sprites, sound-effects and music;
 - A basic game-loop;
+- In-game menu;
 > [!NOTE]
-> A 42-evalled version can be found on the cub3d_eval branch
+> A 42-evalled version (score 125) can be found on the cub3d_eval branch
 
 ## About Telestein3D
-The Teletubbies have taken your children and your life turns into a literal nightmare. You're on a mission to take revange and discover some truly dark secrets...
+The Teletubbies have taken your children and your life turns into a literal nightmare. You're on a mission to take revenge and discover some truly dark secrets...
 
 ## Installation
 1. Download/clone this repository
 2. Open up a terminal, CD into the root directory of Telestein3D and use the 'make' command
 3. Let it build...
-4. Run the game by booting the binary: './Telestein3D'
+4. Run the game by booting the binary: './telestein3d'
 > [!NOTE]
 > No additional arguments are required, however, you can supply custom maps by running it with a .cub map file. E.g. './telestein3d data/maps/confrontation.cub'
 
