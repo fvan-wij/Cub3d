@@ -1,78 +1,74 @@
-NAME	:= telestein3d
-# CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast
-CFLAGS	:= -Wextra -Wall -Wunreachable-code -O2
-LIBMLX	:= ./lib/MLX42
-LIBFT	:= ./lib/libft
-MAUDIO	:= ./lib/miniaudio
+NAME    := telestein3d.exe
+CFLAGS  := -Wextra -Wall -Wunreachable-code -O2
+CC      := x86_64-w64-mingw32-gcc
 
-HEADERS	:= -I ./inc -I $(LIBMLX)/include/MLX42 -I $(LIBFT) -I $(MAUDIO)
-LIBS	:= $(LIBMLX)/build/libmlx42.a $(LIBFT)/libft.a -ldl -lglfw -lpthread -lm
-SRCS	:= \
-		   main.c 				\
-		   animation.c			\
-		   cbd_main.c			\
-		   cbd_render.c			\
-		   cbd_loop.c			\
-		   beheading.c			\
-		   error/error.c 		\
-		   entity.c				\
-		   player.c				\
-		   init/cbd_init.c		\
-		   audio/game_audio.c	\
-		   audio/menu_audio.c	\
-		   audio/cbd_audio.c 	\
-		   audio/miniaudio.c 	\
-		   parser/parser.c 		\
-		   parser/init.c 		\
-		   parser/get_data.c 	\
-		   parser/get_data_bonus.c\
-		   parser/bools.c		\
-		   parser/getters.c		\
-		   parser/validate_data.c \
-		   menu/menu_navigation.c\
-		   menu/menu_setters.c	\
-		   menu/menu_loadmap.c	\
-		   raycaster/raycaster.c\
-		   vec/vec.c			\
-		   render/draw.c		\
-		   render/line.c		\
-		   render/shape.c		\
-		   render/color.c		\
-		   render/post_processing.c \
-		   render/entity.c		\
-		   render/dithering.c	\
-		   render/walls.c		\
-		   render/particles.c	\
-		   render/gui.c			\
-		   utility/printing.c	\
-		   utility/cleanup.c	\
-		   input/input.c		\
-		   input/combat.c		\
-		   input/player_movement.c		\
-		   input/player_animation.c		\
-		   input/particle_movement.c		\
-		   input/cursor_hook.c		\
-		   input/mouse_input.c		\
-		   input/mouse_hook.c		\
+LIBMLX  := ./lib/MLX42
+LIBFT   := ./lib/libft
+MAUDIO  := ./lib/miniaudio
+LIBGLFW := /home/flip/Cub3d_Telestein3D/lib
 
-SRCDIR	:= ./src
-OBJDIR	:= ./obj
-OBJS	:= $(addprefix $(OBJDIR)/,$(SRCS:.c=.o))
-SRCS	:= $(addprefix $(SRCDIR)/,$(SRCS))
+# Update library paths and linker flags
+LIBS    := $(LIBMLX)/build/libmlx42.a $(LIBGLFW)/libglfw3.a $(LIBFT)/libft.a -lopengl32 -lpthread
+LDFLAGS := -static -L$(LIBGLFW)
+HEADERS := -I ./inc -I $(LIBMLX)/include/MLX42 -I $(LIBFT) -I $(MAUDIO)
 
-ifdef DEBUG
-	CC += -g -fsanitize=address
-	LIBFT_DEBUG += DEBUG=1
-endif
+# List of source files and corresponding object files
+SRCS    := \
+           main.c 				\
+           animation.c			\
+           cbd_main.c			\
+           cbd_render.c			\
+           cbd_loop.c			\
+           beheading.c			\
+           error.c 		\
+           entity.c				\
+           player.c				\
+           cbd_init.c		\
+           game_audio.c	\
+           menu_audio.c	\
+           cbd_audio.c 	\
+           miniaudio.c 	\
+           parser.c 		\
+           init.c 		\
+           get_data.c 	\
+           get_data_bonus.c\
+           bools.c		\
+           getters.c		\
+           validate_data.c \
+           menu_navigation.c\
+           menu_setters.c	\
+           menu_loadmap.c	\
+           raycaster.c\
+           vec.c			\
+           draw.c		\
+           line.c		\
+           shape.c		\
+           color.c		\
+           post_processing.c \
+           entity.c		\
+           dithering.c	\
+           walls.c		\
+           particles.c	\
+           gui.c			\
+           printing.c	\
+           cleanup.c	\
+           input.c		\
+           combat.c		\
+           player_movement.c		\
+           player_animation.c		\
+           particle_movement.c		\
+           cursor_hook.c		\
+           mouse_input.c		\
+           mouse_hook.c		\
 
-ifdef OPTIMIZE
-	CFLAGS += -Ofast
-endif
+SRCDIR  := ./src
+OBJDIR  := ./obj
+OBJS    := $(SRCS:%.c=$(OBJDIR)/%.o)
 
-all: init-submodules
-	$(MAKE) libft libmlx $(NAME) -j4
+all: init-submodules libft libmlx $(NAME)
 
 run: all
+	./$(NAME)
 
 init-submodules:
 	git submodule update --init --recursive
@@ -82,16 +78,17 @@ libmlx:
 	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -s -C $(LIBMLX)/build -j2
 
 libft:
-	@make -s $(LIBFT_DEBUG) -C $(LIBFT)
+	@make -s -C $(LIBFT)
 
+# Rule to compile .c files to .o files
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(@D)
-	@$(CC) $(CFLAGS) $(HEADERS) -o $@ -c $<  && printf "[Cub3d]\033[0;32m\033[1m Building: $(notdir $<) \033[0m\n"
+	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@ && printf "[Cub3d]\033[0;32m\033[1m Building: $(notdir $<) \033[0m\n"
 
 $(NAME): $(OBJS)
-	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
-	@printf "[Cub3d]\033[0;32m\033[1m Compiled succesfully ✅\033[0m\n"
-	@printf "[Cub3d]\033[0;32m\033[1m Run the telestein3d executable './telestein3d' to get started.\033[0m\n"
+	@$(CC) $(OBJS) $(HEADERS) $(LIBS) $(LDFLAGS) -o $(NAME)
+	@printf "[Cub3d]\033[0;32m\033[1m Compiled successfully ✅\033[0m\n"
+	@printf "[Cub3d]\033[0;32m\033[1m Run the telestein3d executable './$(NAME)' to get started.\033[0m\n"
 
 clean:
 	@rm -rf $(OBJDIR)
@@ -106,17 +103,4 @@ fclean: clean
 
 re: clean all
 
-.PHONY: all, clean, fclean, re, libmlx
-
-# Colors #############################################
-Black		= "\033[0;30m"		# Black
-Red			= "\033[0;31m"		# Red
-Green		= "\033[0;32m"		# Green
-Yellow		= "\033[0;33m"		# Yellow
-Blue		= "\033[0;34m"		# Blue
-Purple		= "\033[0;35m"		# Purple
-Cyan		= "\033[0;36m"		# Cyan
-White		= "\033[0;37m"		# White
-Text_Off	= "\033[0m"			# Text Style Off
-Bold		= "\033[1m"			# Text Style Bold
-######################################################
+.PHONY: all clean fclean re libmlx
