@@ -47,19 +47,19 @@ static void change_tv_channel(t_audio *audio, mlx_key_data_t keydata)
 void	menu_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 {
 	// UP/W key input
-	if ((keydata.key == MLX_KEY_UP || keydata.key == MLX_KEY_W) && keydata.action == MLX_PRESS)
+	if (cbd->keys->w)
 	{
 		play_sound(audio, SND_TICK, 1.0f, 3.0f);
 		menu_move_cursor(cbd->menudata, -1);
 	}
 	// DOWN/S key input
-	if ((keydata.key == MLX_KEY_DOWN || keydata.key == MLX_KEY_S) && keydata.action == MLX_PRESS)
+	if (cbd->keys->s)
 	{
 		play_sound(audio, SND_TICK, 1.0f, 3.0f);
 		menu_move_cursor(cbd->menudata, 1);
 	}
 	// Key ENTER/SPACE
-	if ((keydata.key == MLX_KEY_ENTER || keydata.key == MLX_KEY_SPACE) && keydata.action == MLX_PRESS)
+	if (cbd->keys->space)
 	{
 		play_sound(audio, SND_TICK, 1.0f, 1.0f);
 		menu_enter(cbd->menudata);

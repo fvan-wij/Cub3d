@@ -91,4 +91,5 @@ void	menu_escape(t_menu *menu);
 //Preview img
 void	display_preview(t_menu *menu, t_map *mapdata);
 
+
 #endif

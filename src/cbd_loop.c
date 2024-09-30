@@ -18,6 +18,7 @@ static void	loop_behead(t_app *cbd, t_audio *audio)
 	cbd_render(cbd);
 }
 
+#include <stdio.h>
 static void	loop_game(t_app *cbd, t_audio *audio)
 {
 	cbd->elapsed_time += cbd->mlx->delta_time;
@@ -59,4 +60,5 @@ void	cbd_loop(void *param)
 	else if (cbd->menudata->state == MAP_LOAD)
 		change_map(cbd);
 	update_menu_audio(audio, cbd);
+	printf("KANKER\n");
 }

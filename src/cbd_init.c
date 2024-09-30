@@ -248,6 +248,53 @@ mlx_t	*cbd_init_window(void)
 	return (window);
 }
 
+static void key_press(int keycode, t_app *app)
+{
+	(void) keycode;
+	app->keys->w = mlx_is_key_down(app->mlx, MLX_KEY_W);
+	app->keys->a = mlx_is_key_down(app->mlx, MLX_KEY_A);
+	app->keys->s = mlx_is_key_down(app->mlx, MLX_KEY_S);
+	app->keys->d = mlx_is_key_down(app->mlx, MLX_KEY_D);
+	app->keys->space = mlx_is_key_down(app->mlx, MLX_KEY_SPACE);
+	app->keys->one = mlx_is_key_down(app->mlx, MLX_KEY_1);
+	app->keys->two = mlx_is_key_down(app->mlx, MLX_KEY_2);
+	app->keys->map = mlx_is_key_down(app->mlx, MLX_KEY_M);
+	if (app->keys->w)
+		printf("W\n");
+	if (app->keys->a)
+		printf("A\n");
+	if (app->keys->s)
+		printf("S\n");
+	if (app->keys->d)
+		printf("D\n");
+}
+
+static void key_press_wrapper(mlx_key_data_t keydata, void *param)
+{
+	// (void) keydata;
+	t_app *cbd = param;
+	if (mlx_is_key_down(cbd->mlx, MLX_KEY_W))
+		printf("Pressed a key\n");
+	key_press(4, cbd);
+	if (cbd->keys->w)
+		printf("YEET\n");
+	menu_input(keydata, cbd, cbd->audio);
+}
+
+// int	key_release(int keycode, t_keys *keys)
+// {
+// 	if (keycode == 119)
+// 		keys->w = false;
+// 	if (keycode == 115)
+// 		keys->s = false;
+// 	if (keycode == 97)
+// 		keys->a = false;
+// 	if (keycode == 100)
+// 		keys->d = false;
+// 	return (0);
+// }
+//
+
 t_hud	*cbd_init_hud(mlx_t *mlx)
 {
 	t_hud *hud;
@@ -326,16 +373,17 @@ bool cbd_init(t_app *cbd)
 	if (!cbd->menudata)
 		return (cbd_error(ERR_ALLOC), FAILURE);
 
-	// initialize_jump_table(cbd->mapdata->walls.jump_table);
 	init_playerdata(&cbd->playerdata, cbd->mapdata);
 	init_render(&cbd->render, cbd->hud, cbd->playerdata.inv);
 	init_particles(cbd->particles);
 	cbd_init_beheading(cbd);
 
+	cbd->keys = malloc(sizeof(t_keys));
+
 	//Setup mlx hooks
-	mlx_key_hook(cbd->mlx, cbd_input, cbd);
+	// mlx_key_hook(cbd->mlx, cbd_input, cbd);
+	mlx_key_hook(cbd->mlx, key_press_wrapper, cbd);
 	mlx_cursor_hook(cbd->mlx, cursor_hook, cbd);
-	// mlx_mouse_hook(cbd->mlx, mouse_hook, cbd);
 	mlx_loop_hook(cbd->mlx, cbd_loop, cbd);
 	return (SUCCESS);
 }

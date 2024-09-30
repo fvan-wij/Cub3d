@@ -57,6 +57,21 @@ typedef struct s_player {
 	enum e_player_state state;
 }	t_player;
 
+typedef struct s_keys
+{
+	bool	w;
+	bool	a;
+	bool	s;
+	bool	d;
+	bool	space;
+	bool	shift;
+	bool	left;
+	bool	right;
+	bool	one;
+	bool	two;
+	bool	map;
+} t_keys;
+
 typedef struct s_app {
 	t_particle 	particles[N_PARTICLES];
 	t_player 	playerdata;
@@ -69,6 +84,7 @@ typedef struct s_app {
 	t_vec2d		mouse;
 	t_vec2d		prev_mouse;
 	t_checkpoint_state checkpoint_state;
+	t_keys		*keys;
 	mlx_t		*mlx;
 	void		*audio;
 	double		elapsed_time;
@@ -126,5 +142,10 @@ void	escape_player(t_vec2d pos, t_vec2d dir, t_app *cbd);
 //		Init
 mlx_image_t *cbd_init_texture_img(mlx_t *mlx, char *path);
 void	init_playerdata(t_player *playerdata, t_map *map);
+
+//		Menu input
+void	menu_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio);
+
+
 
 #endif //CUBER3D_H
