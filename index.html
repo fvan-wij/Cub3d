@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+	</head>
+	<body>
+  		<script src="coi-serviceworker.js"></script>
+		<canvas id="gamecanvas"></canvas>
+		<script>
+			// Emscripten module configuration
+			var Module = {
+				onRuntimeInitialized: function() {
+					// This is called when the Emscripten module is ready
+					console.log("Emscripten module initialized");
+
+					// Hide loading text when canvas is fully loaded
+					var loadingText = document.querySelector('.load');
+				},
+				canvas: (function() {
+					var canvas = document.getElementById('gamecanvas');
+					canvas.addEventListener("webglcontextlost", function(e) {
+						alert('WebGL context lost. Reload the page.');
+						e.preventDefault();
+					}, false);
+					return canvas;
+				})()
+			};
+		</script>
+		<script src="telestein3d.js"></script>
+	</body>
+</html>

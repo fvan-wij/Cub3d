@@ -81,6 +81,7 @@ SRC			:=	ft_arrlen.c \
 			ft_containschar.c \
 			ft_rev_free_2d.c \
 
+CC			:= emcc
 
 
 			
@@ -118,7 +119,7 @@ $(NAME): 	$(OBJ)
 
 %.o: 		%.c
 			@echo $(Cyan) Building... [$<] $(Text_Off)
-			@$(COMPILER) $(CFLAGS) -c -o $@ $^
+			@$(CC) $(CFLAGS) -c -o $@ $^
 
 clean: 		
 			@$(RMV) $(OBJ)

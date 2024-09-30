@@ -6,26 +6,49 @@
 
 #include <stdio.h>
 
-int32_t	main(int argc, char *argv[])
-{
-	t_app cbd;
+#include <emscripten/emscripten.h>
+#include <emscripten/html5.h>
 
-	if (argc == 1)
+#include <cbd_render.h>
+#include <math.h>
+#include <stdlib.h>
+#include <cbd_audio.h>
+static bool initialized = false;
+
+bool	cbd_main(t_app *cbd, bool initialized)
+{
+	if (!initialized)
 	{
+		cbd_init(cbd);
+		cbd->audio = cbd_init_audio();
+		play_sound(cbd->audio, SND_MENU, 0.6f, 1.0f);
+	}
+	mlx_loop(cbd->mlx);
+	return true;
+	// mlx_terminate(cbd->mlx);
+	// cbd_uninit_audio(cbd->audio);
+	// cleanup(cbd);
+}
+
+void	emscripten_main_loop()
+{
+	if (!initialized)
+	{
+		t_app cbd;
+
 		ft_memset(&cbd, 0, sizeof(t_app));
 		cbd.mapdata = cbd_parse_map("./data/maps/dark_secret.cub");
+		if (!cbd.mapdata)
+		{
+			fprintf(stderr, "Error parsing map");
+		}
+		else
+			initialized = cbd_main(&cbd, initialized);
 	}
-	else if (!arg_is_valid(argc, argv))
-		return (FAILURE);
-	else
-	{
-		ft_memset(&cbd, 0, sizeof(t_app));
-		cbd.mapdata = cbd_parse_map(argv[1]);
-	}
-	if (!cbd.mapdata)
-		return (FAILURE);
-	// print_debug_info(&cbd);
-	if (cbd_main(&cbd))
-		return (FAILURE);
+}
+
+int32_t	main(void)
+{
+	emscripten_set_main_loop(emscripten_main_loop, 0, true);
 	return (SUCCESS);
 }

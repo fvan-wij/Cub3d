@@ -1,6 +1,9 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
+// # include "../lib/MLX42/include/MLX42/MLX42.h"
+// # include <../lib/libft/libft.h>
+
 # include <MLX42.h>
 # include <libft.h>
 # include <cbd_vec.h>
@@ -89,7 +92,6 @@ t_ray	raycast(char **map, t_vec2d pos, t_vec2d dir);
 void	cast_rays(char **map, t_render *render, t_player *p);
 
 //		Game
-bool	cbd_main(t_app *cbd);
 bool	cbd_init(t_app *cbd);
 void	cbd_loop(void *param);
 void	update_timers(t_fx *fx, float dt);
