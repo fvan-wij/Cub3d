@@ -18,7 +18,6 @@ static void	loop_behead(t_app *cbd, t_audio *audio)
 	cbd_render(cbd);
 }
 
-#include <stdio.h>
 static void	loop_game(t_app *cbd, t_audio *audio)
 {
 	cbd->elapsed_time += cbd->mlx->delta_time;

@@ -108,7 +108,7 @@ t_audio	*cbd_init_audio(void)
 
 	game_audio->sound[SND_WALK_GRASS] = init_sound(game_audio->engine, "./data/audio/step_grass.mp3");
 	game_audio->sound[SND_WALK_SOLID] = init_sound(game_audio->engine, "./data/audio/step_solid.mp3");
-	ma_sound_set_volume(game_audio->sound[SND_WALK_SOLID], 0.6f);
+	ma_sound_set_volume(game_audio->sound[SND_WALK_SOLID], 0.8f);
 	ma_sound_set_volume(game_audio->sound[SND_WALK_GRASS], 0.6f);
 
 	game_audio->sound[SND_MENU] = init_sound(game_audio->engine, "./data/audio/menu.wav");

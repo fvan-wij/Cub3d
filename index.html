@@ -13,9 +13,6 @@
 					margin: 0;
 					padding: 0;
 				}
-				canvas {
-					<!-- display: block; -->
-				}
 
 				.game-container {
 					display: flex;
@@ -55,6 +52,9 @@
 					display: flex;
 					align-items: center;
 				}
+				<!-- #begin-btn { -->
+				<!---->
+				<!-- } -->
 
 		</style>
 	</head>
@@ -66,6 +66,7 @@
 				<canvas id="gamecanvas"></canvas>
 			</div>
 			<div class="show-controls">Controls</div>
+			<button id="begin-btn">Play</button>
 			<div class="hide-controls">
 				<div>
 					<h3>Movement</h3>
@@ -92,6 +93,8 @@
 		<script>
 			const canvas = document.getElementById('gamecanvas');
 			const btn = document.getElementById('fullscreen-btn');
+			const beginBtn = document.getElementById('begin-btn');
+			const gameContainer = document.getElementById('game-container');
 			let fullScreenToggle = false;
 			function goFullScreen() 
 			{
@@ -131,11 +134,17 @@
 			}
 			btn.addEventListener('click', resizeCanvas());
 
+			<!-- beginBtn.addEventListener('click', () => { -->
+			<!-- 	if (gameContainer.style.display === "none") -->
+			<!-- 		gameContainer.style.display = "block"; -->
+			<!-- 	else  -->
+			<!-- 		gameContainer.style.display = "none"; -->
+			<!-- }); -->
+
 			document.addEventListener('fullscreenchange', resizeCanvas);
 			document.addEventListener('webkitfullscreenchange', resizeCanvas);
 			document.addEventListener('mozfullscreenchange', resizeCanvas);
 			document.addEventListener('MSFullscreenChange', resizeCanvas);
-    		window.addEventListener('resize', goFullScreen, false);
 
 			var Module = {
 				onRuntimeInitialized: function()
@@ -151,7 +160,6 @@
 						return canvas;
 					})()
 			};
-			goFullScreen();
 		</script>
 		<script src="telestein3d.js"></script>
 	</body>

@@ -1,22 +1,52 @@
-NO ./data/textures/north_tex.png
-SO ./data/textures/south_tex.png
-WE ./data/textures/west_tex.png
-EA ./data/textures/east_tex.png
+CBD_BONUS
+
+--Wall textures--
+W1 ./data/textures/north_tex.png
+W2 ./data/textures/south_tex.png
+W3 ./data/textures/west_tex.png
+W4 ./data/textures/east_tex.png
+
+W_ ./data/textures/cracked4.png
+
+--Decoration--
+o decor ./data/textures/sprites/baby_on_hook.png 128 128 06,18
+o decor ./data/textures/sprites/blood3.png 64 64 08,13
+o decor ./data/textures/sprites/blood1.png 64 64 06,18
+o decor ./data/textures/sprites/blood3.png 64 64 05,15
+o tv ./data/textures/sprites/dark_secret_tv3.png 128 128 02,18
+
+--Items--
+i chainsaw ./data/textures/sprites/chainsaw.png 128 128 13,13
+i fuel ./data/textures/sprites/fuel.png 128 128 13,14
+i fuel ./data/textures/sprites/fuel.png 128 128 12,14
+i fuel ./data/textures/sprites/fuel.png 128 128 11,14
+
+--Floor & ceiling colors--
 F 9,45,56
 C 0,0,0
-1111111111111111
-1111111111111111
-1111000000000011
-1111000000000011
-1111001111111111
-1111001111111111
-1111001111111111
-1111001111111111
-1111000000000011
-11110000N0000011
-1111000000000011
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
+
+--Enemies--
+e po ./data/textures/sprites/po_animation_sprite_dismemberment2.png 128 128 0 100 1 13,01
+
+--Map--
+11111111111111111
+11000000000000011
+11000000000000011
+11000000000000011
+11000000000000011
+11000000000000011
+11000000001000011
+11000000001000011
+11000000001000011
+11000000001000011
+11000000001000011
+11111111111111011
+11111111211111_11
+11100000000000011
+11101111_10000011
+11000001010000011
+11000001010000011
+14000001010000011
+11000001010000011
+11111111N10000011
+11111111111111111
