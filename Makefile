@@ -73,6 +73,8 @@ $(SRC)/%.o: $(SRC)/%.c
 
 clean:
 	rm -rf $(OFILES)
+	rm -rf telestein3d.wasm
+	rm -rf telestein3d.data
 
 fclean: clean
 	rm -f $(NAME)

@@ -2,31 +2,156 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=2">
 		<title></title>
+		<style>
+				* {
+					overflow-y: hidden;
+				}
+				body {
+					background-color: black;
+					margin: 0;
+					padding: 0;
+				}
+				canvas {
+					<!-- display: block; -->
+				}
+
+				.game-container {
+					display: flex;
+					justify-content: center;
+				}
+				.hide-controls:hover {
+					padding: 2%;
+					color: white;
+					background-color: rgba(0, 0, 0, 0.4);
+					position: absolute;
+					bottom: 0;
+					left: 50%;
+					transform: translateX(-50%);
+					justify-content: center;
+					z-index: 10;
+				}
+				.hide-controls{
+					background-color: rgba(0, 0, 0, 0);
+					color: rgba(0, 0, 0, 0);
+					position: absolute;
+					bottom: 0;
+					left: 50%;
+					transform: translateX(-50%);
+					display: flex;
+					justify-content: center;
+					z-index: 10;
+				}
+				#fullscreen-btn {
+					display:none;
+				}
+				.show-controls {
+					color: rgba(60, 0, 0, 0.6);
+					position: absolute;
+					bottom: 0;
+					transform: translateX(-50%);
+					left: 50%;
+					display: flex;
+					align-items: center;
+				}
+
+		</style>
 	</head>
+
 	<body>
   		<script src="coi-serviceworker.js"></script>
-		<canvas id="gamecanvas"></canvas>
+		<div class="body-container">
+			<div class="game-container">
+				<canvas id="gamecanvas"></canvas>
+			</div>
+			<div class="show-controls">Controls</div>
+			<div class="hide-controls">
+				<div>
+					<h3>Movement</h3>
+					<ul>
+						<li>Move	= W/S</li>
+						<li>Strafe 	= A/D</li>
+						<li>Turn	= &#8592;/&#8594;</li>
+						<li>Sprint 	= Shift</li>
+					</ul>
+				</div>
+				<button id=fullscreen-btn>Full-screen</button>
+				<div>
+					<h3>Interaction</h3>
+					<ul>
+						<li>Attack = SPACE</li>
+						<li>Fists = 1</li>
+						<li>Chainsaw = 2</li>
+						<li>Map = M</li>
+						<li>Interact = E</li>
+					</ul>
+				</div>
+			</div>
+		</div>
 		<script>
-			// Emscripten module configuration
-			var Module = {
-				onRuntimeInitialized: function() {
-					// This is called when the Emscripten module is ready
-					console.log("Emscripten module initialized");
+			const canvas = document.getElementById('gamecanvas');
+			const btn = document.getElementById('fullscreen-btn');
+			let fullScreenToggle = false;
+			function goFullScreen() 
+			{
+				if (canvas.requestFullscreen)
+				{
+					canvas.requestFullscreen();
+				} 
+				else if (canvas.mozRequestFullScreen)
+				{
+					canvas.mozRequestFullScreen();
+				}
+				else if (canvas.webkitRequestFullscreen)
+				{
+					canvas.webkitRequestFullscreen();
+				}
+				else if (canvas.msRequestFullscreen)
+				{
+					canvas.msRequestFullscreen();
+				}
+			}
 
-					// Hide loading text when canvas is fully loaded
-					var loadingText = document.querySelector('.load');
+			function resizeCanvas() 
+			{
+				fullScreenToggle = !fullScreenToggle;
+				if (fullScreenToggle)
+				{
+					canvas.width = window.innerWidth;
+					canvas.height = window.innerHeight;
+					canvas.style.transform = 1.5;
+				}
+				else
+				{
+					canvas.width = window.innerWidth;
+					canvas.height = window.innerHeight;
+					canvas.style.transform = 1.0;
+				}
+			}
+			btn.addEventListener('click', resizeCanvas());
+
+			document.addEventListener('fullscreenchange', resizeCanvas);
+			document.addEventListener('webkitfullscreenchange', resizeCanvas);
+			document.addEventListener('mozfullscreenchange', resizeCanvas);
+			document.addEventListener('MSFullscreenChange', resizeCanvas);
+    		window.addEventListener('resize', goFullScreen, false);
+
+			var Module = {
+				onRuntimeInitialized: function()
+				{
+					console.log("Emscripten module initialized");
 				},
-				canvas: (function() {
-					var canvas = document.getElementById('gamecanvas');
-					canvas.addEventListener("webglcontextlost", function(e) {
-						alert('WebGL context lost. Reload the page.');
-						e.preventDefault();
-					}, false);
-					return canvas;
-				})()
+				canvas: (function()
+					{
+						canvas.addEventListener("webglcontextlost", function(e) {
+							alert('WebGL context lost. Reload the page.');
+							e.preventDefault();
+						}, false);
+						return canvas;
+					})()
 			};
+			goFullScreen();
 		</script>
 		<script src="telestein3d.js"></script>
 	</body>

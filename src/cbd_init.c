@@ -264,38 +264,13 @@ static void key_press(int keycode, t_app *app)
 static void key_press_wrapper(mlx_key_data_t keydata, void *param)
 {
 	t_app *cbd = param;
-	// printf("key: %d, action: %d", keydata.key, keydata.action);
-	// if (mlx_is_key_down(cbd->mlx, MLX_KEY_W))
-	// 	printf("W\n");
-	// if (mlx_is_key_down(cbd->mlx, MLX_KEY_DOWN))
-	// 	printf("DOWN\n");
-	// if (mlx_is_key_down(cbd->mlx, MLX_KEY_UP))
-	// 	printf("UP\n");
 	if (cbd->menudata->state == OFF)
 		game_input(keydata, cbd, cbd->audio);
 	else
 		menu_input(keydata, cbd, cbd->audio);
 	change_tv_channel(cbd->audio, keydata);
 	app_input(keydata, cbd, cbd->audio);
-	// (void) keydata;
-	// key_press(4, cbd);
-	// menu_input(keydata, cbd, cbd->audio);
-	// cbd_input(keydata, cbd);
 }
-
-// int	key_release(int keycode, t_keys *keys)
-// {
-// 	if (keycode == 119)
-// 		keys->w = false;
-// 	if (keycode == 115)
-// 		keys->s = false;
-// 	if (keycode == 97)
-// 		keys->a = false;
-// 	if (keycode == 100)
-// 		keys->d = false;
-// 	return (0);
-// }
-//
 
 t_hud	*cbd_init_hud(mlx_t *mlx)
 {
@@ -345,6 +320,7 @@ bool cbd_init(t_app *cbd)
 {
 	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
 	mlx_set_setting(MLX_MAXIMIZED, 1);
+	mlx_set_setting(MLX_FULLSCREEN, 1);
 
 	cbd->mlx = cbd_init_window();
 	if (!cbd->mlx)
@@ -385,9 +361,7 @@ bool cbd_init(t_app *cbd)
 	cbd->keys = malloc(sizeof(t_keys));
 
 	//Setup mlx hooks
-	// mlx_cursor_hook(cbd->mlx, cursor_hook, cbd);
 	mlx_key_hook(cbd->mlx, key_press_wrapper, cbd);
-	// mlx_key_hook(cbd->mlx, cbd_input, cbd);
 	mlx_loop_hook(cbd->mlx, cbd_loop, cbd);
 	return (SUCCESS);
 }
