@@ -259,26 +259,28 @@ static void key_press(int keycode, t_app *app)
 	app->keys->one = mlx_is_key_down(app->mlx, MLX_KEY_1);
 	app->keys->two = mlx_is_key_down(app->mlx, MLX_KEY_2);
 	app->keys->map = mlx_is_key_down(app->mlx, MLX_KEY_M);
-	if (app->keys->w)
-		printf("W\n");
-	if (app->keys->a)
-		printf("A\n");
-	if (app->keys->s)
-		printf("S\n");
-	if (app->keys->d)
-		printf("D\n");
 }
 
 static void key_press_wrapper(mlx_key_data_t keydata, void *param)
 {
-	// (void) keydata;
 	t_app *cbd = param;
-	if (mlx_is_key_down(cbd->mlx, MLX_KEY_W))
-		printf("Pressed a key\n");
-	key_press(4, cbd);
-	if (cbd->keys->w)
-		printf("YEET\n");
-	menu_input(keydata, cbd, cbd->audio);
+	// printf("key: %d, action: %d", keydata.key, keydata.action);
+	// if (mlx_is_key_down(cbd->mlx, MLX_KEY_W))
+	// 	printf("W\n");
+	// if (mlx_is_key_down(cbd->mlx, MLX_KEY_DOWN))
+	// 	printf("DOWN\n");
+	// if (mlx_is_key_down(cbd->mlx, MLX_KEY_UP))
+	// 	printf("UP\n");
+	if (cbd->menudata->state == OFF)
+		game_input(keydata, cbd, cbd->audio);
+	else
+		menu_input(keydata, cbd, cbd->audio);
+	change_tv_channel(cbd->audio, keydata);
+	app_input(keydata, cbd, cbd->audio);
+	// (void) keydata;
+	// key_press(4, cbd);
+	// menu_input(keydata, cbd, cbd->audio);
+	// cbd_input(keydata, cbd);
 }
 
 // int	key_release(int keycode, t_keys *keys)
@@ -320,6 +322,25 @@ void	cbd_init_beheading(t_app *cbd)
 	cbd->render.po_head->enabled = false;
 }
 
+void	cbd_init_images(t_app *cbd)
+{
+	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_MAP], (WIDTH>>1) - (MINIMAP_WIDTH>>2) - 16, (HEIGHT>>1) + (MINIMAP_HEIGHT>>3) - 8);
+	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_MAP].img, (WIDTH>>2), (HEIGHT>>3));
+	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_FIST].img, (WIDTH>>1) - (cbd->playerdata.inv->weapons[WPN_FIST].img->width / 2), HEIGHT - (cbd->playerdata.inv->weapons[WPN_FIST].img->height>>1));
+	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_CHAINSAW].img, (WIDTH>>1) - (cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->width / 2), HEIGHT - (cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->height * 0.8));
+	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_CRT], 0, 0);
+	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_PULSE], 0, 0);
+
+	cbd->hud->img[HUD_FUEL] = cbd_init_texture_img(cbd->mlx, "./data/textures/sprites/fuel.png");
+	cbd->hud->img[HUD_HEALTH] = cbd_init_texture_img(cbd->mlx, "./data/textures/sprites/health.png");
+	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_FUEL], WIDTH - 350, -5);
+	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_HEALTH], WIDTH - 300, 45);
+	cbd->playerdata.inv->weapons[WPN_MAP].img->enabled = false;
+	cbd->playerdata.inv->weapons[WPN_FIST].img->enabled = false;
+	cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->enabled = false;
+	cbd->elapsed_time = 0;
+}
+
 bool cbd_init(t_app *cbd)
 {
 	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
@@ -351,24 +372,7 @@ bool cbd_init(t_app *cbd)
 	mlx_image_to_window(cbd->mlx, cbd->render.po_head, 0, 0);
 	if (!cbd->render.po_head)
 		return (cbd_error(ERR_ALLOC), FAILURE);
-
-
-	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_MAP], (WIDTH>>1) - (MINIMAP_WIDTH>>2) - 16, (HEIGHT>>1) + (MINIMAP_HEIGHT>>3) - 8);
-	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_MAP].img, (WIDTH>>2), (HEIGHT>>3));
-	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_FIST].img, (WIDTH>>1) - (cbd->playerdata.inv->weapons[WPN_FIST].img->width / 2), HEIGHT - (cbd->playerdata.inv->weapons[WPN_FIST].img->height>>1));
-	mlx_image_to_window(cbd->mlx, cbd->playerdata.inv->weapons[WPN_CHAINSAW].img, (WIDTH>>1) - (cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->width / 2), HEIGHT - (cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->height * 0.8));
-	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_CRT], 0, 0);
-	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_PULSE], 0, 0);
-
-	cbd->hud->img[HUD_FUEL] = cbd_init_texture_img(cbd->mlx, "./data/textures/sprites/fuel.png");
-	cbd->hud->img[HUD_HEALTH] = cbd_init_texture_img(cbd->mlx, "./data/textures/sprites/health.png");
-	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_FUEL], WIDTH - 350, -5);
-	mlx_image_to_window(cbd->mlx, cbd->hud->img[HUD_HEALTH], WIDTH - 300, 45);
-	cbd->playerdata.inv->weapons[WPN_MAP].img->enabled = false;
-	cbd->playerdata.inv->weapons[WPN_FIST].img->enabled = false;
-	cbd->playerdata.inv->weapons[WPN_CHAINSAW].img->enabled = false;
-	cbd->elapsed_time = 0;
-
+	cbd_init_images(cbd);
 	cbd->menudata = cbd_init_menu(cbd->mlx, cbd->mapdata);
 	if (!cbd->menudata)
 		return (cbd_error(ERR_ALLOC), FAILURE);
@@ -381,9 +385,9 @@ bool cbd_init(t_app *cbd)
 	cbd->keys = malloc(sizeof(t_keys));
 
 	//Setup mlx hooks
-	// mlx_key_hook(cbd->mlx, cbd_input, cbd);
+	// mlx_cursor_hook(cbd->mlx, cursor_hook, cbd);
 	mlx_key_hook(cbd->mlx, key_press_wrapper, cbd);
-	mlx_cursor_hook(cbd->mlx, cursor_hook, cbd);
+	// mlx_key_hook(cbd->mlx, cbd_input, cbd);
 	mlx_loop_hook(cbd->mlx, cbd_loop, cbd);
 	return (SUCCESS);
 }

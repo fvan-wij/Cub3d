@@ -66,10 +66,10 @@ NAME = telestein3d.js
 all: $(NAME)
 
 $(NAME): $(OFILES)
-	$(CC) $(OFILES) -o $(NAME) $(LIBFT) $(MLX) $(HEADERS) $(LINUXFLAGS)
+	$(CC) $(OFILES) -o $(NAME) $(LIBFT) $(MLX) $(LINUXFLAGS)
 
 $(SRC)/%.o: $(SRC)/%.c
-	$(CC) $(CFLAGS) -I$(HPATH) -I$(HEADERS) -c $< -o $@
+	$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
 clean:
 	rm -rf $(OFILES)

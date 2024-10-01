@@ -60,5 +60,4 @@ void	cbd_loop(void *param)
 	else if (cbd->menudata->state == MAP_LOAD)
 		change_map(cbd);
 	update_menu_audio(audio, cbd);
-	printf("KANKER\n");
 }

@@ -31,7 +31,7 @@ void	destroy_wall(t_map *mapdata, t_player *player, t_audio *audio)
 	}
 }
 
-static void change_tv_channel(t_audio *audio, mlx_key_data_t keydata)
+void change_tv_channel(t_audio *audio, mlx_key_data_t keydata)
 {
 	if (audio->tv && audio->tv->distance < 1 && keydata.key == MLX_KEY_E && keydata.action == MLX_PRESS)
 	{
@@ -47,19 +47,19 @@ static void change_tv_channel(t_audio *audio, mlx_key_data_t keydata)
 void	menu_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 {
 	// UP/W key input
-	if (cbd->keys->w)
+	if ((keydata.key == MLX_KEY_UP || keydata.key == MLX_KEY_W) && keydata.action == MLX_PRESS)
 	{
 		play_sound(audio, SND_TICK, 1.0f, 3.0f);
 		menu_move_cursor(cbd->menudata, -1);
 	}
 	// DOWN/S key input
-	if (cbd->keys->s)
+	if ((keydata.key == MLX_KEY_DOWN || keydata.key == MLX_KEY_S) && keydata.action == MLX_PRESS)
 	{
 		play_sound(audio, SND_TICK, 1.0f, 3.0f);
 		menu_move_cursor(cbd->menudata, 1);
 	}
 	// Key ENTER/SPACE
-	if (cbd->keys->space)
+	if ((keydata.key == MLX_KEY_ENTER || keydata.key == MLX_KEY_SPACE) && keydata.action == MLX_PRESS)
 	{
 		play_sound(audio, SND_TICK, 1.0f, 1.0f);
 		menu_enter(cbd->menudata);
@@ -69,8 +69,7 @@ void	menu_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 			// mlx_set_cursor_mode(cbd->mlx, MLX_MOUSE_DISABLED);
 			// mlx_set_mouse_pos(cbd->mlx, cbd->prev_mouse.x, cbd->prev_mouse.y);
 		}
-	}
-}
+	}}
 // Game input handling
 void	game_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 {
@@ -136,8 +135,6 @@ void	app_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio)
 	{
 		play_sound(audio, SND_TICK, 1.0f, 1.0f);
 		menu_escape(cbd->menudata);
-		// mlx_set_cursor_mode(cbd->mlx, MLX_MOUSE_NORMAL);
-		// mlx_set_mouse_pos(cbd->mlx, cbd->mlx->width / 2, cbd->mlx->height / 2);
 		cbd->render.img->instances[0].enabled = false;
 		cbd->state = STATE_MENU;
 	}

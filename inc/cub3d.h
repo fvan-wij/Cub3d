@@ -143,8 +143,11 @@ void	escape_player(t_vec2d pos, t_vec2d dir, t_app *cbd);
 mlx_image_t *cbd_init_texture_img(mlx_t *mlx, char *path);
 void	init_playerdata(t_player *playerdata, t_map *map);
 
-//		Menu input
+//		Input
 void	menu_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio);
+void	game_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio);
+void 	change_tv_channel(t_audio *audio, mlx_key_data_t keydata);
+void	app_input(mlx_key_data_t keydata, t_app *cbd, t_audio *audio);
 
 
 
