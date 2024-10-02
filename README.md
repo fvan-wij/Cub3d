@@ -2,6 +2,9 @@
 ![](https://github.com/fvan-wij/Cub3d_Telestein3D/blob/main/telestein.gif)
 Telestein3D (based on 42's project 'Cub3d') is a demo of a horror game that can be explored in first-person similar to the game Wolfenstein 3D.
 
+## Play Telestein3D in the browser
+Click [here](https://fvan-wij.github.io/Telestein3D_WebAssembly) to play Telestein3D in the browser
+
 _Features:_
 - A ray-casting engine from scratch using mathematics;
 - Custom post-processing algorithms + custom shaders (for render distance, dithering, custom pallette, etc.);
